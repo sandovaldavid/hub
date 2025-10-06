@@ -1,0 +1,12 @@
+{
+	"servers": {
+		"chrome-devtools": {
+			"command": "npx",
+			"args": ["chrome-devtools-mcp@latest"]
+		},
+		"Astro docs": {
+			"type": "http",
+			"url": "https://mcp.docs.astro.build/mcp"
+		}
+	}
+}
