@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        "**/bun.lockb": false,
+        "**/.bun": true,
+        "**/.bun/**": true,
+        "**/node_modules": true,
+        "**/.astro": true,
+    },
+    "files.associations": {
+        "*.css": "tailwindcss",
+    },
+}
