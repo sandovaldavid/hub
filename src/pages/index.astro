@@ -17,35 +17,65 @@ import { SEO } from '@data/seo';
 	author={SEO.author}
 	ogImage={SEO.ogImage}
 	themeColor={SEO.themeColor}>
-	<main class="hub-container">
-		<div class="bento-grid">
+	<main
+		id="main-content"
+		class="hub-container"
+		role="main"
+		aria-label="Contenido principal">
+		<!-- Hidden h1 for SEO and Screen Readers -->
+		<h1 class="sr-only">
+			{profile.name} - {profile.tagline}
+		</h1>
+
+		<div
+			class="bento-grid"
+			role="region"
+			aria-label="Secciones de perfil">
 			<!-- Hero Section - Large featured card -->
-			<div class="bento-item bento-item--hero">
+			<section
+				class="bento-item bento-item--hero"
+				aria-labelledby="hero-heading">
 				<HeroCard
 					{profile}
 					variant="default"
 				/>
-			</div>
+			</section>
 
 			<!-- Social Links Grid - Medium card -->
-			<div class="bento-item bento-item--social">
+			<section
+				class="bento-item bento-item--social"
+				aria-labelledby="social-heading">
+				<h2
+					id="social-heading"
+					class="sr-only">
+					Enlaces de redes sociales
+				</h2>
 				<SocialGrid
 					links={socialLinks}
 					showOnlyPrimary={true}
 					variant="default"
 				/>
-			</div>
+			</section>
 
 			<!-- CTA Buttons - Funnel conversion -->
-			<div class="bento-item bento-item--cta">
+			<section
+				class="bento-item bento-item--cta"
+				aria-labelledby="cta-heading">
+				<h2
+					id="cta-heading"
+					class="sr-only">
+					Opciones de contacto
+				</h2>
 				<CTAButtons
 					buttons={ctaButtons}
 					layout="horizontal"
 				/>
-			</div>
+			</section>
 
 			<!-- Contact CTA - Business capture -->
-			<div class="bento-item bento-item--contact">
+			<section
+				class="bento-item bento-item--contact"
+				aria-labelledby="contact-heading">
 				<ContactCTA
 					email={profile.contact.email}
 					title="¿Tienes un proyecto en mente?"
@@ -53,7 +83,7 @@ import { SEO } from '@data/seo';
 					buttonText="Hablemos"
 					variant="prominent"
 				/>
-			</div>
+			</section>
 		</div>
 	</main>
 </Layout>

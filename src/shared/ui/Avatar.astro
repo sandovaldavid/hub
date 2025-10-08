@@ -66,17 +66,22 @@ const getInitials = (name: string): string => {
 const initials = fallback || getInitials(alt);
 ---
 
-<div class={avatarClasses} {...rest}>
+<div
+	class={avatarClasses}
+	role="img"
+	aria-label={alt}
+	{...rest}>
 	{
 		src ? (
 			<img
 				src={src}
-				alt={alt}
+				alt=""
+				role="presentation"
 				loading={loading}
 				class="absolute inset-0 h-full w-full object-cover"
 			/>
 		) : (
-			<span aria-label={alt}>{initials}</span>
+			<span aria-hidden="true">{initials}</span>
 		)
 	}
 </div>

@@ -10,7 +10,10 @@ const { profile, variant = 'default' } = Astro.props;
 ---
 
 <div class="hero-card__content">
-	<div class="hero-card__avatar-wrapper">
+	<div
+		class="hero-card__avatar-wrapper"
+		role="img"
+		aria-label={`Foto de perfil de ${profile.name}`}>
 		<ProfileAvatar
 			src={profile.avatar.url}
 			alt={profile.avatar.alt}
@@ -20,6 +23,7 @@ const { profile, variant = 'default' } = Astro.props;
 
 	<div class="hero-card__body">
 		<ProfileName
+			id="hero-heading"
 			name={profile.name}
 			displayName={profile.displayName}
 			tagline={profile.tagline}

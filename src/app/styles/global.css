@@ -228,3 +228,97 @@
 	--breakpoint-xl: 1280px;
 	--breakpoint-2xl: 1536px;
 }
+
+/* ACCESSIBILITY */
+
+/* Skip Link - WCAG 2.1 Compliance */
+.skip-link {
+	position: absolute;
+	top: -100%;
+	left: 0;
+	z-index: 9999;
+	padding: 1rem 1.5rem;
+	background-color: var(--color-primary-600);
+	color: white;
+	font-weight: 600;
+	text-decoration: none;
+	border-radius: 0 0 0.5rem 0;
+	transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+	top: 0;
+	outline: 3px solid var(--color-accent-500);
+	outline-offset: 2px;
+}
+
+/* Focus Visible - Consistent keyboard navigation indicators */
+*:focus-visible {
+	outline: 3px solid var(--color-primary-500);
+	outline-offset: 2px;
+	border-radius: 0.25rem;
+}
+
+/* Dark mode focus */
+[data-theme='dark'] *:focus-visible {
+	outline-color: var(--color-accent-400);
+}
+
+/* Remove default outline but keep focus-visible */
+*:focus:not(:focus-visible) {
+	outline: none;
+}
+
+/* Ensure interactive elements have focus styles */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+	outline: 3px solid var(--color-primary-500);
+	outline-offset: 2px;
+}
+
+/* Reduced Motion - Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+	*:focus-visible {
+		outline-width: 4px;
+		outline-offset: 3px;
+	}
+}
+
+/* Screen Reader Only - Visually hidden but accessible */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+	position: static;
+	width: auto;
+	height: auto;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+}

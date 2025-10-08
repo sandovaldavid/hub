@@ -9,6 +9,7 @@ import './ProfileName.css';
 import CheckIcon from '@shared/assets/check.svg';
 
 export interface Props {
+	id?: string;
 	name: string;
 	displayName?: string;
 	tagline?: string;
@@ -17,6 +18,7 @@ export interface Props {
 }
 
 const {
+	id,
 	name,
 	displayName,
 	tagline,
@@ -39,15 +41,17 @@ const isHero = variant === 'hero';
 			@{displayName}
 			<CheckIcon
 				class="size-6 text-sky-500 inline-block animate-rubber-band animate-delay-300"
+				aria-hidden="true"
 			/>
 		</span>
-		<h1
+		<h2
+			{...(id && { id })}
 			class={cn(
 				'font-display text-2xl font-extrabold leading-tight text-center',
 				'text-gray-900 dark:text-gray-50'
 			)}>
 			{name}
-		</h1>
+		</h2>
 	</section>
 
 	{tagline && <p class={cn('profile-name__tagline')}>{tagline}</p>}

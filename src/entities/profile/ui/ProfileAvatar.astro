@@ -39,10 +39,13 @@ const logoSizeMap = {
 const logoSize = logoSizeMap[size];
 ---
 
-<div class="relative inline-block w-fit">
+<div
+	class="relative inline-block w-fit"
+	role="img"
+	aria-label={alt}>
 	<Avatar
 		{src}
-		{alt}
+		alt={alt}
 		{size}
 		{ring}
 		ringColor="ring-primary-500"
@@ -53,7 +56,9 @@ const logoSize = logoSizeMap[size];
 		showBrandLogo && (
 			<img
 				src={profile.logo.url}
-				alt={profile.logo.alt}
+				alt=""
+				role="presentation"
+				aria-hidden="true"
 				class={`absolute bottom-0 right-0 ${logoSize} rounded-full bg-gray-50 dark:border-gray-900 dark:bg-gray-900 shadow-lg transition-transform duration-200 hover:scale-105`}
 			/>
 		)

@@ -40,21 +40,23 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				'flex items-center justify-center rounded-full',
 				'bg-primary-100 w-16 h-16 shadow-md mb-2',
 				'dark:bg-primary-950'
-			)}>
+			)}
+			aria-hidden="true">
 			<span
 				class="inline-block w-10 h-10 text-primary-600 dark:text-primary-300"
 				set:html={ChatIcon}
 			/>
 		</div>
 		<div class="flex flex-col gap-2 max-w-xl">
-			<h3
+			<h2
+				id="contact-heading"
 				class={cn(
 					'text-lg font-bold mb-1 leading-tight',
 					'text-neutral-900 dark:text-neutral-100',
 					'sm:text-2xl'
 				)}>
 				{title}
-			</h3>
+			</h2>
 			{
 				message && (
 					<p
@@ -68,13 +70,19 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				)
 			}
 		</div>
-		<a href={mailtoLink} class="w-full max-w-xs">
+		<a
+			href={mailtoLink}
+			class="w-full max-w-xs"
+			aria-label={`Enviar correo a ${email}: ${subject}`}>
 			<Button
 				variant="primary"
 				size="lg"
 				class="w-full flex items-center justify-center gap-2 font-semibold cursor-pointer">
 				<span>{buttonText}</span>
-				<SentIcon class="w-6 h-6" />
+				<SentIcon
+					class="w-6 h-6"
+					aria-hidden="true"
+				/>
 			</Button>
 		</a>
 	</div>

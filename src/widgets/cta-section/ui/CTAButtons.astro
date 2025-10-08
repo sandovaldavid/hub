@@ -38,21 +38,29 @@ const iconMap: Record<string, string> = {
 					href={button.href}
 					class="cta-buttons__link group"
 					target={button.external ? '_blank' : undefined}
-					rel={button.external ? 'noopener noreferrer' : undefined}>
+					rel={button.external ? 'noopener noreferrer' : undefined}
+					aria-label={`${button.title}${button.description ? ': ' + button.description : ''}`}>
 					<div
 						class={cn(
 							'cta-button-card',
 							button.variant === 'primary' && 'cta-button-card--primary',
 							button.variant === 'secondary' && 'cta-button-card--secondary'
 						)}>
-						<div class="cta-button-card__icon" set:html={iconContent} />
+						<div
+							class="cta-button-card__icon"
+							aria-hidden="true"
+							set:html={iconContent}
+						/>
 						<div class="cta-button-card__content">
 							<h3 class="cta-button-card__title">{button.title}</h3>
 							{button.description && (
 								<p class="cta-button-card__description">{button.description}</p>
 							)}
 						</div>
-						<ArrowIcon class="cta-button-card__arrow size-8" />
+						<ArrowIcon
+							class="cta-button-card__arrow size-8"
+							aria-hidden="true"
+						/>
 					</div>
 				</a>
 			);
