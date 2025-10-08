@@ -1,0 +1,81 @@
+---
+/**
+ * Button Component - FSD Layer: shared/ui
+ * Reusable button with variants, sizes, and states
+ */
+
+import { cn } from '../lib/utils';
+import './Button.css';
+
+export interface Props {
+	variant?: 'primary' | 'secondary' | 'ghost' | 'link' | 'danger';
+	size?: 'sm' | 'md' | 'lg';
+	disabled?: boolean;
+	loading?: boolean;
+	fullWidth?: boolean;
+	type?: 'button' | 'submit' | 'reset';
+	href?: string;
+	target?: '_blank' | '_self' | '_parent' | '_top';
+	rel?: string;
+	class?: string;
+}
+
+const {
+	variant = 'primary',
+	size = 'md',
+	disabled = false,
+	loading = false,
+	fullWidth = false,
+	type = 'button',
+	href,
+	target,
+	rel,
+	class: className,
+	...rest
+} = Astro.props;
+
+const buttonClasses = cn(
+	'button',
+	`button-${variant}`,
+	`button-${size}`,
+	fullWidth && 'w-full',
+	className
+);
+
+const isLink = !!href;
+const Element = isLink ? 'a' : 'button';
+const elementProps =
+	isLink ?
+		{ href, target, rel: rel || (target === '_blank' ? 'noopener noreferrer' : undefined) }
+	:	{ type, disabled: disabled || loading };
+---
+
+<Element
+	class={buttonClasses}
+	{...elementProps}
+	{...rest}>
+	{
+		loading && (
+			<svg
+				class="animate-spin h-4 w-4"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24">
+				<circle
+					class="opacity-25"
+					cx="12"
+					cy="12"
+					r="10"
+					stroke="currentColor"
+					stroke-width="4"
+				/>
+				<path
+					class="opacity-75"
+					fill="currentColor"
+					d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+				/>
+			</svg>
+		)
+	}
+	<slot />
+</Element>
