@@ -1,8 +1,9 @@
 ---
 import ProfileAvatar from '@entities/profile/ui/ProfileAvatar.astro';
-import ProfileName from '@entities/profile/ui/ProfileName.astro';
 import type { HeroCardProps } from '../model/types';
 import './HeroCard.css';
+import { cn } from '@shared/lib';
+import CheckIcon from '@shared/assets/check.svg';
 
 interface Props extends HeroCardProps {}
 
@@ -10,25 +11,50 @@ const { profile, variant = 'default' } = Astro.props;
 ---
 
 <div class="hero-card__content">
-	<div
-		class="hero-card__avatar-wrapper"
-		role="img"
-		aria-label={`Foto de perfil de ${profile.name}`}>
-		<ProfileAvatar
-			src={profile.avatar.url}
-			alt={profile.avatar.alt}
-			size={variant === 'compact' ? 'lg' : '3xl'}
-		/>
+	<!-- Avatar + Username (horizontal en desktop) -->
+	<div class="hero-card__header">
+		<div
+			class="hero-card__avatar-wrapper"
+			role="img"
+			aria-label={`Foto de perfil de ${profile.name}`}>
+			<ProfileAvatar
+				src={profile.avatar.url}
+				alt={profile.avatar.alt}
+				size={variant === 'compact' ? 'lg' : '3xl'}
+			/>
+			<span
+				class={cn(
+					'hero-card__username',
+					'text-primary-600 text-base font-google font-semibold italic px-3 py-1.5',
+					'bg-gray-500/20 flex items-center gap-2 w-fit',
+					'border border-primary-500/60 rounded-full shadow-md',
+					'transition-colors duration-200 hover:bg-gray-500/50 dark:hover:bg-gray-500/30'
+				)}>
+				@{profile.displayName}
+				<CheckIcon
+					class="size-5 text-sky-500 inline-block"
+					aria-hidden="true"
+				/>
+			</span>
+		</div>
 	</div>
 
+	<!-- Name, Tagline, Bio (vertical block) -->
 	<div class="hero-card__body">
-		<ProfileName
+		<h2
 			id="hero-heading"
-			name={profile.name}
-			displayName={profile.displayName}
-			tagline={profile.tagline}
-			variant={variant === 'compact' ? 'compact' : 'hero'}
-		/>
+			class={cn(
+				'font-display text-2xl font-extrabold leading-tight',
+				'text-gray-900 dark:text-gray-50 m-0'
+			)}>
+			{profile.name}
+		</h2>
+		
+		{profile.tagline && (
+			<p class="hero-card__tagline">
+				{profile.tagline}
+			</p>
+		)}
 
 		{
 			variant === 'default' && profile.bio && (

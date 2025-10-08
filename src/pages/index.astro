@@ -19,7 +19,7 @@ import { SEO } from '@data/seo';
 	themeColor={SEO.themeColor}>
 	<main
 		id="main-content"
-		class="hub-container"
+		class="hub-container p-4 md:p-8 md:px-6 lg:p-12 lg:px-8 xl:p-16 xl:px-12 min-h-screen max-w-[1400px] mx-auto"
 		role="main"
 		aria-label="Contenido principal">
 		<!-- Hidden h1 for SEO and Screen Readers -->
@@ -28,12 +28,12 @@ import { SEO } from '@data/seo';
 		</h1>
 
 		<div
-			class="bento-grid"
+			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-6 lg:items-start xl:gap-8 2xl:max-w-[1200px] 2xl:mx-auto"
 			role="region"
 			aria-label="Secciones de perfil">
 			<!-- Hero Section - Large featured card -->
 			<section
-				class="bento-item bento-item--hero"
+				class="bento-item bento-item--hero md:col-span-2 lg:col-span-2 lg:row-start-1"
 				aria-labelledby="hero-heading">
 				<HeroCard
 					{profile}
@@ -43,7 +43,7 @@ import { SEO } from '@data/seo';
 
 			<!-- Social Links Grid - Medium card -->
 			<section
-				class="bento-item bento-item--social"
+				class="bento-item bento-item--social md:col-span-2 lg:col-span-1 lg:row-start-1"
 				aria-labelledby="social-heading">
 				<h2
 					id="social-heading"
@@ -59,7 +59,7 @@ import { SEO } from '@data/seo';
 
 			<!-- CTA Buttons - Funnel conversion -->
 			<section
-				class="bento-item bento-item--cta"
+				class="bento-item bento-item--cta md:col-span-2 lg:col-span-2 lg:row-start-2"
 				aria-labelledby="cta-heading">
 				<h2
 					id="cta-heading"
@@ -74,7 +74,7 @@ import { SEO } from '@data/seo';
 
 			<!-- Contact CTA - Business capture -->
 			<section
-				class="bento-item bento-item--contact"
+				class="bento-item bento-item--contact md:col-span-2 lg:col-span-1 lg:row-start-2"
 				aria-labelledby="contact-heading">
 				<ContactCTA
 					email={profile.contact.email}
@@ -89,19 +89,6 @@ import { SEO } from '@data/seo';
 </Layout>
 
 <style>
-	.hub-container {
-		min-height: 100vh;
-		padding: 1rem;
-		max-width: 1400px;
-		margin: 0 auto;
-	}
-
-	.bento-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
 	.bento-item {
 		animation: fade-in 0.6s ease-out forwards;
 		opacity: 0;
@@ -129,69 +116,6 @@ import { SEO } from '@data/seo';
 
 	.bento-item--contact {
 		animation-delay: 0.5s;
-	}
-
-	/* Tablet layout */
-	@media (min-width: 768px) {
-		.hub-container {
-			padding: 2rem 1.5rem;
-		}
-
-		.bento-grid {
-			display: grid;
-			gap: 1.5rem;
-			grid-template-columns: repeat(2, 1fr);
-		}
-
-		.bento-item--hero {
-			grid-column: 1 / -1;
-		}
-
-		.bento-item--cta {
-			grid-column: 1 / -1;
-		}
-
-		.bento-item--projects,
-		.bento-item--tips,
-		.bento-item--contact {
-			grid-column: 1 / -1;
-		}
-	}
-
-	/* Desktop layout */
-	@media (min-width: 1024px) {
-		.hub-container {
-			padding: 3rem 2rem;
-		}
-
-		.bento-grid {
-			gap: 2rem;
-			grid-template-columns: repeat(3, 1fr);
-		}
-
-		.bento-item--hero {
-			grid-column: span 2;
-		}
-
-		.bento-item--social {
-			grid-column: span 1;
-		}
-
-		.bento-item--cta {
-			grid-column: 1 / -1;
-		}
-
-		.bento-item--projects {
-			grid-column: 1 / -1;
-		}
-
-		.bento-item--tips {
-			grid-column: span 2;
-		}
-
-		.bento-item--contact {
-			grid-column: span 1;
-		}
 	}
 
 	@keyframes fade-in {
