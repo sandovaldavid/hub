@@ -12,7 +12,7 @@
 */
 
 .button-primary {
-  @apply bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500 shadow-sm hover:shadow-md;
+  @apply bg-primary-800 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500 shadow-sm hover:shadow-md transition-colors duration-200;
 }
 
 .button-secondary {
