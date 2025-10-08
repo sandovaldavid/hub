@@ -88,6 +88,7 @@
 		'JetBrains Mono Variable', 'JetBrains Mono', 'Fira Code', 'Cascadia Code',
 		'SF Mono', Monaco, 'Courier New', monospace;
 	--font-display: 'Inter Variable', 'Inter', system-ui, sans-serif;
+	--font-google: 'Google Sans Code', monospace;
 
 	/* Font Sizes */
 	--font-size-xs: 0.75rem; /* 12px */

@@ -31,14 +31,14 @@ const isHero = variant === 'hero';
 	<section class="flex flex-col justify-center items-center z-10 gap-1">
 		<span
 			class={cn(
-				'text-primary-600 text-xl font-mono px-3 py-1',
-				'bg-gray-500/30 flex items-center gap-2',
+				'text-primary-600 text-xl font-google font-semibold weight italic px-3 py-1',
+				'bg-gray-500/20 flex items-center gap-2',
 				'border border-primary-500/60 rounded-full shadow-md cursor-pointer',
-				'animate-delay-200 animate-fade-in'
+				'animate-delay-200 animate-fade-in transition-colors duration-200 hover:bg-gray-500/50 hover:dark:bg-gray-500/30',
 			)}>
 			@{displayName}
 			<CheckIcon
-				class="ml-1 w-5 h-5 text-sky-500 fill-white inline-block animate-rubber-band animate-delay-300"
+				class="size-6 text-sky-500 inline-block animate-rubber-band animate-delay-300"
 			/>
 		</span>
 		<h1
