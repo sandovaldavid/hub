@@ -1,0 +1,130 @@
+---
+/**
+ * ThemeToggle Feature - FSD Layer: features/theme-toggle
+ * Interactive theme toggle button with light/dark/system modes
+ */
+
+import type { ThemeToggleProps } from '../model/types';
+import { cn } from '@shared/lib';
+import './ThemeToggle.css';
+
+// Import SVG icons
+import SunIcon from '@shared/assets/theme-icons/sun.svg?raw';
+import MoonIcon from '@shared/assets/theme-icons/moon.svg?raw';
+import SystemIcon from '@shared/assets/theme-icons/system.svg?raw';
+
+interface Props extends ThemeToggleProps {}
+
+const { size = 'md', showLabel = false, variant = 'floating', class: className } = Astro.props;
+
+const sizeClasses = {
+	sm: 'theme-toggle--sm',
+	md: 'theme-toggle--md',
+	lg: 'theme-toggle--lg',
+};
+
+const variantClasses = {
+	floating: 'theme-toggle--floating',
+	inline: 'theme-toggle--inline',
+};
+---
+
+<button
+	id="theme-toggle"
+	class={cn('theme-toggle', sizeClasses[size], variantClasses[variant], className)}
+	aria-label="Cambiar tema"
+	title="Cambiar tema"
+	type="button">
+	<span
+		class="theme-toggle__icon"
+		data-theme-icon="light">
+		<Fragment set:html={SunIcon} />
+	</span>
+	<span
+		class="theme-toggle__icon"
+		data-theme-icon="dark">
+		<Fragment set:html={MoonIcon} />
+	</span>
+	<span
+		class="theme-toggle__icon"
+		data-theme-icon="system">
+		<Fragment set:html={SystemIcon} />
+	</span>
+
+	{
+		showLabel && (
+			<span
+				class="theme-toggle__label"
+				id="theme-label">
+				Modo Claro
+			</span>
+		)
+	}
+</button>
+
+<script>
+	import { ThemeManager } from '@entities/theme';
+	import { THEME_LABELS } from '../model/types';
+
+	const button = document.getElementById('theme-toggle');
+	const label = document.getElementById('theme-label');
+	const themeManager = new ThemeManager();
+
+	if (button) {
+		// Update UI based on current theme
+		function updateUI(theme: 'light' | 'dark' | 'system') {
+			if (!button) return;
+
+			// Hide all icons
+			const icons = button.querySelectorAll('[data-theme-icon]');
+			icons.forEach((icon) => {
+				(icon as HTMLElement).style.display = 'none';
+			});
+
+			// Show current theme icon
+			const currentIcon = button.querySelector(`[data-theme-icon="${theme}"]`);
+			if (currentIcon) {
+				(currentIcon as HTMLElement).style.display = 'inline-block';
+			}
+
+			// Update label
+			if (label) {
+				label.textContent = THEME_LABELS[theme];
+			}
+
+			// Update aria-label
+			button.setAttribute('aria-label', `Tema actual: ${THEME_LABELS[theme]}`);
+		}
+
+		// Initialize UI
+		const initialState = themeManager.getThemeState();
+		updateUI(initialState.current);
+
+		// Handle click - cycle through themes
+		button.addEventListener('click', () => {
+			const newState = themeManager.cycleTheme();
+			updateUI(newState.current);
+
+			// Dispatch custom event for other components
+			window.dispatchEvent(
+				new CustomEvent('theme-change', {
+					detail: { theme: newState.current, effective: newState.effective },
+				})
+			);
+		});
+
+		// Watch system preference changes
+		themeManager.watchSystemPreference((systemTheme) => {
+			const currentTheme = themeManager.getThemeState().current;
+
+			// If using system theme, update UI
+			if (currentTheme === 'system') {
+				window.dispatchEvent(
+					new CustomEvent('theme-change', {
+						detail: { theme: 'system', effective: systemTheme },
+					})
+				);
+			}
+		});
+	}
+</script>
