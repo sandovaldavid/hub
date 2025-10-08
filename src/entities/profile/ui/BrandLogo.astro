@@ -1,0 +1,31 @@
+---
+/**
+ * BrandLogo Component - FSD Layer: entities/profile
+ * Displays brand logo with configurable size
+ */
+
+import { cn } from '@shared/lib';
+
+export interface Props {
+	src: string;
+	alt: string;
+	size?: 'sm' | 'md' | 'lg' | 'xl';
+	class?: string;
+}
+
+const { src, alt, size = 'md', class: className } = Astro.props;
+
+const sizeClasses = {
+	sm: 'h-8 w-auto',
+	md: 'h-12 w-auto',
+	lg: 'h-16 w-auto',
+	xl: 'h-24 w-auto',
+};
+---
+
+<img
+	src={src}
+	alt={alt}
+	loading="eager"
+	class={cn('brand-logo', sizeClasses[size], className)}
+/>

@@ -1,0 +1,49 @@
+---
+/**
+ * ProfileName Component - FSD Layer: entities/profile
+ * Displays profile name with optional tagline
+ */
+
+import { cn } from '@shared/lib';
+import './ProfileName.css';
+import CheckIcon from '@shared/assets/check.svg?raw';
+
+export interface Props {
+	name: string;
+	displayName?: string;
+	tagline?: string;
+	variant?: 'hero' | 'compact';
+	class?: string;
+}
+
+const { name, displayName, tagline, variant = 'hero', class: className } = Astro.props;
+
+const isHero = variant === 'hero';
+---
+
+<div class={cn('profile-name', className)}>
+	<section class="flex flex-col justify-center items-center z-10 gap-1">
+		<span
+			class={cn(
+				'text-sky-400 text-xl font-mono px-3 py-1',
+				'bg-black/60 flex items-center gap-2',
+				'border border-sky-500/60 rounded-full shadow-md cursor-pointer',
+				'animate-delay-200 animate-fade-in'
+			)}>
+			@{displayName}
+			<span
+				class="ml-1 w-5 h-5 text-sky-400 inline-block animate-rubber-band animate-delay-300"
+				set:html={CheckIcon}
+			/>
+		</span>
+		<h1
+			class={cn(
+				'font-display text-2xl font-extrabold leading-tight text-center',
+				'text-white dark:text-white'
+			)}>
+			{name}
+		</h1>
+	</section>
+
+	{tagline && <p class={cn('profile-name__tagline')}>{tagline}</p>}
+</div>
