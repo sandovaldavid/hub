@@ -1,0 +1,189 @@
+@import '../../../app/styles/global.css';
+
+/* ============================================
+   SHARE BUTTON - Native OS Share
+   Glass morphism effect con dark mode support
+   Uses Tailwind CSS and Design System tokens
+   ============================================ */
+
+.share-button {
+	@apply fixed z-[1000]
+	       flex items-center justify-center gap-2 p-2
+	       bg-white/80 dark:bg-neutral-950/80
+	       backdrop-blur-xl
+	       border border-white/30 dark:border-white/10
+	       rounded-lg
+	       shadow-md dark:shadow-lg
+	       transition-all duration-300 ease-in-out
+	       cursor-pointer
+	       text-sm font-medium
+	       text-neutral-700 dark:text-neutral-200
+	       outline-none select-none;
+	
+	border-style: solid;
+}
+
+/* Hover states */
+.share-button:hover {
+	@apply scale-105
+	       bg-white/95 dark:bg-neutral-950/95
+	       border-primary-400/50 dark:border-accent-300/30
+	       shadow-lg dark:shadow-xl;
+}
+
+/* Active state */
+.share-button:active {
+	@apply scale-95;
+}
+
+/* Disabled state */
+.share-button:disabled,
+.share-button--loading {
+	@apply opacity-60 cursor-not-allowed scale-100;
+}
+
+/* Focus state for accessibility */
+.share-button:focus-visible {
+	@apply outline-2 outline-primary-600 dark:outline-primary-400 outline-offset-2;
+}
+
+/* ===== POSITIONS ===== */
+
+.share-button--top-left {
+	@apply top-4 left-4;
+}
+
+.share-button--top-right {
+	@apply top-4 right-4;
+}
+
+.share-button--bottom-left {
+	@apply bottom-4 left-4;
+}
+
+.share-button--bottom-right {
+	@apply bottom-4 right-4;
+}
+
+/* ===== SIZES ===== */
+/* Tamaños sincronizados con ThemeToggle para alineación perfecta */
+
+.share-button--sm {
+	@apply p-1.5 text-xs;
+}
+
+.share-button--sm .share-button__icon {
+	@apply w-5 h-5;
+}
+
+.share-button--md {
+	@apply p-2 text-sm;
+}
+
+.share-button--md .share-button__icon {
+	@apply w-5 h-5;
+}
+
+.share-button--lg {
+	@apply p-3 text-base;
+}
+
+.share-button--lg .share-button__icon {
+	@apply w-6 h-6;
+}
+
+/* ===== VARIANTS ===== */
+
+.share-button--inline {
+	@apply relative top-auto left-auto right-auto bottom-auto;
+}
+
+/* ===== BUTTON ELEMENTS ===== */
+
+.share-button__icon {
+	@apply w-5 h-5 flex-shrink-0 flex items-center justify-center text-current;
+}
+
+.share-button__icon svg {
+	@apply w-full h-full stroke-current;
+}
+
+.share-button__label {
+	@apply whitespace-nowrap font-semibold;
+}
+
+/* ===== FEEDBACK MESSAGE ===== */
+
+.share-button__feedback {
+	@apply absolute top-full left-1/2 -translate-x-1/2 translate-y-2
+	       px-4 py-2
+	       bg-neutral-900 dark:bg-neutral-50
+	       text-white dark:text-neutral-900
+	       rounded-lg text-xs font-semibold whitespace-nowrap
+	       shadow-xl
+	       opacity-0 pointer-events-none
+	       transition-all duration-300 ease-in-out;
+}
+
+.share-button__feedback--visible {
+	@apply opacity-100 translate-y-3;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes pulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+}
+
+.share-button--loading .share-button__icon {
+	animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ===== RESPONSIVE ===== */
+/* Sincronizado con ThemeToggle para alineación perfecta */
+
+@media (max-width: 640px) {
+	.share-button--top-left {
+		@apply top-3 left-3;
+	}
+	
+	.share-button--top-right {
+		@apply top-3 right-3;
+	}
+	
+	.share-button--bottom-left {
+		@apply bottom-3 left-3;
+	}
+	
+	.share-button--bottom-right {
+		@apply bottom-3 right-3;
+	}
+	
+	/* Larger touch target for mobile */
+	.share-button {
+		@apply min-w-10 min-h-10;
+	}
+}
+
+@media (min-width: 641px) {
+	.share-button--top-left {
+		@apply top-4 left-4;
+	}
+	
+	.share-button--top-right {
+		@apply top-4 right-4;
+	}
+	
+	.share-button--bottom-left {
+		@apply bottom-4 left-4;
+	}
+	
+	.share-button--bottom-right {
+		@apply bottom-4 right-4;
+	}
+}

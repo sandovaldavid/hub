@@ -1,0 +1,116 @@
+---
+/**
+ * ShareButton Component - FSD Layer: features/share-button
+ * Button that triggers native OS share dialog (Android, iOS, Windows, Mac)
+ * Falls back to copy-to-clipboard if Web Share API is not available
+ */
+
+import type { ShareButtonProps } from '../model/types';
+import { cn } from '../../../shared/lib';
+import './ShareButton.css';
+import ShareIcon from '../../../shared/assets/share-icon.svg?raw';
+
+interface Props extends ShareButtonProps {}
+
+const { 
+	position = 'top-left',
+	variant = 'floating',
+	size = 'md',
+	showLabel = false,
+	class: className 
+} = Astro.props;
+
+const positionClasses = {
+	'top-left': 'share-button--top-left',
+	'top-right': 'share-button--top-right',
+	'bottom-left': 'share-button--bottom-left',
+	'bottom-right': 'share-button--bottom-right',
+};
+
+const sizeClasses = {
+	sm: 'share-button--sm',
+	md: 'share-button--md',
+	lg: 'share-button--lg',
+};
+
+const variantClasses = {
+	floating: 'share-button--floating',
+	inline: 'share-button--inline',
+};
+---
+
+<button
+	id="share-button"
+	class={cn(
+		'share-button',
+		positionClasses[position],
+		sizeClasses[size],
+		variantClasses[variant],
+		className
+	)}
+	aria-label="Compartir sitio"
+	title="Compartir"
+	type="button"
+>
+	<span class="share-button__icon" set:html={ShareIcon} />
+	
+	{showLabel && (
+		<span class="share-button__label">Compartir</span>
+	)}
+	
+	<!-- Feedback visual cuando se copia al clipboard -->
+	<span class="share-button__feedback" id="share-feedback">
+		¡Link copiado!
+	</span>
+</button>
+
+<script>
+	import { share, isWebShareSupported } from '../lib/share-utils';
+
+	const button = document.getElementById('share-button');
+	const feedback = document.getElementById('share-feedback');
+
+	if (button) {
+		// Update aria-label based on Web Share API support
+		const updateAriaLabel = () => {
+			if (isWebShareSupported()) {
+				button.setAttribute('aria-label', 'Compartir sitio usando el menú del sistema');
+				button.setAttribute('title', 'Compartir');
+			} else {
+				button.setAttribute('aria-label', 'Copiar link al portapapeles');
+				button.setAttribute('title', 'Copiar link');
+			}
+		};
+
+		updateAriaLabel();
+
+		// Handle click event
+		button.addEventListener('click', async () => {
+			// Disable button temporarily
+			(button as HTMLButtonElement).disabled = true;
+			button.classList.add('share-button--loading');
+
+			try {
+				const result = await share();
+
+				// Show feedback only if clipboard was used (not Web Share API)
+				if (result.method === 'clipboard' && result.success && feedback) {
+					feedback.classList.add('share-button__feedback--visible');
+					
+					setTimeout(() => {
+						feedback.classList.remove('share-button__feedback--visible');
+					}, 2000);
+				}
+
+				// Log result for debugging
+				console.log('Share result:', result);
+			} catch (error) {
+				console.error('Error during share:', error);
+			} finally {
+				// Re-enable button
+				(button as HTMLButtonElement).disabled = false;
+				button.classList.remove('share-button--loading');
+			}
+		});
+	}
+</script>
