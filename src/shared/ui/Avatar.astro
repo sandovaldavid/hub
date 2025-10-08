@@ -1,0 +1,76 @@
+---
+/**
+ * Avatar Component - FSD Layer: shared/ui
+ * Profile image with size variants, loading states, and fallback support
+ */
+
+import { cn } from '../lib/utils';
+import './Avatar.css';
+
+export interface Props {
+	src?: string;
+	alt: string;
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+	fallback?: string;
+	loading?: 'lazy' | 'eager';
+	ring?: boolean;
+	ringColor?: string;
+	class?: string;
+}
+
+const {
+	src,
+	alt,
+	size = 'md',
+	fallback,
+	loading = 'lazy',
+	ring = false,
+	ringColor = 'ring-primary-500',
+	class: className,
+	...rest
+} = Astro.props;
+
+const baseClasses = 'avatar-default';
+
+const sizeClasses = {
+	xs: 'avatar-size-xs',
+	sm: 'avatar-size-sm',
+	md: 'avatar-size-md',
+	lg: 'avatar-size-lg',
+	xl: 'avatar-size-xl',
+	'2xl': 'avatar-size-2xl',
+	'3xl': 'avatar-size-3xl',
+};
+
+const roundedClasses = 'rounded-full';
+
+const ringClasses = ring ? `ring-2 ring-offset-2 ${ringColor}` : '';
+
+const avatarClasses = cn(baseClasses, sizeClasses[size], roundedClasses, ringClasses, className);
+
+// Generate initials from alt text if no fallback provided
+const getInitials = (name: string): string => {
+	const parts = name.trim().split(' ');
+	if (parts.length >= 2) {
+		return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+	}
+	return name.substring(0, 2).toUpperCase();
+};
+
+const initials = fallback || getInitials(alt);
+---
+
+<div
+	class={avatarClasses}
+	{...rest}>
+	{
+		src ?
+			<img
+				src={src}
+				alt={alt}
+				loading={loading}
+				class="absolute inset-0 h-full w-full object-cover"
+			/>
+		:	<span aria-label={alt}>{initials}</span>
+	}
+</div>
