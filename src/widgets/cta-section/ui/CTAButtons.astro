@@ -1,0 +1,63 @@
+---
+import type { CTAButtonsProps } from '../model/types';
+import { cn } from '@shared/lib/utils';
+import './CTAButtons.css';
+import ArrowIcon from '@shared/assets/arrow-right-filled.svg';
+
+// Import CTA icons
+import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
+import BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw';
+import CalendarIcon from '@shared/assets/cta-icons/calendar.svg?raw';
+import FileIcon from '@shared/assets/cta-icons/file.svg?raw';
+import RocketIcon from '@shared/assets/cta-icons/rocket.svg?raw';
+import ChatIcon from '@shared/assets/cta-icons/chat.svg?raw';
+
+export interface Props extends CTAButtonsProps {}
+
+const { buttons, layout = 'horizontal' } = Astro.props;
+
+// Map icon names to SVG content
+const iconMap: Record<string, string> = {
+	email: EmailIcon,
+	briefcase: BriefcaseIcon,
+	calendar: CalendarIcon,
+	file: FileIcon,
+	rocket: RocketIcon,
+	chat: ChatIcon,
+};
+---
+
+<div class={cn('cta-buttons', layout === 'vertical' && 'cta-buttons--vertical')}>
+	{
+		buttons.map((button) => {
+			const iconContent = iconMap[button.icon] || '';
+
+			return (
+				<a
+					href={button.href}
+					class="cta-buttons__link"
+					target={button.external ? '_blank' : undefined}
+					rel={button.external ? 'noopener noreferrer' : undefined}>
+					<div
+						class={cn(
+							'cta-button-card',
+							button.variant === 'primary' && 'cta-button-card--primary',
+							button.variant === 'secondary' && 'cta-button-card--secondary'
+						)}>
+						<div
+							class="cta-button-card__icon"
+							set:html={iconContent}
+						/>
+						<div class="cta-button-card__content">
+							<h3 class="cta-button-card__title">{button.title}</h3>
+							{button.description && (
+								<p class="cta-button-card__description">{button.description}</p>
+							)}
+						</div>
+						<ArrowIcon class="cta-button-card__arrow size-8" />
+					</div>
+				</a>
+			);
+		})
+	}
+</div>
