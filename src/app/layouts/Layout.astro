@@ -1,25 +1,170 @@
 ---
 import '../styles/global.css';
+import { getThemeInitScript } from '@entities/theme';
+import { ShareButton } from '@features/share-button';
+import { ThemeToggle } from '@features/theme-toggle';
+import type { SEOProps } from '@/app/models/seo.model';
+
+const { title, description, author, ogImage, themeColor } = Astro.props as SEOProps;
+
+// Generate theme initialization script (prevent FOUC)
+const themeScript = getThemeInitScript();
 ---
+
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<meta
+			name="generator"
+			content={Astro.generator}
+		/>
+
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta
+			name="title"
+			content={title}
+		/>
+		<meta
+			name="description"
+			content={description}
+		/>
+		<meta
+			name="author"
+			content={author}
+		/>
+
+		<!-- Theme Color -->
+		<meta
+			name="theme-color"
+			content={themeColor}
+		/>
+
+		<!-- Favicon -->
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="/favicon.svg"
+		/>
+
+		<!-- Open Graph / Facebook -->
+		<meta
+			property="og:type"
+			content="website"
+		/>
+		<meta
+			property="og:url"
+			content={Astro.url}
+		/>
+		<meta
+			property="og:title"
+			content={title}
+		/>
+		<meta
+			property="og:description"
+			content={description}
+		/>
+		<meta
+			property="og:image"
+			content={new URL(ogImage, Astro.url)}
+		/>
+
+		<!-- Twitter -->
+		<meta
+			property="twitter:card"
+			content="summary_large_image"
+		/>
+		<meta
+			property="twitter:url"
+			content={Astro.url}
+		/>
+		<meta
+			property="twitter:title"
+			content={title}
+		/>
+		<meta
+			property="twitter:description"
+			content={description}
+		/>
+		<meta
+			property="twitter:image"
+			content={new URL(ogImage, Astro.url)}
+		/>
+
+		<!-- Fonts -->
+		<!-- Inter Variable Font -->
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- JetBrains Mono Variable Font -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- SEO & Performance -->
+		<link
+			rel="canonical"
+			href={Astro.url}
+		/>
+		<meta
+			name="robots"
+			content="index, follow"
+		/>
+		<meta
+			name="googlebot"
+			content="index, follow"
+		/>
+
+		<!-- PWA Tags -->
+		<meta
+			name="mobile-web-app-capable"
+			content="yes"
+		/>
+		<meta
+			name="apple-mobile-web-app-capable"
+			content="yes"
+		/>
+		<meta
+			name="apple-mobile-web-app-status-bar-style"
+			content="black-translucent"
+		/>
+
+		<!-- Theme Initialization Script (prevent FOUC) -->
+		<script
+			is:inline
+			set:html={themeScript}
+		/>
 	</head>
-	<body>
+	<body class="bg-primary-100 dark:bg-primary-800">
+		<!-- Share Button - Fixed Top Left -->
+		<ShareButton
+			position="top-left"
+			size="md"
+		/>
+
+		<!-- Theme Toggle Button (Floating) -->
+		<ThemeToggle
+			variant="floating"
+			size="md"
+		/>
+
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
