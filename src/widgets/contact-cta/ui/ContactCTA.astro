@@ -1,0 +1,79 @@
+---
+import Card from '@shared/ui/Card.astro';
+import Button from '@shared/ui/Button.astro';
+import type { ContactCTAProps } from '../model/types';
+import { cn } from '@shared/lib/utils';
+import ChatIcon from '@shared/assets/cta-icons/chat.svg?raw';
+import SentIcon from '@shared/assets/sent.svg';
+
+export interface Props extends ContactCTAProps {}
+
+const {
+	title = '¿Tienes un proyecto en mente?',
+	message = 'Hablemos sobre cómo puedo ayudarte a alcanzar tus objetivos',
+	buttonText = 'Hablemos',
+	email,
+	subject = 'Consulta desde Hub Personal',
+	variant = 'default',
+} = Astro.props;
+
+const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+---
+
+<Card
+	variant={variant === 'prominent' ? 'gradient' : 'default'}
+	padding="none"
+	class={cn(
+		'contact-cta w-full relative overflow-hidden',
+		'bg-white/80 backdrop-blur-lg',
+		'border-2 border-primary-100',
+		'rounded-2xl shadow-lg',
+		'dark:bg-neutral-900/30 dark:border-primary-700'
+	)}>
+	<div class={cn('flex flex-col items-center gap-6 py-8 px-6 text-center min-w-0', 'sm:px-10')}>
+		<div
+			class={cn(
+				'flex items-center justify-center rounded-full',
+				'bg-primary-100 w-16 h-16 shadow-md mb-2',
+				'dark:bg-primary-900'
+			)}>
+			<span
+				class="inline-block w-10 h-10 text-primary-600 dark:text-primary-300"
+				set:html={ChatIcon}
+			/>
+		</div>
+		<div class="flex flex-col gap-2 max-w-xl">
+			<h3
+				class={cn(
+					'text-lg font-bold mb-1 leading-tight',
+					'text-neutral-900 dark:text-neutral-100',
+					'sm:text-2xl'
+				)}>
+				{title}
+			</h3>
+			{
+				message && (
+					<p
+						class={cn(
+							'text-sm leading-snug',
+							'text-neutral-700 dark:text-neutral-300',
+							'sm:text-base'
+						)}>
+						{message}
+					</p>
+				)
+			}
+		</div>
+		<a
+			href={mailtoLink}
+			class="w-full max-w-xs">
+			<Button
+				variant="primary"
+				size="lg"
+				class="w-full flex items-center justify-center gap-2 font-semibold cursor-pointer">
+				<span>{buttonText}</span>
+				<SentIcon class="w-6 h-6" />
+			</Button>
+		</a>
+	</div>
+</Card>
