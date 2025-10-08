@@ -1,0 +1,21 @@
+@import '../../../app/styles/global.css';
+
+/* Social Grid - Distribución en columna (Linktree style) */
+.social-grid-card {
+	@apply w-full;
+}
+
+.social-grid {
+	@apply flex flex-col gap-3 w-full;
+}
+
+.social-grid__button{
+	@apply bg-red-50
+}
+
+/* Responsive: en desktop mantener columna pero con max-width */
+@media (min-width: 768px) {
+	.social-grid {
+		@apply gap-4;
+	}
+}

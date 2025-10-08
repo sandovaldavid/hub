@@ -1,0 +1,61 @@
+---
+import SocialButton from '@entities/social-link/ui/SocialButton.astro';
+import type { SocialGridProps } from '../model/types';
+import './SocialGrid.css';
+
+/**Icons social Network */
+import FacebookIcon from '@shared/assets/social-platform/facebook.svg';
+import LinkedInIcon from '@shared/assets/social-platform/linkedin.svg';
+import GitHubIcon from '@shared/assets/social-platform/github.svg';
+import InstagramIcon from '@shared/assets/social-platform/instagram.svg';
+import XIcon from '@shared/assets/social-platform/x.svg';
+import YouTubeIcon from '@shared/assets/social-platform/youtube.svg';
+import WebSiteIcon from '@shared/assets/social-platform/website.svg';
+
+interface Props extends SocialGridProps {}
+
+const { links, showOnlyPrimary = false, variant = 'default' } = Astro.props;
+
+const displayLinks = showOnlyPrimary ? links.filter((link) => link.isPrimary) : links;
+---
+
+<div class="social-grid">
+	{
+		displayLinks.map((link) => (
+			<SocialButton
+				class={link.classBrand}
+				label={link.label}
+				url={link.url}
+				username={link.username}
+				variant={variant}>
+				<span slot="icon">
+					{link.platform === 'facebook' && (
+						<FacebookIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+					{link.platform === 'linkedin' && (
+						<LinkedInIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+					{link.platform === 'github' && (
+						<GitHubIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+					{link.platform === 'instagram' && (
+						<InstagramIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+					{link.platform === 'twitter' && <XIcon class={`social-button__icon ${link.classIcon}`} />}
+					{link.platform === 'youtube' && (
+						<YouTubeIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+					{link.platform === 'website' && (
+						<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+					{link.platform === 'tiktok' && (
+						<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+					{link.platform === 'medium' && (
+						<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
+					)}
+				</span>
+			</SocialButton>
+		))
+	}
+</div>
