@@ -1,27 +1,61 @@
 ---
 /**
  * ProfileAvatar Component - FSD Layer: entities/profile
- * Displays user profile avatar with customizable size
+ * Displays user profile avatar with brand logo badge
  */
 
 import { Avatar } from '@shared/ui';
+import { profile } from '@data/profile';
 
 export interface Props {
 	src: string;
 	alt: string;
 	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 	ring?: boolean;
+	showBrandLogo?: boolean;
 	class?: string;
 }
 
-const { src, alt, size = 'lg', ring = true, class: className } = Astro.props;
+const {
+	src,
+	alt,
+	size = 'lg',
+	ring = true,
+	showBrandLogo = true,
+	class: className,
+} = Astro.props;
+
+// Logo size based on avatar size
+const logoSizeMap = {
+	xs: 'w-4 h-4',
+	sm: 'w-5 h-5',
+	md: 'w-6 h-6',
+	lg: 'w-8 h-8',
+	xl: 'w-10 h-10',
+	'2xl': 'w-12 h-12',
+	'3xl': 'w-16 h-16',
+};
+
+const logoSize = logoSizeMap[size];
 ---
 
-<Avatar
-	{src}
-	{alt}
-	{size}
-	{ring}
-	ringColor="ring-primary-500"
-	class={className}
-/>
+<div class="relative inline-block w-fit">
+	<Avatar
+		{src}
+		{alt}
+		{size}
+		{ring}
+		ringColor="ring-primary-500"
+		class={className}
+	/>
+
+	{
+		showBrandLogo && (
+			<img
+				src={profile.logo.url}
+				alt={profile.logo.alt}
+				class={`absolute bottom-0 right-0 ${logoSize} rounded-full bg-gray-50 dark:border-gray-900 dark:bg-gray-900 shadow-lg transition-transform duration-200 hover:scale-105`}
+			/>
+		)
+	}
+</div>
