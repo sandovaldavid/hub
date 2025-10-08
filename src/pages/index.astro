@@ -1,8 +1,177 @@
 ---
 import Layout from '@app/layouts/Layout.astro';
+import HeroCard from '@widgets/hero-section/ui/HeroCard.astro';
+import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
+import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
+import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { profile } from '@data/profile';
+import { socialLinks } from '@data/social-links';
+import { ctaButtons } from '@data/cta';
+import { SEO } from '@data/seo';
 ---
 
-<Layout />
+<Layout
+	title={SEO.title}
+	description={SEO.description}
+	author={SEO.author}
+	ogImage={SEO.ogImage}
+	themeColor={SEO.themeColor}>
+	<main class="hub-container">
+		<div class="bento-grid">
+			<!-- Hero Section - Large featured card -->
+			<div class="bento-item bento-item--hero">
+				<HeroCard
+					profile={profile}
+					variant="default"
+				/>
+			</div>
+
+			<!-- Social Links Grid - Medium card -->
+			<div class="bento-item bento-item--social">
+				<SocialGrid
+					links={socialLinks}
+					showOnlyPrimary={true}
+					variant="default"
+				/>
+			</div>
+
+			<!-- CTA Buttons - Funnel conversion -->
+			<div class="bento-item bento-item--cta">
+				<CTAButtons
+					buttons={ctaButtons}
+					layout="horizontal"
+				/>
+			</div>
+
+			<!-- Contact CTA - Business capture -->
+			<div class="bento-item bento-item--contact">
+				<ContactCTA
+					email={profile.contact.email}
+					title="¿Tienes un proyecto en mente?"
+					message="Hablemos sobre cómo puedo ayudarte a alcanzar tus objetivos"
+					buttonText="Hablemos"
+					variant="prominent"
+				/>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.hub-container {
+		min-height: 100vh;
+		padding: 1rem;
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+
+	.bento-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.bento-item {
+		animation: fade-in 0.6s ease-out forwards;
+		opacity: 0;
+	}
+
+	.bento-item--hero {
+		animation-delay: 0.1s;
+	}
+
+	.bento-item--social {
+		animation-delay: 0.2s;
+	}
+
+	.bento-item--cta {
+		animation-delay: 0.25s;
+	}
+
+	.bento-item--projects {
+		animation-delay: 0.3s;
+	}
+
+	.bento-item--tips {
+		animation-delay: 0.4s;
+	}
+
+	.bento-item--contact {
+		animation-delay: 0.5s;
+	}
+
+	/* Tablet layout */
+	@media (min-width: 768px) {
+		.hub-container {
+			padding: 2rem 1.5rem;
+		}
+
+		.bento-grid {
+			display: grid;
+			gap: 1.5rem;
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.bento-item--hero {
+			grid-column: 1 / -1;
+		}
+
+		.bento-item--cta {
+			grid-column: 1 / -1;
+		}
+
+		.bento-item--projects,
+		.bento-item--tips,
+		.bento-item--contact {
+			grid-column: 1 / -1;
+		}
+	}
+
+	/* Desktop layout */
+	@media (min-width: 1024px) {
+		.hub-container {
+			padding: 3rem 2rem;
+		}
+
+		.bento-grid {
+			gap: 2rem;
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		.bento-item--hero {
+			grid-column: span 2;
+		}
+
+		.bento-item--social {
+			grid-column: span 1;
+		}
+
+		.bento-item--cta {
+			grid-column: 1 / -1;
+		}
+
+		.bento-item--projects {
+			grid-column: 1 / -1;
+		}
+
+		.bento-item--tips {
+			grid-column: span 2;
+		}
+
+		.bento-item--contact {
+			grid-column: span 1;
+		}
+	}
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>
