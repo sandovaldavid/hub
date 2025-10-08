@@ -5,5 +5,5 @@ export const SEO: SEOProps = {
   description: 'Desarrollador Web especializado en crear experiencias web modernas y escalables. Apasionado por compartir conocimiento con la comunidad dev.',
   author: 'DevSandoval',
   ogImage: '/profile/retrato-giblin.webp',
-  themeColor: '#0099ff',
+  themeColor: '#3C81F1',
 };
