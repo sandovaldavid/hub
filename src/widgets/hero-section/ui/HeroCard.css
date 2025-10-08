@@ -47,7 +47,8 @@
 
 /* Animación personalizada para el indicador de disponibilidad */
 @keyframes pulse-glow {
-	0%, 100% {
+	0%,
+	100% {
 		opacity: 1;
 	}
 	50% {

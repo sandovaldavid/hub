@@ -10,18 +10,26 @@ export interface Props {
 	class?: string;
 }
 
-const { url, label, username, variant = 'default', class: className } = Astro.props;
+const {
+	url,
+	label,
+	username,
+	variant = 'default',
+	class: className,
+} = Astro.props;
 ---
 
 <a
 	href={url}
 	target="_blank"
 	rel="noopener noreferrer"
-	class={cn('social-button group', variant === 'compact' && 'social-button--compact', className)}
+	class={cn(
+		'social-button group',
+		variant === 'compact' && 'social-button--compact',
+		className
+	)}
 	aria-label={`Visit ${label} profile`}>
-	<span
-		class="social-button__icon"
-		aria-hidden="true">
+	<span class="social-button__icon" aria-hidden="true">
 		<slot name="icon" />
 	</span>
 

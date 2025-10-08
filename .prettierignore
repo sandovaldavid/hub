@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+bun.lockb
+
+# Build outputs
+dist/
+.astro/
+
+# Cache
+.cache/
+
+# Astro files (formatted by Astro extension)
+**/*.astro
+
+# Instructions with code examples that confuse Prettier
+.github/instructions/ui-segment.instructions.md

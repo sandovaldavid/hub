@@ -5,7 +5,8 @@ import { ShareButton } from '@features/share-button';
 import { ThemeToggle } from '@features/theme-toggle';
 import type { SEOProps } from '@/app/models/seo.model';
 
-const { title, description, author, ogImage, themeColor } = Astro.props as SEOProps;
+const { title, description, author, ogImage, themeColor } =
+	Astro.props as SEOProps;
 
 // Generate theme initialization script (prevent FOUC)
 const themeScript = getThemeInitScript();
@@ -118,6 +119,11 @@ const themeScript = getThemeInitScript();
 			rel="stylesheet"
 		/>
 
+		<link
+			href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap"
+			rel="stylesheet"
+		/>
+
 		<!-- SEO & Performance -->
 		<link
 			rel="canonical"
@@ -152,7 +158,8 @@ const themeScript = getThemeInitScript();
 			set:html={themeScript}
 		/>
 	</head>
-	<body class="min-h-screen bg-linear-to-br from-primary-50 via-primary-100 to-primary-200 dark:bg-linear-to-br dark:from-primary-950 dark:via-primary-900 dark:to-primary-800">
+	<body
+		class="min-h-screen bg-linear-to-br from-primary-50 via-primary-100 to-primary-200 dark:bg-linear-to-br dark:from-primary-950 dark:via-primary-900 dark:to-primary-800">
 		<!-- Share Button - Fixed Top Left -->
 		<ShareButton
 			position="top-left"

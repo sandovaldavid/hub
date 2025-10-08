@@ -21,13 +21,15 @@ export function isWebShareSupported(): boolean {
  * @returns ShareData object with page information
  */
 export function getShareData(): ShareData {
-	const pageTitle = typeof document !== 'undefined' 
-		? document.title 
-		: 'DevSandoval - Links Hub';
-	
-	const pageUrl = typeof window !== 'undefined' 
-		? window.location.href 
-		: 'https://devsandoval.me';
+	const pageTitle =
+		typeof document !== 'undefined'
+			? document.title
+			: 'DevSandoval - Links Hub';
+
+	const pageUrl =
+		typeof window !== 'undefined'
+			? window.location.href
+			: 'https://devsandoval.me';
 
 	return {
 		title: pageTitle,
@@ -66,7 +68,7 @@ export async function shareViaWebAPI(data: ShareData): Promise<ShareResult> {
 
 		// Open native OS share dialog
 		await navigator.share(data);
-		
+
 		return {
 			success: true,
 			method: 'web-share-api',
@@ -83,7 +85,7 @@ export async function shareViaWebAPI(data: ShareData): Promise<ShareResult> {
 					error: 'User cancelled',
 				};
 			}
-			
+
 			console.error('Error sharing:', error);
 			return {
 				success: false,
@@ -91,7 +93,7 @@ export async function shareViaWebAPI(data: ShareData): Promise<ShareResult> {
 				error: error.message,
 			};
 		}
-		
+
 		return {
 			success: false,
 			method: 'none',
@@ -125,7 +127,7 @@ export async function copyToClipboard(text: string): Promise<ShareResult> {
 		textarea.style.pointerEvents = 'none';
 		document.body.appendChild(textarea);
 		textarea.select();
-		
+
 		const success = document.execCommand('copy');
 		document.body.removeChild(textarea);
 
@@ -161,7 +163,7 @@ export async function share(): Promise<ShareResult> {
 	// Try Web Share API first (native OS share)
 	if (isWebShareSupported()) {
 		const result = await shareViaWebAPI(shareData);
-		
+
 		// If successful or user cancelled, return
 		if (result.success || result.error === 'User cancelled') {
 			return result;

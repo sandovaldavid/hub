@@ -5,6 +5,7 @@
 **Hub Links** is a personal brand hub for "DevSandoval" - a modern, professional landing page built with Astro and Tailwind CSS. The site uses a Bento Grid layout to showcase personal branding, social links, current projects, and contact information in an engaging, conversion-focused design.
 
 **Key Business Goals:**
+
 - Act as a "digital epicenter" for DevSandoval's online presence
 - Guide visitors through a conversion funnel (awareness → interest → action)
 - Demonstrate technical expertise through clean, modern design
@@ -38,6 +39,7 @@ src/
 ### Segment Structure (per layer/slice)
 
 Each layer follows this internal structure:
+
 ```
 {layer}/{slice}/
 ├── ui/           # Astro components, styles, presentation
@@ -52,6 +54,7 @@ Each layer follows this internal structure:
 ### 1. Component Architecture
 
 **Widget Composition Pattern:**
+
 ```astro
 ---
 // src/widgets/projects-section/ui/ProjectsSection.astro
@@ -60,23 +63,24 @@ import { ProjectCard } from '../../../entities/project';
 import { SectionTitle } from '../../../shared/ui';
 
 interface Props {
-  projects: Project[];
-  showFilter?: boolean;
+	projects: Project[];
+	showFilter?: boolean;
 }
 
 const { projects, showFilter = true } = Astro.props;
 ---
 
 <section class="projects-section">
-  <SectionTitle>Featured Projects</SectionTitle>
-  {showFilter && <ProjectFilter />}
-  <div class="grid">
-    {projects.map(project => <ProjectCard project={project} />)}
-  </div>
+	<SectionTitle>Featured Projects</SectionTitle>
+	{showFilter && <ProjectFilter />}
+	<div class="grid">
+		{projects.map(project => <ProjectCard project={project} />)}
+	</div>
 </section>
 ```
 
 **Public API Pattern:**
+
 ```typescript
 // src/widgets/projects-section/index.ts
 export { default as ProjectsSection } from './ui/ProjectsSection.astro';
@@ -86,81 +90,89 @@ export type { ProjectsSectionProps } from './model/types';
 ### 2. TypeScript & Data Modeling
 
 **Strong Typing with Domain Models:**
+
 ```typescript
 // src/entities/project/model/types.ts
 export interface Project {
-  readonly id: string;
-  title: string;
-  description: string;
-  technologies: Technology[];
-  category: ProjectCategory;
-  status: ProjectStatus;
-  startDate: Date;
-  endDate?: Date;
-  featured: boolean;
+	readonly id: string;
+	title: string;
+	description: string;
+	technologies: Technology[];
+	category: ProjectCategory;
+	status: ProjectStatus;
+	startDate: Date;
+	endDate?: Date;
+	featured: boolean;
 }
 
 export enum ProjectStatus {
-  COMPLETED = 'completed',
-  IN_PROGRESS = 'in-progress',
-  PLANNED = 'planned'
+	COMPLETED = 'completed',
+	IN_PROGRESS = 'in-progress',
+	PLANNED = 'planned',
 }
 ```
 
 **Utility Types for Different Contexts:**
+
 ```typescript
-export type ProjectPreview = Pick<Project, 'id' | 'title' | 'imageUrl' | 'technologies'>;
+export type ProjectPreview = Pick<
+	Project,
+	'id' | 'title' | 'imageUrl' | 'technologies'
+>;
 export type CreateProjectDTO = Omit<Project, 'id' | 'createdAt' | 'updatedAt'>;
 ```
 
 ### 3. Styling & UI Patterns
 
 **Tailwind + BEM Naming:**
+
 ```astro
 <div class="hero-card hero-card--featured">
-  <h1 class="hero-card__title">DevSandoval</h1>
-  <p class="hero-card__subtitle">Full-Stack Developer</p>
+	<h1 class="hero-card__title">DevSandoval</h1>
+	<p class="hero-card__subtitle">Full-Stack Developer</p>
 </div>
 
 <style>
-  .hero-card {
-    @apply bg-white dark:bg-gray-800 rounded-lg p-6;
-  }
-  
-  .hero-card--featured {
-    @apply ring-2 ring-blue-500;
-  }
+	.hero-card {
+		@apply bg-white dark:bg-gray-800 rounded-lg p-6;
+	}
+
+	.hero-card--featured {
+		@apply ring-2 ring-blue-500;
+	}
 </style>
 ```
 
 **Responsive Bento Grid Layout:**
+
 ```astro
 <div class="bento-grid">
-  <div class="bento-item bento-item--large">Hero Section</div>
-  <div class="bento-item bento-item--medium">CTA Buttons</div>
-  <div class="bento-item bento-item--small">Social Links</div>
+	<div class="bento-item bento-item--large">Hero Section</div>
+	<div class="bento-item bento-item--medium">CTA Buttons</div>
+	<div class="bento-item bento-item--small">Social Links</div>
 </div>
 
 <style>
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-  
-  @media (min-width: 768px) {
-    .bento-grid {
-      grid-template-areas:
-        "hero hero cta"
-        "social project contact";
-    }
-  }
+	.bento-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1rem;
+	}
+
+	@media (min-width: 768px) {
+		.bento-grid {
+			grid-template-areas:
+				'hero hero cta'
+				'social project contact';
+		}
+	}
 </style>
 ```
 
 ### 4. State Management & Business Logic
 
 **Feature State Management:**
+
 ```typescript
 // src/features/theme-toggle/model/store.ts
 import { writable } from 'svelte/store';
@@ -168,23 +180,24 @@ import { writable } from 'svelte/store';
 export const themeStore = writable<'light' | 'dark' | 'system'>('system');
 
 export const themeActions = {
-  setTheme: (theme: 'light' | 'dark' | 'system') => {
-    themeStore.set(theme);
-    // Persist and apply theme
-  }
+	setTheme: (theme: 'light' | 'dark' | 'system') => {
+		themeStore.set(theme);
+		// Persist and apply theme
+	},
 };
 ```
 
 **Entity Business Operations:**
+
 ```typescript
 // src/entities/project/model/operations.ts
 export function filterProjectsByTechnology(
-  projects: Project[],
-  technologyId: string
+	projects: Project[],
+	technologyId: string
 ): Project[] {
-  return projects.filter(project =>
-    project.technologies.some(tech => tech.id === technologyId)
-  );
+	return projects.filter(project =>
+		project.technologies.some(tech => tech.id === technologyId)
+	);
 }
 ```
 
@@ -207,12 +220,14 @@ bun type-check           # TypeScript checking
 ### File Organization Rules
 
 **Creating New Features:**
+
 1. Start with entity (business logic)
 2. Add feature (user interactions)
 3. Create widget (UI composition)
 4. Update pages to use widget
 
 **Example: Adding a Contact Form**
+
 ```
 src/
 ├── entities/contact/      # Contact data models
@@ -235,6 +250,7 @@ src/
 ```
 
 **Usage:**
+
 ```typescript
 import { Button } from '@shared/ui';
 import { ProjectCard } from '@entities/project';
@@ -251,12 +267,12 @@ import { ContactForm } from '@features/contact-form';
 // 1. Entity: Define data structure
 // src/entities/experience/model/types.ts
 export interface Experience {
-  id: string;
-  company: string;
-  position: string;
-  startDate: Date;
-  endDate?: Date;
-  technologies: string[];
+	id: string;
+	company: string;
+	position: string;
+	startDate: Date;
+	endDate?: Date;
+	technologies: string[];
 }
 
 // 2. Feature: Add interactions (if needed)
@@ -267,7 +283,7 @@ export interface Experience {
 import { ExperienceCard } from '../../../entities/experience';
 
 export interface Props {
-  experiences: Experience[];
+	experiences: Experience[];
 }
 
 // 4. Page Integration
@@ -282,14 +298,14 @@ import { ExperienceSection } from '../widgets/experience-section';
 ```typescript
 // src/data/projects.ts
 export const projects: Project[] = [
-  {
-    id: 'hub-links',
-    title: 'Personal Brand Hub',
-    description: 'Modern portfolio with Bento Grid layout',
-    status: 'in-progress',
-    technologies: ['Astro', 'Tailwind CSS', 'TypeScript'],
-    featured: true
-  }
+	{
+		id: 'hub-links',
+		title: 'Personal Brand Hub',
+		description: 'Modern portfolio with Bento Grid layout',
+		status: 'in-progress',
+		technologies: ['Astro', 'Tailwind CSS', 'TypeScript'],
+		featured: true,
+	},
 ];
 
 // Usage in pages
@@ -301,36 +317,40 @@ import { projects } from '../data/projects';
 ### 3. Styling & Theming
 
 **Design System Approach:**
+
 - Tailwind CSS for utility classes
 - CSS custom properties for theme variables
 - Dark/light mode support
 - Responsive-first design
 
 **Theme Variables:**
+
 ```css
 :root {
-  --color-primary: #3b82f6;
-  --color-surface: #ffffff;
-  --color-text: #111827;
+	--color-primary: #3b82f6;
+	--color-surface: #ffffff;
+	--color-text: #111827;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --color-surface: #1f2937;
-    --color-text: #f9fafb;
-  }
+	:root {
+		--color-surface: #1f2937;
+		--color-text: #f9fafb;
+	}
 }
 ```
 
 ### 4. Performance Optimization
 
 **Astro-Specific Patterns:**
+
 - Static generation by default
 - Island architecture for interactivity
 - Image optimization with Astro's Image component
 - Critical CSS inlining
 
 **Example:**
+
 ```astro
 ---
 // Static by default - fast loading
@@ -339,7 +359,7 @@ const projects = await getProjects(); // Build-time data fetching
 
 <!-- Interactive islands only where needed -->
 <ClientOnly>
-  <ContactForm client:load />
+	<ContactForm client:load />
 </ClientOnly>
 ```
 
@@ -363,6 +383,7 @@ const projects = await getProjects(); // Build-time data fetching
 ### Commit Conventions
 
 **Conventional Commits Required:**
+
 ```
 feat(entities/project): add project filtering by technology
 fix(ui): correct button alignment in mobile view

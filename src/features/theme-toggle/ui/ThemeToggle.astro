@@ -15,7 +15,12 @@ import SystemIcon from '@shared/assets/theme-icons/system.svg?raw';
 
 interface Props extends ThemeToggleProps {}
 
-const { size = 'md', showLabel = false, variant = 'floating', class: className } = Astro.props;
+const {
+	size = 'md',
+	showLabel = false,
+	variant = 'floating',
+	class: className,
+} = Astro.props;
 
 const sizeClasses = {
 	sm: 'theme-toggle--sm',
@@ -31,31 +36,28 @@ const variantClasses = {
 
 <button
 	id="theme-toggle"
-	class={cn('theme-toggle', sizeClasses[size], variantClasses[variant], className)}
+	class={cn(
+		'theme-toggle',
+		sizeClasses[size],
+		variantClasses[variant],
+		className
+	)}
 	aria-label="Cambiar tema"
 	title="Cambiar tema"
 	type="button">
-	<span
-		class="theme-toggle__icon"
-		data-theme-icon="light">
+	<span class="theme-toggle__icon" data-theme-icon="light">
 		<Fragment set:html={SunIcon} />
 	</span>
-	<span
-		class="theme-toggle__icon"
-		data-theme-icon="dark">
+	<span class="theme-toggle__icon" data-theme-icon="dark">
 		<Fragment set:html={MoonIcon} />
 	</span>
-	<span
-		class="theme-toggle__icon"
-		data-theme-icon="system">
+	<span class="theme-toggle__icon" data-theme-icon="system">
 		<Fragment set:html={SystemIcon} />
 	</span>
 
 	{
 		showLabel && (
-			<span
-				class="theme-toggle__label"
-				id="theme-label">
+			<span class="theme-toggle__label" id="theme-label">
 				Modo Claro
 			</span>
 		)
@@ -77,7 +79,7 @@ const variantClasses = {
 
 			// Hide all icons
 			const icons = button.querySelectorAll('[data-theme-icon]');
-			icons.forEach((icon) => {
+			icons.forEach(icon => {
 				(icon as HTMLElement).style.display = 'none';
 			});
 
@@ -114,7 +116,7 @@ const variantClasses = {
 		});
 
 		// Watch system preference changes
-		themeManager.watchSystemPreference((systemTheme) => {
+		themeManager.watchSystemPreference(systemTheme => {
 			const currentTheme = themeManager.getThemeState().current;
 
 			// If using system theme, update UI

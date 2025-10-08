@@ -10,10 +10,10 @@ export { default as ShareButton } from './ui/ShareButton.astro';
 export type { ShareButtonProps, ShareData, ShareResult } from './model/types';
 
 // Utilities (if needed externally)
-export { 
-	isWebShareSupported, 
-	shareViaWebAPI, 
-	copyToClipboard, 
+export {
+	isWebShareSupported,
+	shareViaWebAPI,
+	copyToClipboard,
 	getShareData,
-	share 
+	share,
 } from './lib/share-utils';

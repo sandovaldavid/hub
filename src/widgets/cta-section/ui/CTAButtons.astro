@@ -27,9 +27,10 @@ const iconMap: Record<string, string> = {
 };
 ---
 
-<div class={cn('cta-buttons', layout === 'vertical' && 'cta-buttons--vertical')}>
+<div
+	class={cn('cta-buttons', layout === 'vertical' && 'cta-buttons--vertical')}>
 	{
-		buttons.map((button) => {
+		buttons.map(button => {
 			const iconContent = iconMap[button.icon] || '';
 
 			return (
@@ -44,10 +45,7 @@ const iconMap: Record<string, string> = {
 							button.variant === 'primary' && 'cta-button-card--primary',
 							button.variant === 'secondary' && 'cta-button-card--secondary'
 						)}>
-						<div
-							class="cta-button-card__icon"
-							set:html={iconContent}
-						/>
+						<div class="cta-button-card__icon" set:html={iconContent} />
 						<div class="cta-button-card__content">
 							<h3 class="cta-button-card__title">{button.title}</h3>
 							{button.description && (

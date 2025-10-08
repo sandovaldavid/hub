@@ -1,10 +1,10 @@
 @import '../../app/styles/global.css';
 
 .button {
-  @apply inline-flex items-center justify-center gap-2;
-  @apply font-medium transition-all duration-200;
-  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
-  @apply disabled:opacity-50 disabled:pointer-events-none;
+	@apply inline-flex items-center justify-center gap-2;
+	@apply font-medium transition-all duration-200;
+	@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+	@apply disabled:opacity-50 disabled:pointer-events-none;
 }
 
 /*
@@ -12,23 +12,23 @@
 */
 
 .button-primary {
-  @apply bg-primary-800 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500 shadow-sm hover:shadow-md transition-colors duration-200;
+	@apply bg-primary-800 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500 shadow-sm hover:shadow-md transition-colors duration-200;
 }
 
 .button-secondary {
-  @apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300 active:bg-neutral-400 focus-visible:ring-neutral-500 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700;
+	@apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300 active:bg-neutral-400 focus-visible:ring-neutral-500 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700;
 }
 
 .button-ghost {
-  @apply bg-transparent text-neutral-700 hover:bg-neutral-100 active:bg-neutral-200 focus-visible:ring-neutral-400 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:active:bg-neutral-700;
+	@apply bg-transparent text-neutral-700 hover:bg-neutral-100 active:bg-neutral-200 focus-visible:ring-neutral-400 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:active:bg-neutral-700;
 }
 
-.button-link{
-  @apply bg-transparent text-primary-600 hover:text-primary-700 underline-offset-4 hover:underline focus-visible:ring-primary-500 dark:text-primary-400;
+.button-link {
+	@apply bg-transparent text-primary-600 hover:text-primary-700 underline-offset-4 hover:underline focus-visible:ring-primary-500 dark:text-primary-400;
 }
 
-.button-danger{
-  @apply bg-error-600 text-white hover:bg-error-700 active:bg-error-800 focus-visible:ring-error-500 shadow-sm hover:shadow-md;
+.button-danger {
+	@apply bg-error-600 text-white hover:bg-error-700 active:bg-error-800 focus-visible:ring-error-500 shadow-sm hover:shadow-md;
 }
 
 /*
@@ -36,13 +36,13 @@
 */
 
 .button-sm {
-  @apply h-8 px-3 text-sm rounded-md;
+	@apply h-8 px-3 text-sm rounded-md;
 }
 
 .button-md {
-  @apply h-10 px-4 text-base rounded-lg;
+	@apply h-10 px-4 text-base rounded-lg;
 }
 
 .button-lg {
-  @apply h-12 px-6 text-lg rounded-xl;
+	@apply h-12 px-6 text-lg rounded-xl;
 }

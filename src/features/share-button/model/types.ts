@@ -21,25 +21,25 @@ export interface ShareButtonProps {
 	 * @default 'top-left'
 	 */
 	position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-	
+
 	/**
 	 * Visual variant
 	 * @default 'floating'
 	 */
 	variant?: 'floating' | 'inline';
-	
+
 	/**
 	 * Button size
 	 * @default 'md'
 	 */
 	size?: 'sm' | 'md' | 'lg';
-	
+
 	/**
 	 * Show text label next to icon
 	 * @default false
 	 */
 	showLabel?: boolean;
-	
+
 	/**
 	 * Custom CSS classes
 	 */

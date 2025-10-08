@@ -12,12 +12,12 @@ import ShareIcon from '../../../shared/assets/share-icon.svg?raw';
 
 interface Props extends ShareButtonProps {}
 
-const { 
+const {
 	position = 'top-left',
 	variant = 'floating',
 	size = 'md',
 	showLabel = false,
-	class: className 
+	class: className,
 } = Astro.props;
 
 const positionClasses = {
@@ -50,14 +50,11 @@ const variantClasses = {
 	)}
 	aria-label="Compartir sitio"
 	title="Compartir"
-	type="button"
->
+	type="button">
 	<span class="share-button__icon" set:html={ShareIcon} />
-	
-	{showLabel && (
-		<span class="share-button__label">Compartir</span>
-	)}
-	
+
+	{showLabel && <span class="share-button__label">Compartir</span>}
+
 	<!-- Feedback visual cuando se copia al clipboard -->
 	<span class="share-button__feedback" id="share-feedback">
 		¡Link copiado!
@@ -74,7 +71,10 @@ const variantClasses = {
 		// Update aria-label based on Web Share API support
 		const updateAriaLabel = () => {
 			if (isWebShareSupported()) {
-				button.setAttribute('aria-label', 'Compartir sitio usando el menú del sistema');
+				button.setAttribute(
+					'aria-label',
+					'Compartir sitio usando el menú del sistema'
+				);
 				button.setAttribute('title', 'Compartir');
 			} else {
 				button.setAttribute('aria-label', 'Copiar link al portapapeles');
@@ -96,7 +96,7 @@ const variantClasses = {
 				// Show feedback only if clipboard was used (not Web Share API)
 				if (result.method === 'clipboard' && result.success && feedback) {
 					feedback.classList.add('share-button__feedback--visible');
-					
+
 					setTimeout(() => {
 						feedback.classList.remove('share-button__feedback--visible');
 					}, 2000);

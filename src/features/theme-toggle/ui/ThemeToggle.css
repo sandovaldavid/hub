@@ -1,139 +1,139 @@
 @import '../../../app/styles/global.css';
 
 .theme-toggle {
-  @apply fixed;
-  @apply top-4 right-4;
-  @apply z-[1200];
-  @apply inline-flex items-center;
-  @apply gap-2;
-  @apply px-2 py-2;
-  @apply bg-white/90 dark:bg-neutral-800/90;
-  @apply border border-neutral-200 dark:border-neutral-700;
-  @apply rounded-lg;
-  @apply cursor-pointer;
-  @apply transition-all duration-150;
-  @apply text-neutral-900 dark:text-neutral-50;
-  @apply font-medium;
-  @apply shadow-lg;
-  @apply min-w-10 min-h-10;
-  @apply flex justify-center;
+	@apply fixed;
+	@apply top-4 right-4;
+	@apply z-[1200];
+	@apply inline-flex items-center;
+	@apply gap-2;
+	@apply px-2 py-2;
+	@apply bg-white/90 dark:bg-neutral-800/90;
+	@apply border border-neutral-200 dark:border-neutral-700;
+	@apply rounded-lg;
+	@apply cursor-pointer;
+	@apply transition-all duration-150;
+	@apply text-neutral-900 dark:text-neutral-50;
+	@apply font-medium;
+	@apply shadow-lg;
+	@apply min-w-10 min-h-10;
+	@apply flex justify-center;
 }
 
 .theme-toggle:hover {
-  @apply bg-white dark:bg-neutral-800;
-  @apply border-primary-500;
-  @apply -translate-y-0.5;
-  @apply shadow-xl;
+	@apply bg-white dark:bg-neutral-800;
+	@apply border-primary-500;
+	@apply -translate-y-0.5;
+	@apply shadow-xl;
 }
 
 .theme-toggle:active {
-  @apply translate-y-0;
+	@apply translate-y-0;
 }
 
 .theme-toggle:focus-visible {
-  @apply outline-2 outline-primary-500 dark:outline-primary-400;
-  @apply outline-offset-2;
+	@apply outline-2 outline-primary-500 dark:outline-primary-400;
+	@apply outline-offset-2;
 }
 
 .theme-toggle__icon {
-  @apply text-xl;
-  @apply leading-none;
-  @apply transition-transform duration-150;
-  @apply hidden;
-  @apply w-5 h-5;
+	@apply text-xl;
+	@apply leading-none;
+	@apply transition-transform duration-150;
+	@apply hidden;
+	@apply w-5 h-5;
 }
 
 .theme-toggle__icon svg {
-  @apply w-full h-full;
-  @apply block;
+	@apply w-full h-full;
+	@apply block;
 }
 
 .theme-toggle:hover .theme-toggle__icon {
-  @apply scale-110 rotate-[10deg];
+	@apply scale-110 rotate-[10deg];
 }
 
 .theme-toggle__label {
-  @apply text-sm;
-  @apply whitespace-nowrap;
+	@apply text-sm;
+	@apply whitespace-nowrap;
 }
 
 /* Size variants */
 .theme-toggle--sm {
-  @apply px-1.5 py-1.5;
-  @apply rounded-md;
+	@apply px-1.5 py-1.5;
+	@apply rounded-md;
 }
 
 .theme-toggle--sm .theme-toggle__icon {
-  @apply w-4 h-4;
+	@apply w-4 h-4;
 }
 
 .theme-toggle--sm .theme-toggle__label {
-  @apply text-xs;
+	@apply text-xs;
 }
 
 .theme-toggle--md {
-  @apply px-2 py-2;
-  @apply rounded-lg;
+	@apply px-2 py-2;
+	@apply rounded-lg;
 }
 
 .theme-toggle--md .theme-toggle__icon {
-  @apply w-5 h-5;
+	@apply w-5 h-5;
 }
 
 .theme-toggle--lg {
-  @apply px-3 py-3;
-  @apply rounded-xl;
+	@apply px-3 py-3;
+	@apply rounded-xl;
 }
 
 .theme-toggle--lg .theme-toggle__icon {
-  @apply w-6 h-6;
+	@apply w-6 h-6;
 }
 
 .theme-toggle--lg .theme-toggle__label {
-  @apply text-base;
+	@apply text-base;
 }
 
 /* Variant: Floating (fixed position) */
 .theme-toggle--floating {
-  @apply fixed;
-  @apply top-4 right-4;
-  @apply z-[1200];
-  @apply shadow-lg;
+	@apply fixed;
+	@apply top-4 right-4;
+	@apply z-[1200];
+	@apply shadow-lg;
 }
 
 .theme-toggle--floating:hover {
-  @apply shadow-xl;
+	@apply shadow-xl;
 }
 
 /* Variant: Inline (normal flow) */
 .theme-toggle--inline {
-  @apply static;
+	@apply static;
 }
 
 /* Mobile adjustments */
 @media (max-width: 640px) {
-  .theme-toggle--floating {
-    @apply top-3 right-3;
-  }
-  
-  .theme-toggle__label {
-    @apply hidden;
-  }
+	.theme-toggle--floating {
+		@apply top-3 right-3;
+	}
+
+	.theme-toggle__label {
+		@apply hidden;
+	}
 }
 
 /* Animation on theme change */
 @keyframes theme-switch {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.2);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
+	0% {
+		transform: rotate(0deg) scale(1);
+	}
+	50% {
+		transform: rotate(180deg) scale(1.2);
+	}
+	100% {
+		transform: rotate(360deg) scale(1);
+	}
 }
 
 .theme-toggle__icon {
-  animation: theme-switch 0.5s ease-in-out;
+	animation: theme-switch 0.5s ease-in-out;
 }

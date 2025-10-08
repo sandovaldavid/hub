@@ -1,9 +1,11 @@
 # Pages Layer Instructions
 
 ## Purpose
+
 The Pages layer contains complete pages and large page components. In Astro, these are the actual `.astro` files that represent different routes.
 
 ## What belongs here:
+
 - Individual page files (Astro pages)
 - Page-specific compositions and layouts
 - Large page sections that combine multiple widgets
@@ -11,6 +13,7 @@ The Pages layer contains complete pages and large page components. In Astro, the
 - Route-specific functionality
 
 ## Structure:
+
 ```
 src/pages/
 ├── index.astro           # Home page
@@ -22,6 +25,7 @@ src/pages/
 ```
 
 ## Rules for this layer:
+
 - ✅ Can import from: widgets, features, entities, shared
 - ❌ Cannot import from: app, other pages
 - ✅ Should compose widgets and features into full pages
@@ -30,6 +34,7 @@ src/pages/
 ## Astro-specific guidelines:
 
 ### Page Structure
+
 ```astro
 ---
 // Page frontmatter - data fetching, logic
@@ -44,14 +49,15 @@ const pageData = await fetchPageData();
 ---
 
 <Layout title="David Sandoval - Portfolio">
-  <Hero />
-  <About />
-  <Projects data={pageData.projects} />
-  <Contact />
+	<Hero />
+	<About />
+	<Projects data={pageData.projects} />
+	<Contact />
 </Layout>
 ```
 
 ### Dynamic Pages
+
 ```astro
 ---
 // src/pages/projects/[slug].astro
@@ -60,23 +66,24 @@ import { ProjectDetail } from '../../widgets/project-detail';
 import { getProject } from '../../entities/project';
 
 export async function getStaticPaths() {
-  // Generate static paths for projects
-  const projects = await getAllProjects();
-  return projects.map(project => ({
-    params: { slug: project.slug },
-    props: { project }
-  }));
+	// Generate static paths for projects
+	const projects = await getAllProjects();
+	return projects.map(project => ({
+		params: { slug: project.slug },
+		props: { project },
+	}));
 }
 
 const { project } = Astro.props;
 ---
 
 <Layout title={`${project.title} - David Sandoval`}>
-  <ProjectDetail project={project} />
+	<ProjectDetail {project} />
 </Layout>
 ```
 
 ## Page Responsibilities:
+
 1. **Composition**: Combine widgets and features into complete pages
 2. **Data Fetching**: Fetch page-specific data in frontmatter
 3. **SEO**: Set appropriate meta tags and titles
@@ -84,6 +91,7 @@ const { project } = Astro.props;
 5. **Routing**: Handle URL parameters and query strings
 
 ## Examples of what belongs here:
+
 - Home page (`index.astro`)
 - About page (`about.astro`)
 - Projects listing (`projects/index.astro`)
@@ -92,12 +100,14 @@ const { project } = Astro.props;
 - Blog posts (`blog/[slug].astro`)
 
 ## What should NOT be here:
+
 - Reusable UI components (use widgets or shared)
 - Business logic (use features or entities)
 - API calls (use entities or features)
 - Utility functions (use shared)
 
 ## Best Practices:
+
 1. Keep pages as composition layers
 2. Move complex logic to widgets or features
 3. Use TypeScript for props and data types

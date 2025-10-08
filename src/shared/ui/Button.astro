@@ -44,16 +44,16 @@ const buttonClasses = cn(
 
 const isLink = !!href;
 const Element = isLink ? 'a' : 'button';
-const elementProps =
-	isLink ?
-		{ href, target, rel: rel || (target === '_blank' ? 'noopener noreferrer' : undefined) }
-	:	{ type, disabled: disabled || loading };
+const elementProps = isLink
+	? {
+			href,
+			target,
+			rel: rel || (target === '_blank' ? 'noopener noreferrer' : undefined),
+		}
+	: { type, disabled: disabled || loading };
 ---
 
-<Element
-	class={buttonClasses}
-	{...elementProps}
-	{...rest}>
+<Element class={buttonClasses} {...elementProps} {...rest}>
 	{
 		loading && (
 			<svg

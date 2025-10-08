@@ -18,10 +18,10 @@ const { src, alt, size = 'lg', ring = true, class: className } = Astro.props;
 ---
 
 <Avatar
-	src={src}
-	alt={alt}
-	size={size}
-	ring={ring}
+	{src}
+	{alt}
+	{size}
+	{ring}
 	ringColor="ring-primary-500"
 	class={className}
 />

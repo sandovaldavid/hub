@@ -9,8 +9,8 @@
 	@apply flex flex-col gap-3 w-full;
 }
 
-.social-grid__button{
-	@apply bg-red-50
+.social-grid__button {
+	@apply bg-red-50;
 }
 
 /* Responsive: en desktop mantener columna pero con max-width */

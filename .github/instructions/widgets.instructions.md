@@ -1,9 +1,11 @@
 # Widgets Layer Instructions
 
 ## Purpose
+
 Widgets are large, self-contained UI blocks that deliver complete user experiences by composing features and entities. They represent major page sections or complex UI components that solve complete use cases.
 
 ## What belongs here:
+
 - Large page sections that combine multiple features (Header, Footer, Hero, About)
 - Complex UI blocks with complete user workflows
 - Compositions that integrate features and entities together
@@ -12,6 +14,7 @@ Widgets are large, self-contained UI blocks that deliver complete user experienc
 - Complete user experience blocks (e.g., contact section with form + info)
 
 ## Structure:
+
 ```
 src/widgets/
 ├── header/
@@ -46,6 +49,7 @@ src/widgets/
 ```
 
 ## Rules for this layer:
+
 - ✅ Can import from: features, entities, shared
 - ❌ Cannot import from: app, pages, other widgets
 - ✅ Should combine features and entities into complete UI blocks
@@ -54,6 +58,7 @@ src/widgets/
 ## Widget Examples:
 
 ### Header Widget
+
 ```astro
 ---
 // src/widgets/header/ui/Header.astro
@@ -63,31 +68,32 @@ import { Navigation } from '../lib/navigation';
 import { Logo } from '../../../shared/ui';
 
 interface Props {
-  currentPath?: string;
+	currentPath?: string;
 }
 
 const { currentPath } = Astro.props;
 ---
 
 <header class="header">
-  <div class="header__container">
-    <Logo />
-    <Navigation currentPath={currentPath} />
-    <div class="header__actions">
-      <LanguageSelect />
-      <ThemeToggle />
-    </div>
-  </div>
+	<div class="header__container">
+		<Logo />
+		<Navigation {currentPath} />
+		<div class="header__actions">
+			<LanguageSelect />
+			<ThemeToggle />
+		</div>
+	</div>
 </header>
 
 <style>
-  .header {
-    /* Header-specific styles */
-  }
+	.header {
+		/* Header-specific styles */
+	}
 </style>
 ```
 
 ### Projects Widget
+
 ```astro
 ---
 // src/widgets/projects/ui/ProjectsSection.astro
@@ -96,28 +102,31 @@ import { ProjectFilter } from '../../../features/project-filter';
 import type { Project } from '../../../entities/project';
 
 interface Props {
-  projects: Project[];
-  showFilter?: boolean;
+	projects: Project[];
+	showFilter?: boolean;
 }
 
 const { projects, showFilter = true } = Astro.props;
 ---
 
 <section class="projects">
-  <div class="projects__header">
-    <h2>My Projects</h2>
-    {showFilter && <ProjectFilter />}
-  </div>
-  
-  <div class="projects__grid">
-    {projects.map(project => (
-      <ProjectCard key={project.id} project={project} />
-    ))}
-  </div>
+	<div class="projects__header">
+		<h2>My Projects</h2>
+		{showFilter && <ProjectFilter />}
+	</div>
+
+	<div class="projects__grid">
+		{
+			projects.map(project => (
+				<ProjectCard key={project.id} project={project} />
+			))
+		}
+	</div>
 </section>
 ```
 
 ### Public API Export
+
 ```typescript
 // src/widgets/header/index.ts
 export { default as Header } from './ui/Header.astro';
@@ -125,6 +134,7 @@ export type { HeaderProps } from './model/types';
 ```
 
 ## Widget Characteristics:
+
 1. **Compositional**: Built by combining features and entities, not implementing from scratch
 2. **Self-contained**: Can work independently and be dropped into any page
 3. **Complete**: Provides a full user experience block, not partial functionality
@@ -133,6 +143,7 @@ export type { HeaderProps } from './model/types';
 6. **Boundary-aware**: Has clear responsibilities and doesn't leak concerns to other widgets
 
 ## Examples of widgets for this portfolio:
+
 - **Header**: Navigation + theme toggle + language selector + logo
 - **Hero**: Introduction + avatar + social links + call-to-action
 - **About**: Personal info + skills display + downloadable resume
@@ -143,6 +154,7 @@ export type { HeaderProps } from './model/types';
 - **Skills**: Skill categories + progress indicators + technology icons
 
 ## Best Practices:
+
 1. Keep widgets focused on a single major use case or page section
 2. Make widgets configurable through props but avoid over-configuration
 3. Compose widgets from features and entities rather than implementing logic
@@ -155,6 +167,7 @@ export type { HeaderProps } from './model/types';
 10. Document widget usage, props, and composition patterns
 
 ## What should NOT be widgets:
+
 - Simple UI components without complete use cases (use shared/ui)
 - Pure business logic without UI composition (use features or entities)
 - Single-purpose components without feature composition (use features)
@@ -163,6 +176,7 @@ export type { HeaderProps } from './model/types';
 - Utility functions without UI components (use shared/lib)
 
 ## Composition Pattern Example:
+
 ```astro
 ---
 // src/widgets/projects-section/ui/ProjectsSection.astro
@@ -173,25 +187,27 @@ import { SectionTitle } from '../../../shared/ui';
 import type { Project } from '../../../entities/project';
 
 interface Props {
-  projects: Project[];
-  showFilter?: boolean;
-  title?: string;
+	projects: Project[];
+	showFilter?: boolean;
+	title?: string;
 }
 
-const { projects, showFilter = true, title = "My Projects" } = Astro.props;
+const { projects, showFilter = true, title = 'My Projects' } = Astro.props;
 ---
 
 <section class="projects-section">
-  <div class="projects-section__header">
-    <SectionTitle>{title}</SectionTitle>
-    {showFilter && <ProjectFilter />}
-  </div>
-  
-  <div class="projects-section__grid">
-    {projects.map(project => (
-      <ProjectCard key={project.id} project={project} />
-    ))}
-  </div>
+	<div class="projects-section__header">
+		<SectionTitle>{title}</SectionTitle>
+		{showFilter && <ProjectFilter />}
+	</div>
+
+	<div class="projects-section__grid">
+		{
+			projects.map(project => (
+				<ProjectCard key={project.id} project={project} />
+			))
+		}
+	</div>
 </section>
 ```
 

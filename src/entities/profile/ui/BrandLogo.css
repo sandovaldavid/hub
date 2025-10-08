@@ -1,7 +1,7 @@
 @import '../../../app/styles/global.css';
 
 .brand-logo {
-  @apply block object-contain;
-  @apply transition-transform duration-200;
-  @apply hover:scale-105;
+	@apply block object-contain;
+	@apply transition-transform duration-200;
+	@apply hover:scale-105;
 }

@@ -19,7 +19,7 @@
 	       text-sm font-medium
 	       text-neutral-700 dark:text-neutral-200
 	       outline-none select-none;
-	
+
 	border-style: solid;
 }
 
@@ -132,7 +132,8 @@
 /* ===== ANIMATIONS ===== */
 
 @keyframes pulse {
-	0%, 100% {
+	0%,
+	100% {
 		opacity: 1;
 	}
 	50% {
@@ -151,19 +152,19 @@
 	.share-button--top-left {
 		@apply top-3 left-3;
 	}
-	
+
 	.share-button--top-right {
 		@apply top-3 right-3;
 	}
-	
+
 	.share-button--bottom-left {
 		@apply bottom-3 left-3;
 	}
-	
+
 	.share-button--bottom-right {
 		@apply bottom-3 right-3;
 	}
-	
+
 	/* Larger touch target for mobile */
 	.share-button {
 		@apply min-w-10 min-h-10;
@@ -174,15 +175,15 @@
 	.share-button--top-left {
 		@apply top-4 left-4;
 	}
-	
+
 	.share-button--top-right {
 		@apply top-4 right-4;
 	}
-	
+
 	.share-button--bottom-left {
 		@apply bottom-4 left-4;
 	}
-	
+
 	.share-button--bottom-right {
 		@apply bottom-4 right-4;
 	}

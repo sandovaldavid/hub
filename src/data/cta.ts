@@ -1,5 +1,5 @@
 import { profile } from './profile';
-import {socialLinks} from './social-links';
+import { socialLinks } from './social-links';
 
 export const ctaButtons = [
 	{

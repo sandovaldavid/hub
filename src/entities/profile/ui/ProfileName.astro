@@ -6,7 +6,7 @@
 
 import { cn } from '@shared/lib';
 import './ProfileName.css';
-import CheckIcon from '@shared/assets/check.svg?raw';
+import CheckIcon from '@shared/assets/check.svg';
 
 export interface Props {
 	name: string;
@@ -16,7 +16,13 @@ export interface Props {
 	class?: string;
 }
 
-const { name, displayName, tagline, variant = 'hero', class: className } = Astro.props;
+const {
+	name,
+	displayName,
+	tagline,
+	variant = 'hero',
+	class: className,
+} = Astro.props;
 
 const isHero = variant === 'hero';
 ---
@@ -25,15 +31,14 @@ const isHero = variant === 'hero';
 	<section class="flex flex-col justify-center items-center z-10 gap-1">
 		<span
 			class={cn(
-				'text-sky-400 text-xl font-mono px-3 py-1',
-				'bg-black/60 flex items-center gap-2',
-				'border border-sky-500/60 rounded-full shadow-md cursor-pointer',
+				'text-primary-600 text-xl font-mono px-3 py-1',
+				'bg-gray-500/30 flex items-center gap-2',
+				'border border-primary-500/60 rounded-full shadow-md cursor-pointer',
 				'animate-delay-200 animate-fade-in'
 			)}>
 			@{displayName}
-			<span
-				class="ml-1 w-5 h-5 text-sky-400 inline-block animate-rubber-band animate-delay-300"
-				set:html={CheckIcon}
+			<CheckIcon
+				class="ml-1 w-5 h-5 text-sky-500 fill-white inline-block animate-rubber-band animate-delay-300"
 			/>
 		</span>
 		<h1

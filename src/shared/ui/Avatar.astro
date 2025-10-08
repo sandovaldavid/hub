@@ -46,7 +46,13 @@ const roundedClasses = 'rounded-full';
 
 const ringClasses = ring ? `ring-2 ring-offset-2 ${ringColor}` : '';
 
-const avatarClasses = cn(baseClasses, sizeClasses[size], roundedClasses, ringClasses, className);
+const avatarClasses = cn(
+	baseClasses,
+	sizeClasses[size],
+	roundedClasses,
+	ringClasses,
+	className
+);
 
 // Generate initials from alt text if no fallback provided
 const getInitials = (name: string): string => {
@@ -60,17 +66,17 @@ const getInitials = (name: string): string => {
 const initials = fallback || getInitials(alt);
 ---
 
-<div
-	class={avatarClasses}
-	{...rest}>
+<div class={avatarClasses} {...rest}>
 	{
-		src ?
+		src ? (
 			<img
 				src={src}
 				alt={alt}
 				loading={loading}
 				class="absolute inset-0 h-full w-full object-cover"
 			/>
-		:	<span aria-label={alt}>{initials}</span>
+		) : (
+			<span aria-label={alt}>{initials}</span>
+		)
 	}
 </div>

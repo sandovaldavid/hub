@@ -27,6 +27,10 @@ const { profile, variant = 'default' } = Astro.props;
 			variant={variant === 'compact' ? 'compact' : 'hero'}
 		/>
 
-		{variant === 'default' && profile.bio && <p class="hero-card__bio">{profile.bio}</p>}
+		{
+			variant === 'default' && profile.bio && (
+				<p class="hero-card__bio">{profile.bio}</p>
+			)
+		}
 	</div>
 </div>
