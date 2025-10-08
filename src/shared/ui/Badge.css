@@ -1,0 +1,47 @@
+@import '../../app/styles/global.css';
+
+.badge-base {
+  @apply inline-flex items-center justify-center;
+  @apply font-medium whitespace-nowrap;
+  @apply transition-colors duration-200;
+}
+
+.badge-primary{
+  @apply bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300;
+}
+
+.badge-accent{
+  @apply bg-accent-100 text-accent-700 dark:bg-accent-900 dark:text-accent-300;
+}
+
+.badge-success{
+  @apply bg-success-100 text-success-700 dark:bg-success-900 dark:text-success-300;
+}
+
+.badge-warning{
+  @apply bg-warning-100 text-warning-700 dark:bg-warning-900 dark:text-warning-300;
+}
+
+.badge-error{
+  @apply bg-error-100 text-error-700 dark:bg-error-900 dark:text-error-300;
+}
+
+.badge-neutral{
+  @apply bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300;
+}
+
+/*
+ * Badge size variants
+ */
+
+.badge-size-sm{
+  @apply px-2 py-0.5 text-xs;
+}
+
+.badge-size-md{
+  @apply px-2.5 py-1 text-sm;
+}
+
+.badge-size-lg{
+  @apply px-3 py-1.5 text-base;
+}
