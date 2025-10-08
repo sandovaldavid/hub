@@ -1,10 +1,5 @@
 @import '../../../app/styles/global.css';
 
-/* ============================================
-   CTA BUTTONS WIDGET
-   Uses Tailwind CSS and Design System tokens
-   ============================================ */
-
 .cta-buttons {
   @apply flex flex-col gap-3 w-full;
 }
@@ -14,55 +9,34 @@
 }
 
 .cta-button-card {
-  @apply flex items-center gap-4 
-         px-4 py-5 
-         rounded-xl 
-         transition-all duration-300 ease-in-out
-         cursor-pointer w-full
-         bg-white/70 dark:bg-neutral-950/70
-         border border-white/30 dark:border-white/10
-         backdrop-blur-xl
-         shadow-md dark:shadow-lg
-         hover:scale-[1.02];
+  @apply flex items-center gap-4 px-4 py-5 rounded-xl transition-all duration-300 ease-in-out cursor-pointer w-full bg-white/70 dark:bg-neutral-950/70 border border-white/30 dark:border-white/10 backdrop-blur-xl shadow-md dark:shadow-lg hover:scale-[1.02];
 }
 
 .cta-button-card:hover {
-  @apply bg-white/85 dark:bg-neutral-950/85
-         border-primary-400/50 dark:border-accent-400/30
-         shadow-lg dark:shadow-xl;
+  @apply bg-white/85 dark:bg-neutral-950/85 border-primary-400/50 dark:border-accent-400/30 shadow-lg dark:shadow-xl;
 }
 
 /* Primary variant - Enhanced with primary colors */
 .cta-button-card--primary {
-  @apply backdrop-blur-2xl
-         border-accent-200/30 dark:border-primary-700/30;
+  @apply backdrop-blur-2xl border-accent-200/30 dark:border-primary-700/30;
 }
 
 .cta-button-card--primary:hover {
-  @apply backdrop-blur-3xl
-         border-accent-300/50 dark:border-primary-500/50
-         shadow-xl dark:shadow-2xl;
+  @apply backdrop-blur-3xl border-accent-300/50 dark:border-primary-500/50 shadow-xl dark:shadow-2xl;
 }
 
 /* Secondary variant - More subtle */
 .cta-button-card--secondary {
-  @apply bg-white/60 dark:bg-neutral-950/60
-         backdrop-blur-lg;
+  @apply bg-white/60 dark:bg-neutral-950/60 backdrop-blur-lg;
 }
 
 .cta-button-card--secondary:hover {
-  @apply bg-white/75 dark:bg-neutral-950/75
-         backdrop-blur-2xl
-         border-warning-400/40 dark:border-warning-400/30;
+  @apply bg-white/75 dark:bg-neutral-950/75 backdrop-blur-2xl border-warning-400/40 dark:border-warning-400/30;
 }
 
 /* Icon container */
 .cta-button-card__icon {
-  @apply w-10 h-10 sm:w-12 sm:h-12
-         flex-shrink-0 
-         flex items-center justify-center
-         text-primary-600 dark:text-primary-300
-         drop-shadow-sm;
+  @apply w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0  flex items-center justify-center text-primary-600 dark:text-primary-300 drop-shadow-sm;
 }
 
 .cta-button-card__icon svg {
@@ -70,8 +44,7 @@
 }
 
 .cta-button-card--primary .cta-button-card__icon {
-  @apply text-primary-700 dark:text-accent-300
-         drop-shadow-md;
+  @apply text-primary-700 dark:text-accent-300 drop-shadow-md;
 }
 
 /* Content area */
@@ -80,27 +53,16 @@
 }
 
 .cta-button-card__title {
-  @apply text-base sm:text-lg
-         font-bold 
-         m-0 mb-1
-         leading-tight
-         text-neutral-900 dark:text-neutral-50;
+  @apply text-base sm:text-lg font-bold m-0 mb-1 leading-tight text-neutral-900 dark:text-neutral-50;
 }
 
 .cta-button-card__description {
-  @apply text-[0.8125rem] sm:text-sm
-         m-0 
-         leading-snug
-         text-neutral-700 dark:text-neutral-300;
+  @apply text-[0.8125rem] sm:text-sm m-0  leading-snug text-neutral-700 dark:text-neutral-300;
 }
 
 /* Arrow indicator */
 .cta-button-card__arrow {
-  @apply text-2xl
-         flex-shrink-0
-         transition-transform duration-300 ease-in-out
-         text-primary-600 dark:text-primary-400
-         drop-shadow-sm;
+  @apply text-2xl flex-shrink-0 transition-transform duration-300 ease-in-out text-primary-600 dark:text-primary-400 drop-shadow-sm;
 }
 
 .cta-button-card:hover .cta-button-card__arrow {
