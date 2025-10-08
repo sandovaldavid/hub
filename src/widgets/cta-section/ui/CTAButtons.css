@@ -9,7 +9,7 @@
 }
 
 .cta-button-card {
-	@apply flex items-center gap-4 px-4 py-5 rounded-xl transition-all duration-300 ease-in-out cursor-pointer w-full bg-white/70 dark:bg-neutral-950/70 border border-white/30 dark:border-white/10 backdrop-blur-xl shadow-md dark:shadow-lg hover:scale-[1.02];
+	@apply flex items-center gap-4 px-4 py-5 md:px-5 md:py-6 lg:px-6 lg:py-7 rounded-xl transition-all duration-300 ease-in-out cursor-pointer w-full bg-white/70 dark:bg-neutral-950/70 border border-white/30 dark:border-white/10 backdrop-blur-xl shadow-md dark:shadow-lg hover:scale-[1.02];
 }
 
 .cta-button-card:hover {
@@ -36,7 +36,7 @@
 
 /* Icon container */
 .cta-button-card__icon {
-	@apply w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0  flex items-center justify-center text-primary-600 dark:text-primary-300 drop-shadow-sm;
+	@apply w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 flex-shrink-0  flex items-center justify-center text-primary-600 dark:text-primary-300 drop-shadow-sm;
 }
 
 .cta-button-card__icon svg {
@@ -53,16 +53,16 @@
 }
 
 .cta-button-card__title {
-	@apply text-base sm:text-lg font-bold m-0 mb-1 leading-tight text-primary-800 dark:text-primary-200;
+	@apply text-base md:text-lg lg:text-xl font-bold m-0 mb-1 leading-tight text-primary-800 dark:text-primary-200;
 }
 
 .cta-button-card__description {
-	@apply text-[0.8125rem] sm:text-sm m-0  leading-snug text-gray-700 dark:text-gray-300;
+	@apply text-sm md:text-base lg:text-lg m-0  leading-snug text-gray-700 dark:text-gray-300;
 }
 
 /* Arrow indicator */
 .cta-button-card__arrow {
-	@apply text-2xl flex-shrink-0 transition-transform duration-300 ease-in-out text-primary-600 dark:text-primary-400 drop-shadow-sm;
+	@apply w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 flex-shrink-0 transition-transform duration-300 ease-in-out text-primary-600 dark:text-primary-400 drop-shadow-sm;
 }
 
 .cta-button-card:hover .cta-button-card__arrow {

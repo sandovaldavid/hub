@@ -2,7 +2,7 @@
 
 /* Social Button */
 .social-button {
-	@apply w-full flex items-center gap-3 px-4 py-3 rounded-xl;
+	@apply w-full flex items-center gap-3 px-4 py-3 md:px-5 md:py-4 lg:px-6 lg:py-4 rounded-xl;
 	@apply bg-white/90 border-2 border-neutral-200;
 	@apply text-neutral-900 no-underline cursor-pointer;
 	@apply transition-all duration-300 ease-out;
@@ -13,7 +13,7 @@
 /* Social button Icon */
 
 .social-button__icon {
-	@apply w-6 h-6 flex-shrink-0;
+	@apply w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 flex-shrink-0;
 	@apply transition-all duration-300;
 }
 
@@ -50,14 +50,14 @@
 }
 
 .social-button__label {
-	@apply text-sm font-bold leading-tight;
+	@apply text-sm md:text-base lg:text-lg font-bold leading-tight;
 	@apply text-neutral-900 dark:text-neutral-50;
 	@apply transition-colors duration-200;
 	@apply group-hover:text-gray-50;
 }
 
 .social-button__username {
-	@apply text-xs;
+	@apply text-xs md:text-sm lg:text-base;
 	@apply text-neutral-700 dark:text-neutral-300;
 	@apply transition-colors duration-200;
 	@apply group-hover:text-gray-50;

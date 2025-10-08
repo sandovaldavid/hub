@@ -25,14 +25,14 @@ const { profile, variant = 'default' } = Astro.props;
 			<span
 				class={cn(
 					'hero-card__username',
-					'text-primary-600 text-base font-google font-semibold italic px-3 py-1.5',
+					'text-primary-600 text-sm md:text-base lg:text-lg font-google font-semibold italic px-3 py-1.5 md:px-4 md:py-2',
 					'bg-gray-500/20 flex items-center gap-2 w-fit',
 					'border border-primary-500/60 rounded-full shadow-md',
 					'transition-colors duration-200 hover:bg-gray-500/50 dark:hover:bg-gray-500/30'
 				)}>
 				@{profile.displayName}
 				<CheckIcon
-					class="size-5 text-sky-500 inline-block"
+					class="size-4 md:size-5 lg:size-6 text-sky-500 inline-block"
 					aria-hidden="true"
 				/>
 			</span>
@@ -44,7 +44,7 @@ const { profile, variant = 'default' } = Astro.props;
 		<h2
 			id="hero-heading"
 			class={cn(
-				'font-display text-2xl font-extrabold leading-tight',
+				'font-display text-xl md:text-2xl lg:text-3xl xl:text-4xl font-extrabold leading-tight',
 				'text-gray-900 dark:text-gray-50 m-0'
 			)}>
 			{profile.name}
