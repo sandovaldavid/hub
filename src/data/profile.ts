@@ -13,7 +13,7 @@ export const profile: Profile = {
 		alt: 'DevSandoval profile photo',
 	},
 	logo: {
-		url: 'logo/devsandoval.webp',
+		url: '/logo/devsandoval.svg',
 		alt: 'DevSandoval brand logo',
 	},
 	contact: {
