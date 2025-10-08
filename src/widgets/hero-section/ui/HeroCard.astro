@@ -1,0 +1,32 @@
+---
+import ProfileAvatar from '@entities/profile/ui/ProfileAvatar.astro';
+import ProfileName from '@entities/profile/ui/ProfileName.astro';
+import BrandLogo from '@entities/profile/ui/BrandLogo.astro';
+import type { HeroCardProps } from '../model/types';
+import './HeroCard.css';
+
+interface Props extends HeroCardProps {}
+
+const { profile, variant = 'default' } = Astro.props;
+---
+
+<div class="hero-card__content">
+	<div class="hero-card__avatar-wrapper">
+		<ProfileAvatar
+			src={profile.avatar.url}
+			alt={profile.avatar.alt}
+			size={variant === 'compact' ? 'lg' : '3xl'}
+		/>
+	</div>
+
+	<div class="hero-card__body">
+		<ProfileName
+			name={profile.name}
+			displayName={profile.displayName}
+			tagline={profile.tagline}
+			variant={variant === 'compact' ? 'compact' : 'hero'}
+		/>
+
+		{variant === 'default' && profile.bio && <p class="hero-card__bio">{profile.bio}</p>}
+	</div>
+</div>
