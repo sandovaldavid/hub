@@ -10,6 +10,14 @@
 	"arrowParens": "avoid",
 	"endOfLine": "lf",
 	"plugins": ["prettier-plugin-astro"],
+	"overrides": [
+		{
+			"files": "*.astro",
+			"options": {
+				"parser": "astro"
+			}
+		}
+	],
 	"astroAllowShorthand": true,
 	"htmlWhitespaceSensitivity": "css"
 }
