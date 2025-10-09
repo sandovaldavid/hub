@@ -1,16 +1,19 @@
-# Dependencies
+# Ignorar directorios de dependencias
 node_modules/
-bun.lockb
-
-# Build outputs
 dist/
 .astro/
 
-# Cache
-.cache/
+# Ignorar archivos generados
+*.min.js
+*.min.css
 
-# Astro files (formatted by Astro extension)
-**/*.astro
+# Ignorar archivos de bloqueo de paquetes
+package-lock.json
+yarn.lock
+bun.lockb
 
-# Instructions with code examples that confuse Prettier
-.github/instructions/ui-segment.instructions.md
+# Otros archivos a ignorar
+.DS_Store
+
+# Ignorar archivos Markdown
+*.md
