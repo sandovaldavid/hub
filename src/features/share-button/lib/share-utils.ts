@@ -27,7 +27,7 @@ export function getShareData(): ShareData {
 
 	return {
 		title: pageTitle,
-		text: '¡Échale un vistazo a mis links y proyectos! 🚀',
+		text: 'Descubre cómo transformo problemas de negocio en código y aprende de mi proceso. Este es el hub de DevSandoval',
 		url: pageUrl,
 	};
 }
