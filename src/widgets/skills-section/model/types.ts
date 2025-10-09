@@ -2,7 +2,7 @@ export interface Skill {
 	id: string;
 	name: string;
 	icon?: string;
-	category: 'frontend' | 'backend' | 'tools' | 'cloud';
+	category: 'frontend' | 'backend' | 'tools' | 'cloud' | 'ai';
 }
 
 export interface SkillsSectionProps {
