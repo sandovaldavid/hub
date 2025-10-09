@@ -5,14 +5,46 @@ import { ShareButton } from '@features/share-button';
 import { ThemeToggle } from '@features/theme-toggle';
 import type { SEOProps } from '@/app/models/seo.model';
 
-const { title, description, author, ogImage, themeColor } = Astro.props as SEOProps;
+const {
+	title,
+	description,
+	author,
+	ogImage,
+	themeColor,
+	applicationName = 'DevSandoval - Links Hub',
+	appleMobileWebAppTitle = 'DevSandoval',
+	ogType = 'website',
+	ogImageAlt = '',
+	ogImageSecureUrl = 'https://devsandoval.me/og-image.png',
+	ogImageType = 'image/png',
+	ogSiteName = 'DevSandoval - Links Hub',
+	fbAppId = '653751241146050',
+	ogLocale = 'es_PE',
+	twitterCard = 'summary_large_image',
+	twitterSite = '@dev_sandoval',
+	twitterCreator,
+	twitterImageAlt = '',
+	twitterLabel1 = '',
+	twitterData1 = '',
+	canonicalUrl,
+	robots = 'index, follow',
+	googlebot = 'index, follow',
+	keywords = [],
+	lang = 'es',
+} = Astro.props as SEOProps;
 
 // Generate theme initialization script (prevent FOUC)
 const themeScript = getThemeInitScript();
+
+// Generate keywords meta tag
+const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
+
+// Use canonical URL or current page URL
+const finalCanonicalUrl = canonicalUrl || Astro.url.href;
 ---
 
 <!doctype html>
-<html lang="es">
+<html {lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,6 +55,9 @@ const themeScript = getThemeInitScript();
 		<meta name="title" content={title} />
 		<meta name="description" content={description} />
 		<meta name="author" content={author} />
+		{keywordsContent && <meta name="keywords" content={keywordsContent} />}
+		<meta name="application-name" content={applicationName} />
+		<meta name="apple-mobile-web-app-title" content={appleMobileWebAppTitle} />
 
 		<!-- Theme Color -->
 		<meta name="theme-color" content={themeColor} />
@@ -32,18 +67,30 @@ const themeScript = getThemeInitScript();
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
 		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={ogType} />
 		<meta property="og:url" content={Astro.url} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={new URL(ogImage, Astro.url)} />
+		<meta property="og:site_name" content={ogSiteName} />
+		<meta property="og:author" content={author} />
+		{ogImageSecureUrl && <meta property="og:image:secure_url" content={ogImageSecureUrl} />}
+		{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+		{ogImageType && <meta property="og:image:type" content={ogImageType} />}
+		{fbAppId && <meta property="fb:app_id" content={fbAppId} />}
+		<meta property="og:locale" content={ogLocale} />
 
 		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:card" content={twitterCard} />
 		<meta property="twitter:url" content={Astro.url} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
 		<meta property="twitter:image" content={new URL(ogImage, Astro.url)} />
+		<meta name="twitter:site" content={twitterSite} />
+		{twitterCreator && <meta name="twitter:creator" content={twitterCreator} />}
+		{twitterImageAlt && <meta name="twitter:image:alt" content={twitterImageAlt} />}
+		{twitterLabel1 && <meta name="twitter:label1" content={twitterLabel1} />}
+		{twitterData1 && <meta name="twitter:data1" content={twitterData1} />}
 
 		<!-- Fonts -->
 		<!-- Inter Variable Font -->
@@ -60,15 +107,16 @@ const themeScript = getThemeInitScript();
 			rel="stylesheet"
 		/>
 
+		<!-- Google Sans Code Font -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap"
 			rel="stylesheet"
 		/>
 
 		<!-- SEO & Performance -->
-		<link rel="canonical" href={Astro.url} />
-		<meta name="robots" content="index, follow" />
-		<meta name="googlebot" content="index, follow" />
+		<link rel="canonical" href={finalCanonicalUrl} />
+		<meta name="robots" content={robots} />
+		<meta name="googlebot" content={googlebot} />
 
 		<!-- PWA Tags -->
 		<meta name="mobile-web-app-capable" content="yes" />
