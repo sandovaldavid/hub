@@ -16,7 +16,7 @@ export const SEO: SEOProps = {
 	ogType: 'website',
 	ogImage: '/og/og-image.png',
 	ogImageAlt: 'DevSandoval - Desarrollador Web creando soluciones con IA Práctica.',
-	ogImageSecureUrl: 'https://devsandoval.me/og-image.',
+	ogImageSecureUrl: 'https://www.linkdevs.social/og/og-image.png',
 	ogImageType: 'image/png',
 	ogSiteName: 'DevSandoval - Hub Digital',
 	fbAppId: '653751241146050',
