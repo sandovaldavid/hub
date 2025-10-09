@@ -30,7 +30,7 @@
 
 .hero-card__tagline {
 	@apply text-sm md:text-base lg:text-lg leading-normal m-0 max-w-full;
-	@apply text-neutral-700 dark:text-neutral-200;
+	@apply text-accent-700 dark:text-accent-500;
 	@apply font-medium;
 }
 
