@@ -14,13 +14,7 @@ export interface Props {
 	class?: string;
 }
 
-const {
-	variant = 'neutral',
-	size = 'md',
-	rounded = true,
-	class: className,
-	...rest
-} = Astro.props;
+const { variant = 'neutral', size = 'md', rounded = true, class: className, ...rest } = Astro.props;
 
 const baseClasses = 'badge-base';
 

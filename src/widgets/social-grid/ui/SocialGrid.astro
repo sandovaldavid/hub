@@ -16,9 +16,7 @@ interface Props extends SocialGridProps {}
 
 const { links, showOnlyPrimary = false, variant = 'default' } = Astro.props;
 
-const displayLinks = showOnlyPrimary
-	? links.filter(link => link.isPrimary)
-	: links;
+const displayLinks = showOnlyPrimary ? links.filter(link => link.isPrimary) : links;
 ---
 
 <div class="social-grid">
@@ -43,9 +41,7 @@ const displayLinks = showOnlyPrimary
 					{link.platform === 'instagram' && (
 						<InstagramIcon class={`social-button__icon ${link.classIcon}`} />
 					)}
-					{link.platform === 'twitter' && (
-						<XIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
+					{link.platform === 'twitter' && <XIcon class={`social-button__icon ${link.classIcon}`} />}
 					{link.platform === 'youtube' && (
 						<YouTubeIcon class={`social-button__icon ${link.classIcon}`} />
 					)}

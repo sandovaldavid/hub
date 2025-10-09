@@ -30,11 +30,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 		'rounded-2xl shadow-lg',
 		'dark:bg-neutral-900/30 dark:border-primary-700'
 	)}>
-	<div
-		class={cn(
-			'flex flex-col items-center gap-6 py-8 px-6 text-center min-w-0',
-			'sm:px-10'
-		)}>
+	<div class={cn('flex flex-col items-center gap-6 py-8 px-6 text-center min-w-0', 'sm:px-10')}>
 		<div
 			class={cn(
 				'flex items-center justify-center rounded-full',
@@ -77,10 +73,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				size="lg"
 				class="w-full flex items-center justify-center gap-2 font-semibold cursor-pointer">
 				<span>{buttonText}</span>
-				<SentIcon
-					class="w-6 h-6"
-					aria-hidden="true"
-				/>
+				<SentIcon class="w-6 h-6" aria-hidden="true" />
 			</Button>
 		</a>
 	</div>

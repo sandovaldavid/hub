@@ -37,26 +37,15 @@ import { SEO } from '@data/seo';
 			<section
 				class="bento-item bento-item--hero md:col-span-2 lg:col-span-2 lg:row-start-1"
 				aria-labelledby="hero-heading">
-				<HeroCard
-					{profile}
-					variant="default"
-				/>
+				<HeroCard {profile} variant="default" />
 			</section>
 
 			<!-- Social Links Grid - Medium card -->
 			<section
 				class="bento-item bento-item--social md:col-span-2 lg:col-span-2 lg:row-start-1"
 				aria-labelledby="social-heading">
-				<h2
-					id="social-heading"
-					class="sr-only">
-					Enlaces de redes sociales
-				</h2>
-				<SocialGrid
-					links={socialLinks}
-					showOnlyPrimary={true}
-					variant="default"
-				/>
+				<h2 id="social-heading" class="sr-only">Enlaces de redes sociales</h2>
+				<SocialGrid links={socialLinks} showOnlyPrimary={true} variant="default" />
 			</section>
 		</div>
 
@@ -65,10 +54,7 @@ import { SEO } from '@data/seo';
 			<section
 				class="bento-item bento-item--cta md:w-3/5 flex lg:row-2"
 				aria-labelledby="cta-heading">
-				<CTAButtons
-					buttons={ctaButtons}
-					layout="vertical"
-				/>
+				<CTAButtons buttons={ctaButtons} layout="vertical" />
 			</section>
 			<!-- Contact CTA - Business capture -->
 			<section
@@ -87,16 +73,8 @@ import { SEO } from '@data/seo';
 		<section
 			class="bento-item bento-item--skills hidden lg:block lg:col-span-4 lg:row-start-3"
 			aria-labelledby="skills-heading">
-			<h2
-				id="skills-heading"
-				class="sr-only">
-				Tecnologías y habilidades
-			</h2>
-			<SkillsSection
-				{skills}
-				title="El motor detrás de las soluciones"
-				variant="compact"
-			/>
+			<h2 id="skills-heading" class="sr-only">Tecnologías y habilidades</h2>
+			<SkillsSection {skills} title="El motor detrás de las soluciones" variant="compact" />
 		</section>
 	</main>
 </Layout>

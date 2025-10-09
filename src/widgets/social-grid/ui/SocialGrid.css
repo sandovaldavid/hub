@@ -2,13 +2,13 @@
 
 /* Social Grid - Distribución en columna (Linktree style) */
 .social-grid-card {
-	@apply w-full;
+	@apply w-full h-full flex flex-col;
 }
 
 .social-grid {
 	@apply flex flex-col gap-3 w-full;
 	@apply md:gap-3;
-	@apply lg:grid lg:grid-cols-2 lg:gap-2;
+	@apply lg:grid lg:grid-cols-2 lg:gap-3 lg:auto-rows-fr;
 }
 
 .social-grid__button {

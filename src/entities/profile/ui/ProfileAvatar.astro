@@ -16,14 +16,7 @@ export interface Props {
 	class?: string;
 }
 
-const {
-	src,
-	alt,
-	size = 'lg',
-	ring = true,
-	showBrandLogo = true,
-	class: className,
-} = Astro.props;
+const { src, alt, size = 'lg', ring = true, showBrandLogo = true, class: className } = Astro.props;
 
 // Logo size based on avatar size
 const logoSizeMap = {
@@ -39,18 +32,8 @@ const logoSizeMap = {
 const logoSize = logoSizeMap[size];
 ---
 
-	<div
-	class="relative inline-block w-fit"
-	role="img"
-	aria-label={alt}>
-	<Avatar
-		{src}
-		alt={alt}
-		{size}
-		{ring}
-		ringColor="ring-primary-500"
-		class={className}
-	/>
+<div class="relative inline-block w-fit" role="img" aria-label={alt}>
+	<Avatar {src} {alt} {size} {ring} ringColor="ring-primary-500" class={className} />
 
 	{
 		showBrandLogo && (

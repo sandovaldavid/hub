@@ -49,17 +49,9 @@ const { profile, variant = 'default' } = Astro.props;
 			)}>
 			{profile.name}
 		</h2>
-		
-		{profile.tagline && (
-			<p class="hero-card__tagline">
-				{profile.tagline}
-			</p>
-		)}
 
-		{
-			variant === 'default' && profile.bio && (
-				<p class="hero-card__bio">{profile.bio}</p>
-			)
-		}
+		{profile.tagline && <p class="hero-card__tagline">{profile.tagline}</p>}
+
+		{variant === 'default' && profile.bio && <p class="hero-card__bio">{profile.bio}</p>}
 	</div>
 </div>

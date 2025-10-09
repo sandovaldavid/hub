@@ -73,5 +73,4 @@ export const socialLinks: SocialLink[] = [
 	},
 ];
 
-export const getPrimarySocialLinks = () =>
-	socialLinks.filter(link => link.isPrimary);
+export const getPrimarySocialLinks = () => socialLinks.filter(link => link.isPrimary);

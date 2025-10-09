@@ -17,14 +17,7 @@ export interface Props {
 	class?: string;
 }
 
-const {
-	id,
-	name,
-	displayName,
-	tagline,
-	variant = 'hero',
-	class: className,
-} = Astro.props;
+const { id, name, displayName, tagline, variant = 'hero', class: className } = Astro.props;
 
 const isHero = variant === 'hero';
 ---
@@ -36,7 +29,7 @@ const isHero = variant === 'hero';
 				'text-primary-600 text-xl font-google font-semibold weight italic px-3 py-1',
 				'bg-gray-500/20 flex items-center gap-2',
 				'border border-primary-500/60 rounded-full shadow-md cursor-pointer',
-				'animate-delay-200 animate-fade-in transition-colors duration-200 hover:bg-gray-500/50 hover:dark:bg-gray-500/30',
+				'animate-delay-200 animate-fade-in transition-colors duration-200 hover:bg-gray-500/50 hover:dark:bg-gray-500/30'
 			)}>
 			@{displayName}
 			<CheckIcon
@@ -45,7 +38,7 @@ const isHero = variant === 'hero';
 			/>
 		</span>
 		<h2
-			{...(id && { id })}
+			{...id && { id }}
 			class={cn(
 				'font-display text-2xl font-extrabold leading-tight text-center',
 				'text-gray-900 dark:text-gray-50'

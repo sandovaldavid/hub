@@ -15,12 +15,7 @@ import SystemIcon from '@shared/assets/theme-icons/system.svg?raw';
 
 interface Props extends ThemeToggleProps {}
 
-const {
-	size = 'md',
-	showLabel = false,
-	variant = 'floating',
-	class: className,
-} = Astro.props;
+const { size = 'md', showLabel = false, variant = 'floating', class: className } = Astro.props;
 
 const sizeClasses = {
 	sm: 'theme-toggle--sm',
@@ -36,12 +31,7 @@ const variantClasses = {
 
 <button
 	id="theme-toggle"
-	class={cn(
-		'theme-toggle',
-		sizeClasses[size],
-		variantClasses[variant],
-		className
-	)}
+	class={cn('theme-toggle', sizeClasses[size], variantClasses[variant], className)}
 	aria-label="Cambiar tema"
 	title="Cambiar tema"
 	type="button">

@@ -21,15 +21,9 @@ export function isWebShareSupported(): boolean {
  * @returns ShareData object with page information
  */
 export function getShareData(): ShareData {
-	const pageTitle =
-		typeof document !== 'undefined'
-			? document.title
-			: 'DevSandoval - Links Hub';
+	const pageTitle = typeof document !== 'undefined' ? document.title : 'DevSandoval - Links Hub';
 
-	const pageUrl =
-		typeof window !== 'undefined'
-			? window.location.href
-			: 'https://devsandoval.me';
+	const pageUrl = typeof window !== 'undefined' ? window.location.href : 'https://devsandoval.me';
 
 	return {
 		title: pageTitle,

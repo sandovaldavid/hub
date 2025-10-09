@@ -1,15 +1,15 @@
 @import '../../../app/styles/global.css';
 
 .cta-buttons {
-	@apply flex flex-col gap-3 w-full;
+	@apply flex flex-col gap-3 w-full md:grid md:grid-cols-2 md:gap-4 lg:gap-5;
 }
 
 .cta-buttons__link {
-	@apply no-underline block w-full;
+	@apply no-underline block w-full h-full;
 }
 
 .cta-button-card {
-	@apply flex items-center gap-4 px-4 py-5 md:px-5 md:py-6 lg:px-6 lg:py-7 rounded-xl transition-all duration-300 ease-in-out cursor-pointer w-full bg-white/70 dark:bg-neutral-950/70 border border-white/30 dark:border-white/10 backdrop-blur-xl shadow-md dark:shadow-lg hover:scale-[1.02];
+	@apply flex items-center gap-4 px-4 py-5 md:px-5 md:py-6 lg:px-6 lg:py-7 rounded-xl transition-all duration-300 ease-in-out cursor-pointer w-full h-full bg-white/70 dark:bg-neutral-950/70 border border-white/30 dark:border-white/10 backdrop-blur-xl shadow-md dark:shadow-lg hover:scale-[1.02];
 }
 
 .cta-button-card:hover {
@@ -53,7 +53,7 @@
 }
 
 .cta-button-card__title {
-	@apply text-base md:text-lg lg:text-xl font-bold m-0 mb-1 leading-tight text-primary-800 dark:text-primary-200;
+	@apply text-base md:text-lg lg:text-2xl font-bold m-0 mb-1 leading-tight text-primary-800 dark:text-primary-200;
 }
 
 .cta-button-card__description {
@@ -69,9 +69,6 @@
 	@apply translate-x-1 text-primary-800 dark:text-primary-600 drop-shadow-md;
 }
 
-/* Responsive adjustments */
-@media (min-width: 640px) {
-	.cta-buttons:not(.cta-buttons--vertical) {
-		@apply flex-row gap-4;
-	}
+.cta-buttons--vertical {
+	@apply flex flex-col gap-3 w-full;
 }

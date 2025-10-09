@@ -19,9 +19,7 @@ export class ThemeManager {
 	getSystemPreference(): 'light' | 'dark' {
 		if (typeof window === 'undefined') return 'light';
 
-		return window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 	}
 
 	/**
@@ -65,10 +63,7 @@ export class ThemeManager {
 		if (typeof document === 'undefined') return;
 
 		const effectiveTheme = this.resolveEffectiveTheme(theme);
-		document.documentElement.setAttribute(
-			this.config.attribute,
-			effectiveTheme
-		);
+		document.documentElement.setAttribute(this.config.attribute, effectiveTheme);
 	}
 
 	/**
@@ -130,9 +125,7 @@ export class ThemeManager {
 	/**
 	 * Listen to system preference changes
 	 */
-	watchSystemPreference(
-		callback: (theme: 'light' | 'dark') => void
-	): () => void {
+	watchSystemPreference(callback: (theme: 'light' | 'dark') => void): () => void {
 		if (typeof window === 'undefined') return () => {};
 
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
