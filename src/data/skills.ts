@@ -11,8 +11,21 @@ import N8nIcon from '@shared/assets/tech-icons/n8n.svg?raw';
 import GeminiIcon from '@shared/assets/tech-icons/gemini.svg?raw';
 import OpenAIIcon from '@shared/assets/tech-icons/openai.svg?raw';
 import ClaudeIcon from '@shared/assets/tech-icons/claude.svg?raw';
+import TypeScriptIcon from '@shared/assets/tech-icons/typescript.svg?raw';
+import TailwindIcon from '@shared/assets/tech-icons/tailwindcss.svg?raw';
+import DjangoIcon from '@shared/assets/tech-icons/django.svg?raw';
+import Figma from '@shared/assets/tech-icons/figma.svg?raw';
+import DockerIcon from '@shared/assets/tech-icons/docker.svg?raw';
+import ClaudflareIcon from '@shared/assets/tech-icons/cloudflare.svg?raw';
+import ClaudinaryIcon from '@shared/assets/tech-icons/cloudinary.svg?raw';
 
 export const skills: Skill[] = [
+	{
+		id: 'angular',
+		name: 'Angular',
+		icon: AngularIcon,
+		category: 'frontend',
+	},
 	{
 		id: 'react',
 		name: 'React',
@@ -24,12 +37,6 @@ export const skills: Skill[] = [
 		name: 'Next.js',
 		icon: NextIcon,
 		category: 'frontend',
-	},
-	{
-		id: 'python',
-		name: 'Python',
-		icon: PythonIcon,
-		category: 'backend',
 	},
 	{
 		id: 'astro',
@@ -44,10 +51,46 @@ export const skills: Skill[] = [
 		category: 'backend',
 	},
 	{
-		id: 'angular',
-		name: 'Angular',
-		icon: AngularIcon,
+		id: 'typescript',
+		name: 'TypeScript',
+		icon: TypeScriptIcon,
 		category: 'frontend',
+	},
+	{
+		id: 'python',
+		name: 'Python',
+		icon: PythonIcon,
+		category: 'backend',
+	},
+	{
+		id: 'django',
+		name: 'Django',
+		icon: DjangoIcon,
+		category: 'backend',
+	},
+	{
+		id: 'tailwindcss',
+		name: 'Tailwind CSS',
+		icon: TailwindIcon,
+		category: 'frontend',
+	},
+	{
+		id: 'figma',
+		name: 'Figma',
+		icon: Figma,
+		category: 'tools',
+	},
+	{
+		id: 'docker',
+		name: 'Docker',
+		icon: DockerIcon,
+		category: 'tools',
+	},
+	{
+		id: 'cloudflare',
+		name: 'Cloudflare',
+		icon: ClaudflareIcon,
+		category: 'cloud',
 	},
 	{
 		id: 'n8n',
@@ -59,18 +102,24 @@ export const skills: Skill[] = [
 		id: 'gemini',
 		name: 'Gemini',
 		icon: GeminiIcon,
-		category: 'cloud',
+		category: 'ai',
 	},
 	{
 		id: 'openai',
 		name: 'OpenAI',
 		icon: OpenAIIcon,
-		category: 'cloud',
+		category: 'ai',
 	},
 	{
 		id: 'claude',
 		name: 'Claude',
 		icon: ClaudeIcon,
+		category: 'ai',
+	},
+	{
+		id: 'cloudinary',
+		name: 'Cloudinary',
+		icon: ClaudinaryIcon,
 		category: 'cloud',
 	},
 ];
