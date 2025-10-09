@@ -4,10 +4,12 @@ import HeroCard from '@widgets/hero-section/ui/HeroCard.astro';
 import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
 import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
 import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
+import { SkillsSection } from '@widgets/skills-section';
 
 import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
 import { ctaButtons } from '@data/cta';
+import { skills } from '@data/skills';
 import { SEO } from '@data/seo';
 ---
 
@@ -28,7 +30,7 @@ import { SEO } from '@data/seo';
 		</h1>
 
 		<div
-			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-6 lg:items-start xl:gap-8 2xl:mx-auto"
+			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-6 lg:items-start xl:gap-8 2xl:mx-auto"
 			role="region"
 			aria-label="Secciones de perfil">
 			<!-- Hero Section - Large featured card -->
@@ -43,7 +45,7 @@ import { SEO } from '@data/seo';
 
 			<!-- Social Links Grid - Medium card -->
 			<section
-				class="bento-item bento-item--social md:col-span-2 lg:col-span-1 lg:row-start-1"
+				class="bento-item bento-item--social md:col-span-2 lg:col-span-2 lg:row-start-1"
 				aria-labelledby="social-heading">
 				<h2
 					id="social-heading"
@@ -56,22 +58,18 @@ import { SEO } from '@data/seo';
 					variant="default"
 				/>
 			</section>
+		</div>
 
+		<section class="flex flex-col md:flex-row gap-8 py-8 justify-between">
 			<!-- CTA Buttons - Funnel conversion -->
 			<section
-				class="bento-item bento-item--cta md:col-span-2 lg:col-span-2 lg:row-start-2"
+				class="bento-item bento-item--cta md:w-3/5 flex lg:row-2"
 				aria-labelledby="cta-heading">
-				<h2
-					id="cta-heading"
-					class="sr-only">
-					Opciones de contacto
-				</h2>
 				<CTAButtons
 					buttons={ctaButtons}
-					layout="horizontal"
+					layout="vertical"
 				/>
 			</section>
-
 			<!-- Contact CTA - Business capture -->
 			<section
 				class="bento-item bento-item--contact md:col-span-2 lg:col-span-1 lg:row-start-2"
@@ -84,7 +82,22 @@ import { SEO } from '@data/seo';
 					variant="prominent"
 				/>
 			</section>
-		</div>
+		</section>
+		<!-- Skills Section - Technologies (Desktop only) -->
+		<section
+			class="bento-item bento-item--skills hidden lg:block lg:col-span-4 lg:row-start-3"
+			aria-labelledby="skills-heading">
+			<h2
+				id="skills-heading"
+				class="sr-only">
+				Tecnologías y habilidades
+			</h2>
+			<SkillsSection
+				{skills}
+				title="El motor detrás de las soluciones"
+				variant="compact"
+			/>
+		</section>
 	</main>
 </Layout>
 
@@ -112,6 +125,10 @@ import { SEO } from '@data/seo';
 
 	.bento-item--tips {
 		animation-delay: 0.4s;
+	}
+
+	.bento-item--skills {
+		animation-delay: 0.35s;
 	}
 
 	.bento-item--contact {
