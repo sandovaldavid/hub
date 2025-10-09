@@ -30,35 +30,33 @@ import { SEO } from '@data/seo';
 		</h1>
 
 		<div
-			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-6 lg:items-start xl:gap-8 2xl:mx-auto"
+			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:gap-6 lg:grid-cols-8 lg:gap-6 lg:items-start xl:gap-8 2xl:mx-auto"
 			role="region"
 			aria-label="Secciones de perfil">
 			<!-- Hero Section - Large featured card -->
 			<section
-				class="bento-item bento-item--hero md:col-span-2 lg:col-span-2 lg:row-start-1"
+				class="bento-item bento-item--hero md:col-span-2 lg:col-span-4 lg:row-start-1"
 				aria-labelledby="hero-heading">
 				<HeroCard {profile} variant="default" />
 			</section>
 
 			<!-- Social Links Grid - Medium card -->
 			<section
-				class="bento-item bento-item--social md:col-span-2 lg:col-span-2 lg:row-start-1"
+				class="bento-item bento-item--social md:col-span-2 lg:col-span-4 lg:row-start-1"
 				aria-labelledby="social-heading">
 				<h2 id="social-heading" class="sr-only">Enlaces de redes sociales</h2>
 				<SocialGrid links={socialLinks} showOnlyPrimary={true} variant="default" />
 			</section>
 		</div>
 
-		<section class="flex flex-col md:flex-row gap-8 py-8 justify-between">
+		<section class="flex flex-col gap-4 md:grid md:grid-cols-4 md:gap-6 py-8">
 			<!-- CTA Buttons - Funnel conversion -->
-			<section
-				class="bento-item bento-item--cta md:w-3/5 flex lg:row-2"
-				aria-labelledby="cta-heading">
+			<section class="bento-item bento-item--cta flex md:col-span-2" aria-labelledby="cta-heading">
 				<CTAButtons buttons={ctaButtons} layout="vertical" />
 			</section>
 			<!-- Contact CTA - Business capture -->
 			<section
-				class="bento-item bento-item--contact md:col-span-2 lg:col-span-1 lg:row-start-2"
+				class="bento-item bento-item--contact md:col-span-2 lg:col-span-2"
 				aria-labelledby="contact-heading">
 				<ContactCTA
 					email={profile.contact.email}
