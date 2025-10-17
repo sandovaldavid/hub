@@ -1,0 +1,60 @@
+---
+import { WeeklyProjectCard } from '@entities/weekly-project';
+import type { WeeklyProject } from '@entities/weekly-project';
+import './WeeklyProjectSection.css';
+import Rocket from '@shared/assets/rocket.svg';
+
+interface Props {
+	project: WeeklyProject;
+	title?: string;
+	showDescription?: boolean;
+	variant?: 'default' | 'featured';
+}
+
+const {
+	project,
+	title = 'Proyecto de la Semana',
+	showDescription = true,
+	variant = 'default',
+} = Astro.props;
+---
+
+<section
+	class={`weekly-project-section ${variant === 'featured' ? 'weekly-project-section--featured' : ''}`}
+	aria-labelledby="weekly-project-title">
+	<!-- Section Header -->
+	<div class="weekly-project-section__header">
+		<div class="flex justify-center items-center gap-2 md:gap-4">
+			<h2 id="weekly-project-title" class="weekly-project-section__title">
+				{title}
+			</h2>
+			<Rocket class="size-10" />
+		</div>
+		{
+			showDescription && (
+				<p class="weekly-project-section__subtitle">
+					Cada semana comparto un proyecto en el que he estado trabajando
+				</p>
+			)
+		}
+	</div>
+
+	<!-- Project Card Container -->
+	<div class="weekly-project-section__content">
+		<WeeklyProjectCard {project} />
+	</div>
+
+	<!-- Optional CTA Footer -->
+	<div class="weekly-project-section__footer">
+		<p class="weekly-project-section__footer-text">
+			¿Tienes un proyecto similar en mente?
+			<a href="https://calendly.com/devsandoval/30min" class="weekly-project-section__footer-link">
+				Hablemos al respecto
+			</a>
+			o
+			<a href="mailto:contact@devsandoval.com" class="weekly-project-section__footer-link">
+				envía un correo
+			</a>
+		</p>
+	</div>
+</section>
