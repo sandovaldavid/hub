@@ -5,11 +5,13 @@ import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
 import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
 import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
 import { SkillsSection } from '@widgets/skills-section';
+import { WeeklyProjectSection } from '@widgets/weekly-project-section';
 
 import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
 import { ctaButtons } from '@data/cta';
 import { skills } from '@data/skills';
+import { weeklyProject } from '@data/weekly-project';
 import { SEO } from '@data/seo';
 ---
 
@@ -67,6 +69,14 @@ import { SEO } from '@data/seo';
 				/>
 			</section>
 		</section>
+
+		<!-- Weekly Project Section -->
+		<section
+			class="bento-item bento-item--weekly-project py-8"
+			aria-labelledby="weekly-project-heading">
+			<WeeklyProjectSection project={weeklyProject} />
+		</section>
+
 		<!-- Skills Section - Technologies -->
 		<section
 			class="bento-item bento-item--skills md:col-span-2 lg:col-span-4 lg:row-start-3"
@@ -99,12 +109,16 @@ import { SEO } from '@data/seo';
 		animation-delay: 0.3s;
 	}
 
+	.bento-item--weekly-project {
+		animation-delay: 0.35s;
+	}
+
 	.bento-item--tips {
 		animation-delay: 0.4s;
 	}
 
 	.bento-item--skills {
-		animation-delay: 0.35s;
+		animation-delay: 0.45s;
 	}
 
 	.bento-item--contact {
