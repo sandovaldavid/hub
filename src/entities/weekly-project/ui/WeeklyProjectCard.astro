@@ -1,0 +1,77 @@
+---
+import type { WeeklyProject } from '../model/types';
+import LinkIcon from '@shared/assets/link.svg';
+import GitHubIcon from '@shared/assets/social-platform/github.svg';
+import './WeeklyProjectCard.css';
+
+interface Props {
+	project: WeeklyProject;
+	variant?: 'default' | 'compact';
+}
+
+const { project, variant = 'default' } = Astro.props;
+const isCompact = variant === 'compact';
+---
+
+<article class={`weekly-project-card ${isCompact ? 'weekly-project-card--compact' : ''}`}>
+	<!-- Image Section -->
+	<div class="weekly-project-card__image-wrapper">
+		<img
+			src={project.image.url}
+			alt={project.image.alt}
+			class="weekly-project-card__image"
+			loading="lazy"
+		/>
+	</div>
+
+	<!-- Content Section -->
+	<div class="weekly-project-card__content">
+		<h3 class="weekly-project-card__title">
+			{project.title}
+		</h3>
+
+		<p class="weekly-project-card__description">
+			{project.description}
+		</p>
+
+		{
+			project.technologies.length > 0 && (
+				<div class="weekly-project-card__technologies">
+					{project.technologies.map(tech => (
+						<span class="weekly-project-card__tech-badge">{tech}</span>
+					))}
+				</div>
+			)
+		}
+
+		<!-- Actions Section -->
+		<div class="weekly-project-card__actions">
+			{
+				project.demoUrl && (
+					<a
+						href={project.demoUrl}
+						class="weekly-project-card__button weekly-project-card__button--primary"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={`Ver demostración de ${project.title}`}>
+						<span class="weekly-project-card__button-text">Ver Demo</span>
+						<LinkIcon class="weekly-project-card__button-icon" />
+					</a>
+				)
+			}
+			{
+				project.githubUrl && (
+					<a
+						href={project.githubUrl}
+						class="weekly-project-card__button weekly-project-card__button--secondary"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={`Ver repositorio de ${project.title}`}>
+						<GitHubIcon class="weekly-project-card__button-icon" />
+						<span class="weekly-project-card__button-text">Código</span>
+					</a>
+				)
+			}
+		</div>
+	</div>
+</article>

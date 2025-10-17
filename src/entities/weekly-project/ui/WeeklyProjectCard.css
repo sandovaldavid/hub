@@ -1,0 +1,131 @@
+@import '../../../app/styles/global.css';
+
+/* Card Base */
+.weekly-project-card {
+	@apply flex flex-col h-auto bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300;
+}
+
+/* Desktop Layout - Horizontal */
+@media (min-width: 768px) {
+	.weekly-project-card {
+		@apply flex-row h-80;
+	}
+}
+
+/* Image Wrapper */
+.weekly-project-card__image-wrapper {
+	@apply relative overflow-hidden bg-neutral-200 dark:bg-neutral-800 flex-shrink-0;
+	aspect-ratio: 16 / 9;
+}
+
+@media (min-width: 768px) {
+	.weekly-project-card__image-wrapper {
+		@apply w-[45%] h-full;
+		aspect-ratio: auto;
+	}
+}
+
+/* Image */
+.weekly-project-card__image {
+	@apply w-full h-full object-cover transition-transform duration-300 hover:scale-105;
+}
+
+/* Featured Badge */
+.weekly-project-card__featured-badge {
+	@apply absolute top-3 right-3 inline-flex items-center gap-1 px-3 py-1 bg-warning-500 text-neutral-900 rounded-full text-sm font-semibold shadow-md;
+}
+
+/* Star Icon */
+.weekly-project-card__star-icon {
+	@apply w-4 h-4;
+}
+
+/* Content */
+.weekly-project-card__content {
+	@apply flex flex-col flex-grow p-4 md:p-6 gap-3 md:gap-4;
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	.weekly-project-card__content {
+		@apply w-[55%];
+	}
+}
+
+/* Title */
+.weekly-project-card__title {
+	@apply text-base md:text-2xl font-bold text-neutral-900 dark:text-neutral-50 line-clamp-2 m-0;
+}
+
+/* Description */
+.weekly-project-card__description {
+	@apply text-base md:text-lg text-neutral-600 dark:text-neutral-300 line-clamp-3 md:line-clamp-2 flex-grow m-0;
+}
+
+/* Technologies */
+.weekly-project-card__technologies {
+	@apply flex flex-wrap gap-2;
+}
+
+/* Tech Badge */
+.weekly-project-card__tech-badge {
+	@apply inline-block px-2 md:px-3 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full;
+}
+
+/* Actions */
+.weekly-project-card__actions {
+	@apply flex gap-2 mt-auto pt-3 md:pt-4 border-t border-neutral-200 dark:border-neutral-700;
+}
+
+/* Button Base */
+.weekly-project-card__button {
+	@apply inline-flex items-center justify-center gap-2 flex-1 px-3 md:px-4 py-2 rounded-md text-sm font-semibold transition-all duration-200 no-underline focus-visible:outline-primary-500 active:scale-95;
+}
+
+/* Button Primary */
+.weekly-project-card__button--primary {
+	@apply bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600;
+}
+
+/* Button Secondary */
+.weekly-project-card__button--secondary {
+	@apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600;
+}
+
+/* Button Text */
+.weekly-project-card__button-text {
+	@apply hidden sm:inline;
+}
+
+/* Button Icon */
+.weekly-project-card__button-icon {
+	@apply w-4 h-4;
+}
+
+/* Compact Variant */
+.weekly-project-card--compact {
+	@apply h-auto;
+}
+
+@media (min-width: 768px) {
+	.weekly-project-card--compact {
+		@apply flex-col h-auto;
+	}
+
+	.weekly-project-card--compact .weekly-project-card__image-wrapper {
+		@apply w-full;
+		aspect-ratio: 16 / 9;
+	}
+
+	.weekly-project-card--compact .weekly-project-card__content {
+		@apply w-full;
+	}
+}
+
+.weekly-project-card--compact .weekly-project-card__title {
+	@apply text-base;
+}
+
+.weekly-project-card--compact .weekly-project-card__description {
+	@apply text-xs line-clamp-2;
+}
