@@ -7,7 +7,7 @@ export const ctaButtons = [
 		icon: 'rocket',
 		title: '¿Necesitas una Solución para tu Negocio?',
 		description: 'Desarrolla tu proyecto web profesional',
-		href: `mailto:${profile.contact.email}?subject=Consulta de Proyecto`,
+		href: `https://calendly.com/devsandoval/30min`,
 		variant: 'primary' as const,
 		external: false,
 	},
