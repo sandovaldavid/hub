@@ -57,7 +57,7 @@ export const socialLinks: SocialLink[] = [
 		label: 'YouTube',
 		url: 'https://youtube.com/@devsandoval',
 		username: '@devsandoval',
-		isPrimary: false,
+		isPrimary: true,
 		classBrand: 'social-button--youtube',
 		classIcon: 'social-button__icon--youtube',
 	},
@@ -70,6 +70,16 @@ export const socialLinks: SocialLink[] = [
 		isPrimary: true,
 		classBrand: 'social-button--facebook',
 		classIcon: 'social-button__icon--facebook',
+	},
+	{
+		id: 'tiktok',
+		platform: 'tiktok',
+		label: 'TikTok',
+		url: 'https://tiktok.com/@devsandoval',
+		username: '@devsandoval',
+		isPrimary: true,
+		classBrand: 'social-button--tiktok',
+		classIcon: 'social-button__icon--tiktok',
 	},
 ];
 

@@ -10,6 +10,8 @@ import GitHubIcon from '@shared/assets/social-platform/github.svg';
 import InstagramIcon from '@shared/assets/social-platform/instagram.svg';
 import XIcon from '@shared/assets/social-platform/x.svg';
 import YouTubeIcon from '@shared/assets/social-platform/youtube.svg';
+import TikTokIcon from '@shared/assets/social-platform/tiktok.svg';
+import MediumIcon from '@shared/assets/social-platform/medium.svg';
 import WebSiteIcon from '@shared/assets/social-platform/website.svg';
 
 interface Props extends SocialGridProps {}
@@ -49,10 +51,10 @@ const displayLinks = showOnlyPrimary ? links.filter(link => link.isPrimary) : li
 						<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
 					)}
 					{link.platform === 'tiktok' && (
-						<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
+						<TikTokIcon class={`social-button__icon ${link.classIcon}`} />
 					)}
 					{link.platform === 'medium' && (
-						<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
+						<MediumIcon class={`social-button__icon ${link.classIcon}`} />
 					)}
 				</span>
 			</SocialButton>

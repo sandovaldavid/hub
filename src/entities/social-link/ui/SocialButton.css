@@ -40,6 +40,21 @@
 	@apply group-hover:text-gray-50;
 }
 
+.social-button__icon--youtube {
+	@apply text-[#FF0000];
+	@apply group-hover:text-gray-50 stroke-3;
+}
+
+.social-button__icon--tiktok {
+	@apply text-gray-950 dark:text-gray-50;
+	@apply group-hover:text-gray-50;
+}
+
+.social-button__icon--medium {
+	@apply text-gray-950 dark:text-gray-50;
+	@apply group-hover:text-gray-50;
+}
+
 .social-button__icon--facebook {
 	@apply text-gray-50 fill-[#0866ff];
 	@apply group-hover:text-[#0866ff] group-hover:fill-gray-50;
@@ -95,7 +110,7 @@
 
 /* YouTube */
 .social-button--youtube:hover {
-	@apply bg-gradient-to-r from-[#FF0000] to-[#FF4444];
+	@apply bg-gradient-to-r from-[#FF1000] to-[#FF4444];
 	@apply border-[#FF0000];
 }
 
