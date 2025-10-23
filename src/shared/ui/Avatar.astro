@@ -10,7 +10,7 @@ import './Avatar.css';
 export interface Props {
 	src?: string;
 	alt: string;
-	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 	fallback?: string;
 	loading?: 'lazy' | 'eager';
 	ring?: boolean;
@@ -40,6 +40,7 @@ const sizeClasses = {
 	xl: 'avatar-size-xl',
 	'2xl': 'avatar-size-2xl',
 	'3xl': 'avatar-size-3xl',
+	'4xl': 'avatar-size-4xl',
 };
 
 const roundedClasses = 'rounded-full';

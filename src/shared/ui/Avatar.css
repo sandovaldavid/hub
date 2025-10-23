@@ -37,3 +37,7 @@
 .avatar-size-3xl {
 	@apply w-36 h-36 text-3xl;
 }
+
+.avatar-size-4xl {
+	@apply w-40 h-40 text-4xl;
+}
