@@ -5,8 +5,7 @@
 }
 
 .hero-card__content {
-	@apply flex flex-col items-center text-center gap-4;
-	@apply lg:flex-row;
+	@apply flex flex-col items-center text-center gap-2 md:gap-4 lg:gap-10;
 	@apply lg:items-start lg:text-left lg:gap-3;
 }
 
@@ -29,13 +28,13 @@
 }
 
 .hero-card__tagline {
-	@apply text-sm md:text-base lg:text-lg leading-normal m-0 max-w-full;
+	@apply text-base sm:text-xl lg:text-3xl leading-normal m-0 max-w-full;
 	@apply text-accent-700 dark:text-accent-500;
 	@apply font-medium;
 }
 
 .hero-card__bio {
-	@apply text-sm md:text-base lg:text-lg leading-normal m-0 max-w-full mt-2;
+	@apply text-sm md:text-base lg:text-2xl leading-normal m-0 max-w-full;
 	@apply text-neutral-700 dark:text-neutral-100;
 	@apply md:leading-relaxed;
 }

@@ -10,7 +10,7 @@ import { profile } from '@data/profile';
 export interface Props {
 	src: string;
 	alt: string;
-	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 	ring?: boolean;
 	showBrandLogo?: boolean;
 	class?: string;
@@ -27,6 +27,7 @@ const logoSizeMap = {
 	xl: 'w-10 h-10',
 	'2xl': 'w-12 h-12',
 	'3xl': 'w-16 h-16',
+	'4xl': 'w-20 h-20',
 };
 
 const logoSize = logoSizeMap[size];
