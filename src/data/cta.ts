@@ -5,8 +5,9 @@ export const ctaButtons = [
 	{
 		id: 'business',
 		icon: 'rocket',
-		title: '¿Necesitas una Solución para tu Negocio?',
-		description: 'Desarrolla tu proyecto web profesional',
+		title: '¿Quieres digitalizar tu negocio sin estrés?',
+		description:
+			'Agenda una "Llamada de Descubrimiento" gratis. Entenderé tus metas y te daré un plan de acción claro, sin tecnicismos.',
 		href: `https://calendly.com/devsandoval/30min`,
 		variant: 'primary' as const,
 		external: false,
