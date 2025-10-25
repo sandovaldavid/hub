@@ -4,6 +4,7 @@ import { getThemeInitScript } from '@entities/theme';
 import { ShareButton } from '@features/share-button';
 import { ThemeToggle } from '@features/theme-toggle';
 import type { SEOProps } from '@/app/models/seo.model';
+import Analytics from '@vercel/analytics/astro';
 
 const {
 	title,
@@ -126,6 +127,7 @@ const finalCanonicalUrl = canonicalUrl || Astro.url.href;
 
 		<!-- Theme Initialization Script (prevent FOUC) -->
 		<script is:inline set:html={themeScript} />
+		<Analytics />
 	</head>
 	<body
 		class="bg-linear-to-br from-primary-50 via-primary-100 to-primary-200 dark:bg-linear-to-br dark:from-primary-950 dark:via-primary-900 dark:to-primary-800">
