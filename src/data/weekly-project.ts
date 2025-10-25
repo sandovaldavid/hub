@@ -1,16 +1,25 @@
 import type { WeeklyProject } from '@entities/weekly-project';
 
 export const weeklyProject: WeeklyProject = {
-	id: 'weekly-001',
-	title: 'Generador de Ideas con IA',
+	id: 'weekly-002',
+	title: 'Dashboard de Análisis de Sentimiento con IA',
 	description:
-		'Una micro-herramienta web que utiliza IA para generar ideas de contenido para redes sociales, ayudando a pymes y emprendedores a superar el bloqueo creativo.',
+		'Una herramienta de negocio que permite a las pymes cargar un archivo CSV o JSON con comentarios de clientes, analizar el sentimiento en lote (positivo, neutral, negativo) y visualizar los resultados en un dashboard interactivo.',
 	image: {
-		url: '/project/generador-ideas.webp',
-		alt: 'Proyecto Generador de Ideas con IA',
+		url: '/project/dashboard-sentimiento.webp',
+		alt: 'Proyecto Dashboard de Análisis de Sentimiento con IA',
 	},
-	technologies: ['React', 'Node.js', 'Elysia', 'Vite', 'IA'],
-	demoUrl: 'https://generador-ideas-ai.devsandoval.me',
-	githubUrl: 'https://github.com/sandovaldavid/generador-ideas-frontend',
+	technologies: [
+		'React',
+		'Vite',
+		'Django',
+		'Python',
+		'TextBlob',
+		'pysentimiento',
+		'Chart.js',
+		'Tailwind CSS',
+	],
+	demoUrl: 'https://analizador-sentimientos.devsandoval.me',
+	githubUrl: 'https://github.com/sandovaldavid/analizador-sentimientos-frontend',
 	featured: true,
 };
