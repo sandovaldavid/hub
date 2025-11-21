@@ -26,7 +26,7 @@ export const socialLinks: SocialLink[] = [
 		platform: 'github',
 		label: 'GitHub',
 		url: 'https://github.com/dev-sandoval',
-		username: '@sandovaldavid',
+		username: '@dev-sandoval',
 		isPrimary: true,
 		classBrand: 'social-button--github',
 		classIcon: 'social-button__icon--github',
