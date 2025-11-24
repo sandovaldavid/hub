@@ -16,7 +16,7 @@ const {
 	appleMobileWebAppTitle = 'DevSandoval',
 	ogType = 'website',
 	ogImageAlt = '',
-	ogImageSecureUrl = 'https://devsandoval.me/og-image.png',
+	ogImageSecureUrl = 'https://linkdevs.social/og/og-image.png',
 	ogImageType = 'image/png',
 	ogSiteName = 'DevSandoval - Links Hub',
 	fbAppId = '653751241146050',
@@ -51,6 +51,7 @@ const finalCanonicalUrl = canonicalUrl || Astro.url.href;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="sitemap" href="/sitemap-index.xml" />
+		<base href="https://www.linkdevs.social" />
 
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
