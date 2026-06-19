@@ -17,9 +17,7 @@ export default defineConfig({
 			use: { ...devices['Desktop Chrome'] },
 		},
 		// webkit not installed on CI runners — only run locally
-		...(process.env.CI
-			? []
-			: [{ name: 'Mobile Safari', use: { ...devices['iPhone 14'] } }]),
+		...(process.env.CI ? [] : [{ name: 'Mobile Safari', use: { ...devices['iPhone 14'] } }]),
 	],
 	webServer: {
 		command: 'bun run preview',
