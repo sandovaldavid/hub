@@ -15,7 +15,6 @@ jobs:
       - uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          release-type: simple
           target-branch: main
 
   release-beta:
@@ -25,7 +24,4 @@ jobs:
       - uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          release-type: simple
           target-branch: develop
-          prerelease: true
-          prerelease-type: beta
