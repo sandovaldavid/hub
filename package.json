@@ -8,19 +8,28 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"format": "prettier --write .",
-		"format:check": "prettier --check ."
+		"format:check": "prettier --check .",
+		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
+		"test:lighthouse": "lhci autorun"
 	},
 	"dependencies": {
-		"@astrojs/sitemap": "^3.6.0",
-		"@tailwindcss/vite": "^4.1.14",
-		"@vercel/analytics": "^1.5.0",
-		"astro": "^5.14.1",
+		"@astrojs/sitemap": "^3.7.3",
+		"@tailwindcss/vite": "^4.3.1",
+		"@vercel/analytics": "^1.6.1",
+		"astro": "6.4.8",
 		"clsx": "^2.1.1",
-		"tailwind-merge": "^3.3.1",
-		"tailwindcss": "^4.1.14"
+		"tailwind-merge": "^3.6.0",
+		"tailwindcss": "^4.3.1"
 	},
 	"devDependencies": {
-		"prettier": "^3.6.2",
-		"prettier-plugin-astro": "^0.14.1"
+		"@astrojs/check": "^0.9.9",
+		"@axe-core/playwright": "^4.11.3",
+		"@lhci/cli": "^0.15.1",
+		"@playwright/test": "^1.61.0",
+		"prettier": "^3.8.4",
+		"prettier-plugin-astro": "^0.14.1",
+		"typescript": "^6.0.3"
 	}
 }
