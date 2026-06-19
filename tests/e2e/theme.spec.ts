@@ -6,35 +6,33 @@ test.describe('Theme toggle', () => {
 	});
 
 	test('theme toggle button is visible', async ({ page }) => {
-		const toggle = page.locator('[data-theme-toggle], button[aria-label*="mode"], button[aria-label*="modo"]').first();
-		await expect(toggle).toBeVisible();
+		await expect(page.locator('#theme-toggle')).toBeVisible();
 	});
 
-	test('toggling theme adds dark class to html element', async ({ page }) => {
+	test('toggling theme changes data-theme attribute on html element', async ({ page }) => {
+		// Set a known start state so the cycle result is predictable
+		await page.evaluate(() => localStorage.setItem('devsandoval-theme', 'light'));
+		await page.reload();
+
 		const html = page.locator('html');
-		const initialClass = await html.getAttribute('class');
+		await page.locator('#theme-toggle').click();
 
-		const toggle = page.locator('[data-theme-toggle], button[aria-label*="mode"], button[aria-label*="modo"]').first();
-		await toggle.click();
-
-		const newClass = await html.getAttribute('class');
-		expect(newClass).not.toBe(initialClass);
+		const newTheme = await html.getAttribute('data-theme');
+		// light → dark after one click
+		expect(newTheme).toBe('dark');
 	});
 
 	test('theme preference persists in localStorage', async ({ page }) => {
-		const toggle = page.locator('[data-theme-toggle], button[aria-label*="mode"], button[aria-label*="modo"]').first();
-		await toggle.click();
+		await page.locator('#theme-toggle').click();
 
-		const stored = await page.evaluate(() => localStorage.getItem('theme'));
+		const stored = await page.evaluate(() => localStorage.getItem('devsandoval-theme'));
 		expect(stored).not.toBeNull();
 		expect(['light', 'dark', 'system']).toContain(stored);
 	});
 
-	test('no FOUC — html has theme class before first paint', async ({ page }) => {
-		// The inline script in <head> should set the theme class before hydration
+	test('no FOUC — html has data-theme attribute before first paint', async ({ page }) => {
 		const html = page.locator('html');
-		const classAttr = await html.getAttribute('class');
-		// Should have either 'light' or 'dark' class set by the init script
-		expect(classAttr).toMatch(/light|dark/);
+		const themeAttr = await html.getAttribute('data-theme');
+		expect(themeAttr).toMatch(/^(light|dark)$/);
 	});
 });

@@ -46,14 +46,12 @@ test.describe('Home page', () => {
 
 	test('share button is present', async ({ page }) => {
 		await page.goto('/');
-		const shareBtn = page.locator('button[aria-label*="hare"], button[aria-label*="ompart"]').first();
-		await expect(shareBtn).toBeVisible();
+		await expect(page.locator('#share-button')).toBeVisible();
 	});
 
 	test('theme toggle is present', async ({ page }) => {
 		await page.goto('/');
-		const themeToggle = page.locator('button[aria-label*="heme"], button[aria-label*="odo"]').first();
-		await expect(themeToggle).toBeVisible();
+		await expect(page.locator('#theme-toggle')).toBeVisible();
 	});
 
 	test('skip link is present and points to main content', async ({ page }) => {
