@@ -5,7 +5,7 @@ import './HeroCard.css';
 import { cn } from '@shared/lib';
 import CheckIcon from '@shared/assets/check.svg';
 
-interface Props extends HeroCardProps {}
+type Props = HeroCardProps;
 
 const { profile, variant = 'default' } = Astro.props;
 ---

@@ -17,9 +17,7 @@ export interface Props {
 	class?: string;
 }
 
-const { id, name, displayName, tagline, variant = 'hero', class: className } = Astro.props;
-
-const isHero = variant === 'hero';
+const { id, name, displayName, tagline, class: className } = Astro.props;
 ---
 
 <div class={cn('profile-name', className)}>

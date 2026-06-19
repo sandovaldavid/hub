@@ -2,9 +2,9 @@
 import type { SkillsSectionProps } from '../model/types';
 import { cn } from '@shared/lib/utils';
 
-interface Props extends SkillsSectionProps {}
+type Props = SkillsSectionProps;
 
-const { skills, title = 'Tecnologías', variant = 'compact' } = Astro.props;
+const { skills, title = 'Tecnologías', variant: _variant = 'compact' } = Astro.props;
 ---
 
 <div
