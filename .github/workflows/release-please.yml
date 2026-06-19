@@ -29,7 +29,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
           target-branch: develop
-          config-file: release-please-config.json
-          manifest-file: .release-please-manifest.json
-          prerelease: true
-          prerelease-type: beta
+          config-file: release-please-config-develop.json
+          manifest-file: .release-please-manifest-develop.json
