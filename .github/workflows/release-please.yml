@@ -8,11 +8,24 @@ permissions:
   pull-requests: write
 
 jobs:
-  release:
+  release-stable:
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
-          target-branch: ${{ github.ref_name }}
+          target-branch: main
+
+  release-beta:
+    if: github.ref_name == 'develop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: simple
+          target-branch: develop
+          prerelease: true
+          prerelease-type: beta
