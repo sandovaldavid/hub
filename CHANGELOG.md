@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1-beta.0](https://github.com/sandovaldavid/linktree/compare/v1.1.0-beta.0...v1.1.1-beta.0) (2026-06-19)
+
+
+### CI/CD
+
+* **check-pr-branch:** allow release-please--branches--* to merge into main ([f0b64c0](https://github.com/sandovaldavid/linktree/commit/f0b64c0e4e7787d606e92c6d9d9ff994b1651637))
+* **lighthouse:** pass GITHUB_TOKEN to suppress token warning ([c61a868](https://github.com/sandovaldavid/linktree/commit/c61a868c74fe84901d88bec4c94b4cd3903157fc))
+
 ## [1.1.0-beta.0](https://github.com/sandovaldavid/linktree/compare/v1.0.0-beta.0...v1.1.0-beta.0) (2026-06-19)
 
 
