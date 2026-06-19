@@ -1,23 +1,24 @@
 import type { Profile } from '@entities/profile';
+import { siteConfig } from './site.config';
 
 // tagline, bio, availability.message are intentionally absent here.
 // They are locale-specific strings — get them via useTranslations() from @shared/i18n.
 export const profile: Profile = {
 	name: 'David Sandoval Salvador',
-	displayName: 'DevSandoval',
+	displayName: siteConfig.handle,
 	location: 'Peru',
 	timezone: 'America/Lima',
 	languages: ['Español', 'English'],
 	avatar: {
 		url: '/profile/retrato-giblin.webp',
-		alt: 'DevSandoval profile photo',
+		alt: `${siteConfig.handle} profile photo`,
 	},
 	logo: {
-		url: '/logo/devsandoval.svg',
-		alt: 'DevSandoval brand logo',
+		url: `/logo/${siteConfig.handle}.svg`,
+		alt: `${siteConfig.handle} brand logo`,
 	},
 	contact: {
-		email: 'contact@devsandoval.com',
+		email: siteConfig.email,
 		whatsapp: '+51 901 148 564',
 	},
 	availability: {

@@ -33,8 +33,8 @@ export function getSEO(lang: Lang = 'en'): SEOProps {
 
 		// Twitter Card
 		twitterCard: 'summary_large_image',
-		twitterSite: '@dev_sandoval',
-		twitterCreator: '@dev_sandoval',
+		twitterSite: siteConfig.twitterHandle,
+		twitterCreator: siteConfig.twitterHandle,
 		twitterImageAlt: t.twitterImageAlt,
 		twitterLabel1: t.twitterLabel1,
 		twitterData1: t.twitterData1,

@@ -3,6 +3,7 @@ import { WeeklyProjectCard } from '@entities/weekly-project';
 import type { WeeklyProject } from '@entities/weekly-project';
 import './WeeklyProjectSection.css';
 import Rocket from '@shared/assets/rocket.svg';
+import { siteConfig } from '@data/site.config';
 
 interface Props {
 	project: WeeklyProject;
@@ -48,11 +49,11 @@ const {
 	<div class="weekly-project-section__footer">
 		<p class="weekly-project-section__footer-text">
 			¿Tienes un proyecto similar en mente?
-			<a href="https://calendly.com/devsandoval/30min" class="weekly-project-section__footer-link">
+			<a href={siteConfig.calendlyUrl} class="weekly-project-section__footer-link">
 				Hablemos al respecto
 			</a>
 			o
-			<a href="mailto:contact@devsandoval.com" class="weekly-project-section__footer-link">
+			<a href={`mailto:${siteConfig.email}`} class="weekly-project-section__footer-link">
 				envía un correo
 			</a>
 		</p>
