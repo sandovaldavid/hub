@@ -15,6 +15,7 @@ export default defineConfig({
 	},
 	integrations: [sitemap()],
 	vite: {
+		// @ts-expect-error: @tailwindcss/vite Plugin type is incompatible with Astro's bundled vite types
 		plugins: [tailwindcss()],
 	},
 });
