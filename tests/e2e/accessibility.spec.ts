@@ -5,10 +5,8 @@ const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
 test.describe('Accessibility — WCAG 2.1 AA', () => {
 	test('light mode has no violations', async ({ page }) => {
+		await page.addInitScript(() => localStorage.setItem('sandovaldavid-theme', 'light'));
 		await page.goto('/');
-		await page.evaluate(() => {
-			document.documentElement.setAttribute('data-theme', 'light');
-		});
 
 		const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 
@@ -16,10 +14,8 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 	});
 
 	test('dark mode has no violations', async ({ page }) => {
+		await page.addInitScript(() => localStorage.setItem('sandovaldavid-theme', 'dark'));
 		await page.goto('/');
-		await page.evaluate(() => {
-			document.documentElement.setAttribute('data-theme', 'dark');
-		});
 
 		const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 
@@ -53,9 +49,10 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 	});
 
 	test('Spanish page (/es/) has no violations', async ({ page }) => {
+		// Set theme in localStorage before navigation so the FOUC inline script
+		// picks it up — avoids CI system preference causing dark-mode CSS on load
+		await page.addInitScript(() => localStorage.setItem('sandovaldavid-theme', 'light'));
 		await page.goto('/es/');
-		// Force light theme to avoid non-deterministic system preference in CI
-		await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
 
 		const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 
