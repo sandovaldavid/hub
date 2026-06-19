@@ -6,6 +6,8 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  deployments: write
+  statuses: write
 
 jobs:
   deploy:
@@ -44,6 +46,38 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Register GitHub Deployment
+        id: create_deployment
+        run: |
+          DEPLOYMENT_ID=$(curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/deployments \
+            -d '{"ref":"${{ github.sha }}","environment":"Preview","required_contexts":[],"transient_environment":true,"production_environment":false}' | jq '.id')
+          echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
+
+      - name: Set Deployment Status & Commit Status Check
+        run: |
+          # 1. Update deployment status
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses \
+            -d '{"state":"success","environment_url":"${{ steps.deploy.outputs.url }}","log_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}","description":"Preview deployment ready"}'
+          
+          # 2. Update commit status check
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -d '{"state":"success","target_url":"${{ steps.deploy.outputs.url }}","description":"Preview deployment ready","context":"Vercel Preview"}'
 
       - name: Comment deploy URL on open PR
         uses: actions/github-script@v7
