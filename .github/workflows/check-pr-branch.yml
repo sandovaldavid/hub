@@ -13,10 +13,11 @@ jobs:
           SOURCE="${{ github.head_ref }}"
           if [[ "$SOURCE" == "develop" ]] || \
              [[ "$SOURCE" == hotfix/* ]] || \
-             [[ "$SOURCE" == release/* ]]; then
+             [[ "$SOURCE" == release/* ]] || \
+             [[ "$SOURCE" == release-please--branches--* ]]; then
             echo "[info] Source branch '$SOURCE' is allowed to merge into main"
           else
-            echo "[error] PRs to main must come from develop, hotfix/*, or release/* branches"
+            echo "[error] PRs to main must come from develop, hotfix/*, release/*, or release-please--branches--*"
             echo "[error] Source branch: $SOURCE"
             exit 1
           fi
