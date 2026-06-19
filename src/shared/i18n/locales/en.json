@@ -1,0 +1,86 @@
+{
+	"profile": {
+		"tagline": "I build solutions, share the process",
+		"bio": "Web Developer building scalable and intelligent apps. Passionate about sharing knowledge and building in public.",
+		"availability": "Available for new projects and collaborations."
+	},
+	"nav": {
+		"skipToContent": "Skip to main content"
+	},
+	"hero": {
+		"sectionsLabel": "Profile sections"
+	},
+	"social": {
+		"heading": "Social media links"
+	},
+	"cta": {
+		"business": {
+			"title": "Want to digitize your business without stress?",
+			"description": "Schedule a free Discovery Call. I will understand your goals and give you a clear action plan, without tech jargon.",
+			"label": "Book a Call"
+		},
+		"learning": {
+			"title": "Learn and Grow as a Developer",
+			"description": "Tips and resources for developers",
+			"label": "Follow me"
+		}
+	},
+	"contact": {
+		"title": "Got a project in mind?",
+		"message": "Let's talk about how I can help you achieve your goals",
+		"buttonText": "Let's talk",
+		"heading": "Contact"
+	},
+	"skills": {
+		"title": "The engine behind the solutions",
+		"heading": "Technologies and skills"
+	},
+	"weeklyProject": {
+		"title": "Weekly Project",
+		"demo": "Live Demo",
+		"code": "View Code",
+		"heading": "Weekly project"
+	},
+	"page": {
+		"mainLabel": "Main content",
+		"sectionsLabel": "Profile sections"
+	},
+	"seo": {
+		"title": "DevSandoval | I build solutions, share the process",
+		"description": "Web Developer building scalable and intelligent apps. Book a free discovery call or follow my content.",
+		"ogImageAlt": "DevSandoval - Web Developer building solutions with Practical AI.",
+		"twitterImageAlt": "DevSandoval - Web Developer specializing in React, Next.js, Python, Astro and AI technologies.",
+		"twitterLabel1": "Specialty",
+		"twitterData1": "Web Solutions with Practical AI",
+		"ogLocale": "en_US",
+		"keywords": [
+			"DevSandoval",
+			"David Sandoval",
+			"Web Developer",
+			"Software Developer",
+			"Artificial Intelligence",
+			"Practical AI",
+			"Machine Learning",
+			"React",
+			"Next.js",
+			"Python",
+			"Astro",
+			"TypeScript",
+			"Node.js",
+			"Tailwind CSS",
+			"Web Applications",
+			"Digital Solutions",
+			"Business Automation",
+			"Peru"
+		]
+	},
+	"share": {
+		"ariaLabel": "Share this page",
+		"copied": "Link copied!"
+	},
+	"theme": {
+		"light": "Switch to light mode",
+		"dark": "Switch to dark mode",
+		"system": "Use system preference"
+	}
+}
