@@ -4,6 +4,7 @@ on:
     branches: [develop]
 
 permissions:
+  contents: read
   pull-requests: write
 
 jobs:

@@ -16,10 +16,10 @@ export default defineConfig({
 			name: 'chromium',
 			use: { ...devices['Desktop Chrome'] },
 		},
-		{
-			name: 'Mobile Safari',
-			use: { ...devices['iPhone 14'] },
-		},
+		// webkit not installed on CI runners — only run locally
+		...(process.env.CI
+			? []
+			: [{ name: 'Mobile Safari', use: { ...devices['iPhone 14'] } }]),
 	],
 	webServer: {
 		command: 'bun run preview',
