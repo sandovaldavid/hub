@@ -1,5 +1,5 @@
-import { profile } from './profile';
 import { socialLinks } from './social-links';
+import { siteConfig } from './site.config';
 
 export const ctaButtons = [
 	{
@@ -8,7 +8,7 @@ export const ctaButtons = [
 		title: '¿Quieres digitalizar tu negocio sin estrés?',
 		description:
 			'Agenda una "Llamada de Descubrimiento" gratis. Entenderé tus metas y te daré un plan de acción claro, sin tecnicismos.',
-		href: `https://calendly.com/devsandoval/30min`,
+		href: siteConfig.calendlyUrl,
 		variant: 'primary' as const,
 		external: false,
 	},

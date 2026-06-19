@@ -1,63 +1,55 @@
 import type { SEOProps } from '@app/models/seo.model';
 import { profile } from './profile';
+import { siteConfig } from './site.config';
+import type { Lang } from '@shared/i18n';
+import en from '../shared/i18n/locales/en.json';
+import es from '../shared/i18n/locales/es.json';
 
-export const SEO: SEOProps = {
-	// Primary Meta Tags
-	title: `${profile.displayName} | ${profile.tagline}`,
-	description: profile.bio,
-	author: profile.name,
-	applicationName: 'DevSandoval - Hub Digital',
-	appleMobileWebAppTitle: 'DevSandoval',
+const seoLocales = { en, es };
 
-	//  Theme & Branding
-	themeColor: '#3C81F1',
+export function getSEO(lang: Lang = 'en'): SEOProps {
+	const t = seoLocales[lang].seo;
 
-	//  Open Graph (Facebook, LinkedIn, Discord, etc.)
-	ogType: 'website',
-	ogImage: '/og/og-image.png',
-	ogImageAlt: 'DevSandoval - Desarrollador Web creando soluciones con IA Práctica.',
-	ogImageSecureUrl: 'https://www.linkdevs.social/og/og-image.png',
-	ogImageType: 'image/png',
-	ogSiteName: 'DevSandoval - Hub Digital',
-	fbAppId: '653751241146050',
-	ogLocale: 'es_PE',
+	return {
+		// Primary Meta Tags
+		title: t.title,
+		description: t.description,
+		author: profile.name,
+		applicationName: siteConfig.name,
+		appleMobileWebAppTitle: siteConfig.shortName,
 
-	//  Twitter Card
-	twitterCard: 'summary_large_image',
-	twitterSite: '@dev_sandoval',
-	twitterCreator: '@dev_sandoval',
-	twitterImageAlt:
-		'DevSandoval - Desarrollador Web especializado en React, Next.js, Python, Astro y tecnologías de IA.',
-	twitterLabel1: 'Especialidad',
-	twitterData1: 'Soluciones Web con IA Práctica',
+		// Theme & Branding
+		themeColor: siteConfig.themeColor,
 
-	//  SEO & Indexing
-	robots: 'index, follow',
-	googlebot: 'index, follow',
+		// Open Graph
+		ogType: 'website',
+		ogImage: '/og/og-image.png',
+		ogImageAlt: t.ogImageAlt,
+		ogImageSecureUrl: `${siteConfig.url}/og/og-image.png`,
+		ogImageType: 'image/png',
+		ogSiteName: siteConfig.name,
+		fbAppId: siteConfig.fbAppId,
+		ogLocale: t.ogLocale,
 
-	//  Keywords
-	keywords: [
-		'DevSandoval',
-		'David Sandoval Salvador',
-		'Desarrollador Web',
-		'Desarrollador de Software',
-		'Inteligencia Artificial',
-		'IA Práctica',
-		'Machine Learning',
-		'React',
-		'Next.js',
-		'Python',
-		'Astro',
-		'TypeScript',
-		'Node.js',
-		'Tailwind CSS',
-		'Aplicaciones Web para Pymes',
-		'Soluciones Digitales',
-		'Automatización de Negocios',
-		'Perú',
-		'Piura',
-	],
+		// Twitter Card
+		twitterCard: 'summary_large_image',
+		twitterSite: '@dev_sandoval',
+		twitterCreator: '@dev_sandoval',
+		twitterImageAlt: t.twitterImageAlt,
+		twitterLabel1: t.twitterLabel1,
+		twitterData1: t.twitterData1,
 
-	//  Language
-	lang: 'es',
-};
+		// SEO & Indexing
+		robots: 'index, follow',
+		googlebot: 'index, follow',
+
+		// Keywords
+		keywords: t.keywords as string[],
+
+		// Language
+		lang,
+	};
+}
+
+// Keep a static export for backward compatibility — defaults to English
+export const SEO = getSEO('en');

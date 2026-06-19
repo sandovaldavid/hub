@@ -1,11 +1,11 @@
 import type { Profile } from '@entities/profile';
 
+// tagline, bio, availability.message are intentionally absent here.
+// They are locale-specific strings — get them via useTranslations() from @shared/i18n.
 export const profile: Profile = {
 	name: 'David Sandoval Salvador',
 	displayName: 'DevSandoval',
-	tagline: 'Construyo soluciones, comparto el proceso',
-	bio: 'Desarrollador Web creando apps escalables e inteligentes. Apasionado por compartir conocimiento y construir en público.',
-	location: 'Perú',
+	location: 'Peru',
 	timezone: 'America/Lima',
 	languages: ['Español', 'English'],
 	avatar: {
@@ -22,6 +22,5 @@ export const profile: Profile = {
 	},
 	availability: {
 		status: 'available',
-		message: 'Disponible para nuevos proyectos y colaboraciones.',
 	},
 };
