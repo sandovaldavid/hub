@@ -19,6 +19,6 @@ export interface ThemeConfig {
 
 export const DEFAULT_THEME_CONFIG: ThemeConfig = {
 	defaultTheme: 'system',
-	storageKey: 'devsandoval-theme',
+	storageKey: 'sandovaldavid-theme',
 	attribute: 'data-theme',
 };

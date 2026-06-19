@@ -1,0 +1,87 @@
+{
+	"profile": {
+		"tagline": "Construyo soluciones, comparto el proceso",
+		"bio": "Desarrollador Web creando apps escalables e inteligentes. Apasionado por compartir conocimiento y construir en público.",
+		"availability": "Disponible para nuevos proyectos y colaboraciones."
+	},
+	"nav": {
+		"skipToContent": "Saltar al contenido principal"
+	},
+	"hero": {
+		"sectionsLabel": "Secciones de perfil"
+	},
+	"social": {
+		"heading": "Enlaces de redes sociales"
+	},
+	"cta": {
+		"business": {
+			"title": "¿Quieres digitalizar tu negocio sin estrés?",
+			"description": "Agenda una \"Llamada de Descubrimiento\" gratis. Entenderé tus metas y te daré un plan de acción claro, sin tecnicismos.",
+			"label": "Agendar llamada"
+		},
+		"learning": {
+			"title": "Aprende y Crece como Developer",
+			"description": "Consejos y recursos para developers",
+			"label": "Sígueme"
+		}
+	},
+	"contact": {
+		"title": "¿Tienes un proyecto en mente?",
+		"message": "Hablemos sobre cómo puedo ayudarte a alcanzar tus objetivos",
+		"buttonText": "Hablemos",
+		"heading": "Contacto"
+	},
+	"skills": {
+		"title": "El motor detrás de las soluciones",
+		"heading": "Tecnologías y habilidades"
+	},
+	"weeklyProject": {
+		"title": "Proyecto de la Semana",
+		"demo": "Ver Demo",
+		"code": "Ver Código",
+		"heading": "Proyecto semanal"
+	},
+	"page": {
+		"mainLabel": "Contenido principal",
+		"sectionsLabel": "Secciones de perfil"
+	},
+	"seo": {
+		"title": "sandovaldavid | Construyo soluciones, comparto el proceso",
+		"description": "Desarrollador Web creando apps escalables e inteligentes. Agenda una llamada gratis o sigue mi contenido.",
+		"ogImageAlt": "sandovaldavid - Desarrollador Web creando soluciones con IA Práctica.",
+		"twitterImageAlt": "sandovaldavid - Desarrollador Web especializado en React, Next.js, Python, Astro y tecnologías de IA.",
+		"twitterLabel1": "Especialidad",
+		"twitterData1": "Soluciones Web con IA Práctica",
+		"ogLocale": "es_PE",
+		"keywords": [
+			"sandovaldavid",
+			"David Sandoval Salvador",
+			"Desarrollador Web",
+			"Desarrollador de Software",
+			"Inteligencia Artificial",
+			"IA Práctica",
+			"Machine Learning",
+			"React",
+			"Next.js",
+			"Python",
+			"Astro",
+			"TypeScript",
+			"Node.js",
+			"Tailwind CSS",
+			"Aplicaciones Web para Pymes",
+			"Soluciones Digitales",
+			"Automatización de Negocios",
+			"Perú",
+			"Piura"
+		]
+	},
+	"share": {
+		"ariaLabel": "Compartir esta página",
+		"copied": "¡Link copiado!"
+	},
+	"theme": {
+		"light": "Cambiar a modo claro",
+		"dark": "Cambiar a modo oscuro",
+		"system": "Usar preferencia del sistema"
+	}
+}

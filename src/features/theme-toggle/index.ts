@@ -5,4 +5,4 @@
 
 export { default as ThemeToggle } from './ui/ThemeToggle.astro';
 export type { ThemeToggleProps } from './model/types';
-export { THEME_ICONS, THEME_LABELS } from './model/types';
+export { THEME_LABELS } from './model/types';

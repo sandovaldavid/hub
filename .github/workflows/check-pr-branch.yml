@@ -1,0 +1,22 @@
+name: Check PR Branch
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-source-branch:
+    name: check-source-branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify source branch is allowed to merge into main
+        run: |
+          SOURCE="${{ github.head_ref }}"
+          if [[ "$SOURCE" == "develop" ]] || \
+             [[ "$SOURCE" == hotfix/* ]] || \
+             [[ "$SOURCE" == release/* ]]; then
+            echo "[info] Source branch '$SOURCE' is allowed to merge into main"
+          else
+            echo "[error] PRs to main must come from develop, hotfix/*, or release/* branches"
+            echo "[error] Source branch: $SOURCE"
+            exit 1
+          fi

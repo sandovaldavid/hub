@@ -6,8 +6,8 @@
 export interface Profile {
 	name: string;
 	displayName: string;
-	tagline: string;
-	bio: string;
+	tagline?: string;
+	bio?: string;
 	location: string;
 	timezone: string;
 	languages: string[];

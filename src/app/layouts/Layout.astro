@@ -5,6 +5,11 @@ import { ShareButton } from '@features/share-button';
 import { ThemeToggle } from '@features/theme-toggle';
 import type { SEOProps } from '@/app/models/seo.model';
 import Analytics from '@vercel/analytics/astro';
+import { siteConfig } from '@data/site.config';
+
+interface Props extends SEOProps {
+	alternates?: { en: string; es: string };
+}
 
 const {
 	title,
@@ -12,17 +17,17 @@ const {
 	author,
 	ogImage,
 	themeColor,
-	applicationName = 'DevSandoval - Links Hub',
-	appleMobileWebAppTitle = 'DevSandoval',
+	applicationName = siteConfig.name,
+	appleMobileWebAppTitle = siteConfig.shortName,
 	ogType = 'website',
 	ogImageAlt = '',
-	ogImageSecureUrl = 'https://linkdevs.social/og/og-image.png',
+	ogImageSecureUrl = `${siteConfig.url}/og/og-image.png`,
 	ogImageType = 'image/png',
-	ogSiteName = 'DevSandoval - Links Hub',
-	fbAppId = '653751241146050',
-	ogLocale = 'es_PE',
+	ogSiteName = siteConfig.name,
+	fbAppId = siteConfig.fbAppId,
+	ogLocale = 'en_US',
 	twitterCard = 'summary_large_image',
-	twitterSite = '@dev_sandoval',
+	twitterSite = siteConfig.twitterHandle,
 	twitterCreator,
 	twitterImageAlt = '',
 	twitterLabel1 = '',
@@ -31,17 +36,33 @@ const {
 	robots = 'index, follow',
 	googlebot = 'index, follow',
 	keywords = [],
-	lang = 'es',
-} = Astro.props as SEOProps;
+	lang = 'en',
+	alternates,
+} = Astro.props as Props;
 
-// Generate theme initialization script (prevent FOUC)
 const themeScript = getThemeInitScript();
-
-// Generate keywords meta tag
 const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
-
-// Use canonical URL or current page URL
 const finalCanonicalUrl = canonicalUrl || Astro.url.href;
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'David Sandoval Salvador',
+	url: siteConfig.url,
+	sameAs: [
+		`https://linkedin.com/in/${siteConfig.handle}`,
+		`https://github.com/${siteConfig.handle}`,
+		`https://twitter.com/${siteConfig.handle}`,
+		`https://youtube.com/@${siteConfig.handle}`,
+	],
+	jobTitle: 'Web Developer',
+	knowsLanguage: ['en', 'es'],
+	contactPoint: {
+		'@type': 'ContactPoint',
+		email: siteConfig.email,
+		contactType: 'customer support',
+	},
+};
 ---
 
 <!doctype html>
@@ -51,7 +72,6 @@ const finalCanonicalUrl = canonicalUrl || Astro.url.href;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="sitemap" href="/sitemap-index.xml" />
-		<base href="https://www.linkdevs.social" />
 
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
@@ -95,22 +115,28 @@ const finalCanonicalUrl = canonicalUrl || Astro.url.href;
 		{twitterLabel1 && <meta name="twitter:label1" content={twitterLabel1} />}
 		{twitterData1 && <meta name="twitter:data1" content={twitterData1} />}
 
+		<!-- Hreflang for multilingual -->
+		{
+			alternates && (
+				<>
+					<link rel="alternate" hreflang="en" href={`${siteConfig.url}${alternates.en}`} />
+					<link rel="alternate" hreflang="es" href={`${siteConfig.url}${alternates.es}`} />
+					<link rel="alternate" hreflang="x-default" href={siteConfig.url} />
+				</>
+			)
+		}
+
 		<!-- Fonts -->
-		<!-- Inter Variable Font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
 			rel="stylesheet"
 		/>
-
-		<!-- JetBrains Mono Variable Font -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
 			rel="stylesheet"
 		/>
-
-		<!-- Google Sans Code Font -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap"
 			rel="stylesheet"
@@ -128,12 +154,16 @@ const finalCanonicalUrl = canonicalUrl || Astro.url.href;
 
 		<!-- Theme Initialization Script (prevent FOUC) -->
 		<script is:inline set:html={themeScript} />
-		<Analytics />
+
+		<!-- JSON-LD Structured Data -->
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	</head>
 	<body
 		class="bg-linear-to-br from-primary-50 via-primary-100 to-primary-200 dark:bg-linear-to-br dark:from-primary-950 dark:via-primary-900 dark:to-primary-800">
 		<!-- Skip Link for Keyboard Navigation -->
-		<a href="#main-content" class="skip-link"> Saltar al contenido principal </a>
+		<a href="#main-content" class="skip-link">
+			{lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
+		</a>
 
 		<!-- Share Button - Fixed Top Left -->
 		<ShareButton position="top-left" size="md" />
@@ -142,5 +172,8 @@ const finalCanonicalUrl = canonicalUrl || Astro.url.href;
 		<ThemeToggle variant="floating" size="md" />
 
 		<slot />
+
+		<!-- Analytics — placed at end of body for performance -->
+		<Analytics />
 	</body>
 </html>
