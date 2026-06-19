@@ -68,6 +68,7 @@ jobs:
 
       - name: Deploy Playwright Report to GitHub Pages
         if: always()
+        continue-on-error: true
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -77,6 +78,7 @@ jobs:
 
       - name: Create Playwright Report Status Check
         if: always()
+        continue-on-error: true
         run: |
           REPORT_URL="https://sandovaldavid.github.io/linktree/playwright-report/${{ github.event.pull_request.number || 'develop' }}/"
           curl -L \
