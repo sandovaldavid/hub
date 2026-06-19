@@ -1,12 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-// axe-core 4.x does not support oklch() CSS colors — it falls back to the nearest
-// ancestor with a parseable background, which causes false positives on color-contrast.
-// The actual contrast is correct (dark primary-800 + white text). Exclude until axe
-// adds oklch support (tracking: https://github.com/dequelabs/axe-core/issues/4328).
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
-const AXE_DISABLE = ['color-contrast'];
 
 test.describe('Accessibility — WCAG 2.1 AA', () => {
 	test('light mode has no violations', async ({ page }) => {
@@ -15,10 +10,7 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 			document.documentElement.setAttribute('data-theme', 'light');
 		});
 
-		const results = await new AxeBuilder({ page })
-			.withTags(AXE_TAGS)
-			.disableRules(AXE_DISABLE)
-			.analyze();
+		const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 
 		expect(results.violations).toEqual([]);
 	});
@@ -29,10 +21,7 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 			document.documentElement.setAttribute('data-theme', 'dark');
 		});
 
-		const results = await new AxeBuilder({ page })
-			.withTags(AXE_TAGS)
-			.disableRules(AXE_DISABLE)
-			.analyze();
+		const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 
 		expect(results.violations).toEqual([]);
 	});
@@ -65,11 +54,10 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 
 	test('Spanish page (/es/) has no violations', async ({ page }) => {
 		await page.goto('/es/');
+		// Force light theme to avoid non-deterministic system preference in CI
+		await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
 
-		const results = await new AxeBuilder({ page })
-			.withTags(AXE_TAGS)
-			.disableRules(AXE_DISABLE)
-			.analyze();
+		const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 
 		expect(results.violations).toEqual([]);
 	});

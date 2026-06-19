@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Home page', () => {
 	test('loads with correct title', async ({ page }) => {
 		await page.goto('/');
-		await expect(page).toHaveTitle(/DevSandoval/);
+		await expect(page).toHaveTitle(/sandovaldavid/);
 	});
 
 	test('has meta description', async ({ page }) => {
@@ -32,7 +32,8 @@ test.describe('Home page', () => {
 
 	test('social links have href and security attributes', async ({ page }) => {
 		await page.goto('/');
-		const externalLinks = page.locator('a[target="_blank"]');
+		// Scope to main to exclude Astro dev toolbar links injected by astro preview
+		const externalLinks = page.locator('main a[target="_blank"]');
 		const count = await externalLinks.count();
 		expect(count).toBeGreaterThan(0);
 
@@ -75,7 +76,7 @@ test.describe('Home page', () => {
 test.describe('Spanish version (/es/)', () => {
 	test('loads the Spanish page', async ({ page }) => {
 		await page.goto('/es/');
-		await expect(page).toHaveTitle(/DevSandoval/);
+		await expect(page).toHaveTitle(/sandovaldavid/);
 	});
 
 	test('html lang attribute is es', async ({ page }) => {

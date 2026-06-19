@@ -59,7 +59,7 @@
 
 /* Description */
 .weekly-project-card__description {
-	@apply text-base md:text-lg text-neutral-600 dark:text-neutral-300 line-clamp-3 md:line-clamp-2 flex-grow m-0;
+	@apply text-base md:text-lg text-neutral-700 dark:text-neutral-300 line-clamp-3 md:line-clamp-2 flex-grow m-0;
 }
 
 /* Technologies */
@@ -84,7 +84,7 @@
 
 /* Button Primary */
 .weekly-project-card__button--primary {
-	@apply bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600;
+	@apply bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-700 dark:hover:bg-primary-600;
 }
 
 /* Button Secondary */

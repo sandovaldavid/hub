@@ -11,7 +11,7 @@ test.describe('Theme toggle', () => {
 
 	test('toggling theme changes data-theme attribute on html element', async ({ page }) => {
 		// Set a known start state so the cycle result is predictable
-		await page.evaluate(() => localStorage.setItem('devsandoval-theme', 'light'));
+		await page.evaluate(() => localStorage.setItem('sandovaldavid-theme', 'light'));
 		await page.reload();
 
 		const html = page.locator('html');
@@ -25,7 +25,7 @@ test.describe('Theme toggle', () => {
 	test('theme preference persists in localStorage', async ({ page }) => {
 		await page.locator('#theme-toggle').click();
 
-		const stored = await page.evaluate(() => localStorage.getItem('devsandoval-theme'));
+		const stored = await page.evaluate(() => localStorage.getItem('sandovaldavid-theme'));
 		expect(stored).not.toBeNull();
 		expect(['light', 'dark', 'system']).toContain(stored);
 	});
