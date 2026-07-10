@@ -1,20 +1,46 @@
 {
-	"packages": {
-		".": {
-			"release-type": "node",
-			"include-component-in-tag": false,
-			"prerelease": true,
-			"prerelease-type": "beta",
-			"changelog-sections": [
-				{ "type": "feat", "section": "Features" },
-				{ "type": "fix", "section": "Bug Fixes" },
-				{ "type": "perf", "section": "Performance" },
-				{ "type": "refactor", "section": "Refactoring" },
-				{ "type": "ci", "section": "CI/CD" },
-				{ "type": "docs", "section": "Documentation" },
-				{ "type": "style", "section": "Styles" },
-				{ "type": "chore", "section": "Maintenance", "hidden": true }
-			]
-		}
-	}
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "include-component-in-tag": false,
+      "prerelease": true,
+      "prerelease-type": "beta",
+      "changelog-sections": [
+        {
+          "type": "feat",
+          "section": "Features"
+        },
+        {
+          "type": "fix",
+          "section": "Bug Fixes"
+        },
+        {
+          "type": "perf",
+          "section": "Performance"
+        },
+        {
+          "type": "refactor",
+          "section": "Refactoring"
+        },
+        {
+          "type": "ci",
+          "section": "CI/CD"
+        },
+        {
+          "type": "docs",
+          "section": "Documentation"
+        },
+        {
+          "type": "style",
+          "section": "Styles"
+        },
+        {
+          "type": "chore",
+          "section": "Maintenance",
+          "hidden": true
+        }
+      ],
+      "versioning": "prerelease"
+    }
+  }
 }

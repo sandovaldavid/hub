@@ -1,27 +1,20 @@
 name: Release Please
+
 on:
   push:
-    branches: [main, develop]
+    branches:
+      - main
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  release-stable:
-    if: github.ref_name == 'main'
+  release-please:
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: main
-
-  release-beta:
-    if: github.ref_name == 'develop'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: googleapis/release-please-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: develop
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.RELEASE_PLEASE_PAT || secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
