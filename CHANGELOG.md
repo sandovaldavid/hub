@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1-beta](https://github.com/sandovaldavid/linktree/compare/v1.0.0...v1.0.1-beta) (2026-07-10)
+
+
+### Bug Fixes
+
+* **ci:** format release-please-config.json using prettier ([27432b4](https://github.com/sandovaldavid/linktree/commit/27432b4f125d3bb0376d5b7ea3f987f2e5d39b35))
+
 ## 1.0.0 (2026-06-19)
 
 
