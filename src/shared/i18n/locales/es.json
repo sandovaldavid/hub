@@ -1,83 +1,89 @@
 {
 	"profile": {
-		"tagline": "Construyo soluciones, comparto el proceso",
-		"bio": "Desarrollador Web creando apps escalables e inteligentes. Apasionado por compartir conocimiento y construir en público.",
-		"availability": "Disponible para nuevos proyectos y colaboraciones."
+		"tagline": "Ingeniero de Software que construye productos web confiables",
+		"bio": "Angular · .NET · TypeScript. En Lima (UTC-5) y disponible para oportunidades remotas de ingeniería de software en Europa y Latinoamérica.",
+		"availability": "Disponible para oportunidades de ingeniería de software",
+		"location": "Lima, Perú · UTC-5",
+		"workMode": "Remoto · Europa y Latinoamérica",
+		"languages": "Inglés · Español",
+		"resumeAction": "Descargar CV"
 	},
 	"nav": {
 		"skipToContent": "Saltar al contenido principal"
 	},
 	"hero": {
-		"sectionsLabel": "Secciones de perfil"
+		"sectionsLabel": "Secciones del perfil profesional"
 	},
 	"social": {
-		"heading": "Enlaces de redes sociales"
+		"heading": "Enlaces profesionales y redes sociales"
 	},
 	"cta": {
-		"business": {
-			"title": "¿Quieres digitalizar tu negocio sin estrés?",
-			"description": "Agenda una \"Llamada de Descubrimiento\" gratis. Entenderé tus metas y te daré un plan de acción claro, sin tecnicismos.",
-			"label": "Agendar llamada"
+		"portfolio": {
+			"title": "Ver Portafolio",
+			"description": "Explora proyectos seleccionados, experiencia y casos de estudio de ingeniería.",
+			"label": "Ver portafolio"
 		},
-		"learning": {
-			"title": "Aprende y Crece como Developer",
-			"description": "Consejos y recursos para developers",
-			"label": "Sígueme"
+		"resume": {
+			"title": "Descargar CV",
+			"description": "Revisa mi experiencia actual, impacto y trayectoria técnica.",
+			"label": "Descargar CV"
+		},
+		"github": {
+			"title": "Ver GitHub",
+			"description": "Revisa los repositorios, decisiones de arquitectura y productos que estoy construyendo.",
+			"label": "Ver GitHub"
+		},
+		"contact": {
+			"title": "Contactarme",
+			"description": "Conversemos sobre oportunidades de ingeniería de software y colaboraciones.",
+			"label": "Contactarme"
 		}
 	},
 	"contact": {
-		"title": "¿Tienes un proyecto en mente?",
-		"message": "Hablemos sobre cómo puedo ayudarte a alcanzar tus objetivos",
-		"buttonText": "Hablemos",
-		"heading": "Contacto"
+		"title": "¿Necesitas consultoría de ingeniería?",
+		"message": "La consultoría y el descubrimiento de producto están disponibles como una opción secundaria.",
+		"buttonText": "Agendar consultoría",
+		"heading": "Consultoría de ingeniería"
 	},
 	"skills": {
-		"title": "El motor detrás de las soluciones",
+		"title": "Stack principal de ingeniería",
 		"heading": "Tecnologías y habilidades"
 	},
 	"weeklyProject": {
-		"title": "Proyecto de la Semana",
+		"title": "Proyecto Destacado",
 		"demo": "Ver Demo",
 		"code": "Ver Código",
-		"heading": "Proyecto semanal"
+		"heading": "Proyecto destacado"
 	},
 	"page": {
-		"mainLabel": "Contenido principal",
-		"sectionsLabel": "Secciones de perfil"
+		"mainLabel": "Hub profesional de enlaces",
+		"sectionsLabel": "Secciones del perfil profesional"
 	},
 	"seo": {
-		"title": "sandovaldavid | Construyo soluciones, comparto el proceso",
-		"description": "Desarrollador Web creando apps escalables e inteligentes. Agenda una llamada gratis o sigue mi contenido.",
-		"ogImageAlt": "sandovaldavid - Desarrollador Web creando soluciones con IA Práctica.",
-		"twitterImageAlt": "sandovaldavid - Desarrollador Web especializado en React, Next.js, Python, Astro y tecnologías de IA.",
-		"twitterLabel1": "Especialidad",
-		"twitterData1": "Soluciones Web con IA Práctica",
+		"title": "David Sandoval | Ingeniero de Software · Angular, .NET y TypeScript",
+		"description": "Ingeniero de Software que construye productos web confiables con Angular, .NET y TypeScript. En Lima y disponible para oportunidades remotas en Europa y Latinoamérica.",
+		"ogImageAlt": "David Sandoval - Ingeniero de Software especializado en Angular, .NET y TypeScript.",
+		"twitterImageAlt": "David Sandoval - Ingeniero de Software que construye productos web confiables para equipos remotos en Europa y Latinoamérica.",
+		"twitterLabel1": "Stack principal",
+		"twitterData1": "Angular · .NET · TypeScript",
 		"ogLocale": "es_PE",
 		"keywords": [
-			"sandovaldavid",
-			"David Sandoval Salvador",
-			"Desarrollador Web",
-			"Desarrollador de Software",
-			"Inteligencia Artificial",
-			"IA Práctica",
-			"Machine Learning",
-			"React",
-			"Next.js",
-			"Python",
+			"David Sandoval",
+			"Ingeniero de Software",
+			"Desarrollador Angular",
+			"Desarrollador .NET",
+			"Desarrollador TypeScript",
+			"C#",
 			"Astro",
-			"TypeScript",
-			"Node.js",
-			"Tailwind CSS",
-			"Aplicaciones Web para Pymes",
-			"Soluciones Digitales",
-			"Automatización de Negocios",
-			"Perú",
-			"Piura"
+			"Ingeniero de Software Remoto",
+			"Europa",
+			"Latinoamérica",
+			"Perú"
 		]
 	},
 	"share": {
 		"ariaLabel": "Compartir esta página",
-		"copied": "¡Link copiado!"
+		"copied": "¡Enlace copiado!"
 	},
 	"theme": {
 		"light": "Cambiar a modo claro",
