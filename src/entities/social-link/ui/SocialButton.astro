@@ -11,14 +11,7 @@ export interface Props {
 	class?: string;
 }
 
-const {
-	url,
-	label,
-	username,
-	analyticsId,
-	variant = 'default',
-	class: className,
-} = Astro.props;
+const { url, label, username, analyticsId, variant = 'default', class: className } = Astro.props;
 ---
 
 <a
