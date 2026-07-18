@@ -32,11 +32,15 @@ test.describe('Home page', () => {
 
 	test('hero exposes role, remote scope and resume action', async ({ page }) => {
 		await page.goto('/');
-		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
+		).toBeVisible();
 		await expect(page.getByText('Software Engineer building reliable web products')).toBeVisible();
 		await expect(page.getByText('Remote · Europe & Latin America')).toBeVisible();
 
-		const resumeLink = page.locator('.hero-card__primary-action[href$="david-sandoval-resume.pdf"]');
+		const resumeLink = page.locator(
+			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]'
+		);
 		await expect(resumeLink).toBeVisible();
 		await expect(resumeLink).toHaveAttribute('target', '_blank');
 		await expect(resumeLink).toHaveAttribute('rel', /noopener/);
@@ -103,7 +107,9 @@ test.describe('Spanish version (/es/)', () => {
 	test('loads the Spanish professional page', async ({ page }) => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
-		await expect(page.getByText('Ingeniero de Software que construye productos web confiables')).toBeVisible();
+		await expect(
+			page.getByText('Ingeniero de Software que construye productos web confiables')
+		).toBeVisible();
 	});
 
 	test('html lang attribute is es', async ({ page }) => {
@@ -114,7 +120,9 @@ test.describe('Spanish version (/es/)', () => {
 
 	test('has localized resume action', async ({ page }) => {
 		await page.goto('/es/');
-		const resumeLink = page.locator('.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]');
+		const resumeLink = page.locator(
+			'.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]'
+		);
 		await expect(resumeLink).toBeVisible();
 	});
 
