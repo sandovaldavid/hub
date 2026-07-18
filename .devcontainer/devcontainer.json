@@ -12,7 +12,7 @@
 		"4321": { "label": "Astro Dev Server", "onAutoForward": "notify" },
 		"4322": { "label": "Astro Preview", "onAutoForward": "silent" }
 	},
-	"postCreateCommand": "bun install && bunx playwright install chromium",
+	"postCreateCommand": "bun install --frozen-lockfile && bunx playwright install chromium",
 	"customizations": {
 		"vscode": {
 			"extensions": [
