@@ -21,7 +21,6 @@ const {
 	appleMobileWebAppTitle = siteConfig.shortName,
 	ogType = 'website',
 	ogImageAlt = '',
-	ogImageSecureUrl = `${siteConfig.url}/og/og-image.png`,
 	ogImageType = 'image/png',
 	ogSiteName = siteConfig.name,
 	fbAppId = siteConfig.fbAppId,
@@ -42,26 +41,31 @@ const {
 
 const themeScript = getThemeInitScript();
 const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
-const finalCanonicalUrl = canonicalUrl || Astro.url.href;
+const canonicalPath = canonicalUrl ?? Astro.url.pathname;
+const finalCanonicalUrl = new URL(canonicalPath, siteConfig.url).href;
+const absoluteOgImage = new URL(ogImage, siteConfig.url).href;
+const alternateLocale = ogLocale === 'es_ES' ? 'en_US' : 'es_ES';
 
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'Person',
 	name: 'David Sandoval Salvador',
-	url: siteConfig.url,
+	url: siteConfig.portfolioUrl,
+	mainEntityOfPage: finalCanonicalUrl,
+	image: absoluteOgImage,
+	email: `mailto:${siteConfig.email}`,
+	jobTitle: 'Software Engineer',
+	knowsLanguage: [
+		{ '@type': 'Language', name: 'English', alternateName: 'en' },
+		{ '@type': 'Language', name: 'Spanish', alternateName: 'es' },
+	],
 	sameAs: [
-		`https://linkedin.com/in/${siteConfig.handle}`,
-		`https://github.com/${siteConfig.handle}`,
+		siteConfig.portfolioUrl,
+		'https://www.linkedin.com/in/jdavidsandoval',
+		siteConfig.githubUrl,
 		`https://twitter.com/${siteConfig.handle}`,
 		`https://youtube.com/@${siteConfig.handle}`,
 	],
-	jobTitle: 'Software Engineer',
-	knowsLanguage: ['en', 'es'],
-	contactPoint: {
-		'@type': 'ContactPoint',
-		email: siteConfig.email,
-		contactType: 'customer support',
-	},
 };
 ---
 
@@ -89,26 +93,27 @@ const jsonLd = {
 		<!-- Favicon -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-		<!-- Open Graph / Facebook -->
+		<!-- Open Graph -->
 		<meta property="og:type" content={ogType} />
-		<meta property="og:url" content={Astro.url} />
+		<meta property="og:url" content={finalCanonicalUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content={new URL(ogImage, Astro.url)} />
+		<meta property="og:image" content={absoluteOgImage} />
+		<meta property="og:image:secure_url" content={absoluteOgImage} />
 		<meta property="og:site_name" content={ogSiteName} />
 		<meta property="og:author" content={author} />
-		{ogImageSecureUrl && <meta property="og:image:secure_url" content={ogImageSecureUrl} />}
 		{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
 		{ogImageType && <meta property="og:image:type" content={ogImageType} />}
 		{fbAppId && <meta property="fb:app_id" content={fbAppId} />}
 		<meta property="og:locale" content={ogLocale} />
+		<meta property="og:locale:alternate" content={alternateLocale} />
 
 		<!-- Twitter -->
-		<meta property="twitter:card" content={twitterCard} />
-		<meta property="twitter:url" content={Astro.url} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={new URL(ogImage, Astro.url)} />
+		<meta name="twitter:card" content={twitterCard} />
+		<meta name="twitter:url" content={finalCanonicalUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={absoluteOgImage} />
 		<meta name="twitter:site" content={twitterSite} />
 		{twitterCreator && <meta name="twitter:creator" content={twitterCreator} />}
 		{twitterImageAlt && <meta name="twitter:image:alt" content={twitterImageAlt} />}
@@ -119,9 +124,9 @@ const jsonLd = {
 		{
 			alternates && (
 				<>
-					<link rel="alternate" hreflang="en" href={`${siteConfig.url}${alternates.en}`} />
-					<link rel="alternate" hreflang="es" href={`${siteConfig.url}${alternates.es}`} />
-					<link rel="alternate" hreflang="x-default" href={siteConfig.url} />
+					<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
+					<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
+					<link rel="alternate" hreflang="x-default" href={new URL(alternates.en, siteConfig.url)} />
 				</>
 			)
 		}
