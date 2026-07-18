@@ -55,7 +55,7 @@ const jsonLd = {
 		`https://twitter.com/${siteConfig.handle}`,
 		`https://youtube.com/@${siteConfig.handle}`,
 	],
-	jobTitle: 'Web Developer',
+	jobTitle: 'Software Engineer',
 	knowsLanguage: ['en', 'es'],
 	contactPoint: {
 		'@type': 'ContactPoint',
@@ -160,20 +160,14 @@ const jsonLd = {
 	</head>
 	<body
 		class="bg-linear-to-br from-primary-50 via-primary-100 to-primary-200 dark:bg-linear-to-br dark:from-primary-950 dark:via-primary-900 dark:to-primary-800">
-		<!-- Skip Link for Keyboard Navigation -->
 		<a href="#main-content" class="skip-link">
 			{lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
 		</a>
 
-		<!-- Share Button - Fixed Top Left -->
 		<ShareButton position="top-left" size="md" />
-
-		<!-- Theme Toggle Button (Floating) -->
 		<ThemeToggle variant="floating" size="md" />
 
 		<slot />
-
-		<!-- Analytics — placed at end of body for performance -->
 		<Analytics />
 	</body>
 </html>
