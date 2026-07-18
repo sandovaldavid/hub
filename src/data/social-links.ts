@@ -1,4 +1,4 @@
-import type { SocialLink } from '@entities/social-link';
+import type { SocialLink, SocialLinkPriority } from '@entities/social-link';
 import { siteConfig } from './site.config';
 
 const h = siteConfig.handle;
@@ -8,9 +8,11 @@ export const socialLinks: SocialLink[] = [
 		id: 'website',
 		platform: 'website',
 		label: 'Portfolio',
-		url: `https://${h}.com`,
+		url: siteConfig.portfolioUrl,
 		username: `${h}.com`,
-		isPrimary: true,
+		priority: 'primary',
+		audience: ['recruiter', 'client'],
+		analyticsId: 'social_portfolio_opened',
 		classBrand: 'social-button--website',
 		classIcon: 'social-button__icon--website',
 	},
@@ -18,9 +20,11 @@ export const socialLinks: SocialLink[] = [
 		id: 'linkedin',
 		platform: 'linkedin',
 		label: 'LinkedIn',
-		url: `https://linkedin.com/in/${h}`,
-		username: `@${h}`,
-		isPrimary: true,
+		url: 'https://www.linkedin.com/in/jdavidsandoval',
+		username: '@jdavidsandoval',
+		priority: 'primary',
+		audience: ['recruiter', 'client'],
+		analyticsId: 'social_linkedin_opened',
 		classBrand: 'social-button--linkedin',
 		classIcon: 'social-button__icon--linkedin',
 	},
@@ -28,31 +32,13 @@ export const socialLinks: SocialLink[] = [
 		id: 'github',
 		platform: 'github',
 		label: 'GitHub',
-		url: `https://github.com/${h}`,
+		url: siteConfig.githubUrl,
 		username: `@${h}`,
-		isPrimary: true,
+		priority: 'primary',
+		audience: ['recruiter', 'community'],
+		analyticsId: 'social_github_opened',
 		classBrand: 'social-button--github',
 		classIcon: 'social-button__icon--github',
-	},
-	{
-		id: 'instagram',
-		platform: 'instagram',
-		label: 'Instagram',
-		url: `https://instagram.com/${h}`,
-		username: `@${h}`,
-		isPrimary: true,
-		classBrand: 'social-button--instagram',
-		classIcon: 'social-button__icon--instagram',
-	},
-	{
-		id: 'twitter',
-		platform: 'twitter',
-		label: 'X / Twitter',
-		url: `https://twitter.com/${h}`,
-		username: `@${h}`,
-		isPrimary: true,
-		classBrand: 'social-button--x',
-		classIcon: 'social-button__icon--x',
 	},
 	{
 		id: 'youtube',
@@ -60,19 +46,35 @@ export const socialLinks: SocialLink[] = [
 		label: 'YouTube',
 		url: `https://youtube.com/@${h}`,
 		username: `@${h}`,
-		isPrimary: true,
+		priority: 'secondary',
+		audience: ['community'],
+		analyticsId: 'social_youtube_opened',
 		classBrand: 'social-button--youtube',
 		classIcon: 'social-button__icon--youtube',
 	},
 	{
-		id: 'facebook',
-		platform: 'facebook',
-		label: 'Facebook',
-		url: `https://facebook.com/${h}`,
+		id: 'twitter',
+		platform: 'twitter',
+		label: 'X / Twitter',
+		url: `https://twitter.com/${h}`,
 		username: `@${h}`,
-		isPrimary: true,
-		classBrand: 'social-button--facebook',
-		classIcon: 'social-button__icon--facebook',
+		priority: 'secondary',
+		audience: ['community'],
+		analyticsId: 'social_x_opened',
+		classBrand: 'social-button--x',
+		classIcon: 'social-button__icon--x',
+	},
+	{
+		id: 'instagram',
+		platform: 'instagram',
+		label: 'Instagram',
+		url: `https://instagram.com/${h}`,
+		username: `@${h}`,
+		priority: 'footer',
+		audience: ['community'],
+		analyticsId: 'social_instagram_opened',
+		classBrand: 'social-button--instagram',
+		classIcon: 'social-button__icon--instagram',
 	},
 	{
 		id: 'tiktok',
@@ -80,9 +82,23 @@ export const socialLinks: SocialLink[] = [
 		label: 'TikTok',
 		url: `https://tiktok.com/@${h}`,
 		username: `@${h}`,
-		isPrimary: true,
+		priority: 'footer',
+		audience: ['community'],
+		analyticsId: 'social_tiktok_opened',
 		classBrand: 'social-button--tiktok',
 		classIcon: 'social-button__icon--tiktok',
+	},
+	{
+		id: 'facebook',
+		platform: 'facebook',
+		label: 'Facebook',
+		url: `https://facebook.com/${h}`,
+		username: `@${h}`,
+		priority: 'footer',
+		audience: ['community'],
+		analyticsId: 'social_facebook_opened',
+		classBrand: 'social-button--facebook',
+		classIcon: 'social-button__icon--facebook',
 	},
 ];
 
@@ -96,4 +112,7 @@ export const getRequiredSocialLink = (id: SocialLink['id']): SocialLink => {
 	return link;
 };
 
-export const getPrimarySocialLinks = () => socialLinks.filter(link => link.isPrimary);
+export const getSocialLinksByPriority = (priority: SocialLinkPriority) =>
+	socialLinks.filter(link => link.priority === priority);
+
+export const getPrimarySocialLinks = () => getSocialLinksByPriority('primary');
