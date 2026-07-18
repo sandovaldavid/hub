@@ -45,6 +45,22 @@ test.describe('Home page', () => {
 		}
 	});
 
+	test('CTA links use semantic destinations and safe external attributes', async ({ page }) => {
+		await page.goto('/');
+
+		const calendlyLink = page.locator('a[href*="calendly.com"]');
+		await expect(calendlyLink).toHaveAttribute('target', '_blank');
+		await expect(calendlyLink).toHaveAttribute('rel', /noopener/);
+		await expect(calendlyLink).toHaveAttribute('rel', /noreferrer/);
+
+		const learningLink = page.locator('a[href*="instagram.com"]', {
+			hasText: 'Aprende y Crece como Developer',
+		});
+		await expect(learningLink).toHaveAttribute('href', /instagram\.com/);
+		await expect(learningLink).toHaveAttribute('target', '_blank');
+		await expect(learningLink).toHaveAttribute('rel', /noopener/);
+	});
+
 	test('share button is present', async ({ page }) => {
 		await page.goto('/');
 		await expect(page.locator('#share-button')).toBeVisible();
