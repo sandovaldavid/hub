@@ -54,12 +54,12 @@ test.describe('Home page', () => {
 		await expect(calendlyLink).toHaveAttribute('rel', /noopener/);
 		await expect(calendlyLink).toHaveAttribute('rel', /noreferrer/);
 
-		const learningLink = page.locator('a[href*="instagram.com"]', {
-			hasText: 'Aprende y Crece como Developer',
-		});
+		const learningLink = page.locator('.cta-buttons__link[href*="instagram.com"]');
+		await expect(learningLink).toHaveCount(1);
 		await expect(learningLink).toHaveAttribute('href', /instagram\.com/);
 		await expect(learningLink).toHaveAttribute('target', '_blank');
 		await expect(learningLink).toHaveAttribute('rel', /noopener/);
+		await expect(learningLink).toHaveAttribute('rel', /noreferrer/);
 	});
 
 	test('share button is present', async ({ page }) => {
