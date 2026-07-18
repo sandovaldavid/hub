@@ -13,7 +13,11 @@ import TikTokIcon from '@shared/assets/social-platform/tiktok.svg';
 import MediumIcon from '@shared/assets/social-platform/medium.svg';
 import WebSiteIcon from '@shared/assets/social-platform/website.svg';
 
-const { links, priorities = ['primary'], variant = 'default' } = Astro.props as SocialGridProps;
+const {
+	links,
+	priorities = ['primary'],
+	variant = 'default',
+} = Astro.props as SocialGridProps;
 const displayLinks = links.filter(link => priorities.includes(link.priority));
 ---
 
