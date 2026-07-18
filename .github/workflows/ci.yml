@@ -77,7 +77,7 @@ jobs:
   publish-playwright-report:
     name: publish-playwright-report
     needs: test
-    if: ${{ always() && needs.test.result != 'cancelled' }}
+    if: ${{ always() && (needs.test.result == 'success' || needs.test.result == 'failure') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
