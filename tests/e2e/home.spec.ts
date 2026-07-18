@@ -48,7 +48,8 @@ test.describe('Home page', () => {
 	test('CTA links use semantic destinations and safe external attributes', async ({ page }) => {
 		await page.goto('/');
 
-		const calendlyLink = page.locator('a[href*="calendly.com"]');
+		const calendlyLink = page.locator('.cta-buttons__link[href*="calendly.com"]');
+		await expect(calendlyLink).toHaveCount(1);
 		await expect(calendlyLink).toHaveAttribute('target', '_blank');
 		await expect(calendlyLink).toHaveAttribute('rel', /noopener/);
 		await expect(calendlyLink).toHaveAttribute('rel', /noreferrer/);
