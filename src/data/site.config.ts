@@ -1,12 +1,19 @@
 export const siteConfig = {
 	// Brand identity — single source of truth for handle/name used across all data files
 	handle: 'sandovaldavid',
-	name: 'sandovaldavid - Hub Digital',
+	name: 'David Sandoval - Software Engineer',
 	shortName: 'sandovaldavid',
 	email: 'contact@sandovaldavid.com',
+	recruiterEmailSubject: 'Software engineering opportunity',
 	twitterHandle: '@sandovaldavid',
 
 	url: 'https://linktree.sandovaldavid.com',
+	portfolioUrl: 'https://sandovaldavid.com',
+	githubUrl: 'https://github.com/sandovaldavid',
+	resume: {
+		en: 'https://sandovaldavid.com/resume/david-sandoval-resume.pdf',
+		es: 'https://sandovaldavid.com/resume/david-sandoval-resume-es.pdf',
+	},
 	themeColor: '#3C81F1',
 	calendlyUrl: 'https://calendly.com/sandovaldavid/30min',
 	// PUBLIC_ vars are embedded in the build (visible in HTML — not a secret)

@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Home page', () => {
-	test('loads with correct title', async ({ page }) => {
+	test('loads with correct professional title', async ({ page }) => {
 		await page.goto('/');
-		await expect(page).toHaveTitle(/sandovaldavid/);
+		await expect(page).toHaveTitle(/David Sandoval.*Software Engineer/);
 	});
 
 	test('has meta description', async ({ page }) => {
 		await page.goto('/');
 		const meta = page.locator('meta[name="description"]');
-		await expect(meta).toHaveAttribute('content', /.+/);
+		await expect(meta).toHaveAttribute('content', /Software Engineer/);
 	});
 
 	test('has Open Graph tags', async ({ page }) => {
@@ -30,9 +30,24 @@ test.describe('Home page', () => {
 		await expect(page.locator('[aria-labelledby="skills-heading"]')).toBeVisible();
 	});
 
+	test('hero exposes role, remote scope and resume action', async ({ page }) => {
+		await page.goto('/');
+		await expect(
+			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
+		).toBeVisible();
+		await expect(page.getByText('Software Engineer building reliable web products')).toBeVisible();
+		await expect(page.getByText('Remote · Europe & Latin America')).toBeVisible();
+
+		const resumeLink = page.locator(
+			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]'
+		);
+		await expect(resumeLink).toBeVisible();
+		await expect(resumeLink).toHaveAttribute('target', '_blank');
+		await expect(resumeLink).toHaveAttribute('rel', /noopener/);
+	});
+
 	test('social links have href and security attributes', async ({ page }) => {
 		await page.goto('/');
-		// Scope to main to exclude Astro dev toolbar links injected by astro preview
 		const externalLinks = page.locator('main a[target="_blank"]');
 		const count = await externalLinks.count();
 		expect(count).toBeGreaterThan(0);
@@ -45,21 +60,19 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test('CTA links use semantic destinations and safe external attributes', async ({ page }) => {
+	test('primary professional CTA destinations are available', async ({ page }) => {
 		await page.goto('/');
 
-		const calendlyLink = page.locator('.cta-buttons__link[href*="calendly.com"]');
-		await expect(calendlyLink).toHaveCount(1);
-		await expect(calendlyLink).toHaveAttribute('target', '_blank');
-		await expect(calendlyLink).toHaveAttribute('rel', /noopener/);
-		await expect(calendlyLink).toHaveAttribute('rel', /noreferrer/);
+		const professionalLinks = [
+			'.cta-buttons__link[href="https://sandovaldavid.com"]',
+			'.cta-buttons__link[href$="david-sandoval-resume.pdf"]',
+			'.cta-buttons__link[href="https://github.com/sandovaldavid"]',
+			'.cta-buttons__link[href^="mailto:"]',
+		];
 
-		const learningLink = page.locator('.cta-buttons__link[href*="instagram.com"]');
-		await expect(learningLink).toHaveCount(1);
-		await expect(learningLink).toHaveAttribute('href', /instagram\.com/);
-		await expect(learningLink).toHaveAttribute('target', '_blank');
-		await expect(learningLink).toHaveAttribute('rel', /noopener/);
-		await expect(learningLink).toHaveAttribute('rel', /noreferrer/);
+		for (const selector of professionalLinks) {
+			await expect(page.locator(selector)).toHaveCount(1);
+		}
 	});
 
 	test('share button is present', async ({ page }) => {
@@ -91,15 +104,26 @@ test.describe('Home page', () => {
 });
 
 test.describe('Spanish version (/es/)', () => {
-	test('loads the Spanish page', async ({ page }) => {
+	test('loads the Spanish professional page', async ({ page }) => {
 		await page.goto('/es/');
-		await expect(page).toHaveTitle(/sandovaldavid/);
+		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
+		await expect(
+			page.getByText('Ingeniero de Software que construye productos web confiables')
+		).toBeVisible();
 	});
 
 	test('html lang attribute is es', async ({ page }) => {
 		await page.goto('/es/');
 		const htmlEl = page.locator('html');
 		await expect(htmlEl).toHaveAttribute('lang', 'es');
+	});
+
+	test('has localized resume action', async ({ page }) => {
+		await page.goto('/es/');
+		const resumeLink = page.locator(
+			'.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]'
+		);
+		await expect(resumeLink).toBeVisible();
 	});
 
 	test('has hreflang alternate links', async ({ page }) => {

@@ -1,6 +1,4 @@
 ---
-// Spanish version of the home page (/es/)
-// This is a thin locale wrapper — all logic lives in the shared index.astro via Layout and components.
 import Layout from '@app/layouts/Layout.astro';
 import HeroCard from '@widgets/hero-section/ui/HeroCard.astro';
 import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
@@ -11,10 +9,11 @@ import { WeeklyProjectSection } from '@widgets/weekly-project-section';
 
 import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
-import { ctaButtons } from '@data/cta';
+import { getCtaButtons } from '@data/cta';
 import { skills } from '@data/skills';
 import { weeklyProject } from '@data/weekly-project';
 import { getSEO } from '@data/seo';
+import { siteConfig } from '@data/site.config';
 import { useTranslations, getAlternateUrls } from '@shared/i18n';
 
 const lang = 'es' as const;
@@ -28,11 +27,17 @@ const localizedProfile = {
 	bio: t('profile.bio'),
 };
 
-const localizedCtaButtons = ctaButtons.map(btn => ({
+const localizedCtaButtons = getCtaButtons(lang).map(btn => ({
 	...btn,
 	title: t(`cta.${btn.id}.title`),
 	description: t(`cta.${btn.id}.description`),
 }));
+
+const heroMetadata = [
+	{ label: 'Ubicación', value: t('profile.location') },
+	{ label: 'Modalidad', value: t('profile.workMode') },
+	{ label: 'Idiomas', value: t('profile.languages') },
+];
 ---
 
 <Layout
@@ -48,10 +53,6 @@ const localizedCtaButtons = ctaButtons.map(btn => ({
 		class="hub-container p-4 md:p-8 md:px-6 lg:p-12 lg:px-8 xl:p-16 mx-auto"
 		role="main"
 		aria-label={t('page.mainLabel')}>
-		<h1 class="sr-only">
-			{profile.name} - {t('profile.tagline')}
-		</h1>
-
 		<div
 			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:gap-6 lg:grid-cols-8 lg:gap-6 lg:items-start xl:gap-8 2xl:mx-auto"
 			role="region"
@@ -59,7 +60,17 @@ const localizedCtaButtons = ctaButtons.map(btn => ({
 			<section
 				class="bento-item bento-item--hero md:col-span-2 lg:col-span-4 lg:row-start-1"
 				aria-labelledby="hero-heading">
-				<HeroCard profile={localizedProfile} variant="default" />
+				<HeroCard
+					profile={localizedProfile}
+					variant="default"
+					availability={t('profile.availability')}
+					metadata={heroMetadata}
+					primaryAction={{
+						label: t('profile.resumeAction'),
+						href: siteConfig.resume[lang],
+						external: true,
+					}}
+				/>
 			</section>
 
 			<section
@@ -82,7 +93,7 @@ const localizedCtaButtons = ctaButtons.map(btn => ({
 					title={t('contact.title')}
 					message={t('contact.message')}
 					buttonText={t('contact.buttonText')}
-					variant="prominent"
+					variant="default"
 				/>
 			</section>
 		</section>

@@ -1,32 +1,46 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
+async function prepareAccessibilityScan(page: Page, path: string, theme: 'light' | 'dark') {
+	await page.addInitScript(selectedTheme => {
+		localStorage.setItem('sandovaldavid-theme', selectedTheme);
+	}, theme);
+	await page.emulateMedia({ reducedMotion: 'reduce' });
+	await page.goto(path);
+	await page.addStyleTag({
+		content: `
+			*, *::before, *::after {
+				animation-delay: 0s !important;
+				animation-duration: 0s !important;
+				transition-delay: 0s !important;
+				transition-duration: 0s !important;
+			}
+		`,
+	});
+	await page.evaluate(() => document.fonts.ready);
+	await page.waitForLoadState('networkidle');
+}
+
+async function analyzeAccessibility(page: Page, browserName: string) {
+	const builder = new AxeBuilder({ page }).withTags(AXE_TAGS);
+	if (browserName === 'webkit') {
+		builder.disableRules(['color-contrast']);
+	}
+	return builder.analyze();
+}
+
 test.describe('Accessibility — WCAG 2.1 AA', () => {
 	test('light mode has no violations', async ({ page, browserName }) => {
-		await page.addInitScript(() => localStorage.setItem('sandovaldavid-theme', 'light'));
-		await page.goto('/');
-
-		const builder = new AxeBuilder({ page }).withTags(AXE_TAGS);
-		if (browserName === 'webkit') {
-			builder.disableRules(['color-contrast']);
-		}
-		const results = await builder.analyze();
-
+		await prepareAccessibilityScan(page, '/', 'light');
+		const results = await analyzeAccessibility(page, browserName);
 		expect(results.violations).toEqual([]);
 	});
 
 	test('dark mode has no violations', async ({ page, browserName }) => {
-		await page.addInitScript(() => localStorage.setItem('sandovaldavid-theme', 'dark'));
-		await page.goto('/');
-
-		const builder = new AxeBuilder({ page }).withTags(AXE_TAGS);
-		if (browserName === 'webkit') {
-			builder.disableRules(['color-contrast']);
-		}
-		const results = await builder.analyze();
-
+		await prepareAccessibilityScan(page, '/', 'dark');
+		const results = await analyzeAccessibility(page, browserName);
 		expect(results.violations).toEqual([]);
 	});
 
@@ -57,17 +71,8 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 	});
 
 	test('Spanish page (/es/) has no violations', async ({ page, browserName }) => {
-		// Set theme in localStorage before navigation so the FOUC inline script
-		// picks it up — avoids CI system preference causing dark-mode CSS on load
-		await page.addInitScript(() => localStorage.setItem('sandovaldavid-theme', 'light'));
-		await page.goto('/es/');
-
-		const builder = new AxeBuilder({ page }).withTags(AXE_TAGS);
-		if (browserName === 'webkit') {
-			builder.disableRules(['color-contrast']);
-		}
-		const results = await builder.analyze();
-
+		await prepareAccessibilityScan(page, '/es/', 'light');
+		const results = await analyzeAccessibility(page, browserName);
 		expect(results.violations).toEqual([]);
 	});
 });
