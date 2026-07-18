@@ -41,18 +41,18 @@
 
 .hero-card__availability {
 	@apply inline-flex items-center gap-2 px-3 py-2 rounded-full w-fit m-0;
-	@apply bg-success-50 border border-success-200;
+	@apply bg-success-50 border border-success-300;
 }
 
 .hero-card__availability-indicator {
 	@apply block w-2 h-2 rounded-full;
-	@apply bg-success-500;
+	@apply bg-success-600;
 	animation: pulse-glow 2s ease-in-out infinite;
 }
 
 .hero-card__availability-text {
-	@apply text-xs md:text-sm font-medium;
-	@apply text-success-700;
+	@apply text-xs md:text-sm font-semibold;
+	@apply text-success-800;
 }
 
 .hero-card__metadata {
@@ -65,7 +65,7 @@
 }
 
 .hero-card__metadata-item dt {
-	@apply text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400;
+	@apply text-xs uppercase tracking-wide text-neutral-600 dark:text-neutral-300;
 }
 
 .hero-card__metadata-item dd {
@@ -74,7 +74,7 @@
 
 .hero-card__primary-action {
 	@apply inline-flex items-center justify-center w-full sm:w-auto;
-	@apply rounded-lg bg-primary-600 px-5 py-3 font-semibold text-white;
+	@apply rounded-lg bg-primary-700 px-5 py-3 font-semibold text-white;
 	@apply transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500;
 }
 
