@@ -35,7 +35,7 @@ export function getAlternateUrls(url: URL): { en: string; es: string } {
 	const path = url.pathname.replace(/^\/es(\/|$)/, '/');
 	return {
 		en: path,
-		es: `/es${path === '/' ? '' : path}`,
+		es: path === '/' ? '/es/' : `/es${path}`,
 	};
 }
 
