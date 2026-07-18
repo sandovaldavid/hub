@@ -77,7 +77,7 @@ const heroMetadata = [
 				class="bento-item bento-item--social md:col-span-2 lg:col-span-4 lg:row-start-1"
 				aria-labelledby="social-heading">
 				<h2 id="social-heading" class="sr-only">{t('social.heading')}</h2>
-				<SocialGrid links={socialLinks} showOnlyPrimary={true} variant="default" />
+				<SocialGrid links={socialLinks} priorities={['primary', 'secondary']} variant="default" />
 			</section>
 		</div>
 

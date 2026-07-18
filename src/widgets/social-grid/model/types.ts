@@ -1,7 +1,7 @@
-import type { SocialLink } from '../../../entities/social-link';
+import type { SocialLink, SocialLinkPriority } from '../../../entities/social-link';
 
 export interface SocialGridProps {
 	links: SocialLink[];
-	showOnlyPrimary?: boolean;
+	priorities?: SocialLinkPriority[];
 	variant?: 'default' | 'compact';
 }

@@ -3,7 +3,6 @@ import SocialButton from '@entities/social-link/ui/SocialButton.astro';
 import type { SocialGridProps } from '../model/types';
 import './SocialGrid.css';
 
-/**Icons social Network */
 import FacebookIcon from '@shared/assets/social-platform/facebook.svg';
 import LinkedInIcon from '@shared/assets/social-platform/linkedin.svg';
 import GitHubIcon from '@shared/assets/social-platform/github.svg';
@@ -14,50 +13,58 @@ import TikTokIcon from '@shared/assets/social-platform/tiktok.svg';
 import MediumIcon from '@shared/assets/social-platform/medium.svg';
 import WebSiteIcon from '@shared/assets/social-platform/website.svg';
 
-type Props = SocialGridProps;
-
-const { links, showOnlyPrimary = false, variant = 'default' } = Astro.props;
-
-const displayLinks = showOnlyPrimary ? links.filter(link => link.isPrimary) : links;
+const { links, priorities = ['primary'], variant = 'default' } = Astro.props as SocialGridProps;
+const displayLinks = links.filter(link => priorities.includes(link.priority));
 ---
 
 <div class="social-grid">
 	{
 		displayLinks.map(link => (
-			<SocialButton
-				class={link.classBrand}
-				label={link.label}
-				url={link.url}
-				username={link.username}
-				variant={variant}>
-				<span slot="icon">
-					{link.platform === 'facebook' && (
-						<FacebookIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-					{link.platform === 'linkedin' && (
-						<LinkedInIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-					{link.platform === 'github' && (
-						<GitHubIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-					{link.platform === 'instagram' && (
-						<InstagramIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-					{link.platform === 'twitter' && <XIcon class={`social-button__icon ${link.classIcon}`} />}
-					{link.platform === 'youtube' && (
-						<YouTubeIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-					{link.platform === 'website' && (
-						<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-					{link.platform === 'tiktok' && (
-						<TikTokIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-					{link.platform === 'medium' && (
-						<MediumIcon class={`social-button__icon ${link.classIcon}`} />
-					)}
-				</span>
-			</SocialButton>
+			<div
+				class:list={[
+					'social-grid__item',
+					link.priority !== 'primary' && 'social-grid__item--secondary',
+				]}
+				data-priority={link.priority}
+				data-audience={link.audience.join(',')}>
+				<SocialButton
+					class={link.classBrand}
+					label={link.label}
+					url={link.url}
+					username={link.username}
+					analyticsId={link.analyticsId}
+					variant={link.priority === 'primary' ? variant : 'compact'}>
+					<span slot="icon">
+						{link.platform === 'facebook' && (
+							<FacebookIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'linkedin' && (
+							<LinkedInIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'github' && (
+							<GitHubIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'instagram' && (
+							<InstagramIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'twitter' && (
+							<XIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'youtube' && (
+							<YouTubeIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'website' && (
+							<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'tiktok' && (
+							<TikTokIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+						{link.platform === 'medium' && (
+							<MediumIcon class={`social-button__icon ${link.classIcon}`} />
+						)}
+					</span>
+				</SocialButton>
+			</div>
 		))
 	}
 </div>
