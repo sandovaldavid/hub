@@ -1,5 +1,7 @@
-import { socialLinks } from './social-links';
+import { getRequiredSocialLink } from './social-links';
 import { siteConfig } from './site.config';
+
+const instagramLink = getRequiredSocialLink('instagram');
 
 export const ctaButtons = [
 	{
@@ -10,14 +12,14 @@ export const ctaButtons = [
 			'Agenda una "Llamada de Descubrimiento" gratis. Entenderé tus metas y te daré un plan de acción claro, sin tecnicismos.',
 		href: siteConfig.calendlyUrl,
 		variant: 'primary' as const,
-		external: false,
+		external: true,
 	},
 	{
 		id: 'learning',
 		icon: 'chat',
 		title: 'Aprende y Crece como Developer',
 		description: 'Consejos y recursos para developers',
-		href: socialLinks[3].url,
+		href: instagramLink.url,
 		variant: 'secondary' as const,
 		external: true,
 	},
