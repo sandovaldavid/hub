@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/playwright:v1.61.0-noble
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
+ARG BUN_VERSION=1.3.14
 
 RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu || true \
     && groupadd --gid ${USER_GID} ${USERNAME} \
@@ -25,7 +26,7 @@ RUN mkdir -p -m 755 /etc/apt/keyrings \
     && rm -rf /var/lib/apt/lists/*
 
 USER ${USERNAME}
-RUN curl -fsSL https://bun.sh/install | bash
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v${BUN_VERSION}"
 ENV PATH="/home/${USERNAME}/.bun/bin:${PATH}"
 
 WORKDIR /workspace
