@@ -7,13 +7,7 @@ import CheckIcon from '@shared/assets/check.svg';
 
 type Props = HeroCardProps;
 
-const {
-	profile,
-	variant = 'default',
-	availability,
-	metadata = [],
-	primaryAction,
-} = Astro.props;
+const { profile, variant = 'default', availability, metadata = [], primaryAction } = Astro.props;
 ---
 
 <div class="hero-card__content">
@@ -56,35 +50,41 @@ const {
 			</h1>
 
 			{profile.tagline && <p class="hero-card__tagline">{profile.tagline}</p>}
-			{availability && (
-				<p class="hero-card__availability">
-					<span class="hero-card__availability-indicator" aria-hidden="true"></span>
-					<span class="hero-card__availability-text">{availability}</span>
-				</p>
-			)}
+			{
+				availability && (
+					<p class="hero-card__availability">
+						<span class="hero-card__availability-indicator" aria-hidden="true" />
+						<span class="hero-card__availability-text">{availability}</span>
+					</p>
+				)
+			}
 		</div>
 	</div>
 
 	{variant === 'default' && profile.bio && <p class="hero-card__bio">{profile.bio}</p>}
 
-	{metadata.length > 0 && (
-		<dl class="hero-card__metadata">
-			{metadata.map(item => (
-				<div class="hero-card__metadata-item">
-					<dt>{item.label}</dt>
-					<dd>{item.value}</dd>
-				</div>
-			))}
-		</dl>
-	)}
+	{
+		metadata.length > 0 && (
+			<dl class="hero-card__metadata">
+				{metadata.map(item => (
+					<div class="hero-card__metadata-item">
+						<dt>{item.label}</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))}
+			</dl>
+		)
+	}
 
-	{primaryAction && (
-		<a
-			class="hero-card__primary-action"
-			href={primaryAction.href}
-			target={primaryAction.external ? '_blank' : undefined}
-			rel={primaryAction.external ? 'noopener noreferrer' : undefined}>
-			{primaryAction.label}
-		</a>
-	)}
+	{
+		primaryAction && (
+			<a
+				class="hero-card__primary-action"
+				href={primaryAction.href}
+				target={primaryAction.external ? '_blank' : undefined}
+				rel={primaryAction.external ? 'noopener noreferrer' : undefined}>
+				{primaryAction.label}
+			</a>
+		)
+	}
 </div>
