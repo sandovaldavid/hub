@@ -86,4 +86,14 @@ export const socialLinks: SocialLink[] = [
 	},
 ];
 
+export const getRequiredSocialLink = (id: SocialLink['id']): SocialLink => {
+	const link = socialLinks.find(item => item.id === id);
+
+	if (!link) {
+		throw new Error(`Required social link "${id}" is not configured.`);
+	}
+
+	return link;
+};
+
 export const getPrimarySocialLinks = () => socialLinks.filter(link => link.isPrimary);
