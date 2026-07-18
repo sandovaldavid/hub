@@ -18,11 +18,7 @@ const { url, label, username, analyticsId, variant = 'default', class: className
 	href={url}
 	target="_blank"
 	rel="noopener noreferrer"
-	class={cn(
-		'social-button group',
-		variant === 'compact' && 'social-button--compact',
-		className
-	)}
+	class={cn('social-button group', variant === 'compact' && 'social-button--compact', className)}
 	data-analytics-id={analyticsId}
 	aria-label={`Visit ${label} profile`}>
 	<span class="social-button__icon" aria-hidden="true">
