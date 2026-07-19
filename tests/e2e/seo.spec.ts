@@ -3,8 +3,14 @@ import { expect, test } from '@playwright/test';
 const siteUrl = 'https://linktree.sandovaldavid.com';
 
 for (const route of [
-	{ path: '/', lang: 'en', locale: 'en_US', title: /Software Engineer/ },
-	{ path: '/es/', lang: 'es', locale: 'es_ES', title: /Ingeniero de Software/ },
+	{ path: '/', lang: 'en', locale: 'en_US', alternateLocale: 'es_PE', title: /Software Engineer/ },
+	{
+		path: '/es/',
+		lang: 'es',
+		locale: 'es_PE',
+		alternateLocale: 'en_US',
+		title: /Ingeniero de Software/,
+	},
 ]) {
 	test.describe(`SEO metadata for ${route.path}`, () => {
 		test.beforeEach(async ({ page }) => {
@@ -29,6 +35,10 @@ for (const route of [
 			await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
 				'content',
 				route.locale
+			);
+			await expect(page.locator('meta[property="og:locale:alternate"]')).toHaveAttribute(
+				'content',
+				route.alternateLocale
 			);
 		});
 
