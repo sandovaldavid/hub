@@ -1,41 +1,21 @@
 @import '../../../app/styles/global.css';
 
-/* Section Base */
 .weekly-project-section {
 	@apply w-full;
 }
 
-/* Header */
 .weekly-project-section__header {
 	@apply mb-8 md:mb-10 text-center;
 }
 
-/* Title */
 .weekly-project-section__title {
 	@apply text-2xl md:text-3xl xl:text-4xl font-bold text-neutral-900 dark:text-neutral-50;
 }
 
-/* Subtitle */
 .weekly-project-section__subtitle {
-	@apply text-base md:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto;
+	@apply text-base md:text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto mt-3;
 }
 
-/* Content */
 .weekly-project-section__content {
-	@apply mb-8 md:mb-10;
-}
-
-/* Footer */
-.weekly-project-section__footer {
-	@apply text-center py-6 md:py-8 border-t border-neutral-200 dark:border-neutral-700;
-}
-
-/* Footer Text */
-.weekly-project-section__footer-text {
-	@apply text-neutral-600 dark:text-neutral-300;
-}
-
-/* Footer Link */
-.weekly-project-section__footer-link {
-	@apply text-primary-600 dark:text-primary-400 font-semibold no-underline hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 focus-visible:outline-primary-500;
+	@apply grid grid-cols-1 gap-6 lg:grid-cols-3;
 }
