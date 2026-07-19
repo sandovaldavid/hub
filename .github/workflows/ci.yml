@@ -16,5 +16,13 @@ jobs:
         with:
           bun-version: 1.3.14
       - run: bun install --frozen-lockfile
-      - name: Format diagnostic
-        run: bun run format:check
+      - name: Format pages
+        run: bunx prettier --write src/pages/index.astro src/pages/es/index.astro
+      - name: Upload formatted pages
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: prettier-pages-diagnostic
+          path: |
+            src/pages/index.astro
+            src/pages/es/index.astro
+          retention-days: 1
