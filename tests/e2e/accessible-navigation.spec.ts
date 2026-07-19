@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
-async function expectVisibleFocus(page, selector: string) {
+async function expectVisibleFocus(page: Page, selector: string) {
 	const element = page.locator(selector);
 	await element.focus();
 	await expect(element).toBeFocused();
