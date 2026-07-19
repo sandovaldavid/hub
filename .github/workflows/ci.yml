@@ -31,6 +31,14 @@ jobs:
       - name: Format check
         run: bun run format:check
 
+      - name: Upload formatted layout diagnostic
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: prettier-layout-diagnostic
+          path: src/app/layouts/Layout.astro
+          retention-days: 1
+
       - name: Lint
         run: bun run lint
 
