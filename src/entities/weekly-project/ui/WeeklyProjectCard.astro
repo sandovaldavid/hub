@@ -6,72 +6,64 @@ import './WeeklyProjectCard.css';
 
 interface Props {
 	project: WeeklyProject;
-	variant?: 'default' | 'compact';
+	lang: 'en' | 'es';
 }
 
-const { project, variant = 'default' } = Astro.props;
-const isCompact = variant === 'compact';
+const { project, lang } = Astro.props;
+const labels =
+	lang === 'es'
+		? {
+				problem: 'Problema',
+				contribution: 'Mi contribución',
+				outcome: 'Resultado',
+				repository: 'Repositorio',
+				demo: 'Demo',
+				private: 'Repositorio privado',
+				unavailable: 'No disponible',
+			}
+		: {
+				problem: 'Problem',
+				contribution: 'My contribution',
+				outcome: 'Outcome',
+				repository: 'Repository',
+				demo: 'Live demo',
+				private: 'Private repository',
+				unavailable: 'Not available',
+			};
 ---
 
-<article class={`weekly-project-card ${isCompact ? 'weekly-project-card--compact' : ''}`}>
-	<!-- Image Section -->
-	<div class="weekly-project-card__image-wrapper">
-		<img
-			src={project.image.url}
-			alt={project.image.alt}
-			class="weekly-project-card__image"
-			loading="lazy"
-		/>
-	</div>
-
-	<!-- Content Section -->
+<article class="weekly-project-card">
 	<div class="weekly-project-card__content">
-		<h3 class="weekly-project-card__title">
-			{project.title}
-		</h3>
+		<div class="weekly-project-card__heading">
+			<h3 class="weekly-project-card__title">{project.title}</h3>
+			<span class="weekly-project-card__status">{project.status}</span>
+		</div>
 
-		<p class="weekly-project-card__description">
-			{project.description}
-		</p>
+		<dl class="weekly-project-card__evidence">
+			<div><dt>{labels.problem}</dt><dd>{project.problem}</dd></div>
+			<div><dt>{labels.contribution}</dt><dd>{project.contribution}</dd></div>
+			<div><dt>{labels.outcome}</dt><dd>{project.outcome}</dd></div>
+		</dl>
 
-		{
-			project.technologies.length > 0 && (
-				<div class="weekly-project-card__technologies">
-					{project.technologies.map(tech => (
-						<span class="weekly-project-card__tech-badge">{tech}</span>
-					))}
-				</div>
-			)
-		}
+		<div class="weekly-project-card__technologies" aria-label="Technology stack">
+			{project.technologies.map(tech => <span class="weekly-project-card__tech-badge">{tech}</span>)}
+		</div>
 
-		<!-- Actions Section -->
 		<div class="weekly-project-card__actions">
-			{
-				project.demoUrl && (
-					<a
-						href={project.demoUrl}
-						class="weekly-project-card__button weekly-project-card__button--primary"
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label={`Ver demostración de ${project.title}`}>
-						<span class="weekly-project-card__button-text">Ver Demo</span>
-						<LinkIcon class="weekly-project-card__button-icon" />
-					</a>
-				)
-			}
-			{
-				project.githubUrl && (
-					<a
-						href={project.githubUrl}
-						class="weekly-project-card__button weekly-project-card__button--secondary"
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label={`Ver repositorio de ${project.title}`}>
-						<GitHubIcon class="weekly-project-card__button-icon" />
-						<span class="weekly-project-card__button-text">Código</span>
-					</a>
-				)
-			}
+			{project.demoAvailability === 'public' && project.demoUrl ? (
+				<a href={project.demoUrl} class="weekly-project-card__button weekly-project-card__button--primary" target="_blank" rel="noopener noreferrer">
+					<span>{labels.demo}</span><LinkIcon class="weekly-project-card__button-icon" />
+				</a>
+			) : (
+				<span class="weekly-project-card__availability">{labels.demo}: {labels.unavailable}</span>
+			)}
+			{project.repositoryAvailability === 'public' && project.githubUrl ? (
+				<a href={project.githubUrl} class="weekly-project-card__button weekly-project-card__button--secondary" target="_blank" rel="noopener noreferrer">
+					<GitHubIcon class="weekly-project-card__button-icon" /><span>{labels.repository}</span>
+				</a>
+			) : (
+				<span class="weekly-project-card__availability">{labels.private}</span>
+			)}
 		</div>
 	</div>
 </article>
