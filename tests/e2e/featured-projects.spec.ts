@@ -34,10 +34,9 @@ for (const route of [
 		});
 
 		test('exposes valid links and explicit unavailable states', async ({ page }) => {
-			await expect(page.getByRole('link', { name: /Kioku|Repository|Repositorio/ }).first()).toHaveAttribute(
-				'href',
-				'https://github.com/sandovaldavid/kioku'
-			);
+			await expect(
+				page.getByRole('link', { name: /Kioku|Repository|Repositorio/ }).first()
+			).toHaveAttribute('href', 'https://github.com/sandovaldavid/kioku');
 			await expect(page.getByText(route.privateRepository, { exact: true })).toBeVisible();
 			await expect(page.getByRole('link', { name: /Live demo|Demo/ })).toHaveAttribute(
 				'href',
