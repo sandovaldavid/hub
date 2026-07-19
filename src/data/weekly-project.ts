@@ -1,7 +1,7 @@
 import type { WeeklyProject } from '@entities/weekly-project';
-import type { Language } from '@shared/i18n';
+import type { Lang } from '@shared/i18n';
 
-const projects: Record<Language, WeeklyProject[]> = {
+const projects: Record<Lang, WeeklyProject[]> = {
 	en: [
 		{
 			id: 'kioku',
@@ -103,4 +103,4 @@ const projects: Record<Language, WeeklyProject[]> = {
 	],
 };
 
-export const getFeaturedProjects = (lang: Language): WeeklyProject[] => projects[lang].slice(0, 3);
+export const getFeaturedProjects = (lang: Lang): WeeklyProject[] => projects[lang].slice(0, 3);
