@@ -44,7 +44,7 @@ const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
 const canonicalPath = canonicalUrl ?? Astro.url.pathname;
 const finalCanonicalUrl = new URL(canonicalPath, siteConfig.url).href;
 const absoluteOgImage = new URL(ogImage, siteConfig.url).href;
-const alternateLocale = ogLocale === 'es_ES' ? 'en_US' : 'es_ES';
+const alternateLocale = ogLocale.startsWith('es_') ? 'en_US' : 'es_PE';
 
 const jsonLd = {
 	'@context': 'https://schema.org',
