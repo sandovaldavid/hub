@@ -9,7 +9,7 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"format": "prettier --write .",
-		"format:check": "prettier --write src/app/layouts/Layout.astro && git diff -- src/app/layouts/Layout.astro && git diff --exit-code -- src/app/layouts/Layout.astro",
+		"format:check": "prettier --check .",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"test:unit": "bun test tests/unit",
