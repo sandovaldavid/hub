@@ -9,7 +9,7 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"format": "prettier --write .",
-		"format:check": "prettier --write src/pages/index.astro src/pages/es/index.astro && git diff -- src/pages/index.astro src/pages/es/index.astro && exit 1",
+		"format:check": "prettier --check .",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"test:unit": "bun test tests/unit",
