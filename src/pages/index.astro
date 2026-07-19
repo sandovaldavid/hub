@@ -11,7 +11,7 @@ import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
 import { getCtaButtons } from '@data/cta';
 import { skills } from '@data/skills';
-import { weeklyProject } from '@data/weekly-project';
+import { getFeaturedProjects } from '@data/weekly-project';
 import { getSEO } from '@data/seo';
 import { siteConfig } from '@data/site.config';
 import { getLangFromUrl, useTranslations, getAlternateUrls } from '@shared/i18n';
@@ -20,6 +20,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const SEO = getSEO(lang);
 const alternates = getAlternateUrls(Astro.url);
+const projects = getFeaturedProjects(lang);
 
 const localizedProfile = {
 	...profile,
@@ -91,10 +92,8 @@ const heroMetadata = [
 			</section>
 		</section>
 
-		<section
-			class="bento-item bento-item--weekly-project py-8"
-			aria-labelledby="weekly-project-heading">
-			<WeeklyProjectSection project={weeklyProject} />
+		<section class="bento-item bento-item--weekly-project py-8">
+			<WeeklyProjectSection {projects} {lang} />
 		</section>
 
 		<section
@@ -115,23 +114,18 @@ const heroMetadata = [
 	.bento-item--hero {
 		animation-delay: 0.1s;
 	}
-
 	.bento-item--social {
 		animation-delay: 0.2s;
 	}
-
 	.bento-item--cta {
 		animation-delay: 0.25s;
 	}
-
 	.bento-item--weekly-project {
 		animation-delay: 0.35s;
 	}
-
 	.bento-item--skills {
 		animation-delay: 0.45s;
 	}
-
 	.bento-item--contact {
 		animation-delay: 0.5s;
 	}

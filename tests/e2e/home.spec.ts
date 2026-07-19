@@ -26,7 +26,7 @@ test.describe('Home page', () => {
 		await expect(page.locator('[aria-labelledby="social-heading"]')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="cta-heading"]')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="contact-heading"]')).toBeVisible();
-		await expect(page.locator('[aria-labelledby="weekly-project-heading"]')).toBeVisible();
+		await expect(page.locator('[aria-labelledby="featured-projects-title"]')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="skills-heading"]')).toBeVisible();
 	});
 
