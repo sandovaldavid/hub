@@ -4,11 +4,7 @@ import process from 'node:process';
 
 const root = resolve(process.cwd(), 'src');
 const sourceExtensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.astro']);
-const removedBarrels = [
-	'@entities/theme',
-	'@features/share-button',
-	'@features/theme-toggle',
-];
+const removedBarrels = ['@entities/theme', '@features/share-button', '@features/theme-toggle'];
 
 function walk(directory) {
 	return readdirSync(directory).flatMap(entry => {
