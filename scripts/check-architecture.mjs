@@ -32,11 +32,9 @@ function resolveImport(sourceFile, specifier) {
 	if (specifier.startsWith('.') || specifier.startsWith('/')) {
 		return resolveCandidate(resolve(dirname(sourceFile), specifier));
 	}
-
 	const alias = Object.keys(aliasRoots)
 		.sort((left, right) => right.length - left.length)
 		.find(key => specifier === key || specifier.startsWith(`${key}/`));
-
 	if (!alias) return undefined;
 	const suffix = specifier.slice(alias.length).replace(/^\//, '');
 	return resolveCandidate(join(aliasRoots[alias], suffix));
@@ -79,7 +77,6 @@ function visit(file) {
 		return;
 	}
 	if (visited.has(file)) return;
-
 	visiting.add(file);
 	stack.push(file);
 	for (const dependency of graph.get(file) ?? []) visit(dependency);
