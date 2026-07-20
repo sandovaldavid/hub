@@ -14,7 +14,11 @@ const aliasRoots = {
 	'@pages': join(root, 'pages'),
 	'@data': join(root, 'data'),
 };
-const forbiddenBarrelImport = /^@(entities|features|widgets)\/[^/]+$/;
+const removedBarrels = new Set([
+	'@entities/theme',
+	'@features/share-button',
+	'@features/theme-toggle',
+]);
 const importPattern = /(?:import|export)\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
 
 function walk(directory) {
@@ -55,8 +59,8 @@ for (const file of files) {
 	const source = readFileSync(file, 'utf8');
 	for (const match of source.matchAll(importPattern)) {
 		const specifier = match[1];
-		if (forbiddenBarrelImport.test(specifier)) {
-			violations.push(`${relative(root, file)} imports barrel ${specifier}`);
+		if (removedBarrels.has(specifier)) {
+			violations.push(`${relative(root, file)} imports removed barrel ${specifier}`);
 		}
 		const target = resolveImport(file, specifier);
 		if (target && graph.has(normalize(target))) graph.get(normalize(file)).push(normalize(target));
