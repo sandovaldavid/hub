@@ -60,11 +60,12 @@ const labels =
 						href={project.demoUrl}
 						class="weekly-project-card__button weekly-project-card__button--primary"
 						target="_blank"
-						rel="noopener noreferrer">
-						<>
-							<span>{labels.demo}</span>
-							<LinkIcon class="weekly-project-card__button-icon" />
-						</>
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<span>{labels.demo}</span>
+						<LinkIcon class="weekly-project-card__button-icon" />
 					</a>
 				) : (
 					<span class="weekly-project-card__availability">
@@ -78,11 +79,12 @@ const labels =
 						href={project.githubUrl}
 						class="weekly-project-card__button weekly-project-card__button--secondary"
 						target="_blank"
-						rel="noopener noreferrer">
-						<>
-							<GitHubIcon class="weekly-project-card__button-icon" />
-							<span>{labels.repository}</span>
-						</>
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<GitHubIcon class="weekly-project-card__button-icon" />
+						<span>{labels.repository}</span>
 					</a>
 				) : (
 					<span class="weekly-project-card__availability">{labels.private}</span>

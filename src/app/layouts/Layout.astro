@@ -126,11 +126,7 @@ const jsonLd = {
 				<>
 					<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
 					<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
-					<link
-						rel="alternate"
-						hreflang="x-default"
-						href={new URL(alternates.en, siteConfig.url)}
-					/>
+					<link rel="alternate" hreflang="x-default" href={new URL(alternates.en, siteConfig.url)} />
 				</>
 			)
 		}
@@ -145,10 +141,7 @@ const jsonLd = {
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<!-- Theme Initialization Script (prevent FOUC) -->
 		<script is:inline set:html={themeScript} />
-
-		<!-- JSON-LD Structured Data -->
 		<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	</head>
 	<body
@@ -162,5 +155,9 @@ const jsonLd = {
 
 		<slot />
 		<Analytics />
+		<script>
+			import { initConversionAnalytics } from '@shared/analytics/conversion';
+			initConversionAnalytics();
+		</script>
 	</body>
 </html>

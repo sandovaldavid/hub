@@ -67,6 +67,9 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 		<a
 			href={mailtoLink}
 			class="w-full max-w-xs"
+			data-conversion-event="contact_clicked"
+			data-conversion-position="contact"
+			data-conversion-item="email"
 			aria-label={`Enviar correo a ${email}: ${subject}`}>
 			<Button
 				variant="primary"
