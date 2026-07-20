@@ -28,6 +28,9 @@ jobs:
       - name: Type check
         run: bunx astro check
 
+      - name: Architecture check
+        run: bun run check:architecture
+
       - name: Format check
         run: bun run format:check
 
