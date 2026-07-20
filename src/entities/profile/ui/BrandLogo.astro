@@ -15,12 +15,22 @@ export interface Props {
 
 const { src, alt, size = 'md', class: className } = Astro.props;
 
-const sizeClasses = {
-	sm: 'h-8 w-auto',
-	md: 'h-12 w-auto',
-	lg: 'h-16 w-auto',
-	xl: 'h-24 w-auto',
-};
+const sizeConfig = {
+	sm: { className: 'h-8 w-auto', dimension: 32 },
+	md: { className: 'h-12 w-auto', dimension: 48 },
+	lg: { className: 'h-16 w-auto', dimension: 64 },
+	xl: { className: 'h-24 w-auto', dimension: 96 },
+} as const;
+
+const logo = sizeConfig[size];
 ---
 
-<img {src} {alt} loading="eager" class={cn('brand-logo', sizeClasses[size], className)} />
+<img
+	{src}
+	{alt}
+	width={logo.dimension}
+	height={logo.dimension}
+	loading="eager"
+	decoding="async"
+	class={cn('brand-logo', logo.className, className)}
+/>

@@ -18,23 +18,31 @@ export interface Props {
 
 const { src, alt, size = 'lg', ring = true, showBrandLogo = true, class: className } = Astro.props;
 
-// Logo size based on avatar size
 const logoSizeMap = {
-	xs: 'w-4 h-4',
-	sm: 'w-5 h-5',
-	md: 'w-6 h-6',
-	lg: 'w-8 h-8',
-	xl: 'w-10 h-10',
-	'2xl': 'w-12 h-12',
-	'3xl': 'w-16 h-16',
-	'4xl': 'w-20 h-20',
-};
+	xs: { className: 'w-4 h-4', dimension: 16 },
+	sm: { className: 'w-5 h-5', dimension: 20 },
+	md: { className: 'w-6 h-6', dimension: 24 },
+	lg: { className: 'w-8 h-8', dimension: 32 },
+	xl: { className: 'w-10 h-10', dimension: 40 },
+	'2xl': { className: 'w-12 h-12', dimension: 48 },
+	'3xl': { className: 'w-16 h-16', dimension: 64 },
+	'4xl': { className: 'w-20 h-20', dimension: 80 },
+} as const;
 
 const logoSize = logoSizeMap[size];
 ---
 
 <div class="relative inline-block w-fit" role="img" aria-label={alt}>
-	<Avatar {src} {alt} {size} {ring} ringColor="ring-primary-500" class={className} />
+	<Avatar
+		{src}
+		{alt}
+		{size}
+		{ring}
+		loading="eager"
+		fetchpriority="high"
+		ringColor="ring-primary-500"
+		class={className}
+	/>
 
 	{
 		showBrandLogo && (
@@ -43,7 +51,12 @@ const logoSize = logoSizeMap[size];
 				alt=""
 				role="presentation"
 				aria-hidden="true"
-				class={`absolute bottom-0 right-0 ${logoSize} rounded-full bg-gray-50 dark:border-gray-900 dark:bg-gray-900 shadow-lg transition-transform duration-200 hover:scale-105`}
+				width={logoSize.dimension}
+				height={logoSize.dimension}
+				loading="eager"
+				fetchpriority="low"
+				decoding="async"
+				class={`absolute bottom-0 right-0 ${logoSize.className} rounded-full bg-gray-50 dark:border-gray-900 dark:bg-gray-900 shadow-lg transition-transform duration-200 hover:scale-105`}
 			/>
 		)
 	}
