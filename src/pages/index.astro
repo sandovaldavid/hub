@@ -44,6 +44,7 @@ const heroMetadata = [
 <Layout {...SEO} {alternates}>
 	<main
 		id="main-content"
+		tabindex="-1"
 		class="hub-container p-4 md:p-8 md:px-6 lg:p-12 lg:px-8 xl:p-16 mx-auto"
 		role="main"
 		aria-label={t('page.mainLabel')}>
@@ -138,6 +139,14 @@ const heroMetadata = [
 		to {
 			opacity: 1;
 			transform: translateY(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.bento-item {
+			animation: none;
+			opacity: 1;
+			transform: none;
 		}
 	}
 </style>
