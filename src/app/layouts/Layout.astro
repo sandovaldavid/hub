@@ -1,8 +1,8 @@
 ---
 import '../styles/global.css';
-import { getThemeInitScript } from '@entities/theme';
-import { ShareButton } from '@features/share-button';
-import { ThemeToggle } from '@features/theme-toggle';
+import { getThemeInitScript } from '@entities/theme/lib/theme-manager';
+import ShareButton from '@features/share-button/ui/ShareButton.astro';
+import ThemeToggle from '@features/theme-toggle/ui/ThemeToggle.astro';
 import type { SEOProps } from '@/app/models/seo.model';
 import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
