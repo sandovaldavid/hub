@@ -1,6 +1,6 @@
 # 🔗 Linktree
 
-A high-performance, accessible, and multilingual personal link tree website. Built with **Astro 6**, **Tailwind CSS v4**, **Bun**, and designed using the **Feature-Sliced Design (FSD)** architectural methodology.
+A high-performance, accessible, and multilingual personal link tree website. Built with **Astro 6**, **Tailwind CSS v4**, and **Bun**, using a pragmatic component architecture sized for a small static product.
 
 > [!IMPORTANT]
 > This project is designed with accessibility (WCAG 2.1 AA compliance), speed, and developer experience in mind. It includes a complete CI/CD pipeline, automated testing, and a configured DevContainer.
@@ -32,18 +32,21 @@ A high-performance, accessible, and multilingual personal link tree website. Bui
 
 ## 📐 Project Architecture
 
-The project follows the **Feature-Sliced Design (FSD)** architectural methodology to keep components modular, scaleable, and easy to maintain.
+The repository uses shallow, explicit boundaries instead of a full Feature-Sliced Design public API for every folder. Concrete modules are imported directly so contributors can find implementations without traversing single-export barrels.
 
 ```text
 src/
-├── app/                  # Application initialization (global styles, Layout)
-├── data/                 # Configuration and single source of truth data files
-├── entities/             # Business concepts (profile, social-link, theme, weekly-project)
-├── features/             # Interactive user actions (share-button, theme-toggle)
-├── pages/                # File-based routing structure (index.astro, es/index.astro)
-├── shared/               # Reusable utilities, icons, and base UI components (Button, Card, Badge)
-└── widgets/              # Page sections combining entities/features (social-grid, hero-section)
+├── app/                  # Global layout, application styles and page-level models
+├── data/                 # Typed content, URLs and configuration
+├── entities/             # Reusable product concepts with multiple consumers
+├── features/             # Interactive user actions
+├── pages/                # Astro routes and page composition
+├── shared/               # Reusable UI, assets, utilities, i18n and analytics
+└── widgets/              # Page sections that compose multiple modules
+scripts/                  # Repository validation and maintenance commands
 ```
+
+Architecture rules, dependency direction, placement criteria and trade-offs are documented in [`docs/architecture.md`](docs/architecture.md). Run `bun run check:architecture` to reject circular imports and unnecessary FSD barrel imports.
 
 ---
 
@@ -87,6 +90,8 @@ All commands are executed from the project root:
 | `bun run format` | Formats all workspace files using Prettier |
 | `bun run format:check` | Verifies formatting rules without modifying files |
 | `bun run lint` | Runs ESLint analysis for code quality |
+| `bun run check:architecture` | Rejects circular imports and unnecessary layer barrels |
+| `bun run test:unit` | Runs Bun unit tests |
 | `bun run test:e2e` | Runs Playwright E2E tests locally |
 | `bun run test:lighthouse` | Runs Lighthouse CI audits on built files |
 
@@ -106,6 +111,7 @@ We enforce high standards of code quality and performance via automated pipeline
 
 ### Automated Testing
 
+* **Architecture Validation**: Detects circular imports and direct dependencies on unnecessary barrels.
 * **E2E Testing**: Verified using Playwright. Checks routes, localization links, responsiveness, and dark-mode toggling.
 * **Accessibility Auditing**: Integrated with `@axe-core/playwright` to scan for WCAG 2.1 AA violations on every test run.
 * **Performance Auditing**: Automated via Lighthouse CI, asserting target minimum scores for SEO, Best Practices, Accessibility, and Performance.
@@ -113,7 +119,7 @@ We enforce high standards of code quality and performance via automated pipeline
 ### CI/CD Workflow
 
 On every Pull Request to `develop` or `main`:
-1. **Check**: Runs TypeScript compilation, Prettier verification, ESLint, and Astro builds.
+1. **Check**: Runs TypeScript compilation, architecture validation, Prettier verification, ESLint, unit tests, and Astro builds.
 2. **Test**: Runs Playwright E2E and Axe audits. Deploys the HTML test report to **GitHub Pages** and registers a PR check.
 3. **Lighthouse**: Runs audits to assert performance scores remain high.
 4. **Vercel Preview**: CLI-driven deployment to Vercel (bypassing native hooks to wait for tests). Registers a **Vercel Preview** check linked to the live preview.
