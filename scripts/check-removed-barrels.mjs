@@ -1,3 +1,4 @@
+import console from 'node:console';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join, relative, resolve } from 'node:path';
 import process from 'node:process';
