@@ -46,23 +46,49 @@ const labels =
 		</dl>
 
 		<div class="weekly-project-card__technologies" aria-label="Technology stack">
-			{project.technologies.map(tech => <span class="weekly-project-card__tech-badge">{tech}</span>)}
+			{
+				project.technologies.map(tech => (
+					<span class="weekly-project-card__tech-badge">{tech}</span>
+				))
+			}
 		</div>
 
 		<div class="weekly-project-card__actions">
 			{
 				project.demoAvailability === 'public' && project.demoUrl ? (
-					<a href={project.demoUrl} class="weekly-project-card__button weekly-project-card__button--primary" target="_blank" rel="noopener noreferrer" data-conversion-event="project_opened" data-conversion-position="project" data-conversion-item={project.id}>
-						<span>{labels.demo}</span><LinkIcon class="weekly-project-card__button-icon" />
+					<a
+						href={project.demoUrl}
+						class="weekly-project-card__button weekly-project-card__button--primary"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<span>{labels.demo}</span>
+						<LinkIcon class="weekly-project-card__button-icon" />
 					</a>
-				) : <span class="weekly-project-card__availability">{labels.demo}: {labels.unavailable}</span>
+				) : (
+					<span class="weekly-project-card__availability">
+						{labels.demo}: {labels.unavailable}
+					</span>
+				)
 			}
 			{
 				project.repositoryAvailability === 'public' && project.githubUrl ? (
-					<a href={project.githubUrl} class="weekly-project-card__button weekly-project-card__button--secondary" target="_blank" rel="noopener noreferrer" data-conversion-event="project_opened" data-conversion-position="project" data-conversion-item={project.id}>
-						<GitHubIcon class="weekly-project-card__button-icon" /><span>{labels.repository}</span>
+					<a
+						href={project.githubUrl}
+						class="weekly-project-card__button weekly-project-card__button--secondary"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<GitHubIcon class="weekly-project-card__button-icon" />
+						<span>{labels.repository}</span>
 					</a>
-				) : <span class="weekly-project-card__availability">{labels.private}</span>
+				) : (
+					<span class="weekly-project-card__availability">{labels.private}</span>
+				)
 			}
 		</div>
 	</div>
