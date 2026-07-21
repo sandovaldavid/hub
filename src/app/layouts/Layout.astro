@@ -126,7 +126,11 @@ const jsonLd = {
 				<>
 					<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
 					<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
-					<link rel="alternate" hreflang="x-default" href={new URL(alternates.en, siteConfig.url)} />
+					<link
+						rel="alternate"
+						hreflang="x-default"
+						href={new URL(alternates.en, siteConfig.url)}
+					/>
 				</>
 			)
 		}

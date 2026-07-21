@@ -13,7 +13,13 @@ export const conversionEvents = [
 
 export type ConversionEvent = (typeof conversionEvents)[number];
 export type ConversionLocale = 'en' | 'es';
-export type ConversionPosition = 'hero' | 'primary-cta' | 'social' | 'project' | 'contact' | 'navigation';
+export type ConversionPosition =
+	| 'hero'
+	| 'primary-cta'
+	| 'social'
+	| 'project'
+	| 'contact'
+	| 'navigation';
 export type ConversionSource = 'direct' | 'search' | 'social' | 'referral' | 'internal';
 
 export interface ConversionProperties {

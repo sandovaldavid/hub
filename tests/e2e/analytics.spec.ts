@@ -28,7 +28,8 @@ for (const route of ['/', '/es/']) {
 			for (let index = 0; index < (await tracked.count()); index++) {
 				const attributes = await tracked.nth(index).evaluate(element =>
 					Array.from(element.attributes).reduce<Record<string, string>>((result, attribute) => {
-						if (attribute.name.startsWith('data-conversion-')) result[attribute.name] = attribute.value;
+						if (attribute.name.startsWith('data-conversion-'))
+							result[attribute.name] = attribute.value;
 						return result;
 					}, {})
 				);

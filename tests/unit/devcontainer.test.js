@@ -45,9 +45,7 @@ describe('DevContainer contract', () => {
 	test('reuses browsers from the version-matched Playwright image', () => {
 		const expectedVersion = devcontainer.build.args.PLAYWRIGHT_VERSION;
 
-		expect(dockerfile).toContain(
-			`FROM mcr.microsoft.com/playwright:v${expectedVersion}-noble`
-		);
+		expect(dockerfile).toContain(`FROM mcr.microsoft.com/playwright:v${expectedVersion}-noble`);
 		expect(devcontainer.containerEnv.PLAYWRIGHT_BROWSERS_PATH).toBe('/ms-playwright');
 		expect(packageJson.devDependencies['@playwright/test']).toBe(`^${expectedVersion}`);
 		expect(postCreateScript).not.toContain('playwright install chromium');
@@ -66,7 +64,7 @@ describe('DevContainer contract', () => {
 		expect(vscodeSettings['terminal.integrated.profiles.linux'].zsh.path).toBe('/usr/bin/zsh');
 		expect(devcontainer.containerEnv.TERM).toBe('xterm-256color');
 		expect(postCreateScript).toContain('oh-my-posh print primary');
-		expect(postCreateScript).toContain("source /workspace/.devcontainer/zshrc");
+		expect(postCreateScript).toContain('source /workspace/.devcontainer/zshrc');
 		expect(zshrc).toContain('oh-my-posh init zsh --strict');
 		expect(poshTheme.version).toBe(4);
 		expect(JSON.stringify(poshTheme)).not.toMatch(/[\uE000-\uF8FF]/u);

@@ -37,12 +37,8 @@ describe('CI workflow contract', () => {
 
 	test('uploads a generated report after failure but not after cancellation', () => {
 		expect(workflow).toContain('if: ${{ !cancelled() }}');
-		expect(workflow).toContain(
-			"!cancelled() && steps.detect_report.outputs.available == 'true'"
-		);
-		expect(workflow).toContain(
-			"!cancelled() && needs.e2e.outputs.report_available == 'true'"
-		);
+		expect(workflow).toContain("!cancelled() && steps.detect_report.outputs.available == 'true'");
+		expect(workflow).toContain("!cancelled() && needs.e2e.outputs.report_available == 'true'");
 		expect(workflow).not.toContain('if: always()');
 	});
 
