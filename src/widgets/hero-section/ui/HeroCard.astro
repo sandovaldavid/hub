@@ -20,6 +20,7 @@ const { profile, variant = 'default', availability, metadata = [], primaryAction
 				<ProfileAvatar
 					src={profile.avatar.url}
 					alt={profile.avatar.alt}
+					brandLogoSrc={profile.logo.url}
 					size={variant === 'compact' ? 'lg' : '4xl'}
 				/>
 				<span
