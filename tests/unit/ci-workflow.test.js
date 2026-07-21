@@ -22,7 +22,8 @@ describe('CI workflow contract', () => {
 
 	test('builds once and reuses the production artifact', () => {
 		expect(workflow.match(/run: bun run build/g)).toHaveLength(1);
-		expect(workflow).toContain('name: astro-dist');
+		expect(workflow).toContain('BUILD_ARTIFACT_NAME: astro-dist');
+		expect(workflow).toContain('name: ${{ env.BUILD_ARTIFACT_NAME }}');
 		expect(workflow.match(/Download production build/g)).toHaveLength(2);
 	});
 
