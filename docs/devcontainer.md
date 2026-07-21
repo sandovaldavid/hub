@@ -49,6 +49,8 @@ The source tree remains visible on the host, but Linux dependencies and executab
 
 The DevContainer declares `waitFor: postCreateCommand`, so VS Code waits for the dependency installation before activating workspace TypeScript and Astro tooling. This prevents the temporary invalid `typescript.tsdk` warning that occurs when `node_modules/typescript/lib` is inspected before installation finishes.
 
+The Dockerfile does not create or manage the development user. The `common-utils` Feature handles user creation, shell configuration and sudo access. Bun is installed system-wide (`/usr/local/bin`) via `BUN_INSTALL`, not per-user.
+
 ## Lifecycle scripts
 
 ### post-create.sh — primera creación

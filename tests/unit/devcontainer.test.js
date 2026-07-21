@@ -34,7 +34,7 @@ describe('DevContainer contract', () => {
 			'source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume'
 		);
 		expect(devcontainer.postCreateCommand).toBe('bash .devcontainer/scripts/post-create.sh');
-		expect(postCreateScript).toContain('sudo chown -R "${owner}" "${deps}" "${bun_home}"');
+		expect(postCreateScript).toContain('sudo chown -R "${owner}" "${deps}"');
 		expect(postCreateScript).toContain('"${deps}/.vite"');
 		expect(postCreateScript).toContain('"${workspace}/.astro"');
 		expect(postCreateScript).toContain('bun ci');
@@ -67,9 +67,12 @@ describe('DevContainer contract', () => {
 			true
 		);
 		expect(devcontainer.features['ghcr.io/devcontainers/features/github-cli:1']).toBeDefined();
-		expect(dockerfile).not.toMatch(/apt-get install.*\b(zsh|sudo|wget)\b/);
-		expect(dockerfile).not.toContain('userdel -r ubuntu');
-		expect(dockerfile).not.toContain('githubcli-archive-keyring');
+		expect(dockerfile).not.toMatch(/apt-get install.*\b(zsh|sudo|wget|curl)\b/);
+		expect(dockerfile).not.toContain('groupadd');
+		expect(dockerfile).not.toContain('useradd');
+		expect(dockerfile).not.toContain('SHELL=');
+		expect(dockerfile).not.toContain('HOME');
+		expect(dockerfile).toContain('BUN_INSTALL=/usr/local');
 	});
 
 	test('reuses browsers from the version-matched Playwright image', () => {

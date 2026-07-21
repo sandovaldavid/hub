@@ -3,7 +3,6 @@ set -Eeuo pipefail
 
 readonly workspace="${CONTAINER_WORKSPACE_FOLDER:-/workspace}"
 readonly deps="${workspace}/node_modules"
-readonly bun_home="${HOME}/.bun"
 readonly owner="$(id -u):$(id -g)"
 readonly managed_zsh_line='[[ -r /workspace/.devcontainer/zshrc ]] && source /workspace/.devcontainer/zshrc'
 
@@ -14,8 +13,8 @@ if [[ ! -f package.json || ! -f bun.lock ]]; then
 	exit 1
 fi
 
-sudo mkdir -p "${deps}" "${bun_home}"
-sudo chown -R "${owner}" "${deps}" "${bun_home}"
+sudo mkdir -p "${deps}"
+sudo chown -R "${owner}" "${deps}"
 
 rm -rf "${deps}/.bin" "${deps}/.vite" "${deps}/.vite-temp" "${workspace}/.astro"
 
