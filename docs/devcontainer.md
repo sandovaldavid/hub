@@ -5,13 +5,13 @@ The DevContainer is the supported environment for running the complete validatio
 ## Runtime contract
 
 - Ubuntu 24.04 Noble from the version-pinned Playwright image.
-- Non-root `vscode` user.
+- Non-root `vscode` user for both container processes and VS Code.
 - Zsh as the login and VS Code integrated terminal shell.
 - Oh My Posh `29.34.0` with a repository-local prompt configuration.
 - Bun `1.3.14`.
 - Playwright `1.61.0`, matching the browser binaries included in the image.
 - Repository mounted at `/workspace`.
-- `node_modules` stored in a Docker named volume instead of the Fedora bind mount.
+- `node_modules` stored in the versioned `linktree-node-modules-v1` Docker volume instead of the Fedora bind mount.
 
 The source tree remains visible on the host, but Linux dependencies and executable links stay inside Docker. This prevents Bun from reusing `.bin` links or package artifacts created by another operating system.
 
@@ -19,17 +19,18 @@ The source tree remains visible on the host, but Linux dependencies and executab
 
 1. Open the Linktree repository root in VS Code.
 2. Check out the branch you want to validate.
-3. Run **Dev Containers: Rebuild Container Without Cache** after changing `.devcontainer/**`.
-4. Wait for `.devcontainer/post-create.sh` to finish.
-5. Confirm the terminal starts as `vscode` in `/workspace` using Zsh.
+3. Confirm that `package.json` and `bun.lock` are committed and synchronized.
+4. Run **Dev Containers: Rebuild Container Without Cache** after changing `.devcontainer/**`.
+5. Wait for `.devcontainer/post-create.sh` to finish.
+6. Confirm the terminal starts as `vscode` in `/workspace` using Zsh.
 
 The DevContainer declares `waitFor: postCreateCommand`, so VS Code waits for the dependency installation before activating workspace TypeScript and Astro tooling. This prevents the temporary invalid `typescript.tsdk` warning that occurs when `node_modules/typescript/lib` is inspected before installation finishes.
 
 The post-create script:
 
-- gives the non-root user ownership of the `node_modules` volume;
-- removes stale `node_modules/.bin` links left by an interrupted Bun install;
-- runs `bun install --frozen-lockfile`;
+- gives the non-root user ownership of the `node_modules` volume and Bun home directory;
+- removes stale executable, Vite and Astro caches without deleting the volume mount point;
+- runs `bun ci`, the frozen-lockfile installation command;
 - verifies the Bun, Playwright and Oh My Posh versions;
 - verifies that Chromium is available from `/ms-playwright`;
 - verifies that `/usr/bin/zsh` is the login shell;
@@ -39,6 +40,24 @@ The post-create script:
 The Playwright Docker image already includes the browser binaries and Ubuntu system dependencies. Do not run `bun x playwright install chromium` inside this DevContainer.
 
 Use `bun x` for package executables. Although Bun documents `bunx` as an alias, the version installed as a single executable in this image may not expose a separate `bunx` command on `PATH`.
+
+## Lockfile synchronization
+
+`postCreateCommand` must never repair or rewrite a lockfile. A clean environment should fail when `package.json` and `bun.lock` disagree, because silently regenerating the lockfile would make the resulting dependency graph depend on when the container was created.
+
+After intentionally changing dependencies or overrides, regenerate and review the lockfile before rebuilding:
+
+```bash
+bun install --lockfile-only
+git diff -- package.json bun.lock
+bun ci
+git add package.json bun.lock
+git commit -m "chore(deps): update dependency lockfile"
+```
+
+When `package.json` was already committed separately, add and commit only the resulting `bun.lock`. Do not change `post-create.sh` to fall back from `bun ci` to a mutable install.
+
+A failed `postCreateCommand` can leave partial packages in the persistent volume, and reopening the same container may skip creation lifecycle work. Therefore, a second successful attach is not evidence that a clean rebuild works. The source of truth is a synchronized committed lockfile followed by a rebuild with a fresh dependency volume.
 
 ## Zsh and Oh My Posh
 
@@ -77,7 +96,15 @@ find node_modules -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
 bash .devcontainer/post-create.sh
 ```
 
-If the terminal still opens Bash after pulling a DevContainer change, close the VS Code remote window and run **Dev Containers: Rebuild Container Without Cache**. Reopening an existing container is not enough when the Dockerfile or login shell changes.
+For a genuinely clean test, close the DevContainer and remove the dependency volume from the host:
+
+```bash
+docker volume rm linktree-node-modules-v1
+```
+
+Then run **Dev Containers: Rebuild Container Without Cache**. Docker volumes survive ordinary rebuilds, so rebuilding without deleting the volume does not prove installation from an empty dependency state.
+
+If the terminal still opens Bash after pulling a DevContainer change, close the VS Code remote window and rebuild. Reopening an existing container is not enough when the Dockerfile, user, mounts or login shell change.
 
 If the container reports the previous user or workspace, rebuild from the Linktree repository root. The expected prompt uses `vscode` and `/workspace`; a prompt such as `pwuser@...:/workspaces/portfolio-v1` belongs to a different or stale DevContainer.
 
@@ -92,6 +119,10 @@ The following versions must move together:
 3. The Playwright image tag generated by `.devcontainer/Dockerfile`.
 
 The post-create script fails explicitly when the installed Playwright package does not match the browser image version.
+
+### Lighthouse
+
+The direct Lighthouse dependency, its override, the Node runtime and Playwright Chromium version must remain compatible. Any change to these fields must regenerate `bun.lock` before `bun ci` or the DevContainer lifecycle can pass.
 
 ### Oh My Posh
 
