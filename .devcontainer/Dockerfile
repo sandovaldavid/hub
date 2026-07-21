@@ -1,9 +1,11 @@
-FROM mcr.microsoft.com/playwright:v1.61.0-noble
+ARG PLAYWRIGHT_VERSION=1.61.0
+FROM mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-noble
 
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
 ARG BUN_VERSION=1.3.14
+ARG PLAYWRIGHT_VERSION=1.61.0
 
 RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu || true \
     && groupadd --gid ${USER_GID} ${USERNAME} \
@@ -28,5 +30,8 @@ RUN mkdir -p -m 755 /etc/apt/keyrings \
 USER ${USERNAME}
 RUN curl -fsSL https://bun.sh/install | bash -s "bun-v${BUN_VERSION}"
 ENV PATH="/home/${USERNAME}/.bun/bin:${PATH}"
+ENV BUN_VERSION=${BUN_VERSION}
+ENV PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION}
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 WORKDIR /workspace
