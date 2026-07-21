@@ -46,9 +46,7 @@ describe('DevContainer contract', () => {
 		const expectedVersion = devcontainer.build.args.PLAYWRIGHT_VERSION;
 
 		expect(dockerfile).toContain(`ARG PLAYWRIGHT_VERSION=${expectedVersion}`);
-		expect(dockerfile).toContain(
-			'FROM mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-noble'
-		);
+		expect(dockerfile).toContain('FROM mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-noble');
 		expect(devcontainer.containerEnv.PLAYWRIGHT_BROWSERS_PATH).toBe('/ms-playwright');
 		expect(packageJson.devDependencies['@playwright/test']).toBe(`^${expectedVersion}`);
 		expect(postCreateScript).not.toContain('playwright install chromium');
