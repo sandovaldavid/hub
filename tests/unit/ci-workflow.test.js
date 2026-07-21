@@ -57,6 +57,11 @@ describe('CI workflow contract', () => {
 		expect(lighthouseConfig).toContain('process.env.CHROME_PATH || chromium.executablePath()');
 	});
 
+	test('fails when Lighthouse cannot produce a valid performance score', () => {
+		expect(lighthouseConfig).toContain("'categories:performance': ['error', { minScore: 0.8 }]");
+		expect(lighthouseConfig).not.toContain("throttlingMethod: 'devtools'");
+	});
+
 	test('defines a local validation equivalent and both Lighthouse profiles', () => {
 		expect(packageJson.scripts['validate:local']).toContain('CI=1 bun run test:e2e');
 		expect(packageJson.scripts['test:lighthouse']).toContain('test:lighthouse:mobile');
