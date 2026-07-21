@@ -57,9 +57,9 @@ describe('CI workflow contract', () => {
 		expect(lighthouseConfig).toContain('process.env.CHROME_PATH || chromium.executablePath()');
 	});
 
-	test('aligns the Lighthouse engine and Node runtime with Chromium 148', () => {
-		expect(packageJson.devDependencies.lighthouse).toBe('13.1.0');
-		expect(packageJson.overrides.lighthouse).toBe('13.1.0');
+	test('aligns the Lighthouse engine and Node runtime with Chromium 149', () => {
+		expect(packageJson.devDependencies.lighthouse).toBe('13.4.1');
+		expect(packageJson.overrides.lighthouse).toBe('13.4.1');
 		expect(packageJson.engines.node).toBe('>=22.19.0');
 		expect(workflow).toContain('NODE_VERSION: 22.19.0');
 		expect(workflow).toContain(
