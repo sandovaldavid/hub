@@ -1,11 +1,10 @@
 ---
 /**
  * ProfileAvatar Component - FSD Layer: entities/profile
- * Displays user profile avatar with brand logo badge
+ * Displays user profile avatar with an optional brand logo badge
  */
 
 import { Avatar } from '@shared/ui';
-import { profile } from '@data/profile';
 
 export interface Props {
 	src: string;
@@ -13,10 +12,19 @@ export interface Props {
 	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 	ring?: boolean;
 	showBrandLogo?: boolean;
+	brandLogoSrc?: string;
 	class?: string;
 }
 
-const { src, alt, size = 'lg', ring = true, showBrandLogo = true, class: className } = Astro.props;
+const {
+	src,
+	alt,
+	size = 'lg',
+	ring = true,
+	showBrandLogo = true,
+	brandLogoSrc,
+	class: className,
+} = Astro.props;
 
 const logoSizeMap = {
 	xs: { className: 'w-4 h-4', dimension: 16 },
@@ -45,9 +53,9 @@ const logoSize = logoSizeMap[size];
 	/>
 
 	{
-		showBrandLogo && (
+		showBrandLogo && brandLogoSrc && (
 			<img
-				src={profile.logo.url}
+				src={brandLogoSrc}
 				alt=""
 				role="presentation"
 				aria-hidden="true"
