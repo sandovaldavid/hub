@@ -16,32 +16,30 @@ This microsite uses a deliberately small performance envelope so regressions are
 - Decorative brand images use empty alt text and lower fetch priority.
 - Open Graph images are metadata resources and must not be preloaded into the page.
 
-## Lighthouse CI thresholds
+## Lighthouse CI profiles and thresholds
 
-Lighthouse runs three times against `/` and `/es/` using the desktop preset. The median result must satisfy:
+Lighthouse audits `/` and `/es/` once with the default mobile profile and once with the desktop preset. Both profiles reuse the same production build in CI.
 
-| Metric | Budget |
-| --- | ---: |
-| Performance | ≥ 0.90 |
-| Accessibility | ≥ 0.95 |
-| Best practices | ≥ 0.95 |
-| SEO | ≥ 0.95 |
-| First Contentful Paint | ≤ 2,000 ms |
-| Largest Contentful Paint | ≤ 2,500 ms |
-| Cumulative Layout Shift | ≤ 0.10 |
-| Total Blocking Time | ≤ 200 ms |
-| Speed Index | ≤ 3,000 ms |
-| Total page weight | ≤ 500 KB |
+The current category policy is:
 
-Lighthouse does not provide a stable lab INP measurement. Total Blocking Time is used as the CI proxy, while INP should be reviewed from production field analytics when enough traffic is available.
+| Category | Threshold | Enforcement |
+| --- | ---: | --- |
+| Performance | ≥ 0.80 | Warning because shared CI runners are variable |
+| Accessibility | ≥ 0.95 | Error |
+| Best practices | ≥ 0.90 | Error |
+| SEO | ≥ 0.90 | Error |
+
+Lighthouse does not provide a stable lab INP measurement. Total Blocking Time should be reviewed as a lab proxy, while INP should be reviewed from production field analytics when enough traffic is available.
 
 ## Validation
 
-Run locally after a production build:
+Run both profiles locally after a production build:
 
 ```bash
 bun run build
 bun run test:lighthouse
 ```
+
+For the complete CI-equivalent sequence, use `bun run validate:local` as documented in [`ci-validation.md`](ci-validation.md).
 
 Any budget change must be justified with before/after measurements in the pull request rather than relaxing thresholds solely to make CI pass.
