@@ -46,8 +46,15 @@ describe('CI workflow contract', () => {
 		expect(workflow).not.toContain('if: always()');
 	});
 
+	test('uses the canonical Bun executable command instead of the optional bunx alias', () => {
+		expect(workflow).toContain('run: bun x astro check');
+		expect(workflow).toContain('run: bun x playwright install --with-deps chromium');
+		expect(workflow).not.toContain('bunx ');
+		expect(packageJson.scripts['validate:quality']).toContain('bun x astro check');
+		expect(packageJson.scripts['validate:quality']).not.toContain('bunx ');
+	});
+
 	test('defines a local validation equivalent and both Lighthouse profiles', () => {
-		expect(packageJson.scripts['validate:quality']).toContain('bunx astro check');
 		expect(packageJson.scripts['validate:local']).toContain('CI=1 bun run test:e2e');
 		expect(packageJson.scripts['test:lighthouse']).toContain('test:lighthouse:mobile');
 		expect(packageJson.scripts['test:lighthouse']).toContain('test:lighthouse:desktop');
