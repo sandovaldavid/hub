@@ -22,11 +22,14 @@ describe('DevContainer contract', () => {
 	test('isolates Linux dependencies from the Fedora bind mount', () => {
 		expect(devcontainer.workspaceFolder).toBe('/workspace');
 		expect(devcontainer.mounts).toContain(
-			'source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume'
+			'source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume'
 		);
 		expect(devcontainer.postCreateCommand).toBe('bash .devcontainer/post-create.sh');
-		expect(postCreateScript).toContain('rm -rf node_modules/.bin');
-		expect(postCreateScript).toContain('bun install --frozen-lockfile');
+		expect(postCreateScript).toContain('sudo chown -R "${owner}" "${deps}" "${bun_home}"');
+		expect(postCreateScript).toContain('"${deps}/.vite"');
+		expect(postCreateScript).toContain('"${workspace}/.astro"');
+		expect(postCreateScript).toContain('bun ci');
+		expect(postCreateScript).not.toContain('bun install --frozen-lockfile');
 	});
 
 	test('finishes dependency setup before VS Code activates workspace tooling', () => {
@@ -34,11 +37,17 @@ describe('DevContainer contract', () => {
 		expect(devcontainer.customizations.vscode.settings['typescript.tsdk']).toBe(
 			'node_modules/typescript/lib'
 		);
+		expect(
+			devcontainer.customizations.vscode.settings['typescript.enablePromptUseWorkspaceTsdk']
+		).toBe(true);
 	});
 
 	test('uses the non-root development user and recommended Chromium runtime flags', () => {
+		expect(devcontainer.containerUser).toBe('vscode');
 		expect(devcontainer.remoteUser).toBe('vscode');
-		expect(devcontainer.runArgs).toContain('--init');
+		expect(devcontainer.updateRemoteUserUID).toBe(true);
+		expect(devcontainer.init).toBe(true);
+		expect(devcontainer.runArgs).not.toContain('--init');
 		expect(devcontainer.runArgs).toContain('--ipc=host');
 	});
 
