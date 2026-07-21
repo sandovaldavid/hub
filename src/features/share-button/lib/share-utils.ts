@@ -104,39 +104,19 @@ export async function shareViaWebAPI(data: ShareData): Promise<ShareResult> {
  * @returns ShareResult with success status
  */
 export async function copyToClipboard(text: string): Promise<ShareResult> {
-	try {
-		// Modern Clipboard API
-		if (navigator.clipboard && navigator.clipboard.writeText) {
-			await navigator.clipboard.writeText(text);
-			return {
-				success: true,
-				method: 'clipboard',
-			};
-		}
-
-		// Fallback for older browsers
-		const textarea = document.createElement('textarea');
-		textarea.value = text;
-		textarea.style.position = 'fixed';
-		textarea.style.opacity = '0';
-		textarea.style.pointerEvents = 'none';
-		document.body.appendChild(textarea);
-		textarea.select();
-
-		const success = document.execCommand('copy');
-		document.body.removeChild(textarea);
-
-		if (success) {
-			return {
-				success: true,
-				method: 'clipboard',
-			};
-		}
-
+	if (typeof navigator === 'undefined' || !navigator.clipboard?.writeText) {
 		return {
 			success: false,
 			method: 'none',
-			error: 'Failed to copy to clipboard',
+			error: 'Clipboard API not supported',
+		};
+	}
+
+	try {
+		await navigator.clipboard.writeText(text);
+		return {
+			success: true,
+			method: 'clipboard',
 		};
 	} catch (error) {
 		console.error('Error copying to clipboard:', error);
