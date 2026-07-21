@@ -21,6 +21,8 @@ The source tree remains visible on the host, but Linux dependencies and executab
 4. Wait for `.devcontainer/post-create.sh` to finish.
 5. Confirm the terminal starts as `vscode` in `/workspace`.
 
+The DevContainer declares `waitFor: postCreateCommand`, so VS Code waits for the dependency installation before activating workspace TypeScript and Astro tooling. This prevents the temporary invalid `typescript.tsdk` warning that occurs when `node_modules/typescript/lib` is inspected before installation finishes.
+
 The post-create script:
 
 - gives the non-root user ownership of the `node_modules` volume;
@@ -29,7 +31,9 @@ The post-create script:
 - verifies the Bun and Playwright versions;
 - verifies that Chromium is available from `/ms-playwright`.
 
-The Playwright Docker image already includes the browser binaries and Ubuntu system dependencies. Do not run `bunx playwright install chromium` inside this DevContainer.
+The Playwright Docker image already includes the browser binaries and Ubuntu system dependencies. Do not run `bun x playwright install chromium` inside this DevContainer.
+
+Use `bun x` for package executables. Although Bun documents `bunx` as an alias, the version installed as a single executable in this image may not expose a separate `bunx` command on `PATH`.
 
 ## Run the complete validation
 
