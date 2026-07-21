@@ -12,6 +12,10 @@ const postCreateScript = await readFile(
 	join(repositoryRoot, '.devcontainer/post-create.sh'),
 	'utf8'
 );
+const zshrc = await readFile(join(repositoryRoot, '.devcontainer/zshrc'), 'utf8');
+const poshTheme = JSON.parse(
+	await readFile(join(repositoryRoot, '.devcontainer/oh-my-posh.omp.json'), 'utf8')
+);
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
 
 describe('DevContainer contract', () => {
@@ -49,5 +53,22 @@ describe('DevContainer contract', () => {
 		expect(postCreateScript).not.toContain('playwright install chromium');
 		expect(postCreateScript).toContain('bun x playwright install --list');
 		expect(postCreateScript).not.toContain('bunx ');
+	});
+
+	test('uses Zsh and a pinned Oh My Posh prompt without host font dependencies', () => {
+		const expectedVersion = devcontainer.build.args.OH_MY_POSH_VERSION;
+		const vscodeSettings = devcontainer.customizations.vscode.settings;
+
+		expect(dockerfile).toContain('apt-get install -y --no-install-recommends sudo curl wget zsh');
+		expect(dockerfile).toContain(`ARG OH_MY_POSH_VERSION=${expectedVersion}`);
+		expect(dockerfile).toContain('--shell /usr/bin/zsh');
+		expect(vscodeSettings['terminal.integrated.defaultProfile.linux']).toBe('zsh');
+		expect(vscodeSettings['terminal.integrated.profiles.linux'].zsh.path).toBe('/usr/bin/zsh');
+		expect(devcontainer.containerEnv.TERM).toBe('xterm-256color');
+		expect(postCreateScript).toContain('oh-my-posh print primary');
+		expect(postCreateScript).toContain("source /workspace/.devcontainer/zshrc");
+		expect(zshrc).toContain('oh-my-posh init zsh --strict');
+		expect(poshTheme.version).toBe(4);
+		expect(JSON.stringify(poshTheme)).not.toMatch(/[\uE000-\uF8FF]/u);
 	});
 });
