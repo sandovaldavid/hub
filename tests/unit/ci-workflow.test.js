@@ -57,6 +57,17 @@ describe('CI workflow contract', () => {
 		expect(lighthouseConfig).toContain('process.env.CHROME_PATH || chromium.executablePath()');
 	});
 
+	test('aligns the Lighthouse engine and Node runtime with Chromium 148', () => {
+		expect(packageJson.devDependencies.lighthouse).toBe('13.1.0');
+		expect(packageJson.overrides.lighthouse).toBe('13.1.0');
+		expect(packageJson.engines.node).toBe('>=22.19.0');
+		expect(workflow).toContain('NODE_VERSION: 22.19.0');
+		expect(workflow).toContain(
+			'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0'
+		);
+		expect(workflow).toContain('node-version: ${{ env.NODE_VERSION }}');
+	});
+
 	test('fails when Lighthouse cannot produce a valid performance score', () => {
 		expect(lighthouseConfig).toContain("'categories:performance': ['error', { minScore: 0.8 }]");
 		expect(lighthouseConfig).not.toContain("throttlingMethod: 'devtools'");
