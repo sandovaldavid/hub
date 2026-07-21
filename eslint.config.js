@@ -13,7 +13,12 @@ export default defineConfig(
 		files: ['.lighthouserc.js', '*.cjs'],
 		languageOptions: {
 			sourceType: 'commonjs',
-			globals: { module: 'writable', require: 'readonly', __dirname: 'readonly' },
+			globals: {
+				module: 'writable',
+				require: 'readonly',
+				__dirname: 'readonly',
+				process: 'readonly',
+			},
 		},
 	},
 	js.configs.recommended,
