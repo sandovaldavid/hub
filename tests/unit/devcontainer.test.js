@@ -29,7 +29,7 @@ describe('DevContainer contract', () => {
 		expect(postCreateScript).toContain('"${deps}/.vite"');
 		expect(postCreateScript).toContain('"${workspace}/.astro"');
 		expect(postCreateScript).toContain('bun ci');
-		expect(postCreateScript).not.toContain('bun install --frozen-lockfile');
+		expect(postCreateScript).not.toMatch(/^[^#]*\bbun install --frozen-lockfile\b/m);
 	});
 
 	test('finishes dependency setup before VS Code activates workspace tooling', () => {
