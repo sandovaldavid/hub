@@ -171,5 +171,3 @@ jobs:
 
       - name: Run Lighthouse CI
         run: bun run test:lighthouse
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
