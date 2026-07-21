@@ -54,9 +54,7 @@ describe('CI workflow contract', () => {
 	test('installs and resolves Chromium for E2E and Lighthouse', () => {
 		expect(workflow.match(/run: bun x playwright install --with-deps chromium/g)).toHaveLength(2);
 		expect(lighthouseConfig).toContain("const { chromium } = require('@playwright/test');");
-		expect(lighthouseConfig).toContain(
-			'process.env.CHROME_PATH || chromium.executablePath()'
-		);
+		expect(lighthouseConfig).toContain('process.env.CHROME_PATH || chromium.executablePath()');
 	});
 
 	test('defines a local validation equivalent and both Lighthouse profiles', () => {
