@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const workflow = await readFile(join(repositoryRoot, '.github/workflows/ci.yml'), 'utf8');
+const lighthouseConfig = await readFile(join(repositoryRoot, '.lighthouserc.cjs'), 'utf8');
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
 
 describe('CI workflow contract', () => {
@@ -48,6 +49,14 @@ describe('CI workflow contract', () => {
 		expect(workflow).not.toContain('bunx ');
 		expect(packageJson.scripts['validate:quality']).toContain('bun x astro check');
 		expect(packageJson.scripts['validate:quality']).not.toContain('bunx ');
+	});
+
+	test('installs and resolves Chromium for E2E and Lighthouse', () => {
+		expect(workflow.match(/run: bun x playwright install --with-deps chromium/g)).toHaveLength(2);
+		expect(lighthouseConfig).toContain("const { chromium } = require('@playwright/test');");
+		expect(lighthouseConfig).toContain(
+			'process.env.CHROME_PATH || chromium.executablePath()'
+		);
 	});
 
 	test('defines a local validation equivalent and both Lighthouse profiles', () => {
