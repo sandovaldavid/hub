@@ -22,6 +22,14 @@ bun ci
 
 sudo chsh -s /usr/bin/zsh "$(id -un)"
 
+mkdir -p "$HOME/.config/git"
+if ssh-add -L >/dev/null 2>&1; then
+    email="$(git config --global --get user.email || echo 'dev@example.com')"
+    ssh-add -L 2>/dev/null | while read -r key; do
+        echo "$email namespaces=\"git\" $key"
+    done > "$HOME/.config/git/allowed_signers"
+fi
+
 if [[ ! -f "${HOME}/.zshrc" ]]; then
 	touch "${HOME}/.zshrc"
 fi
