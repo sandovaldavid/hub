@@ -1,8 +1,12 @@
+const { chromium } = require('@playwright/test');
+
 const isDesktop = process.env.LHCI_PROFILE === 'desktop';
+const chromePath = process.env.CHROME_PATH || chromium.executablePath();
 
 module.exports = {
 	ci: {
 		collect: {
+			chromePath,
 			startServerCommand: 'bun run preview',
 			startServerReadyPattern: 'Local',
 			startServerReadyTimeout: 30000,
