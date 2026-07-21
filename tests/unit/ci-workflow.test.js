@@ -71,7 +71,7 @@ describe('CI workflow contract', () => {
 	test('applies DevTools throttling for reproducible performance scores', () => {
 		expect(lighthouseConfig).toContain("'categories:performance': ['error', { minScore: 0.9 }]");
 		expect(lighthouseConfig).toContain("throttlingMethod: 'devtools'");
-		expect(lighthouseConfig).toContain("numberOfRuns: 3");
+		expect(lighthouseConfig).toContain('numberOfRuns: 3');
 	});
 
 	test('defines a local validation equivalent and both Lighthouse profiles', () => {

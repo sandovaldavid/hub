@@ -9,7 +9,6 @@
 			"OH_MY_POSH_VERSION": "29.34.0"
 		}
 	},
-	"containerUser": "vscode",
 	"remoteUser": "vscode",
 	"updateRemoteUserUID": true,
 	"workspaceFolder": "/workspace",
@@ -26,7 +25,16 @@
 		"4321": { "label": "Astro Dev Server", "onAutoForward": "notify" },
 		"4322": { "label": "Astro Preview", "onAutoForward": "silent" }
 	},
-	"postCreateCommand": "bash .devcontainer/post-create.sh",
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
+			"username": "vscode",
+			"upgradePackages": false
+		},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+	"postStartCommand": "bash .devcontainer/scripts/post-start.sh",
 	"waitFor": "postCreateCommand",
 	"customizations": {
 		"vscode": {

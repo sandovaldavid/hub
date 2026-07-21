@@ -5,15 +5,38 @@ The DevContainer is the supported environment for running the complete validatio
 ## Runtime contract
 
 - Ubuntu 24.04 Noble from the version-pinned Playwright image.
-- Non-root `vscode` user for both container processes and VS Code.
-- Zsh as the login and VS Code integrated terminal shell.
-- Oh My Posh `29.34.0` with a repository-local prompt configuration.
-- Bun `1.3.14`.
+- Non-root `vscode` user for VS Code, terminals and container processes.
+- Zsh from the `common-utils` Dev Container Feature as the login and VS Code integrated terminal shell.
+- Oh My Posh `29.34.0` with a repository-local prompt configuration, installed via Dockerfile.
+- Bun `1.3.14`, installed via Dockerfile.
+- GitHub CLI from the `github-cli` Dev Container Feature.
 - Playwright `1.61.0`, matching the browser binaries included in the image.
 - Repository mounted at `/workspace`.
 - `node_modules` stored in the versioned `linktree-node-modules-v1` Docker volume instead of the Fedora bind mount.
 
 The source tree remains visible on the host, but Linux dependencies and executable links stay inside Docker. This prevents Bun from reusing `.bin` links or package artifacts created by another operating system.
+
+## File structure
+
+```
+.devcontainer/
+├── devcontainer.json           Orquestación, usuario, Features, lifecycle
+├── Dockerfile                  Herramientas permanentes (Oh My Posh, Bun)
+├── devcontainer-lock.json      Versiones resueltas de Features (generado)
+├── scripts/
+│   ├── post-create.sh          Dependencias del repositorio en primera creación
+│   ├── post-start.sh           Verificaciones en cada inicio del contenedor
+│   └── verify-env.sh           Validación compartida de toolchain
+├── oh-my-posh.omp.json         Configuración del prompt
+└── zshrc                       Configuración del shell interactivo
+```
+
+## Lifecycle
+
+| Comando              | Cuándo se ejecuta                         | Responsabilidad                        |
+| -------------------- | ----------------------------------------- | -------------------------------------- |
+| `postCreateCommand`  | Una vez, después de crear el contenedor   | Instalar dependencias, preparar shell  |
+| `postStartCommand`   | Cada vez que el contenedor inicia         | Verificar toolchain, reportar estado   |
 
 ## Open or rebuild the container
 
@@ -21,25 +44,46 @@ The source tree remains visible on the host, but Linux dependencies and executab
 2. Check out the branch you want to validate.
 3. Confirm that `package.json` and `bun.lock` are committed and synchronized.
 4. Run **Dev Containers: Rebuild Container Without Cache** after changing `.devcontainer/**`.
-5. Wait for `.devcontainer/post-create.sh` to finish.
+5. Wait for `.devcontainer/scripts/post-create.sh` to finish.
 6. Confirm the terminal starts as `vscode` in `/workspace` using Zsh.
 
 The DevContainer declares `waitFor: postCreateCommand`, so VS Code waits for the dependency installation before activating workspace TypeScript and Astro tooling. This prevents the temporary invalid `typescript.tsdk` warning that occurs when `node_modules/typescript/lib` is inspected before installation finishes.
 
-The post-create script:
+## Lifecycle scripts
+
+### post-create.sh — primera creación
 
 - gives the non-root user ownership of the `node_modules` volume and Bun home directory;
 - removes stale executable, Vite and Astro caches without deleting the volume mount point;
 - runs `bun ci`, the frozen-lockfile installation command;
-- verifies the Bun, Playwright and Oh My Posh versions;
-- verifies that Chromium is available from `/ms-playwright`;
-- verifies that `/usr/bin/zsh` is the login shell;
 - adds one idempotent source line to `~/.zshrc` for the repository-managed shell configuration;
 - renders the local Oh My Posh theme once to fail early on invalid configuration.
+
+### post-start.sh — cada inicio
+
+Executes `.devcontainer/scripts/verify-env.sh` to validate the toolchain on every container start.
+
+### verify-env.sh — validación en cada inicio
+
+- verifies the Bun, Playwright and Oh My Posh versions match the image;
+- verifies that Chromium is available from `/ms-playwright`;
+- verifies that `/usr/bin/zsh` is the login shell;
+- lists Playwright browsers as a dry-run check.
 
 The Playwright Docker image already includes the browser binaries and Ubuntu system dependencies. Do not run `bun x playwright install chromium` inside this DevContainer.
 
 Use `bun x` for package executables. Although Bun documents `bunx` as an alias, the version installed as a single executable in this image may not expose a separate `bunx` command on `PATH`.
+
+## Dev Container Features
+
+Zsh and GitHub CLI are installed via Dev Container Features instead of the Dockerfile:
+
+- `ghcr.io/devcontainers/features/common-utils:2` — installs Zsh, configures the `vscode` user, sets the login shell.
+- `ghcr.io/devcontainers/features/github-cli:1` — installs the GitHub CLI.
+
+Feature versions are pinned in `.devcontainer/devcontainer-lock.json`, which is auto-generated by VS Code and must be versioned in Git. Do not edit this file manually; update Features through the Dev Container CLI or VS Code UI.
+
+The lockfile is excluded from Prettier formatting via `.prettierignore`.
 
 ## Lockfile synchronization
 
@@ -61,7 +105,7 @@ A failed `postCreateCommand` can leave partial packages in the persistent volume
 
 ## Zsh and Oh My Posh
 
-The Docker image installs Zsh and pins Oh My Posh to the version declared in `.devcontainer/devcontainer.json`. VS Code explicitly selects `/usr/bin/zsh` as its Linux terminal profile.
+Zsh is installed by the `common-utils` Dev Container Feature. Oh My Posh is pinned to the version declared in `.devcontainer/devcontainer.json` and installed in the Dockerfile. VS Code explicitly selects `/usr/bin/zsh` as its Linux terminal profile.
 
 Interactive shell behavior is split into two repository-managed files:
 
@@ -93,7 +137,7 @@ Keep the `node_modules` mount point and clear only its contents:
 
 ```bash
 find node_modules -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
-bash .devcontainer/post-create.sh
+bash .devcontainer/scripts/post-create.sh
 ```
 
 For a genuinely clean test, close the DevContainer and remove the dependency volume from the host:
@@ -118,7 +162,7 @@ The following versions must move together:
 2. `PLAYWRIGHT_VERSION` in `.devcontainer/devcontainer.json`.
 3. The Playwright image tag generated by `.devcontainer/Dockerfile`.
 
-The post-create script fails explicitly when the installed Playwright package does not match the browser image version.
+The post-start script fails explicitly when the installed Playwright package does not match the browser image version.
 
 ### Lighthouse
 
@@ -126,4 +170,14 @@ The direct Lighthouse dependency, its override, the Node runtime and Playwright 
 
 ### Oh My Posh
 
-Update `OH_MY_POSH_VERSION` in `.devcontainer/devcontainer.json` and the matching default argument in `.devcontainer/Dockerfile`. The image build and post-create script both verify the installed version, so an incomplete update fails instead of silently using a different prompt binary.
+Update `OH_MY_POSH_VERSION` in `.devcontainer/devcontainer.json` and the matching default argument in `.devcontainer/Dockerfile`. The image build and verify-env script both check the installed version, so an incomplete update fails instead of silently using a different prompt binary.
+
+### Features
+
+Update Feature versions through the Dev Container CLI:
+
+```bash
+devcontainer upgrade --workspace-folder .
+```
+
+Or use the VS Code command palette: **Dev Containers: Upgrade Dev Container Features**. Then commit the updated `.devcontainer/devcontainer-lock.json`.

@@ -9,7 +9,15 @@ const devcontainer = JSON.parse(
 );
 const dockerfile = await readFile(join(repositoryRoot, '.devcontainer/Dockerfile'), 'utf8');
 const postCreateScript = await readFile(
-	join(repositoryRoot, '.devcontainer/post-create.sh'),
+	join(repositoryRoot, '.devcontainer/scripts/post-create.sh'),
+	'utf8'
+);
+const postStartScript = await readFile(
+	join(repositoryRoot, '.devcontainer/scripts/post-start.sh'),
+	'utf8'
+);
+const verifyEnvScript = await readFile(
+	join(repositoryRoot, '.devcontainer/scripts/verify-env.sh'),
 	'utf8'
 );
 const zshrc = await readFile(join(repositoryRoot, '.devcontainer/zshrc'), 'utf8');
@@ -17,6 +25,7 @@ const poshTheme = JSON.parse(
 	await readFile(join(repositoryRoot, '.devcontainer/oh-my-posh.omp.json'), 'utf8')
 );
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
+const prettierIgnore = await readFile(join(repositoryRoot, '.prettierignore'), 'utf8');
 
 describe('DevContainer contract', () => {
 	test('isolates Linux dependencies from the Fedora bind mount', () => {
@@ -24,7 +33,7 @@ describe('DevContainer contract', () => {
 		expect(devcontainer.mounts).toContain(
 			'source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume'
 		);
-		expect(devcontainer.postCreateCommand).toBe('bash .devcontainer/post-create.sh');
+		expect(devcontainer.postCreateCommand).toBe('bash .devcontainer/scripts/post-create.sh');
 		expect(postCreateScript).toContain('sudo chown -R "${owner}" "${deps}" "${bun_home}"');
 		expect(postCreateScript).toContain('"${deps}/.vite"');
 		expect(postCreateScript).toContain('"${workspace}/.astro"');
@@ -43,12 +52,24 @@ describe('DevContainer contract', () => {
 	});
 
 	test('uses the non-root development user and recommended Chromium runtime flags', () => {
-		expect(devcontainer.containerUser).toBe('vscode');
+		expect(devcontainer.containerUser).toBeUndefined();
 		expect(devcontainer.remoteUser).toBe('vscode');
 		expect(devcontainer.updateRemoteUserUID).toBe(true);
 		expect(devcontainer.init).toBe(true);
 		expect(devcontainer.runArgs).not.toContain('--init');
 		expect(devcontainer.runArgs).toContain('--ipc=host');
+	});
+
+	test('installs tooling through Dev Container Features', () => {
+		expect(devcontainer.features).toBeDefined();
+		expect(devcontainer.features['ghcr.io/devcontainers/features/common-utils:2']).toBeDefined();
+		expect(devcontainer.features['ghcr.io/devcontainers/features/common-utils:2'].installZsh).toBe(
+			true
+		);
+		expect(devcontainer.features['ghcr.io/devcontainers/features/github-cli:1']).toBeDefined();
+		expect(dockerfile).not.toMatch(/apt-get install.*\b(zsh|sudo|wget)\b/);
+		expect(dockerfile).not.toContain('userdel -r ubuntu');
+		expect(dockerfile).not.toContain('githubcli-archive-keyring');
 	});
 
 	test('reuses browsers from the version-matched Playwright image', () => {
@@ -59,17 +80,28 @@ describe('DevContainer contract', () => {
 		expect(devcontainer.containerEnv.PLAYWRIGHT_BROWSERS_PATH).toBe('/ms-playwright');
 		expect(packageJson.devDependencies['@playwright/test']).toBe(`^${expectedVersion}`);
 		expect(postCreateScript).not.toContain('playwright install chromium');
-		expect(postCreateScript).toContain('bun x playwright install --list');
 		expect(postCreateScript).not.toContain('bunx ');
+		expect(verifyEnvScript).toContain('bun x playwright install --list');
+		expect(verifyEnvScript).toContain(
+			'grep -q .; then\n\techo "[error] The Playwright image does not contain Chromium'
+		);
+	});
+
+	test('verifies toolchain versions on every container start', () => {
+		expect(devcontainer.postStartCommand).toBe('bash .devcontainer/scripts/post-start.sh');
+		expect(postStartScript).toContain('bash .devcontainer/scripts/verify-env.sh');
+		expect(verifyEnvScript).toContain('installed_bun_version="$(bun --version)"');
+		expect(verifyEnvScript).toContain(
+			'installed_playwright_version="$(bun x playwright --version | awk \'{print $2}\')"'
+		);
+		expect(verifyEnvScript).toContain('installed_posh_version="$(oh-my-posh version)"');
 	});
 
 	test('uses Zsh and a pinned Oh My Posh prompt without host font dependencies', () => {
 		const expectedVersion = devcontainer.build.args.OH_MY_POSH_VERSION;
 		const vscodeSettings = devcontainer.customizations.vscode.settings;
 
-		expect(dockerfile).toContain('apt-get install -y --no-install-recommends sudo curl wget zsh');
 		expect(dockerfile).toContain(`ARG OH_MY_POSH_VERSION=${expectedVersion}`);
-		expect(dockerfile).toContain('--shell /usr/bin/zsh');
 		expect(vscodeSettings['terminal.integrated.defaultProfile.linux']).toBe('zsh');
 		expect(vscodeSettings['terminal.integrated.profiles.linux'].zsh.path).toBe('/usr/bin/zsh');
 		expect(devcontainer.containerEnv.TERM).toBe('xterm-256color');
@@ -78,5 +110,9 @@ describe('DevContainer contract', () => {
 		expect(zshrc).toContain('oh-my-posh init zsh --strict');
 		expect(poshTheme.version).toBe(4);
 		expect(JSON.stringify(poshTheme)).not.toMatch(/[\uE000-\uF8FF]/u);
+	});
+
+	test('excludes Dev Container lockfile from Prettier formatting', () => {
+		expect(prettierIgnore).toContain('.devcontainer/devcontainer-lock.json');
 	});
 });
