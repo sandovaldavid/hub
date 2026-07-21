@@ -18,7 +18,11 @@
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
-		"test:lighthouse": "lhci autorun",
+		"test:lighthouse:mobile": "lhci autorun",
+		"test:lighthouse:desktop": "LHCI_PROFILE=desktop lhci autorun",
+		"test:lighthouse": "bun run test:lighthouse:mobile && bun run test:lighthouse:desktop",
+		"validate:quality": "bunx astro check && bun run check:architecture && bun run format:check && bun run lint && bun run test:unit && bun run build",
+		"validate:local": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
 		"prepare": "husky"
 	},
 	"dependencies": {
