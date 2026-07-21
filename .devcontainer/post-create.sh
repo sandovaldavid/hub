@@ -2,6 +2,7 @@
 set -Eeuo pipefail
 
 readonly workspace="${CONTAINER_WORKSPACE_FOLDER:-/workspace}"
+readonly managed_zsh_line='[[ -r /workspace/.devcontainer/zshrc ]] && source /workspace/.devcontainer/zshrc'
 cd "${workspace}"
 
 if [[ ! -f package.json || ! -f bun.lock ]]; then
@@ -34,6 +35,34 @@ if ! find "${PLAYWRIGHT_BROWSERS_PATH}" -maxdepth 1 -type d -name 'chromium-*' -
 	exit 1
 fi
 
-bun x playwright install --list
+installed_posh_version="$(oh-my-posh version)"
+if [[ "${installed_posh_version}" != "${OH_MY_POSH_VERSION}" ]]; then
+	echo "[error] Oh My Posh ${installed_posh_version} does not match the container version ${OH_MY_POSH_VERSION}" >&2
+	exit 1
+fi
 
-echo "[info] DevContainer ready with Bun ${installed_bun_version} and Playwright ${installed_playwright_version}"
+if [[ "$(getent passwd "$(id -un)" | cut -d: -f7)" != "/usr/bin/zsh" ]]; then
+	echo "[error] The DevContainer user does not use /usr/bin/zsh as its login shell" >&2
+	exit 1
+fi
+
+if [[ ! -f "${HOME}/.zshrc" ]]; then
+	touch "${HOME}/.zshrc"
+fi
+
+if ! grep -Fqx "${managed_zsh_line}" "${HOME}/.zshrc"; then
+	{
+		echo
+		echo '# Linktree DevContainer shell configuration'
+		echo "${managed_zsh_line}"
+	} >> "${HOME}/.zshrc"
+fi
+
+bun x playwright install --list
+oh-my-posh print primary --config "${workspace}/.devcontainer/oh-my-posh.omp.json" --shell uni >/dev/null
+
+printf '[info] DevContainer ready with Bun %s, Playwright %s, Zsh %s and Oh My Posh %s\n' \
+	"${installed_bun_version}" \
+	"${installed_playwright_version}" \
+	"$(zsh --version | awk '{print $2}')" \
+	"${installed_posh_version}"
