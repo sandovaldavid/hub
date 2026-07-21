@@ -1,3 +1,5 @@
+const isDesktop = process.env.LHCI_PROFILE === 'desktop';
+
 module.exports = {
 	ci: {
 		collect: {
@@ -7,6 +9,7 @@ module.exports = {
 			url: ['http://localhost:4321', 'http://localhost:4321/es/'],
 			numberOfRuns: 1,
 			settings: {
+				...(isDesktop ? { preset: 'desktop' } : {}),
 				chromeFlags: '--no-sandbox --disable-dev-shm-usage',
 				throttlingMethod: 'devtools',
 			},
