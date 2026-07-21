@@ -169,5 +169,8 @@ jobs:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: dist
 
+      - name: Install Lighthouse browser
+        run: bun x playwright install --with-deps chromium
+
       - name: Run Lighthouse CI
         run: bun run test:lighthouse
