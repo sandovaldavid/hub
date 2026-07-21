@@ -21,7 +21,7 @@
 		"test:lighthouse:mobile": "lhci autorun",
 		"test:lighthouse:desktop": "LHCI_PROFILE=desktop lhci autorun",
 		"test:lighthouse": "bun run test:lighthouse:mobile && bun run test:lighthouse:desktop",
-		"validate:quality": "bunx astro check && bun run check:architecture && bun run format:check && bun run lint && bun run test:unit && bun run build",
+		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run test:unit && bun run build",
 		"validate:local": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
 		"prepare": "husky"
 	},
