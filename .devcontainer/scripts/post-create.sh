@@ -20,6 +20,8 @@ rm -rf "${deps}/.bin" "${deps}/.vite" "${deps}/.vite-temp" "${workspace}/.astro"
 
 bun ci
 
+sudo chsh -s /usr/bin/zsh "$(id -un)"
+
 if [[ ! -f "${HOME}/.zshrc" ]]; then
 	touch "${HOME}/.zshrc"
 fi
