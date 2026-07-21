@@ -8,11 +8,13 @@ ARG BUN_VERSION=1.3.14
 ARG PLAYWRIGHT_VERSION=1.61.0
 ARG OH_MY_POSH_VERSION=29.34.0
 
-RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu || true \
-    && groupadd --gid ${USER_GID} ${USERNAME} \
-    && useradd --uid ${USER_UID} --gid ${USER_GID} --shell /usr/bin/zsh -m ${USERNAME} \
+RUN touch /var/mail/ubuntu \
+    && chown ubuntu /var/mail/ubuntu \
+    && (userdel -r ubuntu || true) \
     && apt-get update \
     && apt-get install -y --no-install-recommends sudo curl wget zsh \
+    && groupadd --gid ${USER_GID} ${USERNAME} \
+    && useradd --uid ${USER_UID} --gid ${USER_GID} --shell /usr/bin/zsh -m ${USERNAME} \
     && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME} \
     && case "$(dpkg --print-architecture)" in \
