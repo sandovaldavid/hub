@@ -27,7 +27,7 @@ The E2E job detects `playwright-report/index.html` after the test command, inclu
 Use the repository DevContainer. It isolates Ubuntu `node_modules` from the host bind mount and reuses the browser binaries included in the version-matched Playwright image.
 
 1. Run **Dev Containers: Rebuild Container Without Cache**.
-2. Wait for `.devcontainer/post-create.sh` to complete.
+2. Wait for `.devcontainer/post-create.sh` to complete. VS Code is configured to wait before activating workspace tooling.
 3. Confirm the terminal uses `vscode` in `/workspace`.
 4. Run:
 
@@ -35,7 +35,7 @@ Use the repository DevContainer. It isolates Ubuntu `node_modules` from the host
 bun run validate:local 2>&1 | tee validation-issue-27.log
 ```
 
-Do not run `bunx playwright install chromium` inside the DevContainer. See [`docs/devcontainer.md`](devcontainer.md) for setup and recovery instructions.
+Do not run `bun x playwright install chromium` inside the DevContainer. See [`docs/devcontainer.md`](devcontainer.md) for setup and recovery instructions.
 
 ### Native Ubuntu or an ephemeral CI-compatible environment
 
@@ -43,7 +43,7 @@ Use the pinned Bun version declared in `package.json` and install dependencies r
 
 ```bash
 bun install --frozen-lockfile
-bunx playwright install --with-deps chromium
+bun x playwright install --with-deps chromium
 bun run validate:local
 ```
 
