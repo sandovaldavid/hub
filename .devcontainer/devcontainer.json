@@ -25,6 +25,7 @@
 		"4322": { "label": "Astro Preview", "onAutoForward": "silent" }
 	},
 	"postCreateCommand": "bash .devcontainer/post-create.sh",
+	"waitFor": "postCreateCommand",
 	"customizations": {
 		"vscode": {
 			"extensions": [
