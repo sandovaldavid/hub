@@ -71,14 +71,14 @@ Architecture rules, dependency direction, placement criteria and trade-offs are 
 
 ### Option B: DevContainer (Recommended for Fedora / Linux)
 
-The DevContainer uses the version-matched Playwright Ubuntu Noble image and keeps Linux `node_modules` in a Docker volume, isolated from dependencies or executable links created on the Fedora host.
+The DevContainer uses the version-matched Playwright Ubuntu Noble image and keeps Linux `node_modules` in a Docker volume, isolated from dependencies or executable links created on the Fedora host. It opens the VS Code terminal with Zsh and a pinned, repository-local Oh My Posh prompt.
 
 1. Open the **Linktree repository root** in VS Code.
 2. Install the *Dev Containers* extension.
 3. Check out the branch you want to validate.
 4. Run **Dev Containers: Rebuild Container Without Cache**.
-5. Wait for the post-create setup to install frozen dependencies and verify Bun, Playwright and Chromium.
-6. Confirm the terminal uses the `vscode` user and `/workspace` directory.
+5. Wait for the post-create setup to install frozen dependencies and verify Bun, Playwright, Chromium, Zsh and Oh My Posh.
+6. Confirm the terminal uses the `vscode` user, `/workspace` directory and Zsh prompt.
 
 The image already contains the Playwright browser binaries and Ubuntu system dependencies. Do not run `bun x playwright install chromium` inside the DevContainer. Run the complete local gate with:
 
@@ -86,7 +86,7 @@ The image already contains the Playwright browser binaries and Ubuntu system dep
 bun run validate:local 2>&1 | tee validation-issue-27.log
 ```
 
-Setup, recovery and version-sync details are documented in [`docs/devcontainer.md`](docs/devcontainer.md).
+Setup, shell customization, recovery and version-sync details are documented in [`docs/devcontainer.md`](docs/devcontainer.md).
 
 ---
 
