@@ -17,6 +17,7 @@ export type ConversionPosition = 'hero' | 'primary-cta' | 'social' | 'project' |
 export type ConversionSource = 'direct' | 'search' | 'social' | 'referral' | 'internal';
 
 export interface ConversionProperties {
+	[key: string]: string | undefined;
 	locale: ConversionLocale;
 	position: ConversionPosition;
 	source: ConversionSource;
