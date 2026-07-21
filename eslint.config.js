@@ -8,7 +8,18 @@ export default defineConfig(
 	{
 		ignores: ['dist/', '.astro/', 'node_modules/', 'playwright-report/', 'test-results/'],
 	},
-	// CJS config files in root (lighthouserc, etc.)
+	js.configs.recommended,
+	...tseslint.configs.recommended,
+	{
+		rules: {
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{ argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+			],
+			'@typescript-eslint/no-explicit-any': 'warn',
+		},
+	},
+	// CJS config files in root (Lighthouse, etc.) legitimately use require/module.
 	{
 		files: ['.lighthouserc.js', '*.cjs'],
 		languageOptions: {
@@ -20,16 +31,8 @@ export default defineConfig(
 				process: 'readonly',
 			},
 		},
-	},
-	js.configs.recommended,
-	...tseslint.configs.recommended,
-	{
 		rules: {
-			'@typescript-eslint/no-unused-vars': [
-				'error',
-				{ argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
-			],
-			'@typescript-eslint/no-explicit-any': 'warn',
+			'@typescript-eslint/no-require-imports': 'off',
 		},
 	},
 	// jsx-a11y only for .ts/.js — astro files use eslint-plugin-astro's own a11y rules
