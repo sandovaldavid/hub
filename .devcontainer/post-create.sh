@@ -2,7 +2,11 @@
 set -Eeuo pipefail
 
 readonly workspace="${CONTAINER_WORKSPACE_FOLDER:-/workspace}"
+readonly deps="${workspace}/node_modules"
+readonly bun_home="${HOME}/.bun"
+readonly owner="$(id -u):$(id -g)"
 readonly managed_zsh_line='[[ -r /workspace/.devcontainer/zshrc ]] && source /workspace/.devcontainer/zshrc'
+
 cd "${workspace}"
 
 if [[ ! -f package.json || ! -f bun.lock ]]; then
@@ -10,13 +14,18 @@ if [[ ! -f package.json || ! -f bun.lock ]]; then
 	exit 1
 fi
 
-# The named volume is created as root. Give the non-root DevContainer user ownership,
-# then remove stale executable links left by an interrupted Bun installation.
-sudo mkdir -p node_modules
-sudo chown -R "$(id -u):$(id -g)" node_modules
-rm -rf node_modules/.bin
+# Named volumes are initially mounted as root. Repair only the generated dependency/cache
+# directories and never broaden permissions on the bind-mounted repository.
+sudo mkdir -p "${deps}" "${bun_home}"
+sudo chown -R "${owner}" "${deps}" "${bun_home}"
 
-bun install --frozen-lockfile
+# Preserve the volume mount itself while removing generated state that can become stale
+# across interrupted installs or toolchain upgrades.
+rm -rf "${deps}/.bin" "${deps}/.vite" "${deps}/.vite-temp" "${workspace}/.astro"
+
+# bun ci is equivalent to bun install --frozen-lockfile and intentionally fails when
+# package.json and bun.lock disagree. Update and commit bun.lock outside this lifecycle.
+bun ci
 
 installed_bun_version="$(bun --version)"
 if [[ "${installed_bun_version}" != "${BUN_VERSION}" ]]; then
