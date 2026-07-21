@@ -23,7 +23,7 @@ if [[ "${installed_bun_version}" != "${BUN_VERSION}" ]]; then
 	exit 1
 fi
 
-installed_playwright_version="$(bunx playwright --version | awk '{print $2}')"
+installed_playwright_version="$(bun x playwright --version | awk '{print $2}')"
 if [[ "${installed_playwright_version}" != "${PLAYWRIGHT_VERSION}" ]]; then
 	echo "[error] Playwright ${installed_playwright_version} does not match the image version ${PLAYWRIGHT_VERSION}" >&2
 	exit 1
@@ -34,6 +34,6 @@ if ! find "${PLAYWRIGHT_BROWSERS_PATH}" -maxdepth 1 -type d -name 'chromium-*' -
 	exit 1
 fi
 
-bunx playwright install --list
+bun x playwright install --list
 
 echo "[info] DevContainer ready with Bun ${installed_bun_version} and Playwright ${installed_playwright_version}"
