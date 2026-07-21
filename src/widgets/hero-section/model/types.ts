@@ -1,4 +1,4 @@
-import type { Profile } from '../../../entities/profile';
+import type { Profile } from '../../../entities/profile/model/types';
 
 export interface HeroMetadataItem {
 	label: string;
