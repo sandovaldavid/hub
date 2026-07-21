@@ -14,7 +14,7 @@ module.exports = {
 			numberOfRuns: 3,
 			settings: {
 				...(isDesktop ? { preset: 'desktop' } : {}),
-				chromeFlags: '--no-sandbox --disable-dev-shm-usage',
+				chromeFlags: '--no-sandbox --disable-dev-shm-usage --headless=new',
 				throttlingMethod: 'devtools',
 			},
 		},

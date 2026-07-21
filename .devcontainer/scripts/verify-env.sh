@@ -35,6 +35,8 @@ fi
 
 bun x playwright install --list
 
+bun -e "const { chromium } = require('@playwright/test'); console.log('[diag] Chromium executablePath:', chromium.executablePath());"
+
 printf '[info] Environment verified: Bun %s, Playwright %s, Zsh %s, Oh My Posh %s\n' \
 	"${installed_bun_version}" \
 	"${installed_playwright_version}" \
