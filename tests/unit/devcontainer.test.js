@@ -25,6 +25,13 @@ describe('DevContainer contract', () => {
 		expect(postCreateScript).toContain('bun install --frozen-lockfile');
 	});
 
+	test('finishes dependency setup before VS Code activates workspace tooling', () => {
+		expect(devcontainer.waitFor).toBe('postCreateCommand');
+		expect(devcontainer.customizations.vscode.settings['typescript.tsdk']).toBe(
+			'node_modules/typescript/lib'
+		);
+	});
+
 	test('uses the non-root development user and recommended Chromium runtime flags', () => {
 		expect(devcontainer.remoteUser).toBe('vscode');
 		expect(devcontainer.runArgs).toContain('--init');
@@ -40,6 +47,7 @@ describe('DevContainer contract', () => {
 		expect(devcontainer.containerEnv.PLAYWRIGHT_BROWSERS_PATH).toBe('/ms-playwright');
 		expect(packageJson.devDependencies['@playwright/test']).toBe(`^${expectedVersion}`);
 		expect(postCreateScript).not.toContain('playwright install chromium');
-		expect(postCreateScript).toContain('bunx playwright install --list');
+		expect(postCreateScript).toContain('bun x playwright install --list');
+		expect(postCreateScript).not.toContain('bunx ');
 	});
 });
