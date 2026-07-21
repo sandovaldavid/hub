@@ -80,7 +80,7 @@ The DevContainer uses the version-matched Playwright Ubuntu Noble image and keep
 5. Wait for the post-create setup to install frozen dependencies and verify Bun, Playwright and Chromium.
 6. Confirm the terminal uses the `vscode` user and `/workspace` directory.
 
-The image already contains the Playwright browser binaries and Ubuntu system dependencies. Do not run `bunx playwright install chromium` inside the DevContainer. Run the complete local gate with:
+The image already contains the Playwright browser binaries and Ubuntu system dependencies. Do not run `bun x playwright install chromium` inside the DevContainer. Run the complete local gate with:
 
 ```bash
 bun run validate:local 2>&1 | tee validation-issue-27.log
