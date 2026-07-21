@@ -34,10 +34,15 @@ describe('CI workflow contract', () => {
 		expect(workflow).not.toContain('continue-on-error: true');
 	});
 
-	test('uploads a generated report even when E2E fails', () => {
-		expect(workflow).toContain('if: always()');
-		expect(workflow).toContain("steps.detect_report.outputs.available == 'true'");
-		expect(workflow).toContain("needs.e2e.outputs.report_available == 'true'");
+	test('uploads a generated report after failure but not after cancellation', () => {
+		expect(workflow).toContain('if: ${{ !cancelled() }}');
+		expect(workflow).toContain(
+			"!cancelled() && steps.detect_report.outputs.available == 'true'"
+		);
+		expect(workflow).toContain(
+			"!cancelled() && needs.e2e.outputs.report_available == 'true'"
+		);
+		expect(workflow).not.toContain('if: always()');
 	});
 
 	test('defines a local validation equivalent and both Lighthouse profiles', () => {
