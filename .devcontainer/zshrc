@@ -1,0 +1,18 @@
+# Repository-managed interactive shell defaults for the Linktree DevContainer.
+
+export HISTFILE="${HOME}/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
+autoload -Uz compinit
+mkdir -p "${XDG_CACHE_HOME:-${HOME}/.cache}"
+compinit -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zcompdump"
+
+if command -v oh-my-posh >/dev/null 2>&1; then
+	eval "$(oh-my-posh init zsh --strict --config /workspace/.devcontainer/oh-my-posh.omp.json)"
+fi
