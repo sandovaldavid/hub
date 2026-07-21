@@ -27,11 +27,12 @@ describe('CI workflow contract', () => {
 		expect(workflow.match(/Download production build/g)).toHaveLength(2);
 	});
 
-	test('keeps E2E results separate from report publication', () => {
+	test('keeps functional results separate from report publication', () => {
 		expect(workflow).toContain('name: Playwright report availability');
 		expect(workflow).toContain('Use `CI / E2E` for the functional test result.');
 		expect(workflow).not.toContain('context":"Playwright Report"');
 		expect(workflow).not.toContain('continue-on-error: true');
+		expect(workflow).not.toContain('LHCI_GITHUB_APP_TOKEN');
 	});
 
 	test('uploads a generated report after failure but not after cancellation', () => {
