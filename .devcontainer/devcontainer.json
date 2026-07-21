@@ -9,7 +9,7 @@
 			"OH_MY_POSH_VERSION": "29.34.0"
 		}
 	},
-	"remoteUser": "vscode",
+	"remoteUser": "node",
 	"updateRemoteUserUID": true,
 	"workspaceFolder": "/workspace",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
@@ -28,7 +28,7 @@
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"installZsh": true,
-			"username": "vscode",
+			"username": "node",
 			"upgradePackages": false
 		},
 		"ghcr.io/devcontainers/features/github-cli:1": {}

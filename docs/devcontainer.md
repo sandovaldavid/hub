@@ -4,13 +4,13 @@ The DevContainer is the supported environment for running the complete validatio
 
 ## Runtime contract
 
-- Ubuntu 24.04 Noble from the version-pinned Playwright image.
-- Non-root `vscode` user for VS Code, terminals and container processes.
+- Debian Bookworm from the official `javascript-node` Dev Container image.
+- Non-root `node` user for VS Code, terminals and container processes.
 - Zsh from the `common-utils` Dev Container Feature as the login and VS Code integrated terminal shell.
 - Oh My Posh `29.34.0` with a repository-local prompt configuration, installed via Dockerfile.
 - Bun `1.3.14`, installed via Dockerfile.
 - GitHub CLI from the `github-cli` Dev Container Feature.
-- Playwright `1.61.0`, matching the browser binaries included in the image.
+- Playwright `1.61.0` with Chromium installed during image build.
 - Repository mounted at `/workspace`.
 - `node_modules` stored in the versioned `linktree-node-modules-v1` Docker volume instead of the Fedora bind mount.
 
@@ -49,7 +49,7 @@ The source tree remains visible on the host, but Linux dependencies and executab
 
 The DevContainer declares `waitFor: postCreateCommand`, so VS Code waits for the dependency installation before activating workspace TypeScript and Astro tooling. This prevents the temporary invalid `typescript.tsdk` warning that occurs when `node_modules/typescript/lib` is inspected before installation finishes.
 
-The Dockerfile does not create or manage the development user. The `common-utils` Feature handles user creation, shell configuration and sudo access. Bun is installed system-wide (`/usr/local/bin`) via `BUN_INSTALL`, not per-user.
+The Dockerfile does not create or manage the development user. The `common-utils` Feature configures the existing `node` user with Zsh and sudo access. Bun and Oh My Posh are installed system-wide (`/usr/local/bin`). Chromium is installed during image build via `npx playwright install --with-deps chromium`, which eliminates the Ubuntu bind-mount incompatibility that the previous Playwright base image introduced.
 
 ## Lifecycle scripts
 

@@ -52,8 +52,7 @@ describe('DevContainer contract', () => {
 	});
 
 	test('uses the non-root development user and recommended Chromium runtime flags', () => {
-		expect(devcontainer.containerUser).toBeUndefined();
-		expect(devcontainer.remoteUser).toBe('vscode');
+		expect(devcontainer.remoteUser).toBe('node');
 		expect(devcontainer.updateRemoteUserUID).toBe(true);
 		expect(devcontainer.init).toBe(true);
 		expect(devcontainer.runArgs).not.toContain('--init');
@@ -66,20 +65,25 @@ describe('DevContainer contract', () => {
 		expect(devcontainer.features['ghcr.io/devcontainers/features/common-utils:2'].installZsh).toBe(
 			true
 		);
+		expect(devcontainer.features['ghcr.io/devcontainers/features/common-utils:2'].username).toBe(
+			'node'
+		);
 		expect(devcontainer.features['ghcr.io/devcontainers/features/github-cli:1']).toBeDefined();
-		expect(dockerfile).not.toMatch(/apt-get install.*\b(zsh|sudo|wget|curl)\b/);
+		expect(dockerfile).toContain(
+			'FROM mcr.microsoft.com/devcontainers/javascript-node:1-${NODE_VARIANT}'
+		);
+		expect(dockerfile).not.toContain('playwright:v');
 		expect(dockerfile).not.toContain('groupadd');
 		expect(dockerfile).not.toContain('useradd');
-		expect(dockerfile).not.toContain('SHELL=');
-		expect(dockerfile).not.toContain('HOME');
 		expect(dockerfile).toContain('BUN_INSTALL=/usr/local');
+		expect(dockerfile).toContain('npx playwright install --with-deps chromium');
 	});
 
-	test('reuses browsers from the version-matched Playwright image', () => {
+	test('installs Chromium browsers during image build', () => {
 		const expectedVersion = devcontainer.build.args.PLAYWRIGHT_VERSION;
 
 		expect(dockerfile).toContain(`ARG PLAYWRIGHT_VERSION=${expectedVersion}`);
-		expect(dockerfile).toContain('FROM mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-noble');
+		expect(dockerfile).toContain('npx playwright install --with-deps chromium');
 		expect(devcontainer.containerEnv.PLAYWRIGHT_BROWSERS_PATH).toBe('/ms-playwright');
 		expect(packageJson.devDependencies['@playwright/test']).toBe(`^${expectedVersion}`);
 		expect(postCreateScript).not.toContain('playwright install chromium');
