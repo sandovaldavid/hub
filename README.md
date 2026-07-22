@@ -137,6 +137,6 @@ Production deployment is configured for merges to `main`, while pull requests an
 - [`docs/performance-budget.md`](docs/performance-budget.md) — Lighthouse thresholds and update policy
 - [`docs/branch-governance.md`](docs/branch-governance.md) — promotion flow and versioned rulesets
 
-## License
+## Reuse
 
-This repository is maintained as the source for my professional link hub. Review the repository license before reusing code or visual assets.
+This repository does not currently include a `LICENSE` file. Do not assume permission to reuse source code or visual assets unless a license is added.
