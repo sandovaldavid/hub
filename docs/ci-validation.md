@@ -12,6 +12,19 @@ The following check contexts are intentionally stable because branch rulesets de
 
 `CI / Playwright report availability` is informational. It only confirms that the generated HTML report was published; it never represents the E2E result and must not be configured as a functional required check.
 
+## Ruleset mapping
+
+The versioned branch policies are stored under `.github/rulesets/` and documented in [`docs/branch-governance.md`](branch-governance.md).
+
+| Target branch | Required contexts |
+| :--- | :--- |
+| `develop` | `CI / Quality`, `CI / E2E`, `CI / Lighthouse` |
+| `main` | `CI / Quality`, `CI / E2E`, `CI / Lighthouse`, `Check PR Branch / check-source-branch` |
+
+The workflow name and job names form the complete check context. Renaming either side changes the context consumed by GitHub rulesets and must be treated as a breaking governance change.
+
+Rulesets must not be activated until Actions has emitted every required context at least once. Use `bun run rulesets:stage -- --confirm` to create disabled rulesets for inspection, then `bun run rulesets:apply -- --confirm-active` and `bun run rulesets:verify` after hosted checks are available.
+
 ## Artifact flow
 
 `CI / Quality` creates the production `dist/` output once and uploads it as `astro-dist`. The E2E and Lighthouse jobs download that artifact instead of rebuilding the application.
@@ -24,18 +37,18 @@ The E2E job detects `playwright-report/index.html` after the test command, inclu
 
 ### Fedora or another non-Ubuntu host
 
-Use the repository DevContainer. It isolates Ubuntu `node_modules` from the host bind mount and reuses the browser binaries included in the version-matched Playwright image.
+Use the repository DevContainer. It isolates Ubuntu `node_modules` from the host bind mount and installs the Chromium runtime during the image build.
 
 1. Run **Dev Containers: Rebuild Container Without Cache**.
-2. Wait for `.devcontainer/post-create.sh` to complete. VS Code is configured to wait before activating workspace tooling.
-3. Confirm the terminal uses `vscode` in `/workspace`.
+2. Wait for `.devcontainer/scripts/post-create.sh` to complete. VS Code is configured to wait before activating workspace tooling.
+3. Confirm the terminal uses `node` in `/workspace`.
 4. Run:
 
 ```bash
-bun run validate:local 2>&1 | tee validation-issue-27.log
+bun run validate:local 2>&1 | tee validation-issue-32.log
 ```
 
-Do not run `bun x playwright install chromium` inside the DevContainer. See [`docs/devcontainer.md`](devcontainer.md) for setup and recovery instructions.
+See [`docs/devcontainer.md`](devcontainer.md) for setup and recovery instructions.
 
 ### Native Ubuntu or an ephemeral CI-compatible environment
 
@@ -63,4 +76,6 @@ The command stops at the first failure. Fix the root cause and rerun the complet
 
 ## GitHub Actions quota limitation
 
-A workflow that is skipped, interrupted before executing its steps or prevented from starting by account quota is not a successful validation. While Actions is unavailable, record the exact local commands and outputs in the pull request. Required checks can only be finalized in the repository rulesets after Actions emits the stable contexts at least once.
+A workflow that is disabled, skipped, interrupted before executing its steps or prevented from starting by account quota is not a successful validation. While Actions is unavailable, record the exact local commands and outputs in the pull request.
+
+A local pass validates the repository behavior but does not prove hosted ruleset enforcement. Issue #32 remains incomplete until active rulesets are verified with a deliberately failing pull request after Actions becomes available.
