@@ -127,7 +127,7 @@ feature/* or fix/* -> develop -> main
 
 The CI workflow defines stable functional contexts for quality, E2E, and Lighthouse. The repository also versions desired rulesets for `develop` and `main`; their live enforcement state must be verified in GitHub before relying on them. Ruleset application, bypass policy, and hosted negative tests are documented in [`docs/branch-governance.md`](docs/branch-governance.md).
 
-Production deployment is configured for merges to `main`, while pull requests and `develop` use preview-oriented delivery. Workflow availability and deployment success must be checked from the corresponding GitHub or Vercel run rather than inferred from configuration alone.
+Production deployment is configured for merges to `main`. Pull-request previews are provided by the connected deployment integration when available. Workflow availability and deployment success must be checked from the corresponding GitHub or Vercel run rather than inferred from configuration alone.
 
 ## Documentation
 
