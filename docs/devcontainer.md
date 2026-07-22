@@ -16,6 +16,23 @@ The DevContainer is the supported environment for running the complete validatio
 
 The source tree remains visible on the host, but Linux dependencies and executable links stay inside Docker. This prevents Bun from reusing `.bin` links or package artifacts created by another operating system.
 
+## File ownership
+
+The workspace is bind-mounted at `/workspace`, so file ownership is based on
+the numeric UID and GID from the host. On Linux, `updateRemoteUserUID: true`
+synchronizes the `node` user's IDs with the host user. Files created by the
+host user and by the DevContainer therefore normally remain editable from
+both environments.
+
+`remoteUser: node` applies to lifecycle commands and remote editor processes.
+It does not change the user for an arbitrary `docker exec`; pass `-u node`
+when running commands that way.
+
+Files created as `root` are an exception. Reopening or rebuilding the
+DevContainer does not change ownership on the bind-mounted workspace, so
+`post-start.sh` restores ownership of the generated Playwright directories on
+each container start.
+
 ## File structure
 
 ```
@@ -47,7 +64,10 @@ The source tree remains visible on the host, but Linux dependencies and executab
 5. Wait for `.devcontainer/scripts/post-create.sh` to finish.
 6. Confirm the terminal starts as `vscode` in `/workspace` using Zsh.
 
-The DevContainer declares `waitFor: postCreateCommand`, so VS Code waits for the dependency installation before activating workspace TypeScript and Astro tooling. This prevents the temporary invalid `typescript.tsdk` warning that occurs when `node_modules/typescript/lib` is inspected before installation finishes.
+The DevContainer declares `waitFor: postCreateCommand`, so VS Code waits for
+the dependency installation before activating workspace TypeScript and Astro
+tooling. This prevents a temporary invalid `js/ts.tsdk.path` warning when VS
+Code inspects `node_modules/typescript/lib` before installation finishes.
 
 The Dockerfile does not create or manage the development user. The `common-utils` Feature configures the existing `node` user with Zsh and sudo access. Bun and Oh My Posh are installed system-wide (`/usr/local/bin`). Chromium is installed during image build via `npx playwright install --with-deps chromium`, which eliminates the Ubuntu bind-mount incompatibility that the previous Playwright base image introduced.
 
@@ -63,7 +83,10 @@ The Dockerfile does not create or manage the development user. The `common-utils
 
 ### post-start.sh — cada inicio
 
-Executes `.devcontainer/scripts/verify-env.sh` to validate the toolchain on every container start.
+Executes `.devcontainer/scripts/verify-env.sh` to validate the toolchain on
+every container start. It also restores ownership of `playwright-report/` and
+`test-results/` to the non-root development user before Playwright writes its
+reports.
 
 ### verify-env.sh — validación en cada inicio
 

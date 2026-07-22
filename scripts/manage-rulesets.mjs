@@ -1,6 +1,8 @@
+import console from 'node:console';
 import { spawnSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const API_VERSION = '2026-03-10';
@@ -78,7 +80,10 @@ function projectToDesiredShape(actual, desired) {
 		}
 
 		return Object.fromEntries(
-			Object.entries(desired).map(([key, value]) => [key, projectToDesiredShape(actual[key], value)])
+			Object.entries(desired).map(([key, value]) => [
+				key,
+				projectToDesiredShape(actual[key], value),
+			])
 		);
 	}
 
@@ -108,7 +113,9 @@ if (command === 'stage' && !process.argv.includes('--confirm')) {
 }
 
 if (command === 'apply' && !process.argv.includes('--confirm-active')) {
-	fail('Activating rulesets is blocking. Re-run with --confirm-active after hosted checks are available.');
+	fail(
+		'Activating rulesets is blocking. Re-run with --confirm-active after hosted checks are available.'
+	);
 }
 
 const repository = resolveRepository();
