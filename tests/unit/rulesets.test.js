@@ -85,8 +85,7 @@ describe('branch ruleset contract', () => {
 			}
 			expect(contexts).not.toContain('CI / Playwright report availability');
 			expect(
-				findRule(ruleset, 'required_status_checks').parameters
-					.strict_required_status_checks_policy
+				findRule(ruleset, 'required_status_checks').parameters.strict_required_status_checks_policy
 			).toBe(true);
 		}
 
@@ -97,12 +96,8 @@ describe('branch ruleset contract', () => {
 	});
 
 	test('requires the main source-branch policy without applying it to develop', () => {
-		expect(requiredContexts(mainRuleset)).toContain(
-			'Check PR Branch / check-source-branch'
-		);
-		expect(requiredContexts(developRuleset)).not.toContain(
-			'Check PR Branch / check-source-branch'
-		);
+		expect(requiredContexts(mainRuleset)).toContain('Check PR Branch / check-source-branch');
+		expect(requiredContexts(developRuleset)).not.toContain('Check PR Branch / check-source-branch');
 		expect(branchWorkflow).toContain('name: Check PR Branch');
 		expect(branchWorkflow).toContain('name: check-source-branch');
 		expect(branchWorkflow).toContain('branches: [main]');

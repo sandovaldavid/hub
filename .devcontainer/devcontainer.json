@@ -50,8 +50,8 @@
 				"editor.formatOnSave": true,
 				"editor.defaultFormatter": "esbenp.prettier-vscode",
 				"[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" },
-				"typescript.tsdk": "node_modules/typescript/lib",
-				"typescript.enablePromptUseWorkspaceTsdk": true,
+				"js/ts.tsdk.path": "./node_modules/typescript/lib",
+				"js/ts.tsdk.promptToUseWorkspaceVersion": true,
 				"terminal.integrated.defaultProfile.linux": "zsh",
 				"terminal.integrated.profiles.linux": {
 					"zsh": {

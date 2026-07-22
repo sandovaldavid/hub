@@ -43,11 +43,11 @@ describe('DevContainer contract', () => {
 
 	test('finishes dependency setup before VS Code activates workspace tooling', () => {
 		expect(devcontainer.waitFor).toBe('postCreateCommand');
-		expect(devcontainer.customizations.vscode.settings['typescript.tsdk']).toBe(
-			'node_modules/typescript/lib'
+		expect(devcontainer.customizations.vscode.settings['js/ts.tsdk.path']).toBe(
+			'./node_modules/typescript/lib'
 		);
 		expect(
-			devcontainer.customizations.vscode.settings['typescript.enablePromptUseWorkspaceTsdk']
+			devcontainer.customizations.vscode.settings['js/ts.tsdk.promptToUseWorkspaceVersion']
 		).toBe(true);
 	});
 
@@ -96,6 +96,10 @@ describe('DevContainer contract', () => {
 
 	test('verifies toolchain versions on every container start', () => {
 		expect(devcontainer.postStartCommand).toBe('bash .devcontainer/scripts/post-start.sh');
+		expect(postStartScript).toContain('"${workspace}/playwright-report"');
+		expect(postStartScript).toContain('"${workspace}/test-results"');
+		expect(postStartScript).toContain('sudo mkdir -p "${reportDirectories[@]}"');
+		expect(postStartScript).toContain('sudo chown -R "${owner}" "${reportDirectories[@]}"');
 		expect(postStartScript).toContain('bash .devcontainer/scripts/verify-env.sh');
 		expect(verifyEnvScript).toContain('installed_bun_version="$(bun --version)"');
 		expect(verifyEnvScript).toContain(
