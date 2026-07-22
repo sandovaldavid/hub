@@ -71,19 +71,19 @@ Architecture rules, dependency direction, placement criteria and trade-offs are 
 
 ### Option B: DevContainer (Recommended for Fedora / Linux)
 
-The DevContainer uses the version-matched Playwright Ubuntu Noble image and keeps Linux `node_modules` in a Docker volume, isolated from dependencies or executable links created on the Fedora host. It opens the VS Code terminal with Zsh and a pinned, repository-local Oh My Posh prompt.
+The DevContainer uses the official JavaScript/Node development image, installs Chromium during the image build, and keeps Linux `node_modules` in a Docker volume isolated from dependencies or executable links created on the Fedora host. It opens the VS Code terminal with Zsh and a pinned, repository-local Oh My Posh prompt.
 
 1. Open the **Linktree repository root** in VS Code.
 2. Install the *Dev Containers* extension.
 3. Check out the branch you want to validate.
 4. Run **Dev Containers: Rebuild Container Without Cache**.
 5. Wait for the post-create setup to install frozen dependencies and verify Bun, Playwright, Chromium, Zsh and Oh My Posh.
-6. Confirm the terminal uses the `vscode` user, `/workspace` directory and Zsh prompt.
+6. Confirm the terminal uses the `node` user, `/workspace` directory and Zsh prompt.
 
-The image already contains the Playwright browser binaries and Ubuntu system dependencies. Do not run `bun x playwright install chromium` inside the DevContainer. Run the complete local gate with:
+The image contains the Playwright browser binaries and Ubuntu system dependencies after its build completes. Run the complete local gate with:
 
 ```bash
-bun run validate:local 2>&1 | tee validation-issue-27.log
+bun run validate:local 2>&1 | tee validation-local.log
 ```
 
 Setup, shell customization, recovery and version-sync details are documented in [`docs/devcontainer.md`](docs/devcontainer.md).
@@ -103,6 +103,8 @@ All commands are executed from the project root:
 | `bun run format:check` | Verifies formatting rules without modifying files |
 | `bun run lint` | Runs ESLint analysis for code quality |
 | `bun run check:architecture` | Rejects circular imports and unnecessary layer barrels |
+| `bun run rulesets:plan` | Shows missing or drifted repository rulesets without changing settings |
+| `bun run rulesets:verify` | Verifies active GitHub rulesets against the versioned desired state |
 | `bun run test:unit` | Runs Bun unit tests |
 | `bun run test:e2e` | Runs the local Playwright browser matrix |
 | `bun run test:lighthouse` | Runs mobile and desktop Lighthouse CI audits on built files |
@@ -142,3 +144,15 @@ On every pull request to `develop` or `main`:
 6. **Release-Please**: Tracks semantic commits and generates release PRs and changelogs on merges.
 
 The stable check contract, artifact flow and exact local fallback are documented in [`docs/ci-validation.md`](docs/ci-validation.md).
+
+### Branch governance
+
+The normal promotion flow is:
+
+```text
+feature/* or fix/* -> develop -> main
+```
+
+Versioned GitHub rulesets require pull requests, resolved conversations, squash-only linear history, and the functional CI checks for `develop` and `main`. `main` additionally requires `Check PR Branch / check-source-branch` so normal promotion originates from `develop` or an explicitly allowed release/hotfix branch.
+
+Ruleset files, application commands, emergency bypass policy and hosted negative-test procedures are documented in [`docs/branch-governance.md`](docs/branch-governance.md). A disabled, skipped, interrupted, or quota-blocked workflow is never treated as successful validation.
