@@ -1,18 +1,41 @@
 {
-	"name": "linktree-devsandoval",
+	"name": "linktree",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"cacheFrom": "ghcr.io/sandovaldavid/linktree-devcontainer:develop"
+		"cacheFrom": ["ghcr.io/sandovaldavid/linktree-devcontainer:develop"],
+		"args": {
+			"BUN_VERSION": "1.3.14",
+			"PLAYWRIGHT_VERSION": "1.61.0",
+			"OH_MY_POSH_VERSION": "29.34.0"
+		}
 	},
-	"remoteUser": "vscode",
+	"remoteUser": "node",
+	"updateRemoteUserUID": true,
 	"workspaceFolder": "/workspace",
-	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+	"mounts": ["source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume"],
+	"containerEnv": {
+		"PLAYWRIGHT_BROWSERS_PATH": "/ms-playwright",
+		"TERM": "xterm-256color"
+	},
+	"init": true,
+	"runArgs": ["--ipc=host"],
 	"forwardPorts": [4321, 4322],
 	"portsAttributes": {
 		"4321": { "label": "Astro Dev Server", "onAutoForward": "notify" },
 		"4322": { "label": "Astro Preview", "onAutoForward": "silent" }
 	},
-	"postCreateCommand": "bun install --frozen-lockfile && bunx playwright install chromium",
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
+			"username": "node",
+			"upgradePackages": false
+		},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+	"postStartCommand": "bash .devcontainer/scripts/post-start.sh",
+	"waitFor": "postCreateCommand",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -27,7 +50,15 @@
 				"editor.formatOnSave": true,
 				"editor.defaultFormatter": "esbenp.prettier-vscode",
 				"[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" },
-				"typescript.tsdk": "node_modules/typescript/lib"
+				"typescript.tsdk": "node_modules/typescript/lib",
+				"typescript.enablePromptUseWorkspaceTsdk": true,
+				"terminal.integrated.defaultProfile.linux": "zsh",
+				"terminal.integrated.profiles.linux": {
+					"zsh": {
+						"path": "/usr/bin/zsh",
+						"icon": "terminal-linux"
+					}
+				}
 			}
 		}
 	}

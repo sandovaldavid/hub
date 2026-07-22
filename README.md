@@ -54,14 +54,14 @@ Architecture rules, dependency direction, placement criteria and trade-offs are 
 
 ### Prerequisites
 
-* [Bun](https://bun.sh/) (latest version)
+* [Bun 1.3.14](https://bun.sh/), matching the `packageManager` declaration
 * [Docker](https://www.docker.com/) (Optional, for DevContainer / Local E2E verification)
 
 ### Option A: Local Development
 
 1. **Install dependencies**:
    ```bash
-   bun install
+   bun install --frozen-lockfile
    ```
 2. **Run local dev server**:
    ```bash
@@ -71,10 +71,22 @@ Architecture rules, dependency direction, placement criteria and trade-offs are 
 
 ### Option B: DevContainer (Recommended for Fedora / Linux)
 
-Since WebKit tests require specific OS-level dependencies, a **DevContainer** configuration is provided:
-1. Open this project in VS Code.
+The DevContainer uses the version-matched Playwright Ubuntu Noble image and keeps Linux `node_modules` in a Docker volume, isolated from dependencies or executable links created on the Fedora host. It opens the VS Code terminal with Zsh and a pinned, repository-local Oh My Posh prompt.
+
+1. Open the **Linktree repository root** in VS Code.
 2. Install the *Dev Containers* extension.
-3. Click `Reopen in Container` (uses a Playwright-compatible Ubuntu Noble image with Bun and gh CLI pre-configured).
+3. Check out the branch you want to validate.
+4. Run **Dev Containers: Rebuild Container Without Cache**.
+5. Wait for the post-create setup to install frozen dependencies and verify Bun, Playwright, Chromium, Zsh and Oh My Posh.
+6. Confirm the terminal uses the `vscode` user, `/workspace` directory and Zsh prompt.
+
+The image already contains the Playwright browser binaries and Ubuntu system dependencies. Do not run `bun x playwright install chromium` inside the DevContainer. Run the complete local gate with:
+
+```bash
+bun run validate:local 2>&1 | tee validation-issue-27.log
+```
+
+Setup, shell customization, recovery and version-sync details are documented in [`docs/devcontainer.md`](docs/devcontainer.md).
 
 ---
 
@@ -92,8 +104,10 @@ All commands are executed from the project root:
 | `bun run lint` | Runs ESLint analysis for code quality |
 | `bun run check:architecture` | Rejects circular imports and unnecessary layer barrels |
 | `bun run test:unit` | Runs Bun unit tests |
-| `bun run test:e2e` | Runs Playwright E2E tests locally |
-| `bun run test:lighthouse` | Runs Lighthouse CI audits on built files |
+| `bun run test:e2e` | Runs the local Playwright browser matrix |
+| `bun run test:lighthouse` | Runs mobile and desktop Lighthouse CI audits on built files |
+| `bun run validate:quality` | Runs the complete quality and build gate |
+| `bun run validate:local` | Runs the CI-equivalent quality, E2E and Lighthouse sequence |
 
 ---
 
@@ -101,7 +115,7 @@ All commands are executed from the project root:
 
 The production pages use system font stacks, optimized SVG/WebP assets, explicit image dimensions, and automated Lighthouse budgets for `/` and `/es/`.
 
-Current CI targets include performance ≥ 0.90, accessibility/best-practices/SEO ≥ 0.95, LCP ≤ 2.5 s, CLS ≤ 0.10, TBT ≤ 200 ms, and total page weight ≤ 500 KB. The complete rationale and update policy are documented in [`docs/performance-budget.md`](docs/performance-budget.md).
+The mobile and desktop profiles enforce accessibility ≥ 0.95, best practices ≥ 0.90 and SEO ≥ 0.90. Performance ≥ 0.80 remains advisory because shared CI runners are variable. The complete rationale and update policy are documented in [`docs/performance-budget.md`](docs/performance-budget.md).
 
 ---
 
@@ -114,13 +128,17 @@ We enforce high standards of code quality and performance via automated pipeline
 * **Architecture Validation**: Detects circular imports and direct dependencies on unnecessary barrels.
 * **E2E Testing**: Verified using Playwright. Checks routes, localization links, responsiveness, and dark-mode toggling.
 * **Accessibility Auditing**: Integrated with `@axe-core/playwright` to scan for WCAG 2.1 AA violations on every test run.
-* **Performance Auditing**: Automated via Lighthouse CI, asserting target minimum scores for SEO, Best Practices, Accessibility, and Performance.
+* **Performance Auditing**: Automated via Lighthouse CI for both mobile and desktop profiles.
 
 ### CI/CD Workflow
 
-On every Pull Request to `develop` or `main`:
-1. **Check**: Runs TypeScript compilation, architecture validation, Prettier verification, ESLint, unit tests, and Astro builds.
-2. **Test**: Runs Playwright E2E and Axe audits. Deploys the HTML test report to **GitHub Pages** and registers a PR check.
-3. **Lighthouse**: Runs audits to assert performance scores remain high.
-4. **Vercel Preview**: CLI-driven deployment to Vercel (bypassing native hooks to wait for tests). Registers a **Vercel Preview** check linked to the live preview.
-5. **Release-Please**: Automatically tracks semantic commits and generates release PRs / changelogs on merges.
+On every pull request to `develop` or `main`:
+
+1. **`CI / Quality`**: Runs type checking, architecture validation, Prettier, ESLint, unit tests and one Astro production build.
+2. **`CI / E2E`**: Reuses the production build for Playwright and Axe coverage, preserving generated reports on failures.
+3. **`CI / Lighthouse`**: Reuses the production build for mobile and desktop audits.
+4. **`CI / Playwright report availability`**: Publishes the HTML report when it exists; this is informational and does not represent the E2E outcome.
+5. **Vercel Preview**: Deploys the `develop` branch through the dedicated CD workflow.
+6. **Release-Please**: Tracks semantic commits and generates release PRs and changelogs on merges.
+
+The stable check contract, artifact flow and exact local fallback are documented in [`docs/ci-validation.md`](docs/ci-validation.md).
