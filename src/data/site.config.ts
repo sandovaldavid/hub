@@ -11,7 +11,7 @@ export const siteConfig = {
 	portfolioUrl: 'https://sandovaldavid.com',
 	githubUrl: 'https://github.com/sandovaldavid',
 	socialUrls: {
-		linkedin: 'https://www.linkedin.com/in/jdavidsandoval',
+		linkedin: 'https://www.linkedin.com/in/jdavidsandovals',
 		youtube: 'https://youtube.com/@sandovaldavid',
 		twitter: 'https://twitter.com/sandovaldavid',
 		instagram: 'https://instagram.com/sandovaldavid',
