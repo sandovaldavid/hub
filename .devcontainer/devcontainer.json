@@ -2,40 +2,69 @@
 	"name": "linktree",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"cacheFrom": ["ghcr.io/sandovaldavid/linktree-devcontainer:develop"],
 		"args": {
+			"NODE_VARIANT": "24-trixie",
 			"BUN_VERSION": "1.3.14",
-			"PLAYWRIGHT_VERSION": "1.61.0",
-			"OH_MY_POSH_VERSION": "29.34.0"
-		}
+			"PLAYWRIGHT_VERSION": "1.61.0"
+		},
+		"cacheFrom": [
+			"ghcr.io/sandovaldavid/linktree-devcontainer:main",
+			"ghcr.io/sandovaldavid/linktree-devcontainer:develop"
+		]
 	},
 	"remoteUser": "node",
 	"updateRemoteUserUID": true,
 	"workspaceFolder": "/workspace",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-	"mounts": ["source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume"],
+	"mounts": [
+		"source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume",
+		"source=devcontainer-${localWorkspaceFolderBasename}-zsh-history,target=/commandhistory,type=volume"
+	],
 	"containerEnv": {
+		"DEVCONTAINER": "true",
+		"ZSH_HISTORY_FILE": "/commandhistory/.zsh_history",
 		"PLAYWRIGHT_BROWSERS_PATH": "/ms-playwright",
+		"PLAYWRIGHT_HTML_HOST": "0.0.0.0",
+		"PLAYWRIGHT_HTML_PORT": "9323",
 		"TERM": "xterm-256color"
 	},
 	"init": true,
-	"runArgs": ["--ipc=host"],
-	"forwardPorts": [4321, 4322],
-	"portsAttributes": {
-		"4321": { "label": "Astro Dev Server", "onAutoForward": "notify" },
-		"4322": { "label": "Astro Preview", "onAutoForward": "silent" }
-	},
+	"runArgs": ["--security-opt", "label=disable", "--ipc=host"],
 	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {
+		"ghcr.io/devcontainers/features/common-utils:2.5.9": {
 			"installZsh": true,
-			"username": "node",
-			"upgradePackages": false
+			"configureZshAsDefaultShell": true,
+			"installOhMyZsh": false,
+			"installOhMyZshConfig": false,
+			"upgradePackages": false,
+			"username": "node"
 		},
-		"ghcr.io/devcontainers/features/github-cli:1": {}
+		"ghcr.io/devcontainers/features/github-cli:1.1.0": {}
 	},
 	"postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
 	"postStartCommand": "bash .devcontainer/scripts/post-start.sh",
 	"waitFor": "postCreateCommand",
+	"forwardPorts": [4321, 9323],
+	"portsAttributes": {
+		"4321": {
+			"label": "Astro development server",
+			"protocol": "http",
+			"onAutoForward": "notify",
+			"requireLocalPort": true
+		},
+		"9323": {
+			"label": "Playwright HTML report",
+			"protocol": "http",
+			"onAutoForward": "openBrowserOnce",
+			"requireLocalPort": true
+		}
+	},
+	"hostRequirements": {
+		"cpus": 2,
+		"memory": "4gb",
+		"storage": "16gb"
+	},
+	"shutdownAction": "stopContainer",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -53,12 +82,8 @@
 				"js/ts.tsdk.path": "./node_modules/typescript/lib",
 				"js/ts.tsdk.promptToUseWorkspaceVersion": true,
 				"terminal.integrated.defaultProfile.linux": "zsh",
-				"terminal.integrated.profiles.linux": {
-					"zsh": {
-						"path": "/usr/bin/zsh",
-						"icon": "terminal-linux"
-					}
-				}
+				"files.eol": "\n",
+				"remote.restoreForwardedPorts": true
 			}
 		}
 	}
