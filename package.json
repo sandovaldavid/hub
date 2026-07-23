@@ -17,6 +17,7 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"check:architecture": "node scripts/check-architecture.mjs",
+		"check:links": "node scripts/check-links.mjs",
 		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
 		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
 		"rulesets:apply": "node scripts/manage-rulesets.mjs apply",
@@ -29,7 +30,7 @@
 		"test:lighthouse:mobile": "lhci autorun",
 		"test:lighthouse:desktop": "LHCI_PROFILE=desktop lhci autorun",
 		"test:lighthouse": "bun run test:lighthouse:mobile && bun run test:lighthouse:desktop",
-		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run test:unit && bun run build",
+		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run check:links && bun run test:unit && bun run build",
 		"validate:local": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
 		"prepare": "husky"
 	},
