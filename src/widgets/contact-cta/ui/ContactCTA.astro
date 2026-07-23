@@ -24,30 +24,34 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 	variant={variant === 'prominent' ? 'gradient' : 'default'}
 	padding="none"
 	class={cn(
-		'contact-cta w-full relative overflow-hidden',
+		'contact-cta h-full w-full relative overflow-hidden flex',
 		'bg-white/80 backdrop-blur-lg',
 		'border-2 border-primary-100',
 		'rounded-2xl shadow-lg',
 		'dark:bg-neutral-900/30 dark:border-primary-700'
 	)}>
-	<div class={cn('flex flex-col items-center gap-6 py-8 px-6 text-center min-w-0', 'sm:px-10')}>
+	<div
+		class={cn(
+			'flex h-full flex-1 flex-col items-center justify-center gap-5 px-6 py-8 text-center min-w-0',
+			'sm:px-10 md:px-8 lg:px-10'
+		)}>
 		<div
 			class={cn(
 				'flex items-center justify-center rounded-full',
-				'bg-primary-100 w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 shadow-md mb-2',
+				'bg-primary-100 w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 shadow-md',
 				'dark:bg-primary-950'
 			)}
 			aria-hidden="true">
 			<span
-				class="inline-block w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-primary-600 dark:text-primary-300"
+				class="inline-block h-8 w-8 text-primary-600 md:h-9 md:w-9 lg:h-10 lg:w-10 dark:text-primary-300"
 				set:html={ChatIcon}
 			/>
 		</div>
-		<div class="flex flex-col gap-2 max-w-xl">
+		<div class="flex max-w-xl flex-col gap-2">
 			<h2
 				id="contact-heading"
 				class={cn(
-					'text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-1 leading-tight',
+					'mb-1 text-lg font-bold leading-tight md:text-xl lg:text-2xl',
 					'text-neutral-900 dark:text-neutral-100'
 				)}>
 				{title}
@@ -56,7 +60,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				message && (
 					<p
 						class={cn(
-							'text-sm md:text-base lg:text-lg leading-snug',
+							'text-sm leading-snug md:text-base lg:text-base',
 							'text-neutral-700 dark:text-neutral-300'
 						)}>
 						{message}
@@ -74,9 +78,9 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 			<Button
 				variant="primary"
 				size="lg"
-				class="w-full flex items-center justify-center gap-2 font-semibold cursor-pointer">
+				class="flex w-full cursor-pointer items-center justify-center gap-2 font-semibold">
 				<span>{buttonText}</span>
-				<SentIcon class="w-6 h-6" aria-hidden="true" />
+				<SentIcon class="h-6 w-6" aria-hidden="true" />
 			</Button>
 		</a>
 	</div>
