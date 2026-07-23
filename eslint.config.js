@@ -19,6 +19,21 @@ export default defineConfig(
 			'@typescript-eslint/no-explicit-any': 'warn',
 		},
 	},
+	// Repository scripts and Bun unit tests run in Node with the Fetch API available.
+	{
+		files: ['scripts/**/*.{js,mjs,cjs}', 'tests/unit/**/*.js'],
+		languageOptions: {
+			globals: {
+				AbortSignal: 'readonly',
+				Response: 'readonly',
+				URL: 'readonly',
+				console: 'readonly',
+				fetch: 'readonly',
+				process: 'readonly',
+				setTimeout: 'readonly',
+			},
+		},
+	},
 	// CJS config files in root (Lighthouse, etc.) legitimately use require/module.
 	{
 		files: ['.lighthouserc.js', '*.cjs'],
