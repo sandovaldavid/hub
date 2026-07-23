@@ -28,6 +28,13 @@ describe('social link configuration', () => {
 		expect(primary.length).toBeLessThanOrEqual(5);
 	});
 
+	test('keeps the LinkedIn label aligned with its public profile slug', () => {
+		const linkedin = getRequiredSocialLink('linkedin');
+		const slug = new URL(linkedin.url).pathname.split('/').filter(Boolean).at(-1);
+
+		expect(linkedin.username).toBe(`@${slug}`);
+	});
+
 	test('classifies community networks outside the primary tier', () => {
 		expect(getSocialLinksByPriority('secondary').map(link => link.id)).toEqual([
 			'youtube',

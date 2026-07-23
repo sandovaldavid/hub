@@ -1,0 +1,28 @@
+name: Maintenance
+
+on:
+  schedule:
+    - cron: '0 14 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maintenance-link-health
+  cancel-in-progress: true
+
+jobs:
+  link-health:
+    name: Link health
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22.19.0
+
+      - name: Check internal and external links
+        run: node scripts/check-links.mjs

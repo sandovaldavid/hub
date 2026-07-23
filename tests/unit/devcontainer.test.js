@@ -12,9 +12,7 @@ const postCreateScript = await read('.devcontainer/scripts/post-create.sh');
 const postStartScript = await read('.devcontainer/scripts/post-start.sh');
 const verifyEnvScript = await read('.devcontainer/scripts/verify-env.sh');
 const configureShellScript = await read('.devcontainer/scripts/configure-shell.sh');
-const configureSigningScript = await read(
-	'.devcontainer/scripts/configure-git-ssh-signing.sh'
-);
+const configureSigningScript = await read('.devcontainer/scripts/configure-git-ssh-signing.sh');
 const zshConfig = await read('.devcontainer/config/shell.zsh');
 const bashConfig = await read('.devcontainer/config/shell.bash');
 const starshipConfig = await read('.devcontainer/config/starship.toml');
@@ -114,12 +112,8 @@ describe('DevContainer contract', () => {
 		expect(configureSigningScript).toContain('namespaces="git"');
 		expect(configureSigningScript).toContain('user.signingKey');
 		expect(configureSigningScript).not.toMatch(/BEGIN (OPENSSH|PRIVATE) KEY/);
-		expect(postCreateScript).toContain(
-			'bash .devcontainer/scripts/configure-git-ssh-signing.sh'
-		);
-		expect(postStartScript).toContain(
-			'bash .devcontainer/scripts/configure-git-ssh-signing.sh'
-		);
+		expect(postCreateScript).toContain('bash .devcontainer/scripts/configure-git-ssh-signing.sh');
+		expect(postStartScript).toContain('bash .devcontainer/scripts/configure-git-ssh-signing.sh');
 	});
 
 	test('keeps Playwright reports writable and exposes the HTML report explicitly', () => {
