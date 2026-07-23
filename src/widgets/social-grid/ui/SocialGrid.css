@@ -1,16 +1,24 @@
 @import '../../../app/styles/global.css';
 
-/* Social Grid - Distribución en columna (Linktree style) */
 .social-grid-card {
-	@apply w-full h-full flex flex-col;
+	@apply flex h-full w-full flex-col;
 }
 
 .social-grid {
-	@apply flex flex-col gap-3 w-full;
-	@apply md:gap-3;
-	@apply md:grid md:grid-cols-2 md:gap-3 md:auto-rows-fr;
+	@apply grid h-full w-full grid-cols-1 gap-3;
+	@apply md:grid-cols-2 md:auto-rows-fr;
 }
 
-.social-grid__button {
-	@apply bg-red-50;
+.social-grid__item {
+	@apply h-full min-w-0;
+}
+
+.social-grid__item .social-button {
+	@apply h-full;
+}
+
+@media (min-width: 768px) {
+	.social-grid__item:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+	}
 }
