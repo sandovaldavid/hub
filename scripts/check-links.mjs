@@ -11,7 +11,7 @@ const skippedDirectories = new Set([
 	'dist',
 	'playwright-report',
 
-'test-results',
+	'test-results',
 ]);
 
 const markdownLinkPattern = /!?\[[^\]]*\]\(([^)]+)\)/g;
@@ -67,10 +67,7 @@ export const extractExternalUrls = content => {
 	return [...urls];
 };
 
-export const classifyHttpStatus = (
-	status,
-	transientStatusCodes = defaultTransientStatusCodes
-) => {
+export const classifyHttpStatus = (status, transientStatusCodes = defaultTransientStatusCodes) => {
 	if (status >= 200 && status < 400) {
 		return 'ok';
 	}
@@ -223,8 +220,7 @@ const pathExists = async targetPath => {
 
 const resolveSiteRouteCandidates = target => {
 	const route = decodeURIComponent(removeQueryAndFragment(target));
-	const normalizedRoute =
-		route === '/' ? '' : route.replace(/^\//u, '').replace(/\/$/u, '');
+	const normalizedRoute = route === '/' ? '' : route.replace(/^\//u, '').replace(/\/$/u, '');
 
 	if (extname(normalizedRoute)) {
 		return [resolve(repositoryRoot, 'public', normalizedRoute)];
@@ -240,10 +236,7 @@ const resolveRepositoryTargetCandidates = (sourceFile, target) => {
 	const cleanTarget = decodeURIComponent(removeQueryAndFragment(target));
 	const resolvedTarget = resolve(dirname(sourceFile), cleanTarget);
 
-	if (
-		!resolvedTarget.startsWith(`${repositoryRoot}${sep}`) &&
-		resolvedTarget !== repositoryRoot
-	) {
+	if (!resolvedTarget.startsWith(`${repositoryRoot}${sep}`) && resolvedTarget !== repositoryRoot) {
 		return [];
 	}
 
@@ -287,16 +280,13 @@ const mapWithConcurrency = async (items, concurrency, mapper) => {
 	const results = new Array(items.length);
 	let nextIndex = 0;
 
-	const workers = Array.from(
-		{ length: Math.min(concurrency, items.length) },
-		async () => {
-			while (nextIndex < items.length) {
-				const index = nextIndex;
-				nextIndex += 1;
-				results[index] = await mapper(items[index], index);
-			}
+	const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+		while (nextIndex < items.length) {
+			const index = nextIndex;
+			nextIndex += 1;
+			results[index] = await mapper(items[index], index);
 		}
-	);
+	});
 
 	await Promise.all(workers);
 	return results;
@@ -326,9 +316,7 @@ const collectExternalUrls = async (files, ignoredExternalUrls) => {
 const printExternalResult = result => {
 	const detail = result.status ? `HTTP ${result.status}` : result.error;
 	const prefix = result.state === 'broken' ? '[error]' : '[warning]';
-	console.error(
-		`${prefix} ${result.url} — ${detail} after ${result.attempts} attempt(s)`
-	);
+	console.error(`${prefix} ${result.url} — ${detail} after ${result.attempts} attempt(s)`);
 };
 
 const main = async () => {

@@ -12,9 +12,7 @@ const postCreateScript = await read('.devcontainer/scripts/post-create.sh');
 const postStartScript = await read('.devcontainer/scripts/post-start.sh');
 const verifyEnvScript = await read('.devcontainer/scripts/verify-env.sh');
 const configureShellScript = await read('.devcontainer/scripts/configure-shell.sh');
-const configureSigningScript = await read(
-	'.devcontainer/scripts/configure-git-ssh-signing.sh'
-);
+const configureSigningScript = await read('.devcontainer/scripts/configure-git-ssh-signing.sh');
 const zshConfig = await read('.devcontainer/config/shell.zsh');
 const bashConfig = await read('.devcontainer/config/shell.bash');
 const starshipConfig = await read('.devcontainer/config/starship.toml');
@@ -98,9 +96,7 @@ describe('DevContainer contract', () => {
 	});
 
 	test('installs a pinned Starship, eza and Zsh configuration idempotently', () => {
-		expect(configureShellScript).toContain(
-			'STARSHIP_VERSION="${STARSHIP_VERSION:-v1.26.0}"'
-		);
+		expect(configureShellScript).toContain('STARSHIP_VERSION="${STARSHIP_VERSION:-v1.26.0}"');
 		expect(configureShellScript).toContain('EZA_VERSION="${EZA_VERSION:-0.23.5}"');
 		expect(configureShellScript).toContain('sha256sum --check --status');
 		expect(configureShellScript).toContain('# >>> devcontainer-shell >>>');
@@ -108,9 +104,7 @@ describe('DevContainer contract', () => {
 		expect(zshConfig).toContain('zsh-autosuggestions-0.7.1');
 		expect(zshConfig).toContain('starship init zsh');
 		expect(bashConfig).toContain('starship init bash');
-		expect(starshipConfig).toContain(
-			'"$schema" = "https://starship.rs/config-schema.json"'
-		);
+		expect(starshipConfig).toContain('"$schema" = "https://starship.rs/config-schema.json"');
 	});
 
 	test('forwards Git SSH signing without copying private keys into the container', () => {
@@ -118,20 +112,14 @@ describe('DevContainer contract', () => {
 		expect(configureSigningScript).toContain('namespaces="git"');
 		expect(configureSigningScript).toContain('user.signingKey');
 		expect(configureSigningScript).not.toMatch(/BEGIN (OPENSSH|PRIVATE) KEY/);
-		expect(postCreateScript).toContain(
-			'bash .devcontainer/scripts/configure-git-ssh-signing.sh'
-		);
-		expect(postStartScript).toContain(
-			'bash .devcontainer/scripts/configure-git-ssh-signing.sh'
-		);
+		expect(postCreateScript).toContain('bash .devcontainer/scripts/configure-git-ssh-signing.sh');
+		expect(postStartScript).toContain('bash .devcontainer/scripts/configure-git-ssh-signing.sh');
 	});
 
 	test('keeps Playwright reports writable and exposes the HTML report explicitly', () => {
 		expect(postStartScript).toContain('"${workspace}/playwright-report"');
 		expect(postStartScript).toContain('"${workspace}/test-results"');
-		expect(postStartScript).toContain(
-			'sudo chown -R "${owner}" "${report_directories[@]}"'
-		);
+		expect(postStartScript).toContain('sudo chown -R "${owner}" "${report_directories[@]}"');
 		expect(devcontainer.forwardPorts).toContain(9323);
 		expect(devcontainer.portsAttributes['9323'].protocol).toBe('http');
 		expect(packageJson.scripts['test:e2e:show-report']).toBe(
