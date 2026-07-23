@@ -17,23 +17,21 @@ const { links, priorities = ['primary'], variant = 'default' } = Astro.props as 
 const displayLinks = links.filter(link => priorities.includes(link.priority));
 ---
 
-<div class="social-grid">
+<div class="social-grid" data-social-count={displayLinks.length}>
 	{
-		displayLinks.map(link => (
+		displayLinks.map((link, index) => (
 			<div
-				class:list={[
-					'social-grid__item',
-					link.priority !== 'primary' && 'social-grid__item--secondary',
-				]}
+				class="social-grid__item"
 				data-priority={link.priority}
-				data-audience={link.audience.join(',')}>
+				data-audience={link.audience.join(',')}
+				data-social-index={index}>
 				<SocialButton
 					class={link.classBrand}
 					label={link.label}
 					url={link.url}
 					username={link.username}
 					analyticsId={link.analyticsId}
-					variant={link.priority === 'primary' ? variant : 'compact'}>
+					{variant}>
 					<span slot="icon">
 						{link.platform === 'facebook' && (
 							<FacebookIcon class={`social-button__icon ${link.classIcon}`} />
