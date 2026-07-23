@@ -7,6 +7,9 @@ for (const route of [
 		problem: 'Problem',
 		contribution: 'My contribution',
 		outcome: 'Outcome',
+		kiokuTitle: 'Kioku · Persistent memory for AI agents',
+		yukidokeTitle: 'Yukidoke · Financial health platform',
+		linktreeTitle: 'Professional engineering hub',
 		privateRepository: 'Private repository',
 	},
 	{
@@ -15,6 +18,9 @@ for (const route of [
 		problem: 'Problema',
 		contribution: 'Mi contribución',
 		outcome: 'Resultado',
+		kiokuTitle: 'Kioku · Memoria persistente para agentes de IA',
+		yukidokeTitle: 'Yukidoke · Plataforma de salud financiera',
+		linktreeTitle: 'Hub profesional de ingeniería',
 		privateRepository: 'Repositorio privado',
 	},
 ]) {
@@ -34,11 +40,22 @@ for (const route of [
 		});
 
 		test('exposes valid links and explicit unavailable states', async ({ page }) => {
-			await expect(
-				page.getByRole('link', { name: /Kioku|Repository|Repositorio/ }).first()
-			).toHaveAttribute('href', 'https://github.com/sandovaldavid/kioku');
-			await expect(page.getByText(route.privateRepository, { exact: true })).toBeVisible();
-			await expect(page.getByRole('link', { name: /Live demo|Demo/ })).toHaveAttribute(
+			const cardFor = (title: string) =>
+				page.locator('.weekly-project-card').filter({
+					has: page.getByRole('heading', { name: title, exact: true }),
+				});
+
+			const kiokuCard = cardFor(route.kiokuTitle);
+			const yukidokeCard = cardFor(route.yukidokeTitle);
+			const linktreeCard = cardFor(route.linktreeTitle);
+
+			await expect(kiokuCard.getByRole('link', { name: /Repository|Repositorio/ })).toHaveAttribute(
+				'href',
+				'https://github.com/sandovaldavid/kioku'
+			);
+			await expect(yukidokeCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
+			await expect(linktreeCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
+			await expect(linktreeCard.getByRole('link', { name: /Live demo|Demo/ })).toHaveAttribute(
 				'href',
 				'https://linktree.sandovaldavid.com'
 			);
