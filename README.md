@@ -12,7 +12,7 @@ A static, bilingual hub that gives recruiters, clients, and collaborators one pl
 - **Typed content configuration:** profile data, external URLs, calls to action, projects, skills, and SEO metadata live under `src/data` rather than inside visual components.
 - **Targeted interactivity:** browser JavaScript is limited to theme initialization and selection, native sharing with clipboard fallback, conversion events, and Vercel Analytics.
 - **Pragmatic architecture:** shallow boundaries make route composition, reusable concepts, interactive features, and page sections discoverable without applying full Feature-Sliced Design ceremony.
-- **Repeatable validation:** the repository defines type, architecture, formatting, lint, unit, build, browser, accessibility, and Lighthouse checks, with an equivalent local gate for periods when hosted Actions are unavailable.
+- **Repeatable validation:** the repository defines type, architecture, formatting, lint, link, unit, build, browser, accessibility, and Lighthouse checks, with an equivalent local gate for periods when hosted Actions are unavailable.
 
 ## Why Astro
 
@@ -91,10 +91,11 @@ It executes, in order:
 2. Architecture validation.
 3. Prettier verification.
 4. ESLint.
-5. Bun unit tests.
-6. The Astro production build.
-7. Playwright functional and Axe accessibility tests.
-8. Lighthouse mobile and desktop audits for `/` and `/es/`.
+5. Internal and external link health with retry-aware transient warnings.
+6. Bun unit tests.
+7. The Astro production build.
+8. Playwright functional and Axe accessibility tests.
+9. Lighthouse mobile and desktop audits for `/` and `/es/`.
 
 The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with Axe; the README does not claim formal conformance certification. Lighthouse enforces the documented category and metric budgets rather than describing performance as guaranteed across every device or network.
 
@@ -107,16 +108,23 @@ GitHub Actions may be unavailable when the account quota is exhausted. A skipped
 | `bun run dev` | Start the Astro development server on container port `4321` |
 | `bun run build` | Validate removed barrels and build the static site |
 | `bun run check:architecture` | Detect circular imports and forbidden barrel usage |
+| `bun run check:links` | Validate repository-local and public content destinations |
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
 | `bun run test:e2e` | Run Playwright functional and Axe coverage |
 | `bun run test:e2e:show-report` | Serve the Playwright HTML report on container port `9323` |
 | `bun run test:lighthouse` | Run Lighthouse mobile and desktop profiles |
-| `bun run validate:quality` | Run type, architecture, format, lint, unit, and build checks |
+| `bun run validate:quality` | Run type, architecture, format, lint, link, unit, and build checks |
 | `bun run validate:local` | Run the complete local equivalent of CI |
 | `bun run rulesets:plan` | Show missing or drifted GitHub rulesets without changing settings |
 | `bun run rulesets:verify` | Compare active GitHub rulesets with the versioned desired state |
+
+## Maintenance and security
+
+Dependabot groups npm updates onto `develop` each week and checks GitHub Actions and Dev Container Features monthly. The same link checker runs in `CI / Quality` and in a weekly maintenance workflow; persistent broken links fail, while access controls, rate limits, timeouts, and server-side incidents remain visible warnings.
+
+Report vulnerabilities through the private channel in [`SECURITY.md`](SECURITY.md), not through a public issue. The recurring content review, CodeQL decision, dependency policy, and license/notice posture are documented in [`docs/maintenance.md`](docs/maintenance.md).
 
 ## Delivery and branch governance
 
@@ -137,6 +145,8 @@ Production deployment is configured for merges to `main`. Pull-request previews 
 - [`docs/ci-validation.md`](docs/ci-validation.md) — stable check contract and local fallback
 - [`docs/performance-budget.md`](docs/performance-budget.md) — Lighthouse thresholds and update policy
 - [`docs/branch-governance.md`](docs/branch-governance.md) — promotion flow and versioned rulesets
+- [`docs/maintenance.md`](docs/maintenance.md) — dependency, link, content, security, and license maintenance
+- [`SECURITY.md`](SECURITY.md) — private vulnerability reporting and coordinated disclosure
 
 ## Reuse
 
