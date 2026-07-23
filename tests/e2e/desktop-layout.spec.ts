@@ -30,6 +30,9 @@ for (const route of routes) {
 
 				const socialItems = page.locator('.social-grid__item');
 				await expect(socialItems).toHaveCount(5);
+				await expect(page.locator('.social-grid__item--wide')).toHaveCount(1);
+				await expect(socialItems.last()).toHaveAttribute('data-social-wide', 'true');
+
 				const socialBoxes = await socialItems.evaluateAll(elements =>
 					elements.map(element => {
 						const box = element.getBoundingClientRect();
