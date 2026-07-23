@@ -46,6 +46,9 @@ jobs:
       - name: Lint
         run: bun run lint
 
+      - name: Link check
+        run: bun run check:links
+
       - name: Unit tests
         run: bun run test:unit
 
