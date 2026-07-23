@@ -32,7 +32,7 @@ if [[ "${installed_starship_version}" != "${expected_starship_version}" ]]; then
 	exit 1
 fi
 
-installed_eza_version="$(eza --version | awk 'NR == 1 {sub(/^v/, "", $1); print $1}')"
+installed_eza_version="$(eza --version | awk '/^v?[0-9]+\./ {sub(/^v/, "", $1); print $1; exit}')"
 if [[ "${installed_eza_version}" != "${expected_eza_version}" ]]; then
 	echo "[error] eza ${installed_eza_version} does not match ${expected_eza_version}" >&2
 	exit 1
