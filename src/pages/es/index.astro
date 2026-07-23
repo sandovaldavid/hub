@@ -45,15 +45,17 @@ const heroMetadata = [
 	<main
 		id="main-content"
 		tabindex="-1"
-		class="hub-container p-4 md:p-8 md:px-6 lg:p-12 lg:px-8 xl:p-16 mx-auto"
+		class="hub-container mx-auto flex w-full max-w-[90rem] flex-col gap-8 p-4 md:gap-10 md:px-6 md:py-8 lg:gap-12 lg:px-8 lg:py-12 xl:px-12 xl:py-14"
 		role="main"
 		aria-label={t('page.mainLabel')}>
 		<div
-			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:gap-6 lg:grid-cols-8 lg:gap-6 lg:items-start xl:gap-8 2xl:mx-auto"
+			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-stretch md:gap-6 lg:grid-cols-8 lg:gap-6 xl:gap-8"
+			data-layout-section="hero"
 			role="region"
 			aria-label={t('hero.sectionsLabel')}>
 			<section
-				class="bento-item bento-item--hero md:col-span-2 lg:col-span-4 lg:row-start-1"
+				class="bento-item bento-item--hero flex h-full min-w-0 md:col-span-2 lg:col-span-4"
+				data-layout-column="profile"
 				aria-labelledby="hero-heading">
 				<HeroCard
 					profile={localizedProfile}
@@ -69,19 +71,26 @@ const heroMetadata = [
 			</section>
 
 			<section
-				class="bento-item bento-item--social md:col-span-2 lg:col-span-4 lg:row-start-1"
+				class="bento-item bento-item--social h-full min-w-0 md:col-span-2 lg:col-span-4"
+				data-layout-column="social"
 				aria-labelledby="social-heading">
 				<h2 id="social-heading" class="sr-only">{t('social.heading')}</h2>
-				<SocialGrid links={socialLinks} priorities={['primary', 'secondary']} variant="default" />
+				<SocialGrid links={socialLinks} priorities={['primary', 'secondary']} variant="compact" />
 			</section>
 		</div>
 
-		<section class="flex flex-col gap-4 md:grid md:grid-cols-4 md:gap-6 py-8">
-			<section class="bento-item bento-item--cta flex md:col-span-2" aria-labelledby="cta-heading">
+		<section
+			class="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-stretch md:gap-6"
+			data-layout-section="actions">
+			<section
+				class="bento-item bento-item--cta flex min-w-0"
+				data-layout-column="primary-actions"
+				aria-labelledby="cta-heading">
 				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
 			</section>
 			<section
-				class="bento-item bento-item--contact md:col-span-2 lg:col-span-2"
+				class="bento-item bento-item--contact flex min-w-0"
+				data-layout-column="contact"
 				aria-labelledby="contact-heading">
 				<ContactCTA
 					email={profile.contact.email}
@@ -93,12 +102,13 @@ const heroMetadata = [
 			</section>
 		</section>
 
-		<section class="bento-item bento-item--weekly-project py-8">
+		<section class="bento-item bento-item--weekly-project" data-layout-section="projects">
 			<WeeklyProjectSection {projects} {lang} />
 		</section>
 
 		<section
-			class="bento-item bento-item--skills md:col-span-2 lg:col-span-4 lg:row-start-3"
+			class="bento-item bento-item--skills"
+			data-layout-section="skills"
 			aria-labelledby="skills-heading">
 			<h2 id="skills-heading" class="sr-only">{t('skills.heading')}</h2>
 			<SkillsSection {skills} title={t('skills.title')} variant="compact" />
