@@ -51,6 +51,12 @@ describe('CI workflow contract', () => {
 		expect(packageJson.scripts['validate:quality']).not.toContain('bunx ');
 	});
 
+	test('runs link health inside the required quality context', () => {
+		expect(workflow).toContain('name: Link check');
+		expect(workflow).toContain('run: bun run check:links');
+		expect(packageJson.scripts['validate:quality']).toContain('bun run check:links');
+	});
+
 	test('installs and resolves Chromium for E2E and Lighthouse', () => {
 		expect(workflow.match(/run: bun x playwright install --with-deps chromium/g)).toHaveLength(2);
 		expect(lighthouseConfig).toContain("const { chromium } = require('@playwright/test');");
