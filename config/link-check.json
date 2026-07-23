@@ -1,0 +1,22 @@
+{
+	"markdownSources": ["README.md", "SECURITY.md", "docs"],
+	"externalSources": [
+		"README.md",
+		"SECURITY.md",
+		"src/data/site.config.ts",
+		"src/data/social-links.ts",
+		"src/data/weekly-project.ts"
+	],
+	"extensions": [".md", ".ts", ".json"],
+	"ignoredExternalUrls": [
+		{
+			"pattern": "^https://sandovaldavid\\.github\\.io/linktree/playwright-report/",
+			"reason": "Playwright report URLs only exist after a report has been published."
+		}
+	],
+	"transientStatusCodes": [401, 403, 408, 425, 429],
+	"timeoutMs": 10000,
+	"retries": 2,
+	"retryDelayMs": 750,
+	"concurrency": 4
+}
