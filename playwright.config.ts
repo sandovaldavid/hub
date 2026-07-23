@@ -20,7 +20,7 @@ export default defineConfig({
 		...(process.env.CI ? [] : [{ name: 'Mobile Safari', use: { ...devices['iPhone 14'] } }]),
 	],
 	webServer: {
-		command: 'bun run preview',
+		command: process.env.CI ? 'bun run preview' : 'bun run dev',
 		url: 'http://localhost:4321',
 		reuseExistingServer: !process.env.CI,
 		timeout: 60_000,
