@@ -1,32 +1,27 @@
-ARG NODE_VARIANT=22-bookworm
-FROM mcr.microsoft.com/devcontainers/javascript-node:1-${NODE_VARIANT}
-
+ARG NODE_VARIANT=24-trixie
 ARG BUN_VERSION=1.3.14
 ARG PLAYWRIGHT_VERSION=1.61.0
-ARG OH_MY_POSH_VERSION=29.34.0
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends unzip \
-    && rm -rf /var/lib/apt/lists/*
+FROM mcr.microsoft.com/devcontainers/typescript-node:5-${NODE_VARIANT}
 
-RUN case "$(dpkg --print-architecture)" in \
-         amd64) posh_arch="amd64" ;; \
-         arm64) posh_arch="arm64" ;; \
-         *) echo "Unsupported architecture: $(dpkg --print-architecture)" >&2; exit 1 ;; \
-       esac \
-    && curl -fsSL \
-         "https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v${OH_MY_POSH_VERSION}/posh-linux-${posh_arch}" \
-         -o /usr/local/bin/oh-my-posh \
-    && chmod 0755 /usr/local/bin/oh-my-posh \
-    && test "$(oh-my-posh version)" = "${OH_MY_POSH_VERSION}"
+ARG BUN_VERSION
+ARG PLAYWRIGHT_VERSION
 
-RUN curl -fsSL https://bun.sh/install | BUN_INSTALL=/usr/local bash -s "bun-v${BUN_VERSION}"
+ENV DEBIAN_FRONTEND=noninteractive \
+    BUN_INSTALL=/home/node/.bun \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-RUN npx playwright install --with-deps chromium
+RUN curl --proto '=https' --tlsv1.2 -fsSL https://bun.sh/install -o /tmp/bun-install.sh \
+    && chmod 0755 /tmp/bun-install.sh \
+    && sudo -u node -H env BUN_INSTALL=/home/node/.bun \
+        bash /tmp/bun-install.sh "bun-v${BUN_VERSION}" \
+    && rm -f /tmp/bun-install.sh \
+    && mkdir -p "${PLAYWRIGHT_BROWSERS_PATH}" \
+    && npx --yes "playwright@${PLAYWRIGHT_VERSION}" install --with-deps chromium webkit \
+    && chmod -R a+rX "${PLAYWRIGHT_BROWSERS_PATH}"
 
-ENV BUN_VERSION=${BUN_VERSION}
-ENV PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION}
-ENV OH_MY_POSH_VERSION=${OH_MY_POSH_VERSION}
+ENV PATH="/home/node/.bun/bin:/home/node/.local/bin:${PATH}" \
+    BUN_VERSION="${BUN_VERSION}" \
+    PLAYWRIGHT_VERSION="${PLAYWRIGHT_VERSION}"
 
 WORKDIR /workspace
