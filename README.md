@@ -68,14 +68,14 @@ Open `http://localhost:4321`. A frozen installation must fail when `package.json
 
 ### DevContainer
 
-The repository DevContainer is the recommended path on Fedora or when a reproducible Ubuntu browser environment is required.
+The repository DevContainer is the recommended path on Fedora or when a reproducible Linux browser environment is required.
 
 1. Open the repository root in VS Code.
 2. Run **Dev Containers: Rebuild Container Without Cache**.
 3. Wait for `postCreateCommand` to complete `bun ci`.
 4. Confirm the terminal opens as the non-root `node` user in `/workspace`.
 
-The image installs the pinned Bun, Playwright, Chromium, Zsh, and Oh My Posh toolchain. Setup and recovery procedures are documented in [`docs/devcontainer.md`](docs/devcontainer.md).
+The Node 24 image installs pinned Bun and Playwright versions, Chromium and WebKit, Zsh, Starship, eza, GitHub CLI and the repository shell plugins. Linux `node_modules` and Zsh history are stored in separate Docker volumes. Setup, port forwarding, signing and recovery procedures are documented in [`docs/devcontainer.md`](docs/devcontainer.md).
 
 ## Validation
 
@@ -104,13 +104,14 @@ GitHub Actions may be unavailable when the account quota is exhausted. A skipped
 
 | Command | Purpose |
 | --- | --- |
-| `bun run dev` | Start the Astro development server |
+| `bun run dev` | Start the Astro development server on container port `4321` |
 | `bun run build` | Validate removed barrels and build the static site |
 | `bun run check:architecture` | Detect circular imports and forbidden barrel usage |
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
 | `bun run test:e2e` | Run Playwright functional and Axe coverage |
+| `bun run test:e2e:show-report` | Serve the Playwright HTML report on container port `9323` |
 | `bun run test:lighthouse` | Run Lighthouse mobile and desktop profiles |
 | `bun run validate:quality` | Run type, architecture, format, lint, unit, and build checks |
 | `bun run validate:local` | Run the complete local equivalent of CI |
