@@ -6,7 +6,7 @@ The `CI` workflow is the source of truth for pull-request validation on `develop
 
 The following check contexts are intentionally stable because branch rulesets depend on them:
 
-- `CI / Quality`: type checking, architecture validation, formatting, linting, unit tests and the production build.
+- `CI / Quality`: type checking, architecture validation, formatting, linting, resilient internal/external link validation, unit tests and the production build.
 - `CI / E2E`: Playwright functional and accessibility coverage.
 - `CI / Lighthouse`: mobile and desktop Lighthouse audits.
 
@@ -33,11 +33,17 @@ Each job still performs `bun install --frozen-lockfile`. GitHub-hosted jobs run 
 
 The E2E job detects `playwright-report/index.html` after the test command, including failure paths. When the report exists, it is uploaded with seven-day retention and the publication job runs. A failing `CI / E2E` check can therefore coexist with a successful `CI / Playwright report availability` check.
 
+## Link validation behavior
+
+`CI / Quality` runs `bun run check:links` after linting. The checker fails for missing repository-local targets and persistent definitive HTTP failures such as 404 or 410. Timeouts, DNS failures, access-controlled destinations, rate limits and 5xx responses remain visible warnings after retries and do not fail the quality context.
+
+The same checker runs weekly through `.github/workflows/maintenance.yml`, allowing external link degradation to be detected even when no pull request is open. Classification rules and the exception policy are documented in [`docs/maintenance.md`](maintenance.md).
+
 ## Equivalent local validation
 
 ### Fedora or another non-Ubuntu host
 
-Use the repository DevContainer. It isolates Ubuntu `node_modules` from the host bind mount and installs the Chromium runtime during the image build.
+Use the repository DevContainer. It isolates Linux `node_modules` from the host bind mount and installs the Chromium and WebKit runtimes during the image build.
 
 1. Run **Dev Containers: Rebuild Container Without Cache**.
 2. Wait for `.devcontainer/scripts/post-create.sh` to complete. VS Code is configured to wait before activating workspace tooling.
@@ -45,7 +51,7 @@ Use the repository DevContainer. It isolates Ubuntu `node_modules` from the host
 4. Run:
 
 ```bash
-bun run validate:local 2>&1 | tee validation-issue-32.log
+bun run validate:local 2>&1 | tee validation-local.log
 ```
 
 See [`docs/devcontainer.md`](devcontainer.md) for setup and recovery instructions.
@@ -66,13 +72,14 @@ bun run validate:local
 2. Architecture validation.
 3. Prettier format checking.
 4. ESLint.
-5. Bun unit tests.
-6. The Astro production build.
-7. Playwright in CI-equivalent Chromium mode.
-8. Lighthouse for the default mobile profile.
-9. Lighthouse with the desktop preset.
+5. Internal and external link validation.
+6. Bun unit tests.
+7. The Astro production build.
+8. Playwright in CI-equivalent Chromium mode.
+9. Lighthouse for the default mobile profile.
+10. Lighthouse with the desktop preset.
 
-The command stops at the first failure. Fix the root cause and rerun the complete command before publishing changes.
+The command stops at the first definitive failure. Transient external link warnings are printed but do not stop the gate. Fix the root cause of any failure and rerun the complete command before publishing changes.
 
 ## GitHub Actions quota limitation
 
