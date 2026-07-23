@@ -64,6 +64,7 @@ describe('README contract', () => {
 			'dev',
 			'build',
 			'check:architecture',
+			'check:links',
 			'format:check',
 			'lint',
 			'test:unit',
