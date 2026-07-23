@@ -1,0 +1,45 @@
+# Synced from sandovaldavid/dotfiles for portable Dev Containers.
+"$schema" = "https://starship.rs/config-schema.json"
+
+command_timeout = 2000
+
+[git_status]
+format = "[$all_status$ahead_behind]($style)"
+conflicted = "[ ${count}](red) "
+ahead = "[ ${count}](blue) "
+behind = "[ ${count}](blue) "
+diverged = "[  ${ahead_count}  ${behind_count}](blue) "
+untracked = "[ ${count}](cyan) "
+stashed = "[ ${count}](green) "
+modified = "[ ${count}](yellow) "
+staged = "[ ${count}](green) "
+renamed = "[ ${count}](blue) "
+deleted = "[ ${count}](red) "
+
+[bun]
+symbol = " "
+
+[container]
+symbol = " "
+
+[directory]
+read_only = "󰌾 "
+
+[docker_context]
+symbol = " "
+
+[dotnet]
+symbol = " "
+heuristic = true
+
+[git_branch]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[python]
+symbol = " "
+
+[status]
+symbol = " "
