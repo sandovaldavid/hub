@@ -2,6 +2,8 @@
 set -Eeuo pipefail
 
 readonly workspace="${CONTAINER_WORKSPACE_FOLDER:-/workspace}"
+readonly expected_starship_version="1.26.0"
+readonly expected_eza_version="0.23.5"
 
 cd "${workspace}"
 
@@ -17,14 +19,22 @@ if [[ "${installed_playwright_version}" != "${PLAYWRIGHT_VERSION}" ]]; then
 	exit 1
 fi
 
-if ! find "${PLAYWRIGHT_BROWSERS_PATH}" -maxdepth 1 -type d -name 'chromium-*' -print -quit | grep -q .; then
-	echo "[error] The Playwright image does not contain Chromium under ${PLAYWRIGHT_BROWSERS_PATH}" >&2
+for browser in chromium webkit; do
+	if ! find "${PLAYWRIGHT_BROWSERS_PATH}" -maxdepth 1 -type d -name "${browser}-*" -print -quit | grep -q .; then
+		echo "[error] The DevContainer image does not contain ${browser} under ${PLAYWRIGHT_BROWSERS_PATH}" >&2
+		exit 1
+	fi
+done
+
+installed_starship_version="$(starship --version | awk 'NR == 1 {print $2}')"
+if [[ "${installed_starship_version}" != "${expected_starship_version}" ]]; then
+	echo "[error] Starship ${installed_starship_version} does not match ${expected_starship_version}" >&2
 	exit 1
 fi
 
-installed_posh_version="$(oh-my-posh version)"
-if [[ "${installed_posh_version}" != "${OH_MY_POSH_VERSION}" ]]; then
-	echo "[error] Oh My Posh ${installed_posh_version} does not match the container version ${OH_MY_POSH_VERSION}" >&2
+installed_eza_version="$(eza --version | awk 'NR == 1 {sub(/^v/, "", $1); print $1}')"
+if [[ "${installed_eza_version}" != "${expected_eza_version}" ]]; then
+	echo "[error] eza ${installed_eza_version} does not match ${expected_eza_version}" >&2
 	exit 1
 fi
 
@@ -35,10 +45,11 @@ fi
 
 bun x playwright install --list
 
-bun -e "const { chromium } = require('@playwright/test'); console.log('[diag] Chromium executablePath:', chromium.executablePath());"
+bun -e "const { chromium, webkit } = require('@playwright/test'); console.log('[diag] Chromium executablePath:', chromium.executablePath()); console.log('[diag] WebKit executablePath:', webkit.executablePath());"
 
-printf '[info] Environment verified: Bun %s, Playwright %s, Zsh %s, Oh My Posh %s\n' \
+printf '[info] Environment verified: Bun %s, Playwright %s, Zsh %s, Starship %s, eza %s\n' \
 	"${installed_bun_version}" \
 	"${installed_playwright_version}" \
 	"$(zsh --version | awk '{print $2}')" \
-	"${installed_posh_version}"
+	"${installed_starship_version}" \
+	"${installed_eza_version}"
