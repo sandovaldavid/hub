@@ -31,6 +31,7 @@ describe('link checker', () => {
 		expect(classifyHttpStatus(403)).toBe('transient');
 		expect(classifyHttpStatus(429)).toBe('transient');
 		expect(classifyHttpStatus(503)).toBe('transient');
+		expect(classifyHttpStatus(999)).toBe('transient');
 		expect(classifyHttpStatus(404)).toBe('broken');
 		expect(classifyHttpStatus(410)).toBe('broken');
 	});
