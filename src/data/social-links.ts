@@ -21,7 +21,7 @@ export const socialLinks: SocialLink[] = [
 		platform: 'linkedin',
 		label: 'LinkedIn',
 		url: siteConfig.socialUrls.linkedin,
-		username: '@jdavidsandoval',
+		username: '@jdavidsandovals',
 		priority: 'primary',
 		audience: ['recruiter', 'client'],
 		analyticsId: 'social_linkedin_opened',
