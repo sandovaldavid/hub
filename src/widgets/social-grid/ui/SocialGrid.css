@@ -18,7 +18,7 @@
 }
 
 @media (min-width: 768px) {
-	.social-grid__item:last-child:nth-child(odd) {
+	.social-grid__item--wide {
 		grid-column: 1 / -1;
 	}
 }
