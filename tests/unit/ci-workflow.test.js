@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const workflow = await readFile(join(repositoryRoot, '.github/workflows/ci.yml'), 'utf8');
 const lighthouseConfig = await readFile(join(repositoryRoot, '.lighthouserc.cjs'), 'utf8');
+const playwrightConfig = await readFile(join(repositoryRoot, 'playwright.config.ts'), 'utf8');
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
 
 describe('CI workflow contract', () => {
@@ -61,6 +62,13 @@ describe('CI workflow contract', () => {
 		expect(workflow.match(/run: bun x playwright install --with-deps chromium/g)).toHaveLength(2);
 		expect(lighthouseConfig).toContain("const { chromium } = require('@playwright/test');");
 		expect(lighthouseConfig).toContain('process.env.CHROME_PATH || chromium.executablePath()');
+	});
+
+	test('serves current source locally and the production build in CI', () => {
+		expect(playwrightConfig).toContain(
+			"command: process.env.CI ? 'bun run preview' : 'bun run dev'"
+		);
+		expect(packageJson.scripts['validate:local']).toContain('CI=1 bun run test:e2e');
 	});
 
 	test('aligns the Lighthouse engine and Node runtime with Chromium 149', () => {
