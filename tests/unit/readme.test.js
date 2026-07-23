@@ -68,6 +68,7 @@ describe('README contract', () => {
 			'lint',
 			'test:unit',
 			'test:e2e',
+			'test:e2e:show-report',
 			'test:lighthouse',
 			'validate:quality',
 			'validate:local',
