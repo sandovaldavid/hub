@@ -7,7 +7,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "09:00"
+      time: '09:00'
       timezone: America/Lima
     open-pull-requests-limit: 2
     rebase-strategy: auto
@@ -18,13 +18,13 @@ updates:
     groups:
       routine-dependencies:
         patterns:
-          - "*"
+          - '*'
         update-types:
           - minor
           - patch
       major-dependencies:
         patterns:
-          - "*"
+          - '*'
         update-types:
           - major
 
@@ -33,7 +33,7 @@ updates:
     target-branch: develop
     schedule:
       interval: monthly
-      time: "09:15"
+      time: '09:15'
       timezone: America/Lima
     open-pull-requests-limit: 1
     rebase-strategy: auto
@@ -44,14 +44,14 @@ updates:
     groups:
       github-actions:
         patterns:
-          - "*"
+          - '*'
 
   - package-ecosystem: devcontainers
     directory: /
     target-branch: develop
     schedule:
       interval: monthly
-      time: "09:30"
+      time: '09:30'
       timezone: America/Lima
     open-pull-requests-limit: 1
     rebase-strategy: auto
@@ -62,4 +62,4 @@ updates:
     groups:
       devcontainer-features:
         patterns:
-          - "*"
+          - '*'
