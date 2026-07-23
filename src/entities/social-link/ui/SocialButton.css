@@ -2,18 +2,17 @@
 
 /* Social Button */
 .social-button {
-	@apply w-full flex items-center gap-3 px-4 py-3 md:px-5 md:py-4 lg:px-6 lg:py-4 rounded-xl;
-	@apply bg-white/90 border-2 border-neutral-200;
-	@apply text-neutral-900 no-underline cursor-pointer;
+	@apply flex w-full items-center gap-3 rounded-xl px-4 py-3 md:px-5 md:py-4 lg:px-6 lg:py-4;
+	@apply border-2 border-neutral-200 bg-white/90;
+	@apply cursor-pointer text-neutral-900 no-underline;
 	@apply transition-all duration-300 ease-out;
-	@apply hover:scale-105 hover:shadow-lg;
-	@apply dark:bg-neutral-800/90 dark:border-neutral-700 dark:text-neutral-50;
+	@apply hover:scale-[1.02] hover:shadow-lg;
+	@apply dark:border-neutral-700 dark:bg-neutral-800/90 dark:text-neutral-50;
 }
 
 /* Social button Icon */
-
 .social-button__icon {
-	@apply w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 flex-shrink-0;
+	@apply h-5 w-5 flex-shrink-0 md:h-6 md:w-6 lg:h-7 lg:w-7;
 	@apply transition-all duration-300;
 }
 
@@ -27,45 +26,41 @@
 }
 
 .social-button__icon--linkedin {
-	@apply group-hover:text-gray-50 group-hover:bg-gray-50 w-full h-full;
+	@apply h-full w-full group-hover:bg-gray-50 group-hover:text-gray-50;
 }
 
 .social-button__icon--github {
-	@apply text-gray-950 dark:text-gray-50;
-	@apply group-hover:text-gray-50;
+	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
 }
 
 .social-button__icon--x {
-	@apply text-gray-950 dark:text-gray-50;
-	@apply group-hover:text-gray-50;
+	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
 }
 
 .social-button__icon--youtube {
-	@apply text-[#FF0000];
-	@apply group-hover:text-gray-50 stroke-3;
+	@apply stroke-3 text-[#FF0000];
+	@apply group-hover:text-gray-50;
 }
 
 .social-button__icon--tiktok {
-	@apply text-gray-950 dark:text-gray-50;
-	@apply group-hover:text-gray-50;
+	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
 }
 
 .social-button__icon--medium {
-	@apply text-gray-950 dark:text-gray-50;
-	@apply group-hover:text-gray-50;
+	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
 }
 
 .social-button__icon--facebook {
-	@apply text-gray-50 fill-[#0866ff];
-	@apply group-hover:text-[#0866ff] group-hover:fill-gray-50;
+	@apply fill-[#0866ff] text-gray-50;
+	@apply group-hover:fill-gray-50 group-hover:text-[#0866ff];
 }
 
 .social-button__content {
-	@apply flex flex-col gap-0.5 flex-1;
+	@apply flex min-w-0 flex-1 flex-col gap-0.5;
 }
 
 .social-button__label {
-	@apply text-sm md:text-base lg:text-lg font-bold leading-tight;
+	@apply text-sm font-bold leading-tight md:text-base lg:text-lg;
 	@apply text-neutral-900 dark:text-neutral-50;
 	@apply transition-colors duration-200;
 	@apply group-hover:text-gray-50;
@@ -80,14 +75,12 @@
 
 /* GitHub */
 .social-button--github {
-	@apply hover:bg-gradient-to-r hover:from-neutral-800 hover:to-neutral-900 hover:dark:from-neutral-700 hover:dark:to-neutral-800;
-	@apply hover:border-neutral-800 hover:dark:border-neutral-600;
+	@apply hover:border-neutral-800 hover:bg-gradient-to-r hover:from-neutral-800 hover:to-neutral-900 hover:dark:border-neutral-600 hover:dark:from-neutral-700 hover:dark:to-neutral-800;
 }
 
 /* Twitter/X */
 .social-button--x {
-	@apply hover:bg-gradient-to-r hover:from-neutral-900 hover:to-neutral-950 hover:dark:from-neutral-800 hover:dark:to-neutral-900;
-	@apply hover:border-neutral-900 hover:dark:border-neutral-700;
+	@apply hover:border-neutral-900 hover:bg-gradient-to-r hover:from-neutral-900 hover:to-neutral-950 hover:dark:border-neutral-700 hover:dark:from-neutral-800 hover:dark:to-neutral-900;
 }
 
 /* Instagram */
@@ -98,53 +91,47 @@
 
 /* Facebook */
 .social-button--facebook:hover {
-	@apply bg-gradient-to-r from-[#0062E0] to-[#19AFFF];
-	@apply border-[#0062E0];
+	@apply border-[#0062E0] bg-gradient-to-r from-[#0062E0] to-[#19AFFF];
 }
 
 /* LinkedIn */
 .social-button--linkedin:hover {
-	@apply bg-gradient-to-r from-[#0077B5] to-[#00A0DC];
-	@apply border-[#0077B5];
+	@apply border-[#0077B5] bg-gradient-to-r from-[#0077B5] to-[#00A0DC];
 }
 
 /* YouTube */
 .social-button--youtube:hover {
-	@apply bg-gradient-to-r from-[#FF1000] to-[#FF4444];
-	@apply border-[#FF0000];
+	@apply border-[#FF0000] bg-gradient-to-r from-[#FF1000] to-[#FF4444];
 }
 
 /* TikTok */
 .social-button--tiktok:hover {
-	@apply bg-gradient-to-r from-neutral-900 to-[#EE1D52];
-	@apply border-neutral-900;
+	@apply border-neutral-900 bg-gradient-to-r from-neutral-900 to-[#EE1D52];
 }
 
 /* Medium */
 .social-button--medium:hover {
-	@apply bg-gradient-to-r from-neutral-900 to-neutral-800;
-	@apply border-neutral-900;
+	@apply border-neutral-900 bg-gradient-to-r from-neutral-900 to-neutral-800;
 }
 
 /* Website/Default */
 .social-button--website:hover {
-	@apply bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600;
-	@apply border-primary-600 dark:border-primary-500;
+	@apply border-primary-600 bg-gradient-to-r from-primary-600 to-primary-700 dark:border-primary-500 dark:from-primary-500 dark:to-primary-600;
 }
 
-/* Compact variant */
+/* Compact variant used by the desktop hero grid. */
 .social-button--compact {
-	@apply py-2 px-3;
+	@apply min-h-16 px-4 py-3 md:px-5;
 }
 
 .social-button--compact .social-button__icon {
-	@apply w-5 h-5;
+	@apply h-5 w-5 md:h-6 md:w-6;
 }
 
 .social-button--compact .social-button__label {
-	@apply text-xs;
+	@apply text-sm md:text-base;
 }
 
 .social-button--compact .social-button__username {
-	@apply hidden;
+	@apply block text-xs md:text-sm;
 }
