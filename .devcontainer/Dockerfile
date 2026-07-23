@@ -1,31 +1,23 @@
-FROM mcr.microsoft.com/playwright:v1.61.0-noble
+ARG NODE_VARIANT=24-trixie
+ARG BUN_VERSION=1.3.14
+ARG PLAYWRIGHT_VERSION=1.61.0
 
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=${USER_UID}
+FROM mcr.microsoft.com/devcontainers/typescript-node:5-${NODE_VARIANT}
 
-RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu || true \
-    && groupadd --gid ${USER_GID} ${USERNAME} \
-    && useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends sudo curl wget \
-    && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
-    && chmod 0440 /etc/sudoers.d/${USERNAME} \
-    && rm -rf /var/lib/apt/lists/*
+ARG BUN_VERSION
+ARG PLAYWRIGHT_VERSION
 
-RUN mkdir -p -m 755 /etc/apt/keyrings \
-    && wget -qO /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-         https://cli.github.com/packages/githubcli-archive-keyring.gpg \
-    && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] \
-         https://cli.github.com/packages stable main" \
-         | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-    && apt-get update \
-    && apt-get install -y gh unzip \
-    && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=noninteractive \
+    BUN_INSTALL=/home/node/.bun \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
-USER ${USERNAME}
-RUN curl -fsSL https://bun.sh/install | bash
-ENV PATH="/home/${USERNAME}/.bun/bin:${PATH}"
+RUN curl --proto '=https' --tlsv1.2 -fsSL https://bun.sh/install -o /tmp/bun-install.sh \
+    && chmod 0755 /tmp/bun-install.sh \
+    && sudo -u node -H env BUN_INSTALL=/home/node/.bun \
+        bash /tmp/bun-install.sh "bun-v${BUN_VERSION}" \
+    && rm -f /tmp/bun-install.sh \
+    && mkdir -p "${PLAYWRIGHT_BROWSERS_PATH}" \
+    && npx --yes "playwright@${PLAYWRIGHT_VERSION}" install --with-deps chromium webkit \
+    && chmod -R a+rX "${PLAYWRIGHT_BROWSERS_PATH}"
 
-WORKDIR /workspace
+ENV PATH="/home/node/.bun/bin:/home/node/.local/bin:${PATH}"
