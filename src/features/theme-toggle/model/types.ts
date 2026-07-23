@@ -3,7 +3,7 @@
  * Types and interfaces
  */
 
-import type { Theme } from '../../../entities/theme';
+import type { Theme } from '../../../entities/theme/model/types';
 
 export interface ThemeToggleProps {
 	/**

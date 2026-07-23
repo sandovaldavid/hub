@@ -1,4 +1,4 @@
-import type { Profile } from '@entities/profile';
+import type { Profile } from '@entities/profile/model/types';
 import { siteConfig } from './site.config';
 
 // tagline, bio, availability.message are intentionally absent here.

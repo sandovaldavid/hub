@@ -1,34 +1,42 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
 if [[ "${DEVCONTAINER:-}" != "true" ]]; then
-  exit 0
+	exit 0
 fi
 
-REPOSITORY_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-cd "$REPOSITORY_ROOT"
+readonly workspace="${CONTAINER_WORKSPACE_FOLDER:-/workspace}"
+readonly owner_uid="$(id -u)"
+readonly owner_gid="$(id -g)"
+readonly owner="${owner_uid}:${owner_gid}"
+readonly report_directories=(
+	"${workspace}/playwright-report"
+	"${workspace}/test-results"
+)
 
-owner_uid="$(id -u)"
-owner_gid="$(id -g)"
-workspace_uid="$(stat -c '%u' "$REPOSITORY_ROOT")"
-workspace_gid="$(stat -c '%g' "$REPOSITORY_ROOT")"
+cd "${workspace}"
 
-if [[ "$workspace_uid" != "$owner_uid" || "$workspace_gid" != "$owner_gid" ]]; then
-  cat >&2 <<EOF_MISMATCH
+workspace_uid="$(stat -c '%u' "${workspace}")"
+workspace_gid="$(stat -c '%g' "${workspace}")"
+if [[ "${workspace_uid}" != "${owner_uid}" || "${workspace_gid}" != "${owner_gid}" ]]; then
+	cat >&2 <<EOF_MISMATCH
 Development container identity mismatch.
 - container UID:GID: ${owner_uid}:${owner_gid}
 - workspace UID:GID: ${workspace_uid}:${workspace_gid}
 Rebuild the container without cache.
 EOF_MISMATCH
-  exit 1
+	exit 1
 fi
 
-if [[ ! -w "$REPOSITORY_ROOT" ]]; then
-  echo "Repository root is not writable by $(id -un): $REPOSITORY_ROOT" >&2
-  exit 1
+if [[ ! -w "${workspace}" ]]; then
+	echo "[error] Repository root is not writable by $(id -un): ${workspace}" >&2
+	exit 1
 fi
 
-# The forwarded agent may become available after the first container creation.
+sudo mkdir -p "${report_directories[@]}"
+sudo chown -R "${owner}" "${report_directories[@]}"
+
 bash .devcontainer/scripts/configure-git-ssh-signing.sh
+bash .devcontainer/scripts/verify-env.sh
 
-printf 'Workspace is writable by %s (%s:%s).\n' "$(id -un)" "$owner_uid" "$owner_gid"
+printf '[info] Workspace is writable by %s (%s:%s).\n' "$(id -un)" "${owner_uid}" "${owner_gid}"

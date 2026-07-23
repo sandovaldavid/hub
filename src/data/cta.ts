@@ -1,24 +1,41 @@
-import { socialLinks } from './social-links';
+import type { Lang } from '@shared/i18n';
 import { siteConfig } from './site.config';
 
-export const ctaButtons = [
+export const getCtaButtons = (lang: Lang) => [
 	{
-		id: 'business',
-		icon: 'rocket',
-		title: '¿Quieres digitalizar tu negocio sin estrés?',
-		description:
-			'Agenda una "Llamada de Descubrimiento" gratis. Entenderé tus metas y te daré un plan de acción claro, sin tecnicismos.',
-		href: siteConfig.calendlyUrl,
+		id: 'portfolio',
+		icon: 'briefcase',
+		title: 'View Portfolio',
+		description: 'Explore selected projects, experience and engineering case studies.',
+		href: siteConfig.portfolioUrl,
 		variant: 'primary' as const,
-		external: false,
+		external: true,
 	},
 	{
-		id: 'learning',
-		icon: 'chat',
-		title: 'Aprende y Crece como Developer',
-		description: 'Consejos y recursos para developers',
-		href: socialLinks[3].url,
+		id: 'resume',
+		icon: 'file',
+		title: 'Download Resume',
+		description: 'Review my current experience, impact and technical background.',
+		href: siteConfig.resume[lang],
+		variant: 'primary' as const,
+		external: true,
+	},
+	{
+		id: 'github',
+		icon: 'briefcase',
+		title: 'View GitHub',
+		description: 'Inspect the repositories, architecture decisions and products I am building.',
+		href: siteConfig.githubUrl,
 		variant: 'secondary' as const,
 		external: true,
+	},
+	{
+		id: 'contact',
+		icon: 'email',
+		title: 'Contact Me',
+		description: 'Get in touch about software engineering opportunities and collaborations.',
+		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(siteConfig.recruiterEmailSubject)}`,
+		variant: 'secondary' as const,
+		external: false,
 	},
 ];

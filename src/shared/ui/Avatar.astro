@@ -13,6 +13,7 @@ export interface Props {
 	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 	fallback?: string;
 	loading?: 'lazy' | 'eager';
+	fetchpriority?: 'high' | 'low' | 'auto';
 	ring?: boolean;
 	ringColor?: string;
 	class?: string;
@@ -24,6 +25,7 @@ const {
 	size = 'md',
 	fallback,
 	loading = 'lazy',
+	fetchpriority = loading === 'eager' ? 'high' : 'auto',
 	ring = false,
 	ringColor = 'ring-primary-500',
 	class: className,
@@ -43,13 +45,22 @@ const sizeClasses = {
 	'4xl': 'avatar-size-4xl',
 };
 
+const dimensions = {
+	xs: 24,
+	sm: 32,
+	md: 40,
+	lg: 48,
+	xl: 64,
+	'2xl': 80,
+	'3xl': 96,
+	'4xl': 128,
+} as const;
+
 const roundedClasses = 'rounded-full';
-
 const ringClasses = ring ? `ring-2 ring-offset-2 ${ringColor}` : '';
-
 const avatarClasses = cn(baseClasses, sizeClasses[size], roundedClasses, ringClasses, className);
+const dimension = dimensions[size];
 
-// Generate initials from alt text if no fallback provided
 const getInitials = (name: string): string => {
 	const parts = name.trim().split(' ');
 	if (parts.length >= 2) {
@@ -68,7 +79,11 @@ const initials = fallback || getInitials(alt);
 				src={src}
 				alt=""
 				role="presentation"
+				width={dimension}
+				height={dimension}
 				loading={loading}
+				fetchpriority={fetchpriority}
+				decoding="async"
 				class="absolute inset-0 h-full w-full object-cover"
 			/>
 		) : (
