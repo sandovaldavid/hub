@@ -18,7 +18,9 @@ const socialLinks = await read('src/data/social-links.ts');
 const weeklyProjects = await read('src/data/weekly-project.ts');
 
 const workflowFiles = await readdir(join(repositoryRoot, '.github/workflows'));
-const workflowContents = await Promise.all(workflowFiles.map(file => read(`.github/workflows/${file}`)));
+const workflowContents = await Promise.all(
+	workflowFiles.map(file => read(`.github/workflows/${file}`))
+);
 
 describe('maintenance and security contract', () => {
 	test('groups dependency updates onto develop with bounded PR volume', () => {
@@ -74,6 +76,7 @@ describe('maintenance and security contract', () => {
 
 	test('centralizes public social URLs and does not expose the private linktree repository', () => {
 		expect(siteConfig).toContain('socialUrls:');
+		expect(siteConfig).not.toContain('calendlyUrl');
 		expect(socialLinks).toContain('siteConfig.socialUrls.linkedin');
 		expect(socialLinks).toContain('siteConfig.socialUrls.facebook');
 		expect(socialLinks).not.toContain('https://youtube.com/@${h}');
