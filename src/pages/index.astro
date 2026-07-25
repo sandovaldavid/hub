@@ -1,6 +1,6 @@
 ---
 import Layout from '@app/layouts/Layout.astro';
-import HeroCard from '@widgets/hero-section/ui/HeroCard.astro';
+import { HeroCard, ProfileSnapshot } from '@widgets/hero-section';
 import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
 import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
 import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
@@ -54,15 +54,14 @@ const heroMetadata = [
 			role="region"
 			aria-label={t('hero.sectionsLabel')}>
 			<section
-				class="bento-item bento-item--hero min-w-0 md:col-span-2 md:flex md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-5 md:shadow-lg md:backdrop-blur-xl lg:col-span-6 lg:p-6 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
+				class="bento-item bento-item--hero min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-5 md:shadow-lg md:backdrop-blur-xl lg:col-span-6 lg:col-start-1 lg:p-5 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
 				data-layout-column="profile"
 				data-layout-panel="profile"
 				aria-labelledby="hero-heading">
 				<HeroCard
 					profile={localizedProfile}
-					variant="default"
+					variant="compact"
 					availability={t('profile.availability')}
-					metadata={heroMetadata}
 					primaryAction={{
 						label: t('profile.resumeAction'),
 						href: siteConfig.resume[lang],
@@ -71,8 +70,18 @@ const heroMetadata = [
 				/>
 			</section>
 
+			<div
+				class="bento-item order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
+				data-layout-section="profile-snapshot">
+				<ProfileSnapshot
+					heading={t('profile.snapshotHeading')}
+					bio={localizedProfile.bio}
+					metadata={heroMetadata}
+				/>
+			</div>
+
 			<section
-				class="bento-item bento-item--social min-w-0 md:col-span-2 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-4 lg:p-5 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
+				class="bento-item bento-item--social order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-4 lg:col-start-7 lg:p-5 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
 				data-layout-column="social"
 				data-layout-panel="social"
 				aria-labelledby="social-heading">
