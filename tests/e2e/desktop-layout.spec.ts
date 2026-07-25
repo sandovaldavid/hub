@@ -7,9 +7,12 @@ const desktopViewports = [
 	{ width: 1920, height: 1080 },
 ] as const;
 
+const getRowCount = async (locator: ReturnType<Parameters<typeof test>[0] extends never ? never : never>) =>
+	locator;
+
 for (const route of routes) {
-	test.describe(`desktop layout for ${route}`, () => {
-		test('keeps hierarchy balanced without horizontal overflow', async ({ page }) => {
+	test.describe(`responsive layout for ${route}`, () => {
+		test('keeps the desktop hierarchy balanced without horizontal overflow', async ({ page }) => {
 			await page.emulateMedia({ reducedMotion: 'reduce' });
 
 			for (const viewport of desktopViewports) {
@@ -56,6 +59,20 @@ for (const route of routes) {
 					2
 				);
 
+				const actionRowCount = await page
+					.locator('.cta-buttons--vertical .cta-buttons__link')
+					.evaluateAll(elements => {
+						const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+						return new Set(rows).size;
+					});
+				expect(actionRowCount).toBe(2);
+
+				const projectRowCount = await page.locator('.weekly-project-card').evaluateAll(elements => {
+					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+					return new Set(rows).size;
+				});
+				expect(projectRowCount).toBe(viewport.width < 1280 ? 2 : 1);
+
 				const skillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
 					const rowPositions = elements.map(element =>
 						Math.round(element.getBoundingClientRect().top)
@@ -64,6 +81,57 @@ for (const route of routes) {
 				});
 				expect(skillRowCount).toBeGreaterThan(1);
 			}
+		});
+
+		test('keeps the iPhone layout compact and readable', async ({ page }) => {
+			await page.emulateMedia({ reducedMotion: 'reduce' });
+			await page.setViewportSize({ width: 390, height: 844 });
+			await page.goto(route);
+
+			const overflow = await page.locator('html').evaluate(element => ({
+				clientWidth: element.clientWidth,
+				scrollWidth: element.scrollWidth,
+			}));
+			expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth);
+
+			const metadataItems = page.locator('.hero-card__metadata-item');
+			await expect(metadataItems).toHaveCount(3);
+			const metadataBoxes = await metadataItems.evaluateAll(elements =>
+				elements.map(element => {
+					const box = element.getBoundingClientRect();
+					return { x: box.x, y: box.y, width: box.width };
+				})
+			);
+			expect(Math.abs(metadataBoxes[0].y - metadataBoxes[1].y)).toBeLessThanOrEqual(2);
+			expect(metadataBoxes[2].y).toBeGreaterThan(metadataBoxes[0].y);
+			expect(metadataBoxes[2].width).toBeGreaterThan(metadataBoxes[0].width * 1.8);
+
+			const socialWidths = await page.locator('.social-grid__item').evaluateAll(elements =>
+				elements.map(element => element.getBoundingClientRect().width)
+			);
+			expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
+
+			const mobileActionRows = await page
+				.locator('.cta-buttons--vertical .cta-buttons__link')
+				.evaluateAll(elements => {
+					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+					return new Set(rows).size;
+				});
+			expect(mobileActionRows).toBe(4);
+
+			const mobileProjectRows = await page.locator('.weekly-project-card').evaluateAll(elements => {
+				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+				return new Set(rows).size;
+			});
+			expect(mobileProjectRows).toBe(3);
+
+			const firstSkillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
+				const firstTop = Math.round(elements[0].getBoundingClientRect().top);
+				return elements.filter(
+					element => Math.abs(Math.round(element.getBoundingClientRect().top) - firstTop) <= 2
+				).length;
+			});
+			expect(firstSkillRowCount).toBe(4);
 		});
 	});
 }
