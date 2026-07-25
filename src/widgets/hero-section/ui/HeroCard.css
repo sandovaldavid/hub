@@ -8,6 +8,10 @@
 	@apply flex h-full w-full flex-col items-center gap-3 text-center md:items-stretch md:gap-3.5 lg:items-start lg:text-left;
 }
 
+.hero-card__content--compact {
+	@apply gap-0;
+}
+
 .hero-card__header {
 	@apply flex flex-col items-center gap-3 lg:items-start;
 }
@@ -24,8 +28,16 @@
 	@apply flex w-full min-w-0 flex-col items-center gap-1.5 lg:items-start;
 }
 
+.hero-card__identity--compact .hero-card__body {
+	@apply gap-1;
+}
+
 .hero-card__tagline {
 	@apply m-0 max-w-full text-base font-medium leading-normal text-accent-700 sm:text-lg lg:text-xl dark:text-accent-500;
+}
+
+.hero-card__identity--compact .hero-card__tagline {
+	@apply text-sm leading-snug sm:text-base lg:text-lg;
 }
 
 .hero-card__bio {
@@ -36,6 +48,10 @@
 	@apply m-0 inline-flex max-w-full items-center gap-2 rounded-full border border-success-300 bg-success-50 px-3 py-2;
 }
 
+.hero-card__identity--compact .hero-card__availability {
+	@apply px-2.5 py-1.5;
+}
+
 .hero-card__availability-indicator {
 	@apply block h-2 w-2 flex-shrink-0 rounded-full bg-success-600;
 	animation: pulse-glow 2s ease-in-out infinite;
@@ -43,6 +59,10 @@
 
 .hero-card__availability-text {
 	@apply min-w-0 text-xs font-semibold leading-snug text-success-800 md:text-sm;
+}
+
+.hero-card__identity-actions {
+	@apply mt-1.5 flex w-full min-w-0 flex-col items-start gap-2;
 }
 
 .hero-card__metadata {
@@ -69,6 +89,10 @@
 	@apply inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-3 font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:w-auto md:mt-auto;
 }
 
+.hero-card__identity-actions .hero-card__primary-action {
+	@apply px-4 py-2.5 text-sm md:mt-0;
+}
+
 .hero-card__logo-wrapper {
 	@apply mt-2 opacity-60 md:ml-auto md:mt-0;
 }
@@ -80,6 +104,12 @@
 
 	.hero-card__metadata-item:last-child {
 		grid-column: auto;
+	}
+}
+
+@media (min-width: 1280px) {
+	.hero-card__identity-actions {
+		@apply flex-row flex-wrap items-center;
 	}
 }
 
