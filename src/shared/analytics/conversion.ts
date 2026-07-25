@@ -3,6 +3,7 @@ import { track } from '@vercel/analytics';
 export const conversionEvents = [
 	'resume_downloaded',
 	'portfolio_opened',
+	'featured_projects_viewed',
 	'github_opened',
 	'linkedin_opened',
 	'project_opened',
