@@ -21,6 +21,7 @@ const t = useTranslations(lang);
 const SEO = getSEO(lang);
 const alternates = getAlternateUrls(Astro.url);
 const projects = getFeaturedProjects(lang);
+const headerSocialLinks = socialLinks.filter(link => link.id !== 'website');
 
 const localizedProfile = {
 	...profile,
@@ -93,7 +94,7 @@ const heroMetadata = [
 					{t('social.heading')}
 				</h2>
 				<SocialGrid
-					links={socialLinks}
+					links={headerSocialLinks}
 					priorities={['primary', 'secondary']}
 					variant="compact"
 				/>
@@ -101,29 +102,42 @@ const heroMetadata = [
 		</div>
 
 		<section
-			class="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-stretch md:gap-6 lg:grid-cols-3"
-			data-layout-section="actions">
-			<section
-				class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
-				data-layout-column="primary-actions"
-				aria-labelledby="cta-heading">
-				<CTAButtons
-					buttons={localizedCtaButtons}
-					layout="vertical"
-				/>
-			</section>
-			<section
-				class="bento-item bento-item--contact flex min-w-0"
-				data-layout-column="contact"
-				aria-labelledby="contact-heading">
-				<ContactCTA
-					email={profile.contact.email}
-					title={t('contact.title')}
-					message={t('contact.message')}
-					buttonText={t('contact.buttonText')}
-					variant="default"
-				/>
-			</section>
+			class="flex flex-col gap-4 md:gap-6"
+			data-layout-section="actions"
+			aria-labelledby="cta-heading">
+			<header class="bento-item mx-auto max-w-3xl text-center">
+				<h2
+					id="cta-heading"
+					class="m-0 text-2xl font-bold leading-tight text-neutral-900 md:text-3xl dark:text-neutral-50">
+					{t('cta.heading')}
+				</h2>
+				<p class="mx-auto mt-2 text-sm leading-relaxed text-neutral-600 md:text-base dark:text-neutral-300">
+					{t('cta.description')}
+				</p>
+			</header>
+
+			<div class="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:items-stretch">
+				<div
+					class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
+					data-layout-column="primary-actions">
+					<CTAButtons
+						buttons={localizedCtaButtons}
+						layout="vertical"
+					/>
+				</div>
+				<section
+					class="bento-item bento-item--contact flex min-w-0"
+					data-layout-column="contact"
+					aria-labelledby="contact-heading">
+					<ContactCTA
+						email={profile.contact.email}
+						title={t('contact.title')}
+						message={t('contact.message')}
+						buttonText={t('contact.buttonText')}
+						variant="default"
+					/>
+				</section>
+			</div>
 		</section>
 
 		<section
@@ -139,11 +153,6 @@ const heroMetadata = [
 			class="bento-item bento-item--skills"
 			data-layout-section="skills"
 			aria-labelledby="skills-heading">
-			<h2
-				id="skills-heading"
-				class="sr-only">
-				{t('skills.heading')}
-			</h2>
 			<SkillsSection
 				{skills}
 				title={t('skills.title')}
@@ -185,7 +194,7 @@ const heroMetadata = [
 		}
 		to {
 			opacity: 1;
-			transform: translateY(0);
+			transform: none;
 		}
 	}
 
