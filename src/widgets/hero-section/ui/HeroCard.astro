@@ -26,7 +26,7 @@ const isCompact = variant === 'compact';
 					src={profile.avatar.url}
 					alt={profile.avatar.alt}
 					brandLogoSrc={profile.logo.url}
-					size={isCompact ? '2xl' : '4xl'}
+					size={isCompact ? 'xl' : '4xl'}
 				/>
 				<span
 					class={cn(
@@ -72,7 +72,10 @@ const isCompact = variant === 'compact';
 								class="hero-card__primary-action"
 								href={primaryAction.href}
 								target={primaryAction.external ? '_blank' : undefined}
-								rel={primaryAction.external ? 'noopener noreferrer' : undefined}>
+								rel={primaryAction.external ? 'noopener noreferrer' : undefined}
+								data-conversion-event="resume_downloaded"
+								data-conversion-position="hero"
+								data-conversion-item="resume">
 								{primaryAction.label}
 							</a>
 						)}
@@ -110,7 +113,10 @@ const isCompact = variant === 'compact';
 				class="hero-card__primary-action"
 				href={primaryAction.href}
 				target={primaryAction.external ? '_blank' : undefined}
-				rel={primaryAction.external ? 'noopener noreferrer' : undefined}>
+				rel={primaryAction.external ? 'noopener noreferrer' : undefined}
+				data-conversion-event="resume_downloaded"
+				data-conversion-position="hero"
+				data-conversion-item="resume">
 				{primaryAction.label}
 			</a>
 		)
