@@ -11,9 +11,21 @@ const responsiveLayoutTest = await readFile(
 	join(repositoryRoot, 'tests/e2e/desktop-layout.spec.ts'),
 	'utf8'
 );
+const heroAlignmentTest = await readFile(
+	join(repositoryRoot, 'tests/e2e/hero-alignment.spec.ts'),
+	'utf8'
+);
 const ctaSource = await readFile(join(repositoryRoot, 'src/data/cta.ts'), 'utf8');
 const ctaComponent = await readFile(
 	join(repositoryRoot, 'src/widgets/cta-section/ui/CTAButtons.astro'),
+	'utf8'
+);
+const heroComponent = await readFile(
+	join(repositoryRoot, 'src/widgets/hero-section/ui/HeroCard.astro'),
+	'utf8'
+);
+const heroStyles = await readFile(
+	join(repositoryRoot, 'src/widgets/hero-section/ui/HeroCard.css'),
 	'utf8'
 );
 const projectSection = await readFile(
@@ -98,13 +110,19 @@ describe('CI workflow contract', () => {
 		expect(responsiveLayoutTest).toContain('expect(firstSkillRowCount).toBe(4)');
 	});
 
-	test('keeps resume download unique and uses the second primary CTA for featured projects', () => {
+	test('keeps resume download unique, mobile-only and instrumented', () => {
 		expect(ctaSource).not.toContain("id: 'resume'");
 		expect(ctaSource).toContain("id: 'projects'");
 		expect(ctaSource).toContain("href: '#featured-projects-title'");
 		expect(ctaComponent).toContain("projects: 'featured_projects_viewed'");
-		expect(responsiveLayoutTest).toContain('[data-conversion-item="resume"]');
-		expect(responsiveLayoutTest).toContain('[data-conversion-item="projects"]');
+		expect(heroComponent).not.toContain('hero-card__username');
+		expect(heroComponent).toContain("size={isCompact ? '3xl' : '4xl'}");
+		expect(heroComponent).toContain('hero-card__primary-action--mobile-only');
+		expect(heroStyles).toContain('.hero-card__primary-action--mobile-only');
+		expect(responsiveLayoutTest).toContain('await expect(resumeAction).toBeHidden()');
+		expect(heroAlignmentTest).toContain(
+			"await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible()"
+		);
 	});
 
 	test('gives the featured-project icon an explicit theme-aware color', () => {
