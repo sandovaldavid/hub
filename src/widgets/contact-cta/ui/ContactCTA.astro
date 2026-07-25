@@ -47,11 +47,11 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				set:html={ChatIcon}
 			/>
 		</div>
-		<div class="flex max-w-xl flex-col gap-2">
+		<div class="flex min-w-0 max-w-xl flex-col gap-2">
 			<h2
 				id="contact-heading"
 				class={cn(
-					'm-0 text-lg font-bold leading-tight md:text-xl',
+					'm-0 break-words text-lg font-bold leading-tight md:text-xl',
 					'text-neutral-900 dark:text-neutral-100'
 				)}>
 				{title}
@@ -60,7 +60,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				message && (
 					<p
 						class={cn(
-							'm-0 text-sm leading-relaxed md:text-base',
+							'm-0 break-words text-sm leading-relaxed md:text-base',
 							'text-neutral-700 dark:text-neutral-300'
 						)}>
 						{message}
