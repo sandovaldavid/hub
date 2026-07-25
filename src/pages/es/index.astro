@@ -49,13 +49,14 @@ const heroMetadata = [
 		role="main"
 		aria-label={t('page.mainLabel')}>
 		<div
-			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-start md:gap-6 lg:grid-cols-9 lg:gap-7 xl:gap-8"
+			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-stretch md:gap-6 lg:grid-cols-10 lg:gap-7 xl:gap-8"
 			data-layout-section="hero"
 			role="region"
 			aria-label={t('hero.sectionsLabel')}>
 			<section
-				class="bento-item bento-item--hero min-w-0 md:col-span-2 lg:col-span-5"
+				class="bento-item bento-item--hero min-w-0 md:col-span-2 md:flex md:h-full md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-5 md:shadow-lg md:backdrop-blur-xl lg:col-span-6 lg:p-6 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
 				data-layout-column="profile"
+				data-layout-panel="profile"
 				aria-labelledby="hero-heading">
 				<HeroCard
 					profile={localizedProfile}
@@ -71,10 +72,15 @@ const heroMetadata = [
 			</section>
 
 			<section
-				class="bento-item bento-item--social min-w-0 md:col-span-2 lg:col-span-4"
+				class="bento-item bento-item--social min-w-0 md:col-span-2 md:flex md:h-full md:flex-col md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-5 md:shadow-lg md:backdrop-blur-xl lg:col-span-4 lg:p-6 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
 				data-layout-column="social"
+				data-layout-panel="social"
 				aria-labelledby="social-heading">
-				<h2 id="social-heading" class="sr-only">{t('social.heading')}</h2>
+				<h2
+					id="social-heading"
+					class="sr-only text-primary-700 dark:text-primary-300 md:not-sr-only md:mb-3 md:block md:text-sm md:font-semibold md:uppercase md:tracking-[0.12em]">
+					{t('social.heading')}
+				</h2>
 				<SocialGrid links={socialLinks} priorities={['primary', 'secondary']} variant="compact" />
 			</section>
 		</div>
