@@ -62,7 +62,7 @@
 }
 
 .hero-card__identity-actions {
-	@apply mt-1.5 flex w-full min-w-0 flex-col items-start gap-2;
+	@apply mt-1 flex w-full min-w-0 flex-col items-start gap-2;
 }
 
 .hero-card__metadata {
