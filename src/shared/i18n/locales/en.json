@@ -23,10 +23,10 @@
 			"description": "Explore selected projects, experience and engineering case studies.",
 			"label": "View portfolio"
 		},
-		"resume": {
-			"title": "Download Resume",
-			"description": "Review my current experience, impact and technical background.",
-			"label": "Download resume"
+		"projects": {
+			"title": "View Featured Projects",
+			"description": "Review selected engineering cases and outcomes on this page.",
+			"label": "View featured projects"
 		},
 		"github": {
 			"title": "View GitHub",
