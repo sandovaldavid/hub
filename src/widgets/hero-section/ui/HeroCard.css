@@ -45,7 +45,7 @@
 }
 
 .hero-card__identity--compact .hero-card__availability {
-	@apply px-2.5 py-1.5;
+	@apply w-full justify-center px-2.5 py-1.5 text-center md:w-auto md:justify-start md:text-left;
 }
 
 .hero-card__availability-indicator {
@@ -54,7 +54,7 @@
 }
 
 .hero-card__availability-text {
-	@apply min-w-0 text-xs font-semibold leading-snug text-success-800;
+	@apply min-w-0 text-center text-xs font-semibold leading-snug text-success-800 md:text-left;
 }
 
 .hero-card__identity-actions {
