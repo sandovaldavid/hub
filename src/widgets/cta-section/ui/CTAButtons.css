@@ -34,7 +34,7 @@
 }
 
 .cta-button-card__icon {
-	@apply flex h-10 w-10 flex-shrink-0 items-center justify-center text-primary-600 drop-shadow-sm md:h-11 md:w-11 lg:h-12 lg:w-12 dark:text-primary-300;
+	@apply flex h-10 w-10 shrink-0 items-center justify-center text-primary-600 drop-shadow-sm md:h-11 md:w-11 lg:h-12 lg:w-12 dark:text-primary-300;
 }
 
 .cta-button-card__icon svg {
@@ -58,7 +58,7 @@
 }
 
 .cta-button-card__arrow {
-	@apply h-6 w-6 flex-shrink-0 text-primary-600 drop-shadow-sm transition-transform duration-300 ease-in-out md:h-7 md:w-7 dark:text-primary-400;
+	@apply h-6 w-6 shrink-0 text-primary-600 drop-shadow-sm transition-transform duration-300 ease-in-out md:h-7 md:w-7 dark:text-primary-400;
 }
 
 .cta-button-card:hover .cta-button-card__arrow {

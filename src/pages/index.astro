@@ -41,11 +41,13 @@ const heroMetadata = [
 ];
 ---
 
-<Layout {...SEO} {alternates}>
+<Layout
+	{...SEO}
+	{alternates}>
 	<main
 		id="main-content"
 		tabindex="-1"
-		class="hub-container mx-auto flex w-full max-w-[96rem] flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
+		class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
 		role="main"
 		aria-label={t('page.mainLabel')}>
 		<div
@@ -90,7 +92,11 @@ const heroMetadata = [
 					class="sr-only text-primary-700 dark:text-primary-300 md:not-sr-only md:mb-2 md:block md:text-xs md:font-semibold md:uppercase md:tracking-[0.12em]">
 					{t('social.heading')}
 				</h2>
-				<SocialGrid links={socialLinks} priorities={['primary', 'secondary']} variant="compact" />
+				<SocialGrid
+					links={socialLinks}
+					priorities={['primary', 'secondary']}
+					variant="compact"
+				/>
 			</section>
 		</div>
 
@@ -101,7 +107,10 @@ const heroMetadata = [
 				class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
 				data-layout-column="primary-actions"
 				aria-labelledby="cta-heading">
-				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
+				<CTAButtons
+					buttons={localizedCtaButtons}
+					layout="vertical"
+				/>
 			</section>
 			<section
 				class="bento-item bento-item--contact flex min-w-0"
@@ -117,16 +126,29 @@ const heroMetadata = [
 			</section>
 		</section>
 
-		<section class="bento-item bento-item--weekly-project" data-layout-section="projects">
-			<WeeklyProjectSection {projects} {lang} />
+		<section
+			class="bento-item bento-item--weekly-project"
+			data-layout-section="projects">
+			<WeeklyProjectSection
+				{projects}
+				{lang}
+			/>
 		</section>
 
 		<section
 			class="bento-item bento-item--skills"
 			data-layout-section="skills"
 			aria-labelledby="skills-heading">
-			<h2 id="skills-heading" class="sr-only">{t('skills.heading')}</h2>
-			<SkillsSection {skills} title={t('skills.title')} variant="compact" />
+			<h2
+				id="skills-heading"
+				class="sr-only">
+				{t('skills.heading')}
+			</h2>
+			<SkillsSection
+				{skills}
+				title={t('skills.title')}
+				variant="compact"
+			/>
 		</section>
 	</main>
 </Layout>

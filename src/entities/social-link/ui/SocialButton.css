@@ -12,7 +12,7 @@
 
 /* Social button Icon */
 .social-button__icon {
-	@apply h-5 w-5 flex-shrink-0 md:h-6 md:w-6 lg:h-7 lg:w-7;
+	@apply h-5 w-5 shrink-0 md:h-6 md:w-6 lg:h-7 lg:w-7;
 	@apply transition-all duration-300;
 }
 
@@ -75,12 +75,12 @@
 
 /* GitHub */
 .social-button--github {
-	@apply hover:border-neutral-800 hover:bg-gradient-to-r hover:from-neutral-800 hover:to-neutral-900 hover:dark:border-neutral-600 hover:dark:from-neutral-700 hover:dark:to-neutral-800;
+	@apply hover:border-neutral-800 hover:bg-linear-to-r hover:from-neutral-800 hover:to-neutral-900 hover:dark:border-neutral-600 hover:dark:from-neutral-700 hover:dark:to-neutral-800;
 }
 
 /* Twitter/X */
 .social-button--x {
-	@apply hover:border-neutral-900 hover:bg-gradient-to-r hover:from-neutral-900 hover:to-neutral-950 hover:dark:border-neutral-700 hover:dark:from-neutral-800 hover:dark:to-neutral-900;
+	@apply hover:border-neutral-900 hover:bg-linear-to-r hover:from-neutral-900 hover:to-neutral-950 hover:dark:border-neutral-700 hover:dark:from-neutral-800 hover:dark:to-neutral-900;
 }
 
 /* Instagram */
@@ -91,32 +91,32 @@
 
 /* Facebook */
 .social-button--facebook:hover {
-	@apply border-[#0062E0] bg-gradient-to-r from-[#0062E0] to-[#19AFFF];
+	@apply border-[#0062E0] bg-linear-to-r from-[#0062E0] to-[#19AFFF];
 }
 
 /* LinkedIn */
 .social-button--linkedin:hover {
-	@apply border-[#0077B5] bg-gradient-to-r from-[#0077B5] to-[#00A0DC];
+	@apply border-[#0077B5] bg-linear-to-r from-[#0077B5] to-[#00A0DC];
 }
 
 /* YouTube */
 .social-button--youtube:hover {
-	@apply border-[#FF0000] bg-gradient-to-r from-[#FF1000] to-[#FF4444];
+	@apply border-[#FF0000] bg-linear-to-r from-[#FF1000] to-[#FF4444];
 }
 
 /* TikTok */
 .social-button--tiktok:hover {
-	@apply border-neutral-900 bg-gradient-to-r from-neutral-900 to-[#EE1D52];
+	@apply border-neutral-900 bg-linear-to-r from-neutral-900 to-[#EE1D52];
 }
 
 /* Medium */
 .social-button--medium:hover {
-	@apply border-neutral-900 bg-gradient-to-r from-neutral-900 to-neutral-800;
+	@apply border-neutral-900 bg-linear-to-r from-neutral-900 to-neutral-800;
 }
 
 /* Website/Default */
 .social-button--website:hover {
-	@apply border-primary-600 bg-gradient-to-r from-primary-600 to-primary-700 dark:border-primary-500 dark:from-primary-500 dark:to-primary-600;
+	@apply border-primary-600 bg-linear-to-r from-primary-600 to-primary-700 dark:border-primary-500 dark:from-primary-500 dark:to-primary-600;
 }
 
 /* Compact variant used by the desktop hero grid. */
