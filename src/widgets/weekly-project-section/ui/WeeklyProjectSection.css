@@ -23,7 +23,7 @@
 @media (min-width: 1024px) and (max-width: 1279px) {
 	.weekly-project-section__content > :last-child:nth-child(odd) {
 		grid-column: 1 / -1;
-		width: calc(50% - 0.75rem);
+		width: min(100%, calc(50% - 0.75rem));
 		justify-self: center;
 	}
 }
