@@ -23,6 +23,14 @@ for (const route of routes) {
 				2
 			);
 			expect(profileBox?.height ?? 0).toBeLessThanOrEqual(240);
+
+			const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
+			const avatarBox = await avatar.boundingBox();
+			expect(avatarBox).not.toBeNull();
+			expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(96);
+			expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(96);
+			await expect(page.locator('.hero-card__username')).toHaveCount(0);
+			await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeHidden();
 		});
 
 		test('aligns the mobile identity, snapshot and social sections to one content rail', async ({
@@ -60,6 +68,8 @@ for (const route of routes) {
 			});
 			expect(profileStyles.borderRadius).toBeGreaterThanOrEqual(16);
 			expect(profileStyles.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
+			await expect(page.locator('.hero-card__username')).toHaveCount(0);
+			await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible();
 		});
 	});
 }
