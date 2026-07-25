@@ -76,6 +76,7 @@ describe('CI workflow contract', () => {
 	});
 
 	test('covers the production layout across desktop and iPhone viewports', () => {
+		expect(responsiveLayoutTest).toContain('iPhone 12 Pro');
 		expect(responsiveLayoutTest).toContain('{ width: 390, height: 844 }');
 		expect(responsiveLayoutTest).toContain('{ width: 1024, height: 768 }');
 		expect(responsiveLayoutTest).toContain('{ width: 1280, height: 720 }');
