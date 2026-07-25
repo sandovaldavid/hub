@@ -30,6 +30,25 @@ test.describe('Home page', () => {
 		await expect(page.locator('[aria-labelledby="skills-heading"]')).toBeVisible();
 	});
 
+	test('uses a clear h1, h2 and h3 hierarchy', async ({ page }) => {
+		await page.goto('/');
+
+		await expect(
+			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
+		).toHaveCount(1);
+		await expect(page.getByRole('heading', { level: 2, name: 'Professional snapshot' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Explore my work and connect' })
+		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Core engineering stack' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'Need engineering consulting?' })).toBeVisible();
+		await expect(page.locator('.cta-button-card__title')).toHaveCount(3);
+		for (const heading of await page.locator('.cta-button-card__title').all()) {
+			expect(await heading.evaluate(element => element.tagName)).toBe('H3');
+		}
+	});
+
 	test('hero exposes clear positioning and a mobile-only resume action', async ({ page }) => {
 		await page.goto('/');
 		await expect(
@@ -68,20 +87,24 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test('primary professional CTA destinations are available', async ({ page }) => {
+	test('keeps professional actions distinct from social destinations', async ({ page }) => {
 		await page.goto('/');
 
 		const professionalLinks = [
 			'.cta-buttons__link[href="https://sandovaldavid.com"]',
 			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]',
 			'.cta-buttons__link[href="#featured-projects-title"]',
-			'.cta-buttons__link[href="https://github.com/sandovaldavid"]',
 			'.cta-buttons__link[href^="mailto:"]',
+			'.social-button[href="https://github.com/sandovaldavid"]',
 		];
 
 		for (const selector of professionalLinks) {
 			await expect(page.locator(selector)).toHaveCount(1);
 		}
+		await expect(page.locator('.social-button[href="https://sandovaldavid.com"]')).toHaveCount(0);
+		await expect(page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')).toHaveCount(
+			0
+		);
 	});
 
 	test('share button is present', async ({ page }) => {
@@ -120,6 +143,21 @@ test.describe('Spanish version (/es/)', () => {
 			page.getByText('Ingeniero de Software · .NET, Angular y TypeScript')
 		).toBeVisible();
 		await expect(page.getByText('Disponible para roles remotos de ingeniería')).toBeVisible();
+	});
+
+	test('uses the localized heading hierarchy', async ({ page }) => {
+		await page.goto('/es/');
+		await expect(page.getByRole('heading', { level: 2, name: 'Resumen profesional' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Explora mi trabajo y conecta' })
+		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Stack principal de ingeniería' })
+		).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 3, name: '¿Necesitas consultoría de ingeniería?' })
+		).toBeVisible();
 	});
 
 	test('html lang attribute is es', async ({ page }) => {
