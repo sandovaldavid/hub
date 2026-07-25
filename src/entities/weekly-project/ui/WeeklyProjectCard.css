@@ -55,15 +55,15 @@
 }
 
 .weekly-project-card__evidence-item {
-	@apply rounded-xl border border-neutral-200/80 bg-white/55 px-3 py-2.5 dark:border-neutral-800 dark:bg-neutral-900/55;
+	@apply rounded-xl border border-neutral-200/55 bg-white/35 px-3 py-2.5 dark:border-neutral-800/75 dark:bg-neutral-900/35;
 }
 
 .weekly-project-card__evidence-item--contribution {
-	@apply border-primary-200/80 bg-primary-50/65 dark:border-primary-900 dark:bg-primary-950/35;
+	@apply border-primary-200/55 bg-primary-50/40 dark:border-primary-900/75 dark:bg-primary-950/20;
 }
 
 .weekly-project-card__evidence-item--outcome {
-	@apply border-success-200/80 bg-success-50/70 dark:border-success-900 dark:bg-success-900/20;
+	@apply border-success-200/55 bg-success-50/45 dark:border-success-900/75 dark:bg-success-900/15;
 }
 
 .weekly-project-card__evidence dt {
