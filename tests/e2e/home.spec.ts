@@ -36,13 +36,19 @@ test.describe('Home page', () => {
 		await expect(
 			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
 		).toHaveCount(1);
-		await expect(page.getByRole('heading', { level: 2, name: 'Professional snapshot' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Professional snapshot' })
+		).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Explore my work and connect' })
 		).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
-		await expect(page.getByRole('heading', { level: 2, name: 'Core engineering stack' })).toBeVisible();
-		await expect(page.getByRole('heading', { level: 3, name: 'Need engineering consulting?' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Core engineering stack' })
+		).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 3, name: 'Need engineering consulting?' })
+		).toBeVisible();
 		await expect(page.locator('.cta-button-card__title')).toHaveCount(3);
 		for (const heading of await page.locator('.cta-button-card__title').all()) {
 			expect(await heading.evaluate(element => element.tagName)).toBe('H3');
@@ -102,9 +108,9 @@ test.describe('Home page', () => {
 			await expect(page.locator(selector)).toHaveCount(1);
 		}
 		await expect(page.locator('.social-button[href="https://sandovaldavid.com"]')).toHaveCount(0);
-		await expect(page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')).toHaveCount(
-			0
-		);
+		await expect(
+			page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')
+		).toHaveCount(0);
 	});
 
 	test('share button is present', async ({ page }) => {
@@ -147,11 +153,15 @@ test.describe('Spanish version (/es/)', () => {
 
 	test('uses the localized heading hierarchy', async ({ page }) => {
 		await page.goto('/es/');
-		await expect(page.getByRole('heading', { level: 2, name: 'Resumen profesional' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Resumen profesional' })
+		).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Explora mi trabajo y conecta' })
 		).toBeVisible();
-		await expect(page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })
+		).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Stack principal de ingeniería' })
 		).toBeVisible();

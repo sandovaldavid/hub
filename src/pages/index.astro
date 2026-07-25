@@ -42,9 +42,7 @@ const heroMetadata = [
 ];
 ---
 
-<Layout
-	{...SEO}
-	{alternates}>
+<Layout {...SEO} {alternates}>
 	<main
 		id="main-content"
 		tabindex="-1"
@@ -111,7 +109,8 @@ const heroMetadata = [
 					class="m-0 text-2xl font-bold leading-tight text-neutral-900 md:text-3xl dark:text-neutral-50">
 					{t('cta.heading')}
 				</h2>
-				<p class="mx-auto mt-2 text-sm leading-relaxed text-neutral-600 md:text-base dark:text-neutral-300">
+				<p
+					class="mx-auto mt-2 text-sm leading-relaxed text-neutral-600 md:text-base dark:text-neutral-300">
 					{t('cta.description')}
 				</p>
 			</header>
@@ -120,10 +119,7 @@ const heroMetadata = [
 				<div
 					class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
 					data-layout-column="primary-actions">
-					<CTAButtons
-						buttons={localizedCtaButtons}
-						layout="vertical"
-					/>
+					<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
 				</div>
 				<section
 					class="bento-item bento-item--contact flex min-w-0"
@@ -140,24 +136,15 @@ const heroMetadata = [
 			</div>
 		</section>
 
-		<section
-			class="bento-item bento-item--weekly-project"
-			data-layout-section="projects">
-			<WeeklyProjectSection
-				{projects}
-				{lang}
-			/>
+		<section class="bento-item bento-item--weekly-project" data-layout-section="projects">
+			<WeeklyProjectSection {projects} {lang} />
 		</section>
 
 		<section
 			class="bento-item bento-item--skills"
 			data-layout-section="skills"
 			aria-labelledby="skills-heading">
-			<SkillsSection
-				{skills}
-				title={t('skills.title')}
-				variant="compact"
-			/>
+			<SkillsSection {skills} title={t('skills.title')} variant="compact" />
 		</section>
 	</main>
 </Layout>

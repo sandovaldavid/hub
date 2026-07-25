@@ -56,12 +56,16 @@ for (const route of routes) {
 				await expect(page.locator('#social-heading')).toBeVisible();
 				await expect(page.locator('#cta-heading')).toBeVisible();
 				await expect(page.locator('#skills-heading')).toBeVisible();
-				expect(await page.locator('#profile-snapshot-heading').evaluate(element => element.tagName)).toBe(
+				expect(
+					await page.locator('#profile-snapshot-heading').evaluate(element => element.tagName)
+				).toBe('H2');
+				expect(await page.locator('#cta-heading').evaluate(element => element.tagName)).toBe('H2');
+				expect(await page.locator('#contact-heading').evaluate(element => element.tagName)).toBe(
+					'H3'
+				);
+				expect(await page.locator('#skills-heading').evaluate(element => element.tagName)).toBe(
 					'H2'
 				);
-				expect(await page.locator('#cta-heading').evaluate(element => element.tagName)).toBe('H2');
-				expect(await page.locator('#contact-heading').evaluate(element => element.tagName)).toBe('H3');
-				expect(await page.locator('#skills-heading').evaluate(element => element.tagName)).toBe('H2');
 
 				const snapshotMetadata = page.locator('.profile-snapshot__metadata-item');
 				await expect(snapshotMetadata).toHaveCount(3);
@@ -115,13 +119,19 @@ for (const route of routes) {
 					}),
 					page
 						.locator('.cta-buttons--vertical .cta-button-card')
-						.evaluateAll(elements => elements.map(element => element.getBoundingClientRect().height)),
+						.evaluateAll(elements =>
+							elements.map(element => element.getBoundingClientRect().height)
+						),
 				]);
 				expect(actionRowCount).toBe(1);
 				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(176);
-				expect(Math.max(...actionCardHeights) - Math.min(...actionCardHeights)).toBeLessThanOrEqual(2);
+				expect(Math.max(...actionCardHeights) - Math.min(...actionCardHeights)).toBeLessThanOrEqual(
+					2
+				);
 				await expect(primaryCtaLinks).toHaveCount(3);
-				await expect(page.locator('.cta-buttons__link[data-conversion-item="github"]')).toHaveCount(0);
+				await expect(page.locator('.cta-buttons__link[data-conversion-item="github"]')).toHaveCount(
+					0
+				);
 
 				const resumeAction = page.locator(
 					'.hero-card__primary-action[data-conversion-item="resume"]'
