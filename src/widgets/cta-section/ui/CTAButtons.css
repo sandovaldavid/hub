@@ -9,7 +9,7 @@
 }
 
 .cta-button-card {
-	@apply flex h-full w-full cursor-pointer items-center gap-4 rounded-xl px-4 py-5 transition-all duration-300 ease-in-out md:px-5 md:py-5 lg:px-5 lg:py-5;
+	@apply flex h-full w-full cursor-pointer items-center gap-4 rounded-xl px-4 py-4 transition-all duration-300 ease-in-out md:px-5 md:py-5;
 	@apply border border-white/30 bg-white/70 shadow-md backdrop-blur-xl hover:scale-[1.02] dark:border-white/10 dark:bg-neutral-950/70 dark:shadow-lg;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .cta-button-card__description {
-	@apply m-0 text-sm leading-snug text-gray-700 md:text-base lg:text-base dark:text-gray-300;
+	@apply m-0 text-sm leading-snug text-gray-700 md:text-base dark:text-gray-300;
 }
 
 .cta-button-card__arrow {
@@ -71,4 +71,14 @@
 
 .cta-buttons--vertical .cta-buttons__link {
 	@apply flex-1;
+}
+
+@media (min-width: 1024px) {
+	.cta-buttons--vertical {
+		@apply grid grid-cols-2 auto-rows-fr gap-4;
+	}
+
+	.cta-buttons--vertical .cta-buttons__link {
+		@apply h-full;
+	}
 }
