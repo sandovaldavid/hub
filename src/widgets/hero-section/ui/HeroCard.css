@@ -33,16 +33,16 @@
 }
 
 .hero-card__availability {
-	@apply m-0 inline-flex w-fit items-center gap-2 rounded-full border border-success-300 bg-success-50 px-3 py-2;
+	@apply m-0 inline-flex max-w-full items-center gap-2 rounded-full border border-success-300 bg-success-50 px-3 py-2;
 }
 
 .hero-card__availability-indicator {
-	@apply block h-2 w-2 rounded-full bg-success-600;
+	@apply block h-2 w-2 flex-shrink-0 rounded-full bg-success-600;
 	animation: pulse-glow 2s ease-in-out infinite;
 }
 
 .hero-card__availability-text {
-	@apply text-xs font-semibold text-success-800 md:text-sm;
+	@apply min-w-0 text-xs font-semibold leading-snug text-success-800 md:text-sm;
 }
 
 .hero-card__metadata {
