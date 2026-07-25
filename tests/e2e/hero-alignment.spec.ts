@@ -70,6 +70,19 @@ for (const route of routes) {
 			expect(profileStyles.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
 			await expect(page.locator('.hero-card__username')).toHaveCount(0);
 			await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible();
+
+			const availability = page.locator(
+				'.hero-card__identity--compact .hero-card__availability'
+			);
+			const availabilityStyles = await availability.evaluate(element => {
+				const styles = getComputedStyle(element);
+				return {
+					justifyContent: styles.justifyContent,
+					textAlign: styles.textAlign,
+				};
+			});
+			expect(availabilityStyles.justifyContent).toBe('center');
+			expect(availabilityStyles.textAlign).toBe('center');
 		});
 	});
 }
