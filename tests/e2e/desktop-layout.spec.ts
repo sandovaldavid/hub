@@ -104,6 +104,7 @@ for (const route of routes) {
 					'.hero-card__primary-action[data-conversion-item="resume"]'
 				);
 				await expect(resumeAction).toHaveCount(1);
+				await expect(resumeAction).toBeHidden();
 				await expect(resumeAction).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 				await expect(page.locator('.cta-buttons__link[data-conversion-item="resume"]')).toHaveCount(
 					0
@@ -169,6 +170,7 @@ for (const route of routes) {
 			expect(socialBox).not.toBeNull();
 			expect(snapshotBox?.y ?? 0).toBeGreaterThan((profileBox?.y ?? 0) + (profileBox?.height ?? 0));
 			expect(socialBox?.y ?? 0).toBeGreaterThan((snapshotBox?.y ?? 0) + (snapshotBox?.height ?? 0));
+			await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible();
 
 			const metadataItems = page.locator('.profile-snapshot__metadata-item');
 			await expect(metadataItems).toHaveCount(3);
