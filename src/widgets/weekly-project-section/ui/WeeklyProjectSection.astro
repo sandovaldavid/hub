@@ -34,6 +34,10 @@ const copy =
 	</div>
 
 	<div class="weekly-project-section__content" data-project-count={projects.length}>
-		{projects.map(project => <WeeklyProjectCard {project} {lang} />)}
+		{
+			projects.map((project, index) => (
+				<WeeklyProjectCard {project} {lang} position={index + 1} />
+			))
+		}
 	</div>
 </section>
