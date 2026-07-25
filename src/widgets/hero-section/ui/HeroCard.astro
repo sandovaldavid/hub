@@ -3,7 +3,6 @@ import ProfileAvatar from '@entities/profile/ui/ProfileAvatar.astro';
 import type { HeroCardProps } from '../model/types';
 import './HeroCard.css';
 import { cn } from '@shared/lib';
-import CheckIcon from '@shared/assets/check.svg';
 
 type Props = HeroCardProps;
 
@@ -14,7 +13,7 @@ const isCompact = variant === 'compact';
 <div class={cn('hero-card__content', isCompact && 'hero-card__content--compact')}>
 	<div
 		class={cn(
-			'grid w-full grid-cols-1 items-center gap-3 md:gap-4 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-4',
+			'grid w-full grid-cols-1 items-center gap-3 md:gap-4 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-5',
 			isCompact && 'hero-card__identity--compact'
 		)}>
 		<div class="hero-card__header">
@@ -26,21 +25,8 @@ const isCompact = variant === 'compact';
 					src={profile.avatar.url}
 					alt={profile.avatar.alt}
 					brandLogoSrc={profile.logo.url}
-					size={isCompact ? 'xl' : '4xl'}
+					size={isCompact ? '3xl' : '4xl'}
 				/>
-				<span
-					class={cn(
-						'hero-card__username font-google flex w-fit items-center gap-2 rounded-full border border-primary-500/60 bg-gray-500/20 font-semibold italic text-primary-600 shadow-md transition-colors duration-200 hover:bg-gray-500/50 dark:hover:bg-gray-500/30',
-						isCompact
-							? 'px-2.5 py-1 text-xs md:px-3 md:py-1.5 md:text-sm'
-							: 'px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base'
-					)}>
-					@{profile.displayName}
-					<CheckIcon
-						class={cn('inline-block text-sky-500', isCompact ? 'size-4' : 'size-4 md:size-5')}
-						aria-hidden="true"
-					/>
-				</span>
 			</div>
 		</div>
 
@@ -50,7 +36,7 @@ const isCompact = variant === 'compact';
 				class={cn(
 					'font-display m-0 font-extrabold leading-tight text-gray-900 dark:text-gray-50',
 					isCompact
-						? 'text-2xl md:text-[1.75rem] lg:text-[1.875rem] xl:text-[2rem]'
+						? 'text-[1.625rem] sm:text-[1.75rem] lg:text-[2rem] xl:text-[2.125rem]'
 						: 'text-2xl md:text-3xl lg:text-[2.1rem] xl:text-[2.25rem] 2xl:text-[2.5rem]'
 				)}>
 				{profile.name}
@@ -69,7 +55,7 @@ const isCompact = variant === 'compact';
 						)}
 						{primaryAction && (
 							<a
-								class="hero-card__primary-action"
+								class="hero-card__primary-action hero-card__primary-action--mobile-only"
 								href={primaryAction.href}
 								target={primaryAction.external ? '_blank' : undefined}
 								rel={primaryAction.external ? 'noopener noreferrer' : undefined}
