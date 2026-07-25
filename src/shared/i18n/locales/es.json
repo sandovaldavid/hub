@@ -6,7 +6,8 @@
 		"location": "Lima, Perú · UTC-5",
 		"workMode": "Remoto · Europa y Latinoamérica",
 		"languages": "Inglés · Español",
-		"resumeAction": "Descargar CV"
+		"resumeAction": "Descargar CV",
+		"snapshotHeading": "Resumen profesional"
 	},
 	"nav": {
 		"skipToContent": "Saltar al contenido principal"
