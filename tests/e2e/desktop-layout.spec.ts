@@ -80,7 +80,7 @@ for (const route of routes) {
 			}
 		});
 
-		test('keeps the iPhone layout compact and readable', async ({ page }) => {
+		test('keeps the iPhone 12 Pro layout compact and readable', async ({ page }) => {
 			await page.emulateMedia({ reducedMotion: 'reduce' });
 			await page.setViewportSize({ width: 390, height: 844 });
 			await page.goto(route);
