@@ -65,11 +65,19 @@ for (const route of routes) {
 					});
 				expect(actionRowCount).toBe(2);
 
-				const projectRowCount = await page.locator('.weekly-project-card').evaluateAll(elements => {
+				const projectCards = page.locator('[data-project-card]');
+				await expect(projectCards).toHaveCount(3);
+				await expect(page.locator('[data-project-evidence]')).toHaveCount(9);
+				const projectRowCount = await projectCards.evaluateAll(elements => {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
 				});
 				expect(projectRowCount).toBe(viewport.width < 1280 ? 2 : 1);
+
+				const projectRadii = await projectCards.evaluateAll(elements =>
+					elements.map(element => Number.parseFloat(getComputedStyle(element).borderTopLeftRadius))
+				);
+				expect(projectRadii.every(radius => radius >= 16)).toBe(true);
 
 				const skillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
 					const rowPositions = elements.map(element =>
@@ -117,11 +125,28 @@ for (const route of routes) {
 				});
 			expect(mobileActionRows).toBe(4);
 
-			const mobileProjectRows = await page.locator('.weekly-project-card').evaluateAll(elements => {
+			const projectCards = page.locator('[data-project-card]');
+			await expect(projectCards).toHaveCount(3);
+			await expect(page.locator('[data-project-evidence]')).toHaveCount(9);
+			const projectIndexes = await page.locator('.weekly-project-card__index').allTextContents();
+			expect(projectIndexes.map(index => index.slice(-2))).toEqual(['01', '02', '03']);
+
+			const mobileProjectRows = await projectCards.evaluateAll(elements => {
 				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 				return new Set(rows).size;
 			});
 			expect(mobileProjectRows).toBe(3);
+
+			const projectActionRows = await projectCards.evaluateAll(cards =>
+				cards.map(card => {
+					const actions = Array.from(
+						card.querySelectorAll<HTMLElement>('.weekly-project-card__actions > *')
+					);
+					const rows = actions.map(action => Math.round(action.getBoundingClientRect().top));
+					return new Set(rows).size;
+				})
+			);
+			expect(projectActionRows).toEqual([1, 1, 1]);
 
 			const firstSkillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
 				const firstTop = Math.round(elements[0].getBoundingClientRect().top);
