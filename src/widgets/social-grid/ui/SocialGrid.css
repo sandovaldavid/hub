@@ -1,20 +1,19 @@
 @import '../../../app/styles/global.css';
 
 .social-grid-card {
-	@apply flex h-full w-full flex-col;
+	@apply flex w-full flex-col;
 }
 
 .social-grid {
-	@apply grid h-full w-full grid-cols-1 gap-3;
-	@apply md:grid-cols-2 md:auto-rows-fr;
+	@apply grid w-full grid-cols-1 gap-3 md:grid-cols-2;
 }
 
 .social-grid__item {
-	@apply h-full min-w-0;
+	@apply min-w-0;
 }
 
 .social-grid__item .social-button {
-	@apply h-full;
+	@apply min-h-16;
 }
 
 @media (min-width: 768px) {
