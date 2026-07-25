@@ -36,8 +36,8 @@ const localizedCtaButtons = getCtaButtons(lang).map(btn => ({
 
 const heroMetadata = [
 	{ label: 'Location', value: t('profile.location') },
-	{ label: 'Work mode', value: t('profile.workMode') },
 	{ label: 'Languages', value: t('profile.languages') },
+	{ label: 'Work mode', value: t('profile.workMode') },
 ];
 ---
 
@@ -45,16 +45,16 @@ const heroMetadata = [
 	<main
 		id="main-content"
 		tabindex="-1"
-		class="hub-container mx-auto flex w-full max-w-[90rem] flex-col gap-8 p-4 md:gap-10 md:px-6 md:py-8 lg:gap-12 lg:px-8 lg:py-12 xl:px-12 xl:py-14"
+		class="hub-container mx-auto flex w-full max-w-[96rem] flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
 		role="main"
 		aria-label={t('page.mainLabel')}>
 		<div
-			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-stretch md:gap-6 lg:grid-cols-8 lg:gap-6 xl:gap-8"
+			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-start md:gap-6 lg:grid-cols-9 lg:gap-7 xl:gap-8"
 			data-layout-section="hero"
 			role="region"
 			aria-label={t('hero.sectionsLabel')}>
 			<section
-				class="bento-item bento-item--hero flex h-full min-w-0 md:col-span-2 lg:col-span-4"
+				class="bento-item bento-item--hero min-w-0 md:col-span-2 lg:col-span-5"
 				data-layout-column="profile"
 				aria-labelledby="hero-heading">
 				<HeroCard
@@ -71,7 +71,7 @@ const heroMetadata = [
 			</section>
 
 			<section
-				class="bento-item bento-item--social h-full min-w-0 md:col-span-2 lg:col-span-4"
+				class="bento-item bento-item--social min-w-0 md:col-span-2 lg:col-span-4"
 				data-layout-column="social"
 				aria-labelledby="social-heading">
 				<h2 id="social-heading" class="sr-only">{t('social.heading')}</h2>
@@ -80,10 +80,10 @@ const heroMetadata = [
 		</div>
 
 		<section
-			class="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-stretch md:gap-6"
+			class="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-stretch md:gap-6 lg:grid-cols-3"
 			data-layout-section="actions">
 			<section
-				class="bento-item bento-item--cta flex min-w-0"
+				class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
 				data-layout-column="primary-actions"
 				aria-labelledby="cta-heading">
 				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
