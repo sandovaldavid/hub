@@ -6,7 +6,8 @@
 		"location": "Lima, Peru · UTC-5",
 		"workMode": "Remote · Europe & Latin America",
 		"languages": "English · Spanish",
-		"resumeAction": "Download resume"
+		"resumeAction": "Download resume",
+		"snapshotHeading": "Professional snapshot"
 	},
 	"nav": {
 		"skipToContent": "Skip to main content"
