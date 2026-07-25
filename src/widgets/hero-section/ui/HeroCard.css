@@ -13,15 +13,11 @@
 }
 
 .hero-card__header {
-	@apply flex flex-col items-center gap-3 lg:items-start;
+	@apply flex flex-col items-center lg:items-start;
 }
 
 .hero-card__avatar-wrapper {
-	@apply flex flex-col items-center justify-center gap-2;
-}
-
-.hero-card__username {
-	@apply cursor-pointer;
+	@apply flex items-center justify-center;
 }
 
 .hero-card__body {
@@ -29,7 +25,7 @@
 }
 
 .hero-card__identity--compact .hero-card__body {
-	@apply gap-1;
+	@apply gap-1.5;
 }
 
 .hero-card__tagline {
@@ -37,7 +33,7 @@
 }
 
 .hero-card__identity--compact .hero-card__tagline {
-	@apply text-sm leading-snug sm:text-base lg:text-lg;
+	@apply text-sm font-semibold leading-snug sm:text-base lg:text-base;
 }
 
 .hero-card__bio {
@@ -58,7 +54,7 @@
 }
 
 .hero-card__availability-text {
-	@apply min-w-0 text-xs font-semibold leading-snug text-success-800 md:text-sm;
+	@apply min-w-0 text-xs font-semibold leading-snug text-success-800;
 }
 
 .hero-card__identity-actions {
@@ -128,17 +124,13 @@
 	[data-layout-panel='social'].bento-item {
 		justify-content: center;
 	}
-}
 
-@media (min-width: 1024px) {
 	.hero-card__identity-actions {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		align-items: center;
+		width: auto;
 	}
 
-	.hero-card__identity--compact .hero-card__availability {
-		width: 100%;
+	.hero-card__primary-action--mobile-only {
+		display: none;
 	}
 }
 
