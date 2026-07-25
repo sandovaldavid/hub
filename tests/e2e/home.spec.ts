@@ -44,6 +44,7 @@ test.describe('Home page', () => {
 		await expect(resumeLink).toBeVisible();
 		await expect(resumeLink).toHaveAttribute('target', '_blank');
 		await expect(resumeLink).toHaveAttribute('rel', /noopener/);
+		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 	});
 
 	test('social links have href and security attributes', async ({ page }) => {
@@ -65,7 +66,8 @@ test.describe('Home page', () => {
 
 		const professionalLinks = [
 			'.cta-buttons__link[href="https://sandovaldavid.com"]',
-			'.cta-buttons__link[href$="david-sandoval-resume.pdf"]',
+			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]',
+			'.cta-buttons__link[href="#featured-projects-title"]',
 			'.cta-buttons__link[href="https://github.com/sandovaldavid"]',
 			'.cta-buttons__link[href^="mailto:"]',
 		];
@@ -124,6 +126,7 @@ test.describe('Spanish version (/es/)', () => {
 			'.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]'
 		);
 		await expect(resumeLink).toBeVisible();
+		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 	});
 
 	test('has hreflang alternate links', async ({ page }) => {
