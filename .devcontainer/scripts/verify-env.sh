@@ -38,10 +38,7 @@ if [[ "${installed_eza_version}" != "${expected_eza_version}" ]]; then
 	exit 1
 fi
 
-if [[ "$(getent passwd "$(id -un)" | cut -d: -f7)" != "/usr/bin/zsh" ]]; then
-	echo "[error] The DevContainer user does not use /usr/bin/zsh as its login shell" >&2
-	exit 1
-fi
+bash .devcontainer/scripts/verify-login-shell.sh
 
 bun x playwright install --list
 
