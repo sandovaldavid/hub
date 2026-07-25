@@ -74,7 +74,8 @@
 				"ms-playwright.playwright",
 				"dbaeumer.vscode-eslint",
 				"EditorConfig.EditorConfig",
-				"ms-playwright.playwright"
+				"ms-playwright.playwright",
+				"eamodio.gitlens"
 			],
 			"settings": {
 				"editor.formatOnSave": true,
