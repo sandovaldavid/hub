@@ -7,9 +7,6 @@ const desktopViewports = [
 	{ width: 1920, height: 1080 },
 ] as const;
 
-const getRowCount = async (locator: ReturnType<Parameters<typeof test>[0] extends never ? never : never>) =>
-	locator;
-
 for (const route of routes) {
 	test.describe(`responsive layout for ${route}`, () => {
 		test('keeps the desktop hierarchy balanced without horizontal overflow', async ({ page }) => {
@@ -99,7 +96,7 @@ for (const route of routes) {
 			const metadataBoxes = await metadataItems.evaluateAll(elements =>
 				elements.map(element => {
 					const box = element.getBoundingClientRect();
-					return { x: box.x, y: box.y, width: box.width };
+					return { y: box.y, width: box.width };
 				})
 			);
 			expect(Math.abs(metadataBoxes[0].y - metadataBoxes[1].y)).toBeLessThanOrEqual(2);
