@@ -121,17 +121,18 @@
 
 /* Compact variant used by the desktop hero grid. */
 .social-button--compact {
-	@apply min-h-16 px-4 py-3 md:px-5;
+	@apply min-h-14 gap-2.5 rounded-lg border px-3.5 py-2.5 md:px-4;
+	@apply hover:scale-[1.01];
 }
 
 .social-button--compact .social-button__icon {
-	@apply h-5 w-5 md:h-6 md:w-6;
+	@apply h-5 w-5;
 }
 
 .social-button--compact .social-button__label {
-	@apply text-sm md:text-base;
+	@apply text-sm;
 }
 
 .social-button--compact .social-button__username {
-	@apply block text-xs md:text-sm;
+	@apply block text-[0.6875rem] md:text-xs;
 }
