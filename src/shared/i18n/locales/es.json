@@ -23,10 +23,10 @@
 			"description": "Explora proyectos seleccionados, experiencia y casos de estudio de ingeniería.",
 			"label": "Ver portafolio"
 		},
-		"resume": {
-			"title": "Descargar CV",
-			"description": "Revisa mi experiencia actual, impacto y trayectoria técnica.",
-			"label": "Descargar CV"
+		"projects": {
+			"title": "Ver proyectos destacados",
+			"description": "Revisa casos de ingeniería seleccionados y sus resultados en esta página.",
+			"label": "Ver proyectos destacados"
 		},
 		"github": {
 			"title": "Ver GitHub",
