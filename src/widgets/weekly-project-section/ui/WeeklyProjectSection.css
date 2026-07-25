@@ -12,6 +12,10 @@
 	@apply text-2xl font-bold text-neutral-900 md:text-3xl dark:text-neutral-50;
 }
 
+.weekly-project-section__icon {
+	@apply text-primary-600 drop-shadow-sm dark:text-primary-300;
+}
+
 .weekly-project-section__subtitle {
 	@apply mx-auto mt-2 max-w-3xl text-sm leading-relaxed text-neutral-600 md:mt-3 md:text-base dark:text-neutral-300;
 }
