@@ -107,9 +107,15 @@
 	}
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
 	.hero-card__identity-actions {
-		@apply flex-row flex-wrap items-center;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+	}
+
+	.hero-card__identity--compact .hero-card__availability {
+		width: 100%;
 	}
 }
 
