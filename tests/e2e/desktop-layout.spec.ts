@@ -36,12 +36,14 @@ for (const route of routes) {
 				]);
 				expect(profilePanelBox).not.toBeNull();
 				expect(socialPanelBox).not.toBeNull();
-				expect(
-					Math.abs((profilePanelBox?.y ?? 0) - (socialPanelBox?.y ?? 0))
-				).toBeLessThanOrEqual(2);
-				expect(
-					Math.abs((profilePanelBox?.height ?? 0) - (socialPanelBox?.height ?? 0))
-				).toBeLessThanOrEqual(2);
+
+				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
+				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
+				expect(Math.abs(profileCenterY - socialCenterY)).toBeLessThanOrEqual(4);
+				expect(socialPanelBox?.height ?? 0).toBeLessThan(profilePanelBox?.height ?? 0);
+				expect((profilePanelBox?.height ?? 0) - (socialPanelBox?.height ?? 0)).toBeLessThanOrEqual(
+					128
+				);
 				await expect(page.locator('#social-heading')).toBeVisible();
 
 				const socialItems = page.locator('.social-grid__item');
@@ -49,15 +51,20 @@ for (const route of routes) {
 				await expect(page.locator('.social-grid__item--wide')).toHaveCount(1);
 				await expect(socialItems.last()).toHaveAttribute('data-social-wide', 'true');
 
-				const socialBoxes = await socialItems.evaluateAll(elements =>
-					elements.map(element => {
-						const box = element.getBoundingClientRect();
-						return { height: box.height, width: box.width };
-					})
-				);
+				const [socialGridBox, socialBoxes] = await Promise.all([
+					page.locator('.social-grid').boundingBox(),
+					socialItems.evaluateAll(elements =>
+						elements.map(element => {
+							const box = element.getBoundingClientRect();
+							return { height: box.height, width: box.width };
+						})
+					),
+				]);
+				expect(socialGridBox).not.toBeNull();
+				expect(socialGridBox?.height ?? 0).toBeLessThanOrEqual(200);
 				const socialHeights = socialBoxes.map(box => box.height);
 				expect(Math.max(...socialHeights) - Math.min(...socialHeights)).toBeLessThanOrEqual(2);
-				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(112);
+				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(64);
 				expect(socialBoxes.at(-1)?.width ?? 0).toBeGreaterThan(socialBoxes[0].width * 1.8);
 
 				const primaryActions = page.locator('[data-layout-column="primary-actions"]');
