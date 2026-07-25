@@ -1,11 +1,11 @@
 @import '../../../app/styles/global.css';
 
 .social-grid-card {
-	@apply flex w-full flex-col;
+	@apply flex w-full min-w-0 flex-col;
 }
 
 .social-grid {
-	@apply grid w-full grid-cols-1 gap-3 md:grid-cols-2;
+	@apply grid w-full min-w-0 grid-cols-1 gap-3 md:grid-cols-2;
 }
 
 .social-grid__item {
