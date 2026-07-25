@@ -30,21 +30,28 @@ test.describe('Home page', () => {
 		await expect(page.locator('[aria-labelledby="skills-heading"]')).toBeVisible();
 	});
 
-	test('hero exposes role, remote scope and resume action', async ({ page }) => {
+	test('hero exposes clear positioning and a mobile-only resume action', async ({ page }) => {
 		await page.goto('/');
 		await expect(
 			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
 		).toBeVisible();
-		await expect(page.getByText('Software Engineer building reliable web products')).toBeVisible();
+		await expect(page.getByText('Software Engineer · .NET, Angular & TypeScript')).toBeVisible();
+		await expect(page.getByText('Open to remote software engineering roles')).toBeVisible();
 		await expect(page.getByText('Remote · Europe & Latin America')).toBeVisible();
+		await expect(page.locator('.hero-card__username')).toHaveCount(0);
 
 		const resumeLink = page.locator(
 			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]'
 		);
-		await expect(resumeLink).toBeVisible();
+		await expect(resumeLink).toBeAttached();
+		await expect(resumeLink).toBeHidden();
 		await expect(resumeLink).toHaveAttribute('target', '_blank');
 		await expect(resumeLink).toHaveAttribute('rel', /noopener/);
 		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+
+		await page.setViewportSize({ width: 390, height: 844 });
+		await page.goto('/');
+		await expect(resumeLink).toBeVisible();
 	});
 
 	test('social links have href and security attributes', async ({ page }) => {
@@ -109,9 +116,8 @@ test.describe('Spanish version (/es/)', () => {
 	test('loads the Spanish professional page', async ({ page }) => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
-		await expect(
-			page.getByText('Ingeniero de Software que construye productos web confiables')
-		).toBeVisible();
+		await expect(page.getByText('Ingeniero de Software · .NET, Angular y TypeScript')).toBeVisible();
+		await expect(page.getByText('Disponible para roles remotos de ingeniería')).toBeVisible();
 	});
 
 	test('html lang attribute is es', async ({ page }) => {
@@ -120,13 +126,18 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(htmlEl).toHaveAttribute('lang', 'es');
 	});
 
-	test('has localized resume action', async ({ page }) => {
+	test('has a localized mobile-only resume action', async ({ page }) => {
 		await page.goto('/es/');
 		const resumeLink = page.locator(
 			'.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]'
 		);
-		await expect(resumeLink).toBeVisible();
+		await expect(resumeLink).toBeAttached();
+		await expect(resumeLink).toBeHidden();
 		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+
+		await page.setViewportSize({ width: 390, height: 844 });
+		await page.goto('/es/');
+		await expect(resumeLink).toBeVisible();
 	});
 
 	test('has hreflang alternate links', async ({ page }) => {
