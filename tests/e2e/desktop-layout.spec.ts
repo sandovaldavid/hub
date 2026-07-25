@@ -41,6 +41,7 @@ for (const route of routes) {
 				);
 				const socialHeights = socialBoxes.map(box => box.height);
 				expect(Math.max(...socialHeights) - Math.min(...socialHeights)).toBeLessThanOrEqual(2);
+				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(96);
 				expect(socialBoxes.at(-1)?.width ?? 0).toBeGreaterThan(socialBoxes[0].width * 1.8);
 
 				const primaryActions = page.locator('[data-layout-column="primary-actions"]');
