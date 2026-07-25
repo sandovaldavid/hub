@@ -25,42 +25,41 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 	padding="none"
 	class={cn(
 		'contact-cta relative flex h-full w-full overflow-hidden',
-		'bg-white/80 backdrop-blur-lg',
-		'border-2 border-primary-100',
-		'rounded-2xl shadow-lg',
-		'dark:bg-neutral-900/30 dark:border-primary-700'
+		'bg-white/70 backdrop-blur-lg',
+		'border border-primary-200/80',
+		'rounded-2xl shadow-md',
+		'dark:bg-neutral-900/25 dark:border-primary-800/70'
 	)}>
 	<div
 		class={cn(
-			'flex h-full min-w-0 flex-1 flex-col items-center justify-center gap-4 px-5 py-6 text-center',
+			'flex h-full min-w-0 flex-1 flex-col items-center justify-center gap-3 px-5 py-5 text-center',
 			'sm:px-8 md:px-6 lg:px-7'
 		)}>
 		<div
 			class={cn(
-				'flex items-center justify-center rounded-full',
-				'h-11 w-11 bg-primary-100 shadow-md md:h-12 md:w-12',
-				'dark:bg-primary-950'
+				'flex size-10 items-center justify-center rounded-full bg-primary-100/80 shadow-sm',
+				'dark:bg-primary-950/80'
 			)}
 			aria-hidden="true">
 			<span
-				class="inline-block h-7 w-7 text-primary-600 md:h-8 md:w-8 dark:text-primary-300"
+				class="inline-block size-6 text-primary-600 dark:text-primary-300"
 				set:html={ChatIcon}
 			/>
 		</div>
 		<div class="flex min-w-0 max-w-xl flex-col gap-2">
-			<h2
+			<h3
 				id="contact-heading"
 				class={cn(
-					'm-0 break-words text-lg font-bold leading-tight md:text-xl',
+					'm-0 break-words text-base font-bold leading-tight md:text-lg',
 					'text-neutral-900 dark:text-neutral-100'
 				)}>
 				{title}
-			</h2>
+			</h3>
 			{
 				message && (
 					<p
 						class={cn(
-							'm-0 break-words text-sm leading-relaxed md:text-base',
+							'm-0 break-words text-sm leading-relaxed',
 							'text-neutral-700 dark:text-neutral-300'
 						)}>
 						{message}
