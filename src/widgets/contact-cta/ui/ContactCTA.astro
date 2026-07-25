@@ -24,7 +24,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 	variant={variant === 'prominent' ? 'gradient' : 'default'}
 	padding="none"
 	class={cn(
-		'contact-cta h-full w-full relative overflow-hidden flex',
+		'contact-cta relative flex h-full w-full overflow-hidden',
 		'bg-white/80 backdrop-blur-lg',
 		'border-2 border-primary-100',
 		'rounded-2xl shadow-lg',
@@ -32,18 +32,18 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 	)}>
 	<div
 		class={cn(
-			'flex h-full flex-1 flex-col items-center justify-center gap-5 px-6 py-8 text-center min-w-0',
-			'sm:px-10 md:px-8 lg:px-10'
+			'flex h-full min-w-0 flex-1 flex-col items-center justify-center gap-4 px-5 py-6 text-center',
+			'sm:px-8 md:px-6 lg:px-7'
 		)}>
 		<div
 			class={cn(
 				'flex items-center justify-center rounded-full',
-				'bg-primary-100 w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 shadow-md',
+				'h-11 w-11 bg-primary-100 shadow-md md:h-12 md:w-12',
 				'dark:bg-primary-950'
 			)}
 			aria-hidden="true">
 			<span
-				class="inline-block h-8 w-8 text-primary-600 md:h-9 md:w-9 lg:h-10 lg:w-10 dark:text-primary-300"
+				class="inline-block h-7 w-7 text-primary-600 md:h-8 md:w-8 dark:text-primary-300"
 				set:html={ChatIcon}
 			/>
 		</div>
@@ -51,7 +51,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 			<h2
 				id="contact-heading"
 				class={cn(
-					'mb-1 text-lg font-bold leading-tight md:text-xl lg:text-2xl',
+					'm-0 text-lg font-bold leading-tight md:text-xl',
 					'text-neutral-900 dark:text-neutral-100'
 				)}>
 				{title}
@@ -60,7 +60,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				message && (
 					<p
 						class={cn(
-							'text-sm leading-snug md:text-base lg:text-base',
+							'm-0 text-sm leading-relaxed md:text-base',
 							'text-neutral-700 dark:text-neutral-300'
 						)}>
 						{message}
@@ -80,7 +80,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 				size="lg"
 				class="flex w-full cursor-pointer items-center justify-center gap-2 font-semibold">
 				<span>{buttonText}</span>
-				<SentIcon class="h-6 w-6" aria-hidden="true" />
+				<SentIcon class="h-5 w-5" aria-hidden="true" />
 			</Button>
 		</a>
 	</div>
