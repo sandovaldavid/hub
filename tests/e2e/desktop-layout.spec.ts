@@ -99,8 +99,13 @@ for (const route of routes) {
 				});
 				expect(actionRowCount).toBe(2);
 				await expect(primaryCtaLinks).toHaveCount(4);
-				await expect(page.locator('.hero-card__primary-action')).toHaveCount(1);
-				await expect(page.locator('[data-conversion-item="resume"]')).toHaveCount(0);
+
+				const resumeAction = page.locator(
+					'.hero-card__primary-action[data-conversion-item="resume"]'
+				);
+				await expect(resumeAction).toHaveCount(1);
+				await expect(resumeAction).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+				await expect(page.locator('.cta-buttons__link[data-conversion-item="resume"]')).toHaveCount(0);
 				await expect(page.locator('[data-conversion-item="projects"]')).toHaveAttribute(
 					'href',
 					'#featured-projects-title'
