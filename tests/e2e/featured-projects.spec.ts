@@ -10,7 +10,7 @@ for (const route of [
 		kiokuTitle: 'Kioku · Persistent memory for AI agents',
 		yukidokeTitle: 'Yukidoke · Financial health platform',
 		linktreeTitle: 'Professional engineering hub',
-		privateRepository: 'Private repository',
+		privateRepository: 'Private repo',
 	},
 	{
 		path: '/es/',
@@ -21,7 +21,7 @@ for (const route of [
 		kiokuTitle: 'Kioku · Memoria persistente para agentes de IA',
 		yukidokeTitle: 'Yukidoke · Plataforma de salud financiera',
 		linktreeTitle: 'Hub profesional de ingeniería',
-		privateRepository: 'Repositorio privado',
+		privateRepository: 'Repo privado',
 	},
 ]) {
 	test.describe(`featured projects for ${route.path}`, () => {
@@ -30,7 +30,9 @@ for (const route of [
 		});
 
 		test('shows no more than three evidence-based projects', async ({ page }) => {
-			await expect(page.getByRole('heading', { name: route.heading })).toBeVisible();
+			const sectionHeading = page.locator('#featured-projects-title');
+			await expect(sectionHeading).toBeVisible();
+			await expect(sectionHeading).toHaveText(route.heading);
 
 			const cards = page.locator('.weekly-project-card');
 			await expect(cards).toHaveCount(3);
