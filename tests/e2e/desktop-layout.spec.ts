@@ -46,7 +46,7 @@ for (const route of routes) {
 				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
 				expect(Math.abs(profileCenterY - socialCenterY)).toBeLessThanOrEqual(4);
 				expect(socialPanelBox?.height ?? 0).toBeLessThan(profilePanelBox?.height ?? 0);
-				expect((snapshotPanelBox?.y ?? 0)).toBeGreaterThan(
+				expect(snapshotPanelBox?.y ?? 0).toBeGreaterThan(
 					Math.max(
 						(profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0),
 						(socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0)
@@ -175,9 +175,9 @@ for (const route of routes) {
 			expect(metadataBoxes[2].y).toBeGreaterThan(metadataBoxes[0].y);
 			expect(metadataBoxes[2].width).toBeGreaterThan(metadataBoxes[0].width * 1.8);
 
-			const socialWidths = await page.locator('.social-grid__item').evaluateAll(elements =>
-				elements.map(element => element.getBoundingClientRect().width)
-			);
+			const socialWidths = await page
+				.locator('.social-grid__item')
+				.evaluateAll(elements => elements.map(element => element.getBoundingClientRect().width));
 			expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
 
 			const mobileActionRows = await page

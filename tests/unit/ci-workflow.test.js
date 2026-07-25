@@ -103,8 +103,8 @@ describe('CI workflow contract', () => {
 		expect(ctaSource).toContain("id: 'projects'");
 		expect(ctaSource).toContain("href: '#featured-projects-title'");
 		expect(ctaComponent).toContain("projects: 'featured_projects_viewed'");
-		expect(responsiveLayoutTest).toContain("[data-conversion-item=\"resume\"]");
-		expect(responsiveLayoutTest).toContain("[data-conversion-item=\"projects\"]");
+		expect(responsiveLayoutTest).toContain('[data-conversion-item="resume"]');
+		expect(responsiveLayoutTest).toContain('[data-conversion-item="projects"]');
 	});
 
 	test('gives the featured-project icon an explicit theme-aware color', () => {
