@@ -54,16 +54,23 @@ for (const route of routes) {
 				);
 				await expect(page.locator('#profile-snapshot-heading')).toBeVisible();
 				await expect(page.locator('#social-heading')).toBeVisible();
+				await expect(page.locator('#cta-heading')).toBeVisible();
+				await expect(page.locator('#skills-heading')).toBeVisible();
+				expect(await page.locator('#profile-snapshot-heading').evaluate(element => element.tagName)).toBe(
+					'H2'
+				);
+				expect(await page.locator('#cta-heading').evaluate(element => element.tagName)).toBe('H2');
+				expect(await page.locator('#contact-heading').evaluate(element => element.tagName)).toBe('H3');
+				expect(await page.locator('#skills-heading').evaluate(element => element.tagName)).toBe('H2');
 
 				const snapshotMetadata = page.locator('.profile-snapshot__metadata-item');
 				await expect(snapshotMetadata).toHaveCount(3);
 
 				const socialItems = page.locator('.social-grid__item');
-				await expect(socialItems).toHaveCount(5);
-				await expect(page.locator('.social-grid__item--wide')).toHaveCount(1);
-				await expect(socialItems.last()).toHaveAttribute('data-social-wide', 'true');
+				await expect(socialItems).toHaveCount(4);
+				await expect(page.locator('.social-grid__item--wide')).toHaveCount(0);
 
-				const [socialGridBox, socialBoxes] = await Promise.all([
+				const [socialGridBox, socialBoxes, socialRowCount] = await Promise.all([
 					page.locator('.social-grid').boundingBox(),
 					socialItems.evaluateAll(elements =>
 						elements.map(element => {
@@ -71,13 +78,19 @@ for (const route of routes) {
 							return { height: box.height, width: box.width };
 						})
 					),
+					socialItems.evaluateAll(elements => {
+						const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+						return new Set(rows).size;
+					}),
 				]);
 				expect(socialGridBox).not.toBeNull();
-				expect(socialGridBox?.height ?? 0).toBeLessThanOrEqual(200);
+				expect(socialGridBox?.height ?? 0).toBeLessThanOrEqual(160);
+				expect(socialRowCount).toBe(2);
 				const socialHeights = socialBoxes.map(box => box.height);
+				const socialWidths = socialBoxes.map(box => box.width);
 				expect(Math.max(...socialHeights) - Math.min(...socialHeights)).toBeLessThanOrEqual(2);
+				expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
 				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(64);
-				expect(socialBoxes.at(-1)?.width ?? 0).toBeGreaterThan(socialBoxes[0].width * 1.8);
 
 				const primaryActions = page.locator('[data-layout-column="primary-actions"]');
 				const contact = page.locator('[data-layout-column="contact"]');
@@ -97,8 +110,9 @@ for (const route of routes) {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
 				});
-				expect(actionRowCount).toBe(2);
-				await expect(primaryCtaLinks).toHaveCount(4);
+				expect(actionRowCount).toBe(1);
+				await expect(primaryCtaLinks).toHaveCount(3);
+				await expect(page.locator('.cta-buttons__link[data-conversion-item="github"]')).toHaveCount(0);
 
 				const resumeAction = page.locator(
 					'.hero-card__primary-action[data-conversion-item="resume"]'
@@ -184,10 +198,19 @@ for (const route of routes) {
 			expect(metadataBoxes[2].y).toBeGreaterThan(metadataBoxes[0].y);
 			expect(metadataBoxes[2].width).toBeGreaterThan(metadataBoxes[0].width * 1.8);
 
-			const socialWidths = await page
-				.locator('.social-grid__item')
-				.evaluateAll(elements => elements.map(element => element.getBoundingClientRect().width));
+			const mobileSocialItems = page.locator('.social-grid__item');
+			await expect(mobileSocialItems).toHaveCount(4);
+			const [socialWidths, mobileSocialRows] = await Promise.all([
+				mobileSocialItems.evaluateAll(elements =>
+					elements.map(element => element.getBoundingClientRect().width)
+				),
+				mobileSocialItems.evaluateAll(elements => {
+					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+					return new Set(rows).size;
+				}),
+			]);
 			expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
+			expect(mobileSocialRows).toBe(2);
 
 			const mobileActionRows = await page
 				.locator('.cta-buttons--vertical .cta-buttons__link')
@@ -195,7 +218,7 @@ for (const route of routes) {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
 				});
-			expect(mobileActionRows).toBe(4);
+			expect(mobileActionRows).toBe(3);
 
 			const projectCards = page.locator('[data-project-card]');
 			await expect(projectCards).toHaveCount(3);
