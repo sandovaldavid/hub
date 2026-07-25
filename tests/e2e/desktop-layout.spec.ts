@@ -40,12 +40,12 @@ for (const route of routes) {
 				expect(socialPanelBox).not.toBeNull();
 				expect(snapshotPanelBox).not.toBeNull();
 				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(260);
+				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(240);
 				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(170);
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
 				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
 				expect(Math.abs(profileCenterY - socialCenterY)).toBeLessThanOrEqual(4);
-				expect(socialPanelBox?.height ?? 0).toBeLessThan(profilePanelBox?.height ?? 0);
 				expect(snapshotPanelBox?.y ?? 0).toBeGreaterThan(
 					Math.max(
 						(profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0),
