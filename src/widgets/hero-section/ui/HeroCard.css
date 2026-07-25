@@ -9,7 +9,7 @@
 }
 
 .hero-card__content--compact {
-	@apply gap-0;
+	@apply gap-0 md:justify-center;
 }
 
 .hero-card__header {
@@ -97,6 +97,13 @@
 	@apply mt-2 opacity-60 md:ml-auto md:mt-0;
 }
 
+@media (max-width: 767px) {
+	[data-layout-panel='profile'].bento-item {
+		width: 100%;
+		@apply rounded-2xl border border-white/80 bg-white/45 p-4 shadow-lg backdrop-blur-xl dark:border-primary-900/50 dark:bg-neutral-950/40;
+	}
+}
+
 @media (min-width: 640px) {
 	.hero-card__metadata {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -104,6 +111,22 @@
 
 	.hero-card__metadata-item:last-child {
 		grid-column: auto;
+	}
+}
+
+@media (min-width: 768px) {
+	[data-layout-section='hero'].bento-grid {
+		align-items: stretch;
+	}
+
+	[data-layout-panel='profile'].bento-item,
+	[data-layout-panel='social'].bento-item {
+		align-self: stretch;
+		height: 100%;
+	}
+
+	[data-layout-panel='social'].bento-item {
+		justify-content: center;
 	}
 }
 
