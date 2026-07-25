@@ -5,15 +5,15 @@
 }
 
 .weekly-project-card__content {
-	@apply flex h-full flex-col gap-5 p-5 md:p-6;
+	@apply flex h-full flex-col gap-4 p-4 sm:p-5 md:p-6;
 }
 
 .weekly-project-card__heading {
-	@apply flex flex-col gap-3;
+	@apply flex flex-col gap-2;
 }
 
 .weekly-project-card__title {
-	@apply m-0 text-xl font-bold text-neutral-900 dark:text-neutral-50;
+	@apply m-0 text-lg font-bold leading-snug text-neutral-900 md:text-xl dark:text-neutral-50;
 }
 
 .weekly-project-card__status {
@@ -21,7 +21,7 @@
 }
 
 .weekly-project-card__evidence {
-	@apply flex flex-col gap-4;
+	@apply flex flex-col gap-3;
 }
 
 .weekly-project-card__evidence div {
@@ -29,7 +29,7 @@
 }
 
 .weekly-project-card__evidence dt {
-	@apply text-sm font-bold text-neutral-900 dark:text-neutral-100;
+	@apply text-xs font-bold uppercase tracking-wide text-neutral-900 sm:text-sm sm:normal-case sm:tracking-normal dark:text-neutral-100;
 }
 
 .weekly-project-card__evidence dd {
@@ -49,7 +49,7 @@
 }
 
 .weekly-project-card__button {
-	@apply inline-flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold no-underline transition-colors duration-200 focus-visible:outline-primary-500;
+	@apply inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold no-underline transition-colors duration-200 focus-visible:outline-primary-500;
 }
 
 .weekly-project-card__button--primary {
@@ -65,5 +65,5 @@
 }
 
 .weekly-project-card__availability {
-	@apply flex flex-1 items-center justify-center rounded-md border border-dashed border-neutral-300 px-3 py-2 text-center text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-400;
+	@apply flex min-h-10 flex-1 items-center justify-center rounded-md border border-dashed border-neutral-300 px-3 py-2 text-center text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-400;
 }
