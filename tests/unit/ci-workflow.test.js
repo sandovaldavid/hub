@@ -7,6 +7,10 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const workflow = await readFile(join(repositoryRoot, '.github/workflows/ci.yml'), 'utf8');
 const lighthouseConfig = await readFile(join(repositoryRoot, '.lighthouserc.cjs'), 'utf8');
 const playwrightConfig = await readFile(join(repositoryRoot, 'playwright.config.ts'), 'utf8');
+const responsiveLayoutTest = await readFile(
+	join(repositoryRoot, 'tests/e2e/desktop-layout.spec.ts'),
+	'utf8'
+);
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
 
 describe('CI workflow contract', () => {
@@ -69,6 +73,15 @@ describe('CI workflow contract', () => {
 			"command: process.env.CI ? 'bun run preview' : 'bun run dev'"
 		);
 		expect(packageJson.scripts['validate:local']).toContain('CI=1 bun run test:e2e');
+	});
+
+	test('covers the production layout across desktop and iPhone viewports', () => {
+		expect(responsiveLayoutTest).toContain('{ width: 390, height: 844 }');
+		expect(responsiveLayoutTest).toContain('{ width: 1024, height: 768 }');
+		expect(responsiveLayoutTest).toContain('{ width: 1280, height: 720 }');
+		expect(responsiveLayoutTest).toContain('{ width: 1920, height: 1080 }');
+		expect(responsiveLayoutTest).toContain('expect(actionRowCount).toBe(2)');
+		expect(responsiveLayoutTest).toContain('expect(firstSkillRowCount).toBe(4)');
 	});
 
 	test('aligns the Lighthouse engine and Node runtime with Chromium 149', () => {
