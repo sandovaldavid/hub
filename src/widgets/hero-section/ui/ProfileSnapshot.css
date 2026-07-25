@@ -11,7 +11,7 @@
 }
 
 .profile-snapshot__heading {
-	@apply m-0 text-xs font-semibold uppercase tracking-[0.12em] text-primary-700 dark:text-primary-300;
+	@apply m-0 text-base md:text-xl font-semibold uppercase tracking-[0.12em] text-primary-700 dark:text-primary-300;
 }
 
 .profile-snapshot__bio {
