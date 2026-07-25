@@ -30,21 +30,33 @@ for (const route of routes) {
 
 				const profilePanel = page.locator('[data-layout-panel="profile"]');
 				const socialPanel = page.locator('[data-layout-panel="social"]');
-				const [profilePanelBox, socialPanelBox] = await Promise.all([
+				const snapshotPanel = page.locator('[data-layout-panel="profile-snapshot"]');
+				const [profilePanelBox, socialPanelBox, snapshotPanelBox] = await Promise.all([
 					profilePanel.boundingBox(),
 					socialPanel.boundingBox(),
+					snapshotPanel.boundingBox(),
 				]);
 				expect(profilePanelBox).not.toBeNull();
 				expect(socialPanelBox).not.toBeNull();
+				expect(snapshotPanelBox).not.toBeNull();
+				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(260);
+				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(170);
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
 				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
 				expect(Math.abs(profileCenterY - socialCenterY)).toBeLessThanOrEqual(4);
 				expect(socialPanelBox?.height ?? 0).toBeLessThan(profilePanelBox?.height ?? 0);
-				expect((profilePanelBox?.height ?? 0) - (socialPanelBox?.height ?? 0)).toBeLessThanOrEqual(
-					128
+				expect((snapshotPanelBox?.y ?? 0)).toBeGreaterThan(
+					Math.max(
+						(profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0),
+						(socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0)
+					)
 				);
+				await expect(page.locator('#profile-snapshot-heading')).toBeVisible();
 				await expect(page.locator('#social-heading')).toBeVisible();
+
+				const snapshotMetadata = page.locator('.profile-snapshot__metadata-item');
+				await expect(snapshotMetadata).toHaveCount(3);
 
 				const socialItems = page.locator('.social-grid__item');
 				await expect(socialItems).toHaveCount(5);
@@ -137,7 +149,21 @@ for (const route of routes) {
 			}));
 			expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth);
 
-			const metadataItems = page.locator('.hero-card__metadata-item');
+			const profilePanel = page.locator('[data-layout-panel="profile"]');
+			const snapshotPanel = page.locator('[data-layout-panel="profile-snapshot"]');
+			const socialPanel = page.locator('[data-layout-panel="social"]');
+			const [profileBox, snapshotBox, socialBox] = await Promise.all([
+				profilePanel.boundingBox(),
+				snapshotPanel.boundingBox(),
+				socialPanel.boundingBox(),
+			]);
+			expect(profileBox).not.toBeNull();
+			expect(snapshotBox).not.toBeNull();
+			expect(socialBox).not.toBeNull();
+			expect(snapshotBox?.y ?? 0).toBeGreaterThan((profileBox?.y ?? 0) + (profileBox?.height ?? 0));
+			expect(socialBox?.y ?? 0).toBeGreaterThan((snapshotBox?.y ?? 0) + (snapshotBox?.height ?? 0));
+
+			const metadataItems = page.locator('.profile-snapshot__metadata-item');
 			await expect(metadataItems).toHaveCount(3);
 			const metadataBoxes = await metadataItems.evaluateAll(elements =>
 				elements.map(element => {
