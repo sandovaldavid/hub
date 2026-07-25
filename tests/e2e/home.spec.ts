@@ -116,7 +116,9 @@ test.describe('Spanish version (/es/)', () => {
 	test('loads the Spanish professional page', async ({ page }) => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
-		await expect(page.getByText('Ingeniero de Software · .NET, Angular y TypeScript')).toBeVisible();
+		await expect(
+			page.getByText('Ingeniero de Software · .NET, Angular y TypeScript')
+		).toBeVisible();
 		await expect(page.getByText('Disponible para roles remotos de ingeniería')).toBeVisible();
 	});
 

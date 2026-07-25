@@ -19,9 +19,7 @@ for (const route of routes) {
 			expect(profileBox).not.toBeNull();
 			expect(socialBox).not.toBeNull();
 			expect(Math.abs((profileBox?.y ?? 0) - (socialBox?.y ?? 0))).toBeLessThanOrEqual(2);
-			expect(Math.abs((profileBox?.height ?? 0) - (socialBox?.height ?? 0))).toBeLessThanOrEqual(
-				2
-			);
+			expect(Math.abs((profileBox?.height ?? 0) - (socialBox?.height ?? 0))).toBeLessThanOrEqual(2);
 			expect(profileBox?.height ?? 0).toBeLessThanOrEqual(240);
 
 			const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
@@ -54,9 +52,7 @@ for (const route of routes) {
 			expect(socialBox).not.toBeNull();
 			expect(Math.abs((profileBox?.x ?? 0) - (snapshotBox?.x ?? 0))).toBeLessThanOrEqual(2);
 			expect(Math.abs((profileBox?.x ?? 0) - (socialBox?.x ?? 0))).toBeLessThanOrEqual(2);
-			expect(Math.abs((profileBox?.width ?? 0) - (snapshotBox?.width ?? 0))).toBeLessThanOrEqual(
-				2
-			);
+			expect(Math.abs((profileBox?.width ?? 0) - (snapshotBox?.width ?? 0))).toBeLessThanOrEqual(2);
 			expect(Math.abs((profileBox?.width ?? 0) - (socialBox?.width ?? 0))).toBeLessThanOrEqual(2);
 
 			const profileStyles = await profilePanel.evaluate(element => {
@@ -71,9 +67,7 @@ for (const route of routes) {
 			await expect(page.locator('.hero-card__username')).toHaveCount(0);
 			await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible();
 
-			const availability = page.locator(
-				'.hero-card__identity--compact .hero-card__availability'
-			);
+			const availability = page.locator('.hero-card__identity--compact .hero-card__availability');
 			const availabilityStyles = await availability.evaluate(element => {
 				const styles = getComputedStyle(element);
 				return {
