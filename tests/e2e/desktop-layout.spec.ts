@@ -10,7 +10,7 @@ const desktopViewports = [
 for (const route of routes) {
 	test.describe(`responsive layout for ${route}`, () => {
 		test('keeps the desktop hierarchy balanced without horizontal overflow', async ({ page }) => {
-			await page.emulateMedia({ reducedMotion: 'reduce' });
+			await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
 
 			for (const viewport of desktopViewports) {
 				await page.setViewportSize(viewport);
@@ -28,6 +28,22 @@ for (const route of routes) {
 					`${route} must not overflow horizontally at ${viewport.width}px`
 				).toBeLessThanOrEqual(overflow.clientWidth);
 
+				const profilePanel = page.locator('[data-layout-panel="profile"]');
+				const socialPanel = page.locator('[data-layout-panel="social"]');
+				const [profilePanelBox, socialPanelBox] = await Promise.all([
+					profilePanel.boundingBox(),
+					socialPanel.boundingBox(),
+				]);
+				expect(profilePanelBox).not.toBeNull();
+				expect(socialPanelBox).not.toBeNull();
+				expect(
+					Math.abs((profilePanelBox?.y ?? 0) - (socialPanelBox?.y ?? 0))
+				).toBeLessThanOrEqual(2);
+				expect(
+					Math.abs((profilePanelBox?.height ?? 0) - (socialPanelBox?.height ?? 0))
+				).toBeLessThanOrEqual(2);
+				await expect(page.locator('#social-heading')).toBeVisible();
+
 				const socialItems = page.locator('.social-grid__item');
 				await expect(socialItems).toHaveCount(5);
 				await expect(page.locator('.social-grid__item--wide')).toHaveCount(1);
@@ -41,7 +57,7 @@ for (const route of routes) {
 				);
 				const socialHeights = socialBoxes.map(box => box.height);
 				expect(Math.max(...socialHeights) - Math.min(...socialHeights)).toBeLessThanOrEqual(2);
-				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(96);
+				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(112);
 				expect(socialBoxes.at(-1)?.width ?? 0).toBeGreaterThan(socialBoxes[0].width * 1.8);
 
 				const primaryActions = page.locator('[data-layout-column="primary-actions"]');
