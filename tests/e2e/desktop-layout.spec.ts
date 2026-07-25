@@ -73,13 +73,27 @@ for (const route of routes) {
 					2
 				);
 
-				const actionRowCount = await page
-					.locator('.cta-buttons--vertical .cta-buttons__link')
-					.evaluateAll(elements => {
-						const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
-						return new Set(rows).size;
-					});
+				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
+				const actionRowCount = await primaryCtaLinks.evaluateAll(elements => {
+					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+					return new Set(rows).size;
+				});
 				expect(actionRowCount).toBe(2);
+				await expect(primaryCtaLinks).toHaveCount(4);
+				await expect(page.locator('.hero-card__primary-action')).toHaveCount(1);
+				await expect(page.locator('[data-conversion-item="resume"]')).toHaveCount(0);
+				await expect(page.locator('[data-conversion-item="projects"]')).toHaveAttribute(
+					'href',
+					'#featured-projects-title'
+				);
+
+				const projectsIcon = page.locator('.weekly-project-section__icon');
+				await expect(projectsIcon).toBeVisible();
+				const projectsIconColor = await projectsIcon.evaluate(
+					element => getComputedStyle(element).color
+				);
+				expect(projectsIconColor).not.toBe('rgb(255, 255, 255)');
+				expect(projectsIconColor).not.toBe('rgba(0, 0, 0, 0)');
 
 				const projectCards = page.locator('[data-project-card]');
 				await expect(projectCards).toHaveCount(3);
