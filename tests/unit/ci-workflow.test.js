@@ -11,6 +11,19 @@ const responsiveLayoutTest = await readFile(
 	join(repositoryRoot, 'tests/e2e/desktop-layout.spec.ts'),
 	'utf8'
 );
+const ctaSource = await readFile(join(repositoryRoot, 'src/data/cta.ts'), 'utf8');
+const ctaComponent = await readFile(
+	join(repositoryRoot, 'src/widgets/cta-section/ui/CTAButtons.astro'),
+	'utf8'
+);
+const projectSection = await readFile(
+	join(repositoryRoot, 'src/widgets/weekly-project-section/ui/WeeklyProjectSection.astro'),
+	'utf8'
+);
+const projectSectionStyles = await readFile(
+	join(repositoryRoot, 'src/widgets/weekly-project-section/ui/WeeklyProjectSection.css'),
+	'utf8'
+);
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
 
 describe('CI workflow contract', () => {
@@ -83,6 +96,22 @@ describe('CI workflow contract', () => {
 		expect(responsiveLayoutTest).toContain('{ width: 1920, height: 1080 }');
 		expect(responsiveLayoutTest).toContain('expect(actionRowCount).toBe(2)');
 		expect(responsiveLayoutTest).toContain('expect(firstSkillRowCount).toBe(4)');
+	});
+
+	test('keeps resume download unique and uses the second primary CTA for featured projects', () => {
+		expect(ctaSource).not.toContain("id: 'resume'");
+		expect(ctaSource).toContain("id: 'projects'");
+		expect(ctaSource).toContain("href: '#featured-projects-title'");
+		expect(ctaComponent).toContain("projects: 'featured_projects_viewed'");
+		expect(responsiveLayoutTest).toContain("[data-conversion-item=\"resume\"]");
+		expect(responsiveLayoutTest).toContain("[data-conversion-item=\"projects\"]");
+	});
+
+	test('gives the featured-project icon an explicit theme-aware color', () => {
+		expect(projectSection).toContain('weekly-project-section__icon');
+		expect(projectSectionStyles).toContain('text-primary-600');
+		expect(projectSectionStyles).toContain('dark:text-primary-300');
+		expect(responsiveLayoutTest).toContain("projectsIconColor).not.toBe('rgb(255, 255, 255)')");
 	});
 
 	test('aligns the Lighthouse engine and Node runtime with Chromium 149', () => {
