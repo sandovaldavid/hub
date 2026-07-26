@@ -121,3 +121,19 @@
 		@apply h-6 w-6;
 	}
 }
+
+@media (min-width: 1024px) {
+	.cta-buttons--vertical {
+		@apply h-full;
+		grid-auto-rows: 1fr;
+	}
+
+	.cta-buttons--vertical .cta-buttons__link,
+	.cta-buttons--vertical .cta-button-card {
+		@apply h-full;
+	}
+
+	.cta-buttons--vertical .cta-button-card {
+		@apply min-h-40;
+	}
+}
