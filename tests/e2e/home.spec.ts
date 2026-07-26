@@ -56,6 +56,7 @@ test.describe('Home page', () => {
 	});
 
 	test('hero exposes clear positioning and a mobile-only resume action', async ({ page }) => {
+		await page.setViewportSize({ width: 1280, height: 720 });
 		await page.goto('/');
 		await expect(
 			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
@@ -75,7 +76,6 @@ test.describe('Home page', () => {
 		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 
 		await page.setViewportSize({ width: 390, height: 844 });
-		await page.goto('/');
 		await expect(resumeLink).toBeVisible();
 	});
 
@@ -175,6 +175,7 @@ test.describe('Spanish version (/es/)', () => {
 	});
 
 	test('has a localized mobile-only resume action', async ({ page }) => {
+		await page.setViewportSize({ width: 1280, height: 720 });
 		await page.goto('/es/');
 		const resumeLink = page.locator(
 			'.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]'
@@ -184,7 +185,6 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 
 		await page.setViewportSize({ width: 390, height: 844 });
-		await page.goto('/es/');
 		await expect(resumeLink).toBeVisible();
 	});
 
