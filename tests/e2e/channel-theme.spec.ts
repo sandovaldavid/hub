@@ -50,13 +50,22 @@ async function readContrastRatio(page: Page, selector: string) {
 		.locator(selector)
 		.first()
 		.evaluate(element => {
-			const parseRgb = (value: string) => {
-				const channels = value
-					.match(/[\d.]+/g)
-					?.slice(0, 3)
-					.map(Number);
-				if (!channels || channels.length !== 3) throw new Error(`Unsupported color: ${value}`);
-				return channels.map(channel => channel / 255);
+			const cssColorToSrgb = (value: string) => {
+				const canvas = document.createElement('canvas');
+				canvas.width = 1;
+				canvas.height = 1;
+
+				const context = canvas.getContext('2d', { willReadFrequently: true });
+				if (!context) throw new Error('Canvas 2D context is unavailable');
+
+				context.clearRect(0, 0, 1, 1);
+				context.fillStyle = value;
+				context.fillRect(0, 0, 1, 1);
+
+				const [red, green, blue, alpha] = context.getImageData(0, 0, 1, 1).data;
+				if (alpha !== 255) throw new Error(`Expected an opaque color, received: ${value}`);
+
+				return [red, green, blue].map(channel => channel / 255);
 			};
 			const luminance = (channels: number[]) => {
 				const linear = channels.map(channel =>
@@ -66,8 +75,8 @@ async function readContrastRatio(page: Page, selector: string) {
 			};
 
 			const style = window.getComputedStyle(element);
-			const foreground = luminance(parseRgb(style.color));
-			const background = luminance(parseRgb(style.backgroundColor));
+			const foreground = luminance(cssColorToSrgb(style.color));
+			const background = luminance(cssColorToSrgb(style.backgroundColor));
 			const lighter = Math.max(foreground, background);
 			const darker = Math.min(foreground, background);
 			return (lighter + 0.05) / (darker + 0.05);
