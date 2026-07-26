@@ -21,6 +21,15 @@ export const getCtaButtons = (_lang: Lang) => [
 		external: false,
 	},
 	{
+		id: 'github',
+		icon: 'briefcase',
+		title: 'View GitHub',
+		description: 'Inspect repositories, architecture decisions and products I am building.',
+		href: siteConfig.githubUrl,
+		variant: 'secondary' as const,
+		external: true,
+	},
+	{
 		id: 'contact',
 		icon: 'email',
 		title: 'Contact Me',
