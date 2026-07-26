@@ -105,11 +105,11 @@ for (const route of routes) {
 				expect(primaryBox).not.toBeNull();
 				expect(contactBox).not.toBeNull();
 				expect(Math.abs((primaryBox?.y ?? 0) - (contactBox?.y ?? 0))).toBeLessThanOrEqual(2);
-				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(176);
-				expect(contactBox?.height ?? 0).toBeLessThanOrEqual(176);
 				expect(Math.abs((primaryBox?.height ?? 0) - (contactBox?.height ?? 0))).toBeLessThanOrEqual(
-					32
+					2
 				);
+				expect(primaryBox?.height ?? 0).toBeGreaterThanOrEqual(160);
+				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(224);
 
 				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
 				const [actionRowCount, actionCardHeights] = await Promise.all([
@@ -124,10 +124,12 @@ for (const route of routes) {
 						),
 				]);
 				expect(actionRowCount).toBe(1);
-				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(176);
+				expect(Math.min(...actionCardHeights)).toBeGreaterThanOrEqual(160);
+				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(224);
 				expect(Math.max(...actionCardHeights) - Math.min(...actionCardHeights)).toBeLessThanOrEqual(
 					2
 				);
+				expect(Math.abs(actionCardHeights[0] - (contactBox?.height ?? 0))).toBeLessThanOrEqual(2);
 				await expect(primaryCtaLinks).toHaveCount(3);
 				await expect(page.locator('.cta-buttons__link[data-conversion-item="github"]')).toHaveCount(
 					0
