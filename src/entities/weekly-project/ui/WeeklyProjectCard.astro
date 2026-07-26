@@ -7,45 +7,91 @@ import './WeeklyProjectCard.css';
 interface Props {
 	project: WeeklyProject;
 	lang: 'en' | 'es';
+	position: number;
 }
 
-const { project, lang } = Astro.props;
+const { project, lang, position } = Astro.props;
 const labels =
 	lang === 'es'
 		? {
+				caseStudy: 'Caso destacado',
 				problem: 'Problema',
 				contribution: 'Mi contribución',
 				outcome: 'Resultado',
 				repository: 'Repositorio',
 				demo: 'Demo',
-				private: 'Repositorio privado',
-				unavailable: 'No disponible',
+				private: 'Repo privado',
+				demoUnavailable: 'Sin demo público',
+				technologyStack: 'Tecnologías utilizadas',
 			}
 		: {
+				caseStudy: 'Selected case',
 				problem: 'Problem',
 				contribution: 'My contribution',
 				outcome: 'Outcome',
 				repository: 'Repository',
 				demo: 'Live demo',
-				private: 'Private repository',
-				unavailable: 'Not available',
+				private: 'Private repo',
+				demoUnavailable: 'No public demo',
+				technologyStack: 'Technology stack',
 			};
+
+const evidence = [
+	{ label: labels.problem, value: project.problem, kind: 'problem', marker: '01' },
+	{
+		label: labels.contribution,
+		value: project.contribution,
+		kind: 'contribution',
+		marker: '02',
+	},
+	{ label: labels.outcome, value: project.outcome, kind: 'outcome', marker: '03' },
+] as const;
+
+const statusTone =
+	project.demoAvailability === 'public'
+		? 'live'
+		: project.repositoryAvailability === 'public'
+			? 'active'
+			: 'private';
+
+const caseNumber = String(position).padStart(2, '0');
 ---
 
-<article class="weekly-project-card">
+<article
+	class="weekly-project-card"
+	data-project-card
+	data-project-id={project.id}
+	data-project-position={position}>
 	<div class="weekly-project-card__content">
-		<div class="weekly-project-card__heading">
+		<header class="weekly-project-card__heading">
+			<div class="weekly-project-card__meta">
+				<span class="weekly-project-card__index">{labels.caseStudy} {caseNumber}</span>
+				<span class="weekly-project-card__status" data-status-tone={statusTone}>
+					{project.status}
+				</span>
+			</div>
 			<h3 class="weekly-project-card__title">{project.title}</h3>
-			<span class="weekly-project-card__status">{project.status}</span>
-		</div>
+		</header>
 
 		<dl class="weekly-project-card__evidence">
-			<div><dt>{labels.problem}</dt><dd>{project.problem}</dd></div>
-			<div><dt>{labels.contribution}</dt><dd>{project.contribution}</dd></div>
-			<div><dt>{labels.outcome}</dt><dd>{project.outcome}</dd></div>
+			{
+				evidence.map(item => (
+					<div
+						class={`weekly-project-card__evidence-item weekly-project-card__evidence-item--${item.kind}`}
+						data-project-evidence={item.kind}>
+						<dt>
+							<span class="weekly-project-card__evidence-marker" aria-hidden="true">
+								{item.marker}
+							</span>
+							<span>{item.label}</span>
+						</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))
+			}
 		</dl>
 
-		<div class="weekly-project-card__technologies" aria-label="Technology stack">
+		<div class="weekly-project-card__technologies" aria-label={labels.technologyStack}>
 			{
 				project.technologies.map(tech => (
 					<span class="weekly-project-card__tech-badge">{tech}</span>
@@ -68,9 +114,7 @@ const labels =
 						<LinkIcon class="weekly-project-card__button-icon" />
 					</a>
 				) : (
-					<span class="weekly-project-card__availability">
-						{labels.demo}: {labels.unavailable}
-					</span>
+					<span class="weekly-project-card__availability">{labels.demoUnavailable}</span>
 				)
 			}
 			{

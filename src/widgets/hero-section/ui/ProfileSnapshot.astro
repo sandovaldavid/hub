@@ -1,0 +1,33 @@
+---
+import type { HeroMetadataItem } from '../model/types';
+import './ProfileSnapshot.css';
+
+interface Props {
+	heading: string;
+	bio: string;
+	metadata: HeroMetadataItem[];
+}
+
+const { heading, bio, metadata } = Astro.props;
+---
+
+<section
+	class="profile-snapshot"
+	data-layout-panel="profile-snapshot"
+	aria-labelledby="profile-snapshot-heading">
+	<div class="profile-snapshot__summary">
+		<h2 id="profile-snapshot-heading" class="profile-snapshot__heading">{heading}</h2>
+		<p class="profile-snapshot__bio">{bio}</p>
+	</div>
+
+	<dl class="profile-snapshot__metadata">
+		{
+			metadata.map(item => (
+				<div class="profile-snapshot__metadata-item">
+					<dt>{item.label}</dt>
+					<dd>{item.value}</dd>
+				</div>
+			))
+		}
+	</dl>
+</section>

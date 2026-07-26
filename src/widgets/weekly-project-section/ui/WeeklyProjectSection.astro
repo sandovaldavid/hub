@@ -26,14 +26,14 @@ const copy =
 
 <section class="weekly-project-section" aria-labelledby="featured-projects-title">
 	<div class="weekly-project-section__header">
-		<div class="flex justify-center items-center gap-2 md:gap-4">
+		<div class="flex items-center justify-center gap-2 md:gap-3">
 			<h2 id="featured-projects-title" class="weekly-project-section__title">{copy.title}</h2>
-			<Rocket class="size-10" aria-hidden="true" />
+			<Rocket class="weekly-project-section__icon size-7 md:size-8" aria-hidden="true" />
 		</div>
 		<p class="weekly-project-section__subtitle">{copy.description}</p>
 	</div>
 
-	<div class="weekly-project-section__content">
-		{projects.map(project => <WeeklyProjectCard {project} {lang} />)}
+	<div class="weekly-project-section__content" data-project-count={projects.length}>
+		{projects.map((project, index) => <WeeklyProjectCard {project} {lang} position={index + 1} />)}
 	</div>
 </section>

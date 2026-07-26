@@ -73,7 +73,9 @@
 				"bradlc.vscode-tailwindcss",
 				"ms-playwright.playwright",
 				"dbaeumer.vscode-eslint",
-				"EditorConfig.EditorConfig"
+				"EditorConfig.EditorConfig",
+				"ms-playwright.playwright",
+				"eamodio.gitlens"
 			],
 			"settings": {
 				"editor.formatOnSave": true,

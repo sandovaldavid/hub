@@ -1,6 +1,6 @@
 ---
 import Layout from '@app/layouts/Layout.astro';
-import HeroCard from '@widgets/hero-section/ui/HeroCard.astro';
+import { HeroCard, ProfileSnapshot } from '@widgets/hero-section';
 import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
 import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
 import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
@@ -21,6 +21,7 @@ const t = useTranslations(lang);
 const SEO = getSEO(lang);
 const alternates = getAlternateUrls(Astro.url);
 const projects = getFeaturedProjects(lang);
+const headerSocialLinks = socialLinks.filter(link => link.id !== 'website');
 
 const localizedProfile = {
 	...profile,
@@ -36,8 +37,8 @@ const localizedCtaButtons = getCtaButtons(lang).map(btn => ({
 
 const heroMetadata = [
 	{ label: 'Ubicación', value: t('profile.location') },
-	{ label: 'Modalidad', value: t('profile.workMode') },
 	{ label: 'Idiomas', value: t('profile.languages') },
+	{ label: 'Modalidad', value: t('profile.workMode') },
 ];
 ---
 
@@ -45,21 +46,23 @@ const heroMetadata = [
 	<main
 		id="main-content"
 		tabindex="-1"
-		class="hub-container p-4 md:p-8 md:px-6 lg:p-12 lg:px-8 xl:p-16 mx-auto"
+		class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
 		role="main"
 		aria-label={t('page.mainLabel')}>
 		<div
-			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:gap-6 lg:grid-cols-8 lg:gap-6 lg:items-start xl:gap-8 2xl:mx-auto"
+			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-center md:gap-6 lg:grid-cols-10 lg:gap-7 xl:gap-8"
+			data-layout-section="hero"
 			role="region"
 			aria-label={t('hero.sectionsLabel')}>
 			<section
-				class="bento-item bento-item--hero md:col-span-2 lg:col-span-4 lg:row-start-1"
+				class="bento-item bento-item--hero min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-6 lg:col-start-1 lg:p-5 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
+				data-layout-column="profile"
+				data-layout-panel="profile"
 				aria-labelledby="hero-heading">
 				<HeroCard
 					profile={localizedProfile}
-					variant="default"
+					variant="compact"
 					availability={t('profile.availability')}
-					metadata={heroMetadata}
 					primaryAction={{
 						label: t('profile.resumeAction'),
 						href: siteConfig.resume[lang],
@@ -68,39 +71,79 @@ const heroMetadata = [
 				/>
 			</section>
 
+			<div
+				class="bento-item order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
+				data-layout-section="profile-snapshot">
+				<ProfileSnapshot
+					heading={t('profile.snapshotHeading')}
+					bio={localizedProfile.bio}
+					metadata={heroMetadata}
+				/>
+			</div>
+
 			<section
-				class="bento-item bento-item--social md:col-span-2 lg:col-span-4 lg:row-start-1"
+				class="bento-item bento-item--social order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-4 lg:col-start-7 lg:p-5 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
+				data-layout-column="social"
+				data-layout-panel="social"
 				aria-labelledby="social-heading">
-				<h2 id="social-heading" class="sr-only">{t('social.heading')}</h2>
-				<SocialGrid links={socialLinks} priorities={['primary', 'secondary']} variant="default" />
+				<h2
+					id="social-heading"
+					class="mb-2 block text-center text-xs font-semibold uppercase tracking-[0.12em] text-primary-700 md:text-left dark:text-primary-300">
+					{t('social.heading')}
+				</h2>
+				<SocialGrid
+					links={headerSocialLinks}
+					priorities={['primary', 'secondary']}
+					variant="compact"
+				/>
 			</section>
 		</div>
 
-		<section class="flex flex-col gap-4 md:grid md:grid-cols-4 md:gap-6 py-8">
-			<section class="bento-item bento-item--cta flex md:col-span-2" aria-labelledby="cta-heading">
-				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
-			</section>
-			<section
-				class="bento-item bento-item--contact md:col-span-2 lg:col-span-2"
-				aria-labelledby="contact-heading">
-				<ContactCTA
-					email={profile.contact.email}
-					title={t('contact.title')}
-					message={t('contact.message')}
-					buttonText={t('contact.buttonText')}
-					variant="default"
-				/>
-			</section>
+		<section
+			class="flex flex-col gap-4 md:gap-6"
+			data-layout-section="actions"
+			aria-labelledby="cta-heading">
+			<header class="bento-item mx-auto max-w-3xl text-center">
+				<h2
+					id="cta-heading"
+					class="m-0 text-2xl font-bold leading-tight text-neutral-900 md:text-3xl dark:text-neutral-50">
+					{t('cta.heading')}
+				</h2>
+				<p
+					class="mx-auto mt-2 text-sm leading-relaxed text-neutral-600 md:text-base dark:text-neutral-300">
+					{t('cta.description')}
+				</p>
+			</header>
+
+			<div class="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:items-stretch">
+				<div
+					class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
+					data-layout-column="primary-actions">
+					<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
+				</div>
+				<section
+					class="bento-item bento-item--contact flex min-w-0"
+					data-layout-column="contact"
+					aria-labelledby="contact-heading">
+					<ContactCTA
+						email={profile.contact.email}
+						title={t('contact.title')}
+						message={t('contact.message')}
+						buttonText={t('contact.buttonText')}
+						variant="default"
+					/>
+				</section>
+			</div>
 		</section>
 
-		<section class="bento-item bento-item--weekly-project py-8">
+		<section class="bento-item bento-item--weekly-project" data-layout-section="projects">
 			<WeeklyProjectSection {projects} {lang} />
 		</section>
 
 		<section
-			class="bento-item bento-item--skills md:col-span-2 lg:col-span-4 lg:row-start-3"
+			class="bento-item bento-item--skills"
+			data-layout-section="skills"
 			aria-labelledby="skills-heading">
-			<h2 id="skills-heading" class="sr-only">{t('skills.heading')}</h2>
 			<SkillsSection {skills} title={t('skills.title')} variant="compact" />
 		</section>
 	</main>
@@ -138,7 +181,7 @@ const heroMetadata = [
 		}
 		to {
 			opacity: 1;
-			transform: translateY(0);
+			transform: none;
 		}
 	}
 

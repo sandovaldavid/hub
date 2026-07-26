@@ -14,48 +14,50 @@ const { skills, title = 'Tecnologías', variant: _variant = 'compact' } = Astro.
 		'bg-white/70 dark:bg-neutral-950/70',
 		'border border-white/30 dark:border-white/10',
 		'backdrop-blur-xl rounded-xl',
-		'p-4 md:p-5 lg:p-7',
+		'p-4 md:p-5 lg:p-6',
 		'shadow-md dark:shadow-lg'
 	)}>
-	<h3
+	<h2
+		id="skills-heading"
 		class={cn(
-			'text-sm md:text-base lg:text-lg xl:text-xl font-bold mb-3 md:mb-4 lg:mb-5',
+			'mb-4 text-lg font-bold leading-tight md:mb-5 md:text-xl',
 			'text-neutral-900 dark:text-neutral-100'
 		)}>
 		{title}
-	</h3>
-	<div class="flex flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-5 xl:gap-6">
+	</h2>
+	<div
+		class="grid grid-cols-4 gap-x-2 gap-y-4 sm:grid-cols-5 sm:gap-x-3 md:grid-cols-7 md:gap-4 lg:grid-cols-9 xl:grid-cols-10">
 		{
 			skills.map(skill => (
 				<div
 					class={cn(
-						'flex flex-col items-center gap-1 md:gap-2 group',
+						'group flex min-w-0 flex-col items-center gap-1 md:gap-2',
 						'transition-all duration-300 ease-out',
-						'hover:scale-110 hover:-translate-y-1'
+						'hover:-translate-y-1 hover:scale-105'
 					)}
+					data-skill-item
 					title={skill.name}>
 					<div
 						class={cn(
 							'flex items-center justify-center',
-							'w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16',
+							'h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14',
 							'bg-white dark:bg-neutral-900',
 							'border-2 border-neutral-200 dark:border-neutral-700',
 							'rounded-lg md:rounded-xl shadow-sm',
 							'transition-all duration-300',
-							'group-hover:shadow-lg group-hover:border-primary-500'
+							'group-hover:border-primary-500 group-hover:shadow-lg'
 						)}>
 						<span
-							class="size-6 md:size-8 lg:size-10 text-gray-950 dark:text-gray-50 transition-colors duration-300 flex items-center justify-center"
+							class="flex size-6 items-center justify-center text-gray-950 transition-colors duration-300 md:size-8 lg:size-10 dark:text-gray-50"
 							set:html={skill.icon}
 						/>
 					</div>
 					<span
 						class={cn(
-							'text-[0.625rem] md:text-xs lg:text-sm font-medium',
+							'w-full break-words text-center text-[0.625rem] font-medium leading-tight md:text-xs lg:text-sm',
 							'text-neutral-700 dark:text-neutral-300',
 							'group-hover:text-primary-600 dark:group-hover:text-primary-400',
-							'transition-colors duration-300',
-							'text-center leading-tight'
+							'transition-colors duration-300'
 						)}>
 						{skill.name}
 					</span>

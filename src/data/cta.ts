@@ -1,7 +1,7 @@
 import type { Lang } from '@shared/i18n';
 import { siteConfig } from './site.config';
 
-export const getCtaButtons = (lang: Lang) => [
+export const getCtaButtons = (_lang: Lang) => [
 	{
 		id: 'portfolio',
 		icon: 'briefcase',
@@ -12,19 +12,19 @@ export const getCtaButtons = (lang: Lang) => [
 		external: true,
 	},
 	{
-		id: 'resume',
-		icon: 'file',
-		title: 'Download Resume',
-		description: 'Review my current experience, impact and technical background.',
-		href: siteConfig.resume[lang],
+		id: 'projects',
+		icon: 'rocket',
+		title: 'View Featured Projects',
+		description: 'Review selected engineering cases and outcomes on this page.',
+		href: '#featured-projects-title',
 		variant: 'primary' as const,
-		external: true,
+		external: false,
 	},
 	{
 		id: 'github',
 		icon: 'briefcase',
 		title: 'View GitHub',
-		description: 'Inspect the repositories, architecture decisions and products I am building.',
+		description: 'Inspect repositories, architecture decisions and products I am building.',
 		href: siteConfig.githubUrl,
 		variant: 'secondary' as const,
 		external: true,

@@ -6,6 +6,36 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const workflow = await readFile(join(repositoryRoot, '.github/workflows/ci.yml'), 'utf8');
 const lighthouseConfig = await readFile(join(repositoryRoot, '.lighthouserc.cjs'), 'utf8');
+const playwrightConfig = await readFile(join(repositoryRoot, 'playwright.config.ts'), 'utf8');
+const responsiveLayoutTest = await readFile(
+	join(repositoryRoot, 'tests/e2e/desktop-layout.spec.ts'),
+	'utf8'
+);
+const heroAlignmentTest = await readFile(
+	join(repositoryRoot, 'tests/e2e/hero-alignment.spec.ts'),
+	'utf8'
+);
+const ctaSource = await readFile(join(repositoryRoot, 'src/data/cta.ts'), 'utf8');
+const ctaComponent = await readFile(
+	join(repositoryRoot, 'src/widgets/cta-section/ui/CTAButtons.astro'),
+	'utf8'
+);
+const heroComponent = await readFile(
+	join(repositoryRoot, 'src/widgets/hero-section/ui/HeroCard.astro'),
+	'utf8'
+);
+const heroStyles = await readFile(
+	join(repositoryRoot, 'src/widgets/hero-section/ui/HeroCard.css'),
+	'utf8'
+);
+const projectSection = await readFile(
+	join(repositoryRoot, 'src/widgets/weekly-project-section/ui/WeeklyProjectSection.astro'),
+	'utf8'
+);
+const projectSectionStyles = await readFile(
+	join(repositoryRoot, 'src/widgets/weekly-project-section/ui/WeeklyProjectSection.css'),
+	'utf8'
+);
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
 
 describe('CI workflow contract', () => {
@@ -61,6 +91,48 @@ describe('CI workflow contract', () => {
 		expect(workflow.match(/run: bun x playwright install --with-deps chromium/g)).toHaveLength(2);
 		expect(lighthouseConfig).toContain("const { chromium } = require('@playwright/test');");
 		expect(lighthouseConfig).toContain('process.env.CHROME_PATH || chromium.executablePath()');
+	});
+
+	test('serves current source locally and the production build in CI', () => {
+		expect(playwrightConfig).toContain(
+			"command: process.env.CI ? 'bun run preview' : 'bun run dev'"
+		);
+		expect(packageJson.scripts['validate:local']).toContain('CI=1 bun run test:e2e');
+	});
+
+	test('covers the production layout across desktop and iPhone viewports', () => {
+		expect(responsiveLayoutTest).toContain('iPhone 12 Pro');
+		expect(responsiveLayoutTest).toContain('{ width: 390, height: 844 }');
+		expect(responsiveLayoutTest).toContain('{ width: 1024, height: 768 }');
+		expect(responsiveLayoutTest).toContain('{ width: 1280, height: 720 }');
+		expect(responsiveLayoutTest).toContain('{ width: 1920, height: 1080 }');
+		expect(responsiveLayoutTest).toContain('expect(actionRowCount).toBe(2)');
+		expect(responsiveLayoutTest).toContain('expect(mobileSocialRows).toBe(2)');
+		expect(responsiveLayoutTest).toContain('expect(firstSkillRowCount).toBe(4)');
+	});
+
+	test('keeps resume download unique while preserving the GitHub professional action', () => {
+		expect(ctaSource).not.toContain("id: 'resume'");
+		expect(ctaSource).toContain("id: 'github'");
+		expect(ctaSource).toContain("id: 'projects'");
+		expect(ctaSource).toContain("href: '#featured-projects-title'");
+		expect(ctaComponent).toContain("projects: 'featured_projects_viewed'");
+		expect(ctaComponent).toContain("github: 'github_opened'");
+		expect(heroComponent).not.toContain('hero-card__username');
+		expect(heroComponent).toContain("size={isCompact ? '3xl' : '4xl'}");
+		expect(heroComponent).toContain('hero-card__primary-action--mobile-only');
+		expect(heroStyles).toContain('.hero-card__primary-action--mobile-only');
+		expect(responsiveLayoutTest).toContain('await expect(resumeAction).toBeHidden()');
+		expect(heroAlignmentTest).toContain(
+			"await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible()"
+		);
+	});
+
+	test('gives the featured-project icon an explicit theme-aware color', () => {
+		expect(projectSection).toContain('weekly-project-section__icon');
+		expect(projectSectionStyles).toContain('text-primary-600');
+		expect(projectSectionStyles).toContain('dark:text-primary-300');
+		expect(responsiveLayoutTest).toContain("projectsIconColor).not.toBe('rgb(255, 255, 255)')");
 	});
 
 	test('aligns the Lighthouse engine and Node runtime with Chromium 149', () => {

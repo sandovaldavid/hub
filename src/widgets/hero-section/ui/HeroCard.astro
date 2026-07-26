@@ -3,15 +3,19 @@ import ProfileAvatar from '@entities/profile/ui/ProfileAvatar.astro';
 import type { HeroCardProps } from '../model/types';
 import './HeroCard.css';
 import { cn } from '@shared/lib';
-import CheckIcon from '@shared/assets/check.svg';
 
 type Props = HeroCardProps;
 
 const { profile, variant = 'default', availability, metadata = [], primaryAction } = Astro.props;
+const isCompact = variant === 'compact';
 ---
 
-<div class="hero-card__content">
-	<div class="flex flex-col lg:flex-row items-center justify-center gap-2 md:gap-4 lg:gap-10">
+<div class={cn('hero-card__content', isCompact && 'hero-card__content--compact')}>
+	<div
+		class={cn(
+			'grid w-full grid-cols-1 items-center gap-3 md:gap-4 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-5',
+			isCompact && 'hero-card__identity--compact'
+		)}>
 		<div class="hero-card__header">
 			<div
 				class="hero-card__avatar-wrapper"
@@ -21,22 +25,8 @@ const { profile, variant = 'default', availability, metadata = [], primaryAction
 					src={profile.avatar.url}
 					alt={profile.avatar.alt}
 					brandLogoSrc={profile.logo.url}
-					size={variant === 'compact' ? 'lg' : '4xl'}
+					size={isCompact ? '3xl' : '4xl'}
 				/>
-				<span
-					class={cn(
-						'hero-card__username',
-						'text-primary-600 text-sm md:text-base lg:text-lg font-google font-semibold italic px-3 py-1.5 md:px-4 md:py-2',
-						'bg-gray-500/20 flex items-center gap-2 w-fit',
-						'border border-primary-500/60 rounded-full shadow-md',
-						'transition-colors duration-200 hover:bg-gray-500/50 dark:hover:bg-gray-500/30'
-					)}>
-					@{profile.displayName}
-					<CheckIcon
-						class="size-4 md:size-5 lg:size-6 text-sky-500 inline-block"
-						aria-hidden="true"
-					/>
-				</span>
 			</div>
 		</div>
 
@@ -44,19 +34,45 @@ const { profile, variant = 'default', availability, metadata = [], primaryAction
 			<h1
 				id="hero-heading"
 				class={cn(
-					'font-display text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold leading-tight',
-					'text-gray-900 dark:text-gray-50 m-0'
+					'font-display m-0 font-extrabold leading-tight text-gray-900 dark:text-gray-50',
+					isCompact
+						? 'text-[1.625rem] sm:text-[1.75rem] lg:text-[2rem] xl:text-[2.125rem]'
+						: 'text-2xl md:text-3xl lg:text-[2.1rem] xl:text-[2.25rem] 2xl:text-[2.5rem]'
 				)}>
 				{profile.name}
 			</h1>
 
 			{profile.tagline && <p class="hero-card__tagline">{profile.tagline}</p>}
+
 			{
-				availability && (
-					<p class="hero-card__availability">
-						<span class="hero-card__availability-indicator" aria-hidden="true" />
-						<span class="hero-card__availability-text">{availability}</span>
-					</p>
+				isCompact ? (
+					<div class="hero-card__identity-actions">
+						{availability && (
+							<p class="hero-card__availability">
+								<span class="hero-card__availability-indicator" aria-hidden="true" />
+								<span class="hero-card__availability-text">{availability}</span>
+							</p>
+						)}
+						{primaryAction && (
+							<a
+								class="hero-card__primary-action hero-card__primary-action--mobile-only"
+								href={primaryAction.href}
+								target={primaryAction.external ? '_blank' : undefined}
+								rel={primaryAction.external ? 'noopener noreferrer' : undefined}
+								data-conversion-event="resume_downloaded"
+								data-conversion-position="hero"
+								data-conversion-item="resume">
+								{primaryAction.label}
+							</a>
+						)}
+					</div>
+				) : (
+					availability && (
+						<p class="hero-card__availability">
+							<span class="hero-card__availability-indicator" aria-hidden="true" />
+							<span class="hero-card__availability-text">{availability}</span>
+						</p>
+					)
 				)
 			}
 		</div>
@@ -78,12 +94,15 @@ const { profile, variant = 'default', availability, metadata = [], primaryAction
 	}
 
 	{
-		primaryAction && (
+		!isCompact && primaryAction && (
 			<a
 				class="hero-card__primary-action"
 				href={primaryAction.href}
 				target={primaryAction.external ? '_blank' : undefined}
-				rel={primaryAction.external ? 'noopener noreferrer' : undefined}>
+				rel={primaryAction.external ? 'noopener noreferrer' : undefined}
+				data-conversion-event="resume_downloaded"
+				data-conversion-position="hero"
+				data-conversion-item="resume">
 				{primaryAction.label}
 			</a>
 		)

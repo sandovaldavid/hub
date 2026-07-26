@@ -1,12 +1,13 @@
 {
 	"profile": {
-		"tagline": "Ingeniero de Software que construye productos web confiables",
-		"bio": "Angular · .NET · TypeScript. En Lima (UTC-5) y disponible para oportunidades remotas de ingeniería de software en Europa y Latinoamérica.",
-		"availability": "Disponible para oportunidades de ingeniería de software",
+		"tagline": "Ingeniero de Software · .NET, Angular y TypeScript",
+		"bio": "Diseño y construyo productos web mantenibles, desde la arquitectura backend hasta experiencias frontend accesibles.",
+		"availability": "Disponible para roles remotos de ingeniería",
 		"location": "Lima, Perú · UTC-5",
 		"workMode": "Remoto · Europa y Latinoamérica",
 		"languages": "Inglés · Español",
-		"resumeAction": "Descargar CV"
+		"resumeAction": "Descargar CV",
+		"snapshotHeading": "Resumen profesional"
 	},
 	"nav": {
 		"skipToContent": "Saltar al contenido principal"
@@ -18,20 +19,22 @@
 		"heading": "Enlaces profesionales y redes sociales"
 	},
 	"cta": {
+		"heading": "Explora mi trabajo y conecta",
+		"description": "Accede directamente a mi portafolio, repositorios, casos de ingeniería seleccionados o canal de contacto.",
 		"portfolio": {
 			"title": "Ver Portafolio",
 			"description": "Explora proyectos seleccionados, experiencia y casos de estudio de ingeniería.",
 			"label": "Ver portafolio"
 		},
-		"resume": {
-			"title": "Descargar CV",
-			"description": "Revisa mi experiencia actual, impacto y trayectoria técnica.",
-			"label": "Descargar CV"
+		"projects": {
+			"title": "Ver proyectos destacados",
+			"description": "Revisa casos de ingeniería seleccionados y sus resultados en esta página.",
+			"label": "Ver proyectos destacados"
 		},
 		"github": {
 			"title": "Ver GitHub",
-			"description": "Revisa los repositorios, decisiones de arquitectura y productos que estoy construyendo.",
-			"label": "Ver GitHub"
+			"description": "Revisa repositorios, decisiones de arquitectura y productos que estoy construyendo.",
+			"label": "Ver repositorios en GitHub"
 		},
 		"contact": {
 			"title": "Contactarme",
