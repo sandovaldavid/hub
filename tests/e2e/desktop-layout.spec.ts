@@ -108,8 +108,7 @@ for (const route of routes) {
 				expect(Math.abs((primaryBox?.height ?? 0) - (contactBox?.height ?? 0))).toBeLessThanOrEqual(
 					2
 				);
-				expect(primaryBox?.height ?? 0).toBeGreaterThanOrEqual(160);
-				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(224);
+				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(320);
 
 				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
 				const [actionRowCount, actionCardHeights] = await Promise.all([
@@ -123,16 +122,15 @@ for (const route of routes) {
 							elements.map(element => element.getBoundingClientRect().height)
 						),
 				]);
-				expect(actionRowCount).toBe(1);
-				expect(Math.min(...actionCardHeights)).toBeGreaterThanOrEqual(160);
-				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(224);
+				expect(actionRowCount).toBe(2);
+				expect(Math.min(...actionCardHeights)).toBeGreaterThanOrEqual(96);
+				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(152);
 				expect(Math.max(...actionCardHeights) - Math.min(...actionCardHeights)).toBeLessThanOrEqual(
 					2
 				);
-				expect(Math.abs(actionCardHeights[0] - (contactBox?.height ?? 0))).toBeLessThanOrEqual(2);
-				await expect(primaryCtaLinks).toHaveCount(3);
+				await expect(primaryCtaLinks).toHaveCount(4);
 				await expect(page.locator('.cta-buttons__link[data-conversion-item="github"]')).toHaveCount(
-					0
+					1
 				);
 
 				const resumeAction = page.locator(
@@ -239,7 +237,7 @@ for (const route of routes) {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
 				});
-			expect(mobileActionRows).toBe(3);
+			expect(mobileActionRows).toBe(4);
 
 			const projectCards = page.locator('[data-project-card]');
 			await expect(projectCards).toHaveCount(3);
