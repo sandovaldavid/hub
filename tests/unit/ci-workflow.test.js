@@ -106,17 +106,18 @@ describe('CI workflow contract', () => {
 		expect(responsiveLayoutTest).toContain('{ width: 1024, height: 768 }');
 		expect(responsiveLayoutTest).toContain('{ width: 1280, height: 720 }');
 		expect(responsiveLayoutTest).toContain('{ width: 1920, height: 1080 }');
-		expect(responsiveLayoutTest).toContain('expect(actionRowCount).toBe(1)');
+		expect(responsiveLayoutTest).toContain('expect(actionRowCount).toBe(2)');
 		expect(responsiveLayoutTest).toContain('expect(mobileSocialRows).toBe(2)');
 		expect(responsiveLayoutTest).toContain('expect(firstSkillRowCount).toBe(4)');
 	});
 
-	test('keeps resume download unique, mobile-only and instrumented', () => {
+	test('keeps resume download unique while preserving the GitHub professional action', () => {
 		expect(ctaSource).not.toContain("id: 'resume'");
-		expect(ctaSource).not.toContain("id: 'github'");
+		expect(ctaSource).toContain("id: 'github'");
 		expect(ctaSource).toContain("id: 'projects'");
 		expect(ctaSource).toContain("href: '#featured-projects-title'");
 		expect(ctaComponent).toContain("projects: 'featured_projects_viewed'");
+		expect(ctaComponent).toContain("github: 'github_opened'");
 		expect(heroComponent).not.toContain('hero-card__username');
 		expect(heroComponent).toContain("size={isCompact ? '3xl' : '4xl'}");
 		expect(heroComponent).toContain('hero-card__primary-action--mobile-only');
