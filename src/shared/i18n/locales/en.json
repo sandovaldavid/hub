@@ -20,7 +20,7 @@
 	},
 	"cta": {
 		"heading": "Explore my work and connect",
-		"description": "Go directly to my portfolio, selected engineering cases or contact channel.",
+		"description": "Go directly to my portfolio, repositories, selected engineering cases or contact channel.",
 		"portfolio": {
 			"title": "View Portfolio",
 			"description": "Explore selected projects, experience and engineering case studies.",
@@ -30,6 +30,11 @@
 			"title": "View Featured Projects",
 			"description": "Review selected engineering cases and outcomes on this page.",
 			"label": "View featured projects"
+		},
+		"github": {
+			"title": "View GitHub",
+			"description": "Inspect repositories, architecture decisions and products I am building.",
+			"label": "View GitHub repositories"
 		},
 		"contact": {
 			"title": "Contact Me",
