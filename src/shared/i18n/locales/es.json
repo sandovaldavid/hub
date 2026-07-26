@@ -20,7 +20,7 @@
 	},
 	"cta": {
 		"heading": "Explora mi trabajo y conecta",
-		"description": "Accede directamente a mi portafolio, casos de ingeniería seleccionados o canal de contacto.",
+		"description": "Accede directamente a mi portafolio, repositorios, casos de ingeniería seleccionados o canal de contacto.",
 		"portfolio": {
 			"title": "Ver Portafolio",
 			"description": "Explora proyectos seleccionados, experiencia y casos de estudio de ingeniería.",
@@ -30,6 +30,11 @@
 			"title": "Ver proyectos destacados",
 			"description": "Revisa casos de ingeniería seleccionados y sus resultados en esta página.",
 			"label": "Ver proyectos destacados"
+		},
+		"github": {
+			"title": "Ver GitHub",
+			"description": "Revisa repositorios, decisiones de arquitectura y productos que estoy construyendo.",
+			"label": "Ver repositorios en GitHub"
 		},
 		"contact": {
 			"title": "Contactarme",
