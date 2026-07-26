@@ -49,7 +49,7 @@ test.describe('Home page', () => {
 		await expect(
 			page.getByRole('heading', { level: 3, name: 'Need engineering consulting?' })
 		).toBeVisible();
-		await expect(page.locator('.cta-button-card__title')).toHaveCount(3);
+		await expect(page.locator('.cta-button-card__title')).toHaveCount(4);
 		for (const heading of await page.locator('.cta-button-card__title').all()) {
 			expect(await heading.evaluate(element => element.tagName)).toBe('H3');
 		}
@@ -93,13 +93,14 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test('keeps professional actions distinct from social destinations', async ({ page }) => {
+	test('keeps professional actions intentional alongside social destinations', async ({ page }) => {
 		await page.goto('/');
 
 		const professionalLinks = [
 			'.cta-buttons__link[href="https://sandovaldavid.com"]',
 			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]',
 			'.cta-buttons__link[href="#featured-projects-title"]',
+			'.cta-buttons__link[href="https://github.com/sandovaldavid"]',
 			'.cta-buttons__link[href^="mailto:"]',
 			'.social-button[href="https://github.com/sandovaldavid"]',
 		];
@@ -108,9 +109,6 @@ test.describe('Home page', () => {
 			await expect(page.locator(selector)).toHaveCount(1);
 		}
 		await expect(page.locator('.social-button[href="https://sandovaldavid.com"]')).toHaveCount(0);
-		await expect(
-			page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')
-		).toHaveCount(0);
 	});
 
 	test('share button is present', async ({ page }) => {
