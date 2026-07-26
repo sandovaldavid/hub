@@ -29,7 +29,8 @@
 }
 
 .hero-card__tagline {
-	@apply m-0 max-w-full text-base font-medium leading-normal text-accent-700 sm:text-lg lg:text-xl dark:text-accent-500;
+	@apply m-0 max-w-full text-base font-medium leading-normal sm:text-lg lg:text-xl;
+	color: var(--channel-accent-primary);
 }
 
 .hero-card__identity--compact .hero-card__tagline {
@@ -37,11 +38,15 @@
 }
 
 .hero-card__bio {
-	@apply m-0 max-w-full text-sm leading-relaxed text-neutral-700 md:text-base dark:text-neutral-100;
+	@apply m-0 max-w-full text-sm leading-relaxed md:text-base;
+	color: var(--channel-content-default);
 }
 
 .hero-card__availability {
-	@apply m-0 inline-flex max-w-full items-center gap-2 rounded-full border border-success-300 bg-success-50 px-3 py-2;
+	@apply m-0 inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-2;
+	background-color: var(--status-online-background);
+	color: var(--status-online-content);
+	border-color: var(--status-online-edge);
 }
 
 .hero-card__identity--compact .hero-card__availability {
@@ -49,12 +54,14 @@
 }
 
 .hero-card__availability-indicator {
-	@apply block h-2 w-2 shrink-0 rounded-full bg-success-600;
-	animation: pulse-glow 2s ease-in-out infinite;
+	@apply block h-2 w-2 shrink-0 rounded-full;
+	background-color: var(--channel-status-online);
+	animation: pulse-status 2s ease-in-out infinite;
 }
 
 .hero-card__availability-text {
-	@apply min-w-0 text-center text-xs font-semibold leading-snug text-success-800 md:text-left;
+	@apply min-w-0 text-center text-xs font-semibold leading-snug md:text-left;
+	color: var(--status-online-content);
 }
 
 .hero-card__identity-actions {
@@ -66,7 +73,9 @@
 }
 
 .hero-card__metadata-item {
-	@apply min-w-0 rounded-lg border border-neutral-200 bg-white/60 px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900/50;
+	@apply min-w-0 rounded-lg border px-3 py-2;
+	background-color: var(--card-background-muted);
+	border-color: var(--card-edge);
 }
 
 .hero-card__metadata-item:last-child {
@@ -74,15 +83,27 @@
 }
 
 .hero-card__metadata-item dt {
-	@apply text-[0.625rem] uppercase tracking-wide text-neutral-600 sm:text-xs dark:text-neutral-300;
+	@apply text-[0.625rem] uppercase tracking-wide sm:text-xs;
+	color: var(--channel-content-muted);
 }
 
 .hero-card__metadata-item dd {
-	@apply m-0 wrap-break-word text-xs font-semibold leading-snug text-neutral-800 sm:text-sm dark:text-neutral-100;
+	@apply m-0 wrap-break-word text-xs font-semibold leading-snug sm:text-sm;
+	color: var(--channel-content-strong);
 }
 
 .hero-card__primary-action {
-	@apply inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-3 font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:w-auto md:mt-auto;
+	@apply inline-flex w-full items-center justify-center rounded-lg px-5 py-3 font-semibold transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto md:mt-auto;
+	background-color: var(--button-primary-background);
+	color: var(--button-primary-content);
+}
+
+.hero-card__primary-action:hover {
+	background-color: var(--button-primary-background-hover);
+}
+
+.hero-card__primary-action:active {
+	background-color: var(--button-primary-background-active);
 }
 
 .hero-card__identity-actions .hero-card__primary-action {
@@ -95,8 +116,9 @@
 
 @media (max-width: 767px) {
 	[data-layout-panel='profile'].bento-item {
-		width: 100%;
-		@apply rounded-2xl border border-white/80 bg-white/45 p-4 shadow-lg backdrop-blur-xl dark:border-primary-900/50 dark:bg-neutral-950/40;
+		@apply w-full rounded-2xl border p-4 shadow-sm backdrop-blur-xl;
+		background-color: var(--card-background);
+		border-color: var(--card-edge-accent);
 	}
 }
 
@@ -134,12 +156,12 @@
 	}
 }
 
-@keyframes pulse-glow {
+@keyframes pulse-status {
 	0%,
 	100% {
 		opacity: 1;
 	}
 	50% {
-		opacity: 0.5;
+		opacity: 0.55;
 	}
 }

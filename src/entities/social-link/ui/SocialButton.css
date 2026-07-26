@@ -1,58 +1,48 @@
 @import '../../../app/styles/global.css';
 
-/* Social Button */
 .social-button {
-	@apply flex w-full items-center gap-3 rounded-xl px-4 py-3 md:px-5 md:py-4 lg:px-6 lg:py-4;
-	@apply border-2 border-neutral-200 bg-white/90;
-	@apply cursor-pointer text-neutral-900 no-underline;
-	@apply transition-all duration-300 ease-out;
-	@apply hover:scale-[1.02] hover:shadow-lg;
-	@apply dark:border-neutral-700 dark:bg-neutral-800/90 dark:text-neutral-50;
+	@apply flex w-full cursor-pointer items-center gap-3 rounded-xl border-2 px-4 py-3 no-underline shadow-xs transition-all duration-300 ease-out md:px-5 md:py-4 lg:px-6 lg:py-4;
+	background-color: var(--card-background);
+	border-color: var(--card-edge);
+	color: var(--channel-content-strong);
 }
 
-/* Social button Icon */
+.social-button:hover {
+	@apply -translate-y-0.5 shadow-retro-xs;
+}
+
 .social-button__icon {
-	@apply h-5 w-5 shrink-0 md:h-6 md:w-6 lg:h-7 lg:w-7;
-	@apply transition-all duration-300;
+	@apply h-5 w-5 shrink-0 transition-all duration-300 md:h-6 md:w-6 lg:h-7 lg:w-7;
+	color: var(--channel-content-strong);
 }
 
 .social-button__icon--website {
-	@apply text-primary-600 dark:text-primary-400;
-	@apply group-hover:text-gray-50;
-}
-
-.social-button__icon--instagram {
-	@apply group-hover:text-gray-50;
+	color: var(--channel-accent-primary);
 }
 
 .social-button__icon--linkedin {
-	@apply h-full w-full group-hover:bg-gray-50 group-hover:text-gray-50;
-}
-
-.social-button__icon--github {
-	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
-}
-
-.social-button__icon--x {
-	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
+	@apply h-full w-full;
 }
 
 .social-button__icon--youtube {
-	@apply stroke-3 text-[#FF0000];
-	@apply group-hover:text-gray-50;
-}
-
-.social-button__icon--tiktok {
-	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
-}
-
-.social-button__icon--medium {
-	@apply text-gray-950 group-hover:text-gray-50 dark:text-gray-50;
+	color: var(--platform-youtube);
+	@apply stroke-3;
 }
 
 .social-button__icon--facebook {
-	@apply fill-[#0866ff] text-gray-50;
-	@apply group-hover:fill-gray-50 group-hover:text-[#0866ff];
+	color: var(--platform-on-brand);
+	fill: var(--platform-facebook);
+}
+
+.social-button:hover .social-button__icon,
+.social-button:hover .social-button__label,
+.social-button:hover .social-button__username {
+	color: var(--platform-on-brand);
+}
+
+.social-button--facebook:hover .social-button__icon--facebook {
+	color: var(--platform-facebook);
+	fill: var(--platform-on-brand);
 }
 
 .social-button__content {
@@ -60,69 +50,105 @@
 }
 
 .social-button__label {
-	@apply text-sm font-bold leading-tight md:text-base lg:text-lg;
-	@apply text-neutral-900 dark:text-neutral-50;
-	@apply transition-colors duration-200;
-	@apply group-hover:text-gray-50;
+	@apply text-sm font-bold leading-tight transition-colors duration-200 md:text-base lg:text-lg;
+	color: var(--channel-content-strong);
 }
 
 .social-button__username {
-	@apply text-xs md:text-sm lg:text-base;
-	@apply text-neutral-700 dark:text-neutral-300;
-	@apply transition-colors duration-200;
-	@apply group-hover:text-gray-50;
+	@apply text-xs transition-colors duration-200 md:text-sm lg:text-base;
+	color: var(--channel-content-muted);
 }
 
-/* GitHub */
 .social-button--github {
-	@apply hover:border-neutral-800 hover:bg-linear-to-r hover:from-neutral-800 hover:to-neutral-900 hover:dark:border-neutral-600 hover:dark:from-neutral-700 hover:dark:to-neutral-800;
+	--platform-gradient-start: var(--color-neutral-800);
+	--platform-gradient-end: var(--color-neutral-900);
+	--platform-edge: var(--color-neutral-700);
 }
 
-/* Twitter/X */
-.social-button--x {
-	@apply hover:border-neutral-900 hover:bg-linear-to-r hover:from-neutral-900 hover:to-neutral-950 hover:dark:border-neutral-700 hover:dark:from-neutral-800 hover:dark:to-neutral-900;
+.social-button--x,
+.social-button--medium {
+	--platform-gradient-start: var(--color-neutral-900);
+	--platform-gradient-end: var(--color-neutral-950);
+	--platform-edge: var(--color-neutral-800);
 }
 
-/* Instagram */
-.social-button--instagram:hover {
-	background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #f77737 100%);
-	@apply border-[#833AB4];
+.social-button--instagram {
+	--platform-gradient-start: #833ab4;
+	--platform-gradient-middle: #fd1d1d;
+	--platform-gradient-end: #f77737;
+	--platform-edge: #833ab4;
 }
 
-/* Facebook */
-.social-button--facebook:hover {
-	@apply border-[#0062E0] bg-linear-to-r from-[#0062E0] to-[#19AFFF];
+.social-button--facebook {
+	--platform-facebook: #0866ff;
+	--platform-gradient-start: #0062e0;
+	--platform-gradient-end: #19afff;
+	--platform-edge: #0062e0;
 }
 
-/* LinkedIn */
-.social-button--linkedin:hover {
-	@apply border-[#0077B5] bg-linear-to-r from-[#0077B5] to-[#00A0DC];
+.social-button--linkedin {
+	--platform-gradient-start: #0077b5;
+	--platform-gradient-end: #00a0dc;
+	--platform-edge: #0077b5;
 }
 
-/* YouTube */
-.social-button--youtube:hover {
-	@apply border-[#FF0000] bg-linear-to-r from-[#FF1000] to-[#FF4444];
+.social-button--youtube {
+	--platform-youtube: #ff0000;
+	--platform-gradient-start: #ff1000;
+	--platform-gradient-end: #ff4444;
+	--platform-edge: #ff0000;
 }
 
-/* TikTok */
-.social-button--tiktok:hover {
-	@apply border-neutral-900 bg-linear-to-r from-neutral-900 to-[#EE1D52];
+.social-button--tiktok {
+	--platform-gradient-start: var(--color-neutral-900);
+	--platform-gradient-end: #ee1d52;
+	--platform-edge: var(--color-neutral-900);
 }
 
-/* Medium */
+.social-button--github,
+.social-button--x,
+.social-button--facebook,
+.social-button--linkedin,
+.social-button--youtube,
+.social-button--tiktok,
+.social-button--medium {
+	--platform-on-brand: #ffffff;
+}
+
+.social-button--github:hover,
+.social-button--x:hover,
+.social-button--facebook:hover,
+.social-button--linkedin:hover,
+.social-button--youtube:hover,
+.social-button--tiktok:hover,
 .social-button--medium:hover {
-	@apply border-neutral-900 bg-linear-to-r from-neutral-900 to-neutral-800;
+	border-color: var(--platform-edge);
+	background: linear-gradient(90deg, var(--platform-gradient-start), var(--platform-gradient-end));
 }
 
-/* Website/Default */
+.social-button--instagram:hover {
+	--platform-on-brand: #ffffff;
+	border-color: var(--platform-edge);
+	background: linear-gradient(
+		135deg,
+		var(--platform-gradient-start) 0%,
+		var(--platform-gradient-middle) 50%,
+		var(--platform-gradient-end) 100%
+	);
+}
+
 .social-button--website:hover {
-	@apply border-primary-600 bg-linear-to-r from-primary-600 to-primary-700 dark:border-primary-500 dark:from-primary-500 dark:to-primary-600;
+	--platform-on-brand: var(--button-primary-content);
+	border-color: var(--channel-accent-primary);
+	background: linear-gradient(
+		90deg,
+		var(--channel-accent-primary),
+		var(--channel-accent-secondary)
+	);
 }
 
-/* Compact variant used by the desktop hero grid. */
 .social-button--compact {
 	@apply min-h-14 gap-2.5 rounded-lg border px-3.5 py-2.5 md:px-4;
-	@apply hover:scale-[1.01];
 }
 
 .social-button--compact .social-button__icon {

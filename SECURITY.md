@@ -8,10 +8,10 @@ This personal site is maintained as a continuously deployed application. Securit
 
 Do not open a public issue containing vulnerability details, credentials, tokens, personal data, or a working exploit.
 
-Report security concerns privately by emailing [contact@sandovaldavid.com](mailto:contact@sandovaldavid.com) with the subject:
+Report security concerns privately by emailing [hello@sandovaldavid.com](mailto:hello@sandovaldavid.com) with the subject:
 
 ```text
-[Security] Linktree vulnerability
+[Security] Link Hub vulnerability
 ```
 
 Include, when available:
@@ -28,7 +28,7 @@ You should receive an acknowledgement target within five business days. Triage a
 
 In scope:
 
-- the production site at `https://linktree.sandovaldavid.com`;
+- the production site at `https://hub.sandovaldavid.com`;
 - source code and configuration in this repository;
 - repository-owned CI/CD and deployment configuration.
 

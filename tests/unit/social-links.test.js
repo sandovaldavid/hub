@@ -35,16 +35,12 @@ describe('social link configuration', () => {
 		expect(linkedin.username).toBe(`@${slug}`);
 	});
 
-	test('classifies community networks outside the primary tier', () => {
-		expect(getSocialLinksByPriority('secondary').map(link => link.id)).toEqual([
-			'youtube',
-			'twitter',
-		]);
-		expect(getSocialLinksByPriority('footer').map(link => link.id)).toEqual([
-			'instagram',
-			'tiktok',
-			'facebook',
-		]);
+	test('classifies only approved community networks outside the primary tier', () => {
+		expect(getSocialLinksByPriority('secondary').map(link => link.id)).toEqual(['twitter']);
+		expect(getSocialLinksByPriority('footer').map(link => link.id)).toEqual(['instagram']);
+		expect(socialLinks.some(link => ['youtube', 'tiktok', 'facebook'].includes(link.id))).toBe(
+			false
+		);
 	});
 
 	test('defines audience and analytics metadata for every link', () => {

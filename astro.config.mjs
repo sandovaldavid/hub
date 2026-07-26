@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://linktree.sandovaldavid.com',
+	site: 'https://hub.sandovaldavid.com',
 	i18n: {
 		defaultLocale: 'en',
 		locales: ['en', 'es'],

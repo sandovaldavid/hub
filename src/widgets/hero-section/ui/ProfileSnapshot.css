@@ -1,9 +1,8 @@
 @import '../../../app/styles/global.css';
 
 .profile-snapshot {
-	@apply grid min-w-0 gap-4 rounded-2xl border border-white/80 bg-white/45 p-4 shadow-lg backdrop-blur-xl;
+	@apply grid min-w-0 gap-4 rounded-2xl border border-card-edge bg-card-background p-4 shadow-lg backdrop-blur-xl;
 	@apply md:grid-cols-[minmax(0,1.35fr)_minmax(0,2fr)] md:items-center md:gap-5 md:p-5;
-	@apply dark:border-primary-900/50 dark:bg-neutral-950/40;
 }
 
 .profile-snapshot__summary {
@@ -11,11 +10,11 @@
 }
 
 .profile-snapshot__heading {
-	@apply m-0 text-lg font-bold leading-tight text-neutral-900 md:text-xl dark:text-neutral-50;
+	@apply m-0 text-lg font-bold leading-tight text-channel-content-strong md:text-xl;
 }
 
 .profile-snapshot__bio {
-	@apply m-0 mt-1.5 text-sm leading-relaxed text-neutral-700 md:text-base dark:text-neutral-200;
+	@apply m-0 mt-1.5 text-sm leading-relaxed text-channel-content-default md:text-base;
 }
 
 .profile-snapshot__metadata {
@@ -23,7 +22,7 @@
 }
 
 .profile-snapshot__metadata-item {
-	@apply min-w-0 rounded-lg border border-neutral-200 bg-white/70 px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900/60;
+	@apply min-w-0 rounded-lg border border-card-edge bg-card-background-muted px-3 py-2;
 }
 
 .profile-snapshot__metadata-item:last-child {
@@ -31,11 +30,11 @@
 }
 
 .profile-snapshot__metadata-item dt {
-	@apply text-[0.625rem] uppercase tracking-wide text-neutral-600 sm:text-xs dark:text-neutral-300;
+	@apply text-[0.625rem] uppercase tracking-wide text-channel-content-muted sm:text-xs;
 }
 
 .profile-snapshot__metadata-item dd {
-	@apply m-0 break-words text-xs font-semibold leading-snug text-neutral-800 sm:text-sm dark:text-neutral-100;
+	@apply m-0 break-words text-xs font-semibold leading-snug text-channel-content-strong sm:text-sm;
 }
 
 @media (min-width: 640px) {

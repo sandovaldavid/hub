@@ -9,15 +9,17 @@
 }
 
 .weekly-project-section__title {
-	@apply text-2xl font-bold text-neutral-900 md:text-3xl dark:text-neutral-50;
+	@apply text-2xl font-bold md:text-3xl;
+	color: var(--channel-content-strong);
 }
 
 .weekly-project-section__icon {
-	@apply text-primary-600 drop-shadow-sm dark:text-primary-300;
+	color: var(--channel-accent-primary);
 }
 
 .weekly-project-section__subtitle {
-	@apply mx-auto mt-2 max-w-3xl text-sm leading-relaxed text-neutral-600 md:mt-3 md:text-base dark:text-neutral-300;
+	@apply mx-auto mt-2 max-w-3xl text-sm leading-relaxed md:mt-3 md:text-base;
+	color: var(--channel-content-muted);
 }
 
 .weekly-project-section__content {

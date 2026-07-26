@@ -2,28 +2,25 @@
 
 .avatar-default {
 	@apply relative inline-flex items-center justify-center overflow-hidden;
-	@apply bg-neutral-200 text-neutral-700 font-semibold;
-	@apply dark:bg-neutral-800 dark:text-neutral-300;
+	@apply font-semibold;
+	background-color: var(--avatar-background);
+	color: var(--avatar-content);
 }
-
-/*
- * Avatar size variants
- */
 
 .avatar-size-xs {
 	@apply h-6 w-6 text-xs;
 }
 
 .avatar-size-sm {
-	@apply w-8 h-8 text-sm;
+	@apply h-8 w-8 text-sm;
 }
 
 .avatar-size-md {
-	@apply w-12 h-12 text-base;
+	@apply h-12 w-12 text-base;
 }
 
 .avatar-size-lg {
-	@apply w-16 h-16 text-lg;
+	@apply h-16 w-16 text-lg;
 }
 
 .avatar-size-xl {
@@ -31,13 +28,13 @@
 }
 
 .avatar-size-2xl {
-	@apply w-28 h-28 text-2xl;
+	@apply h-28 w-28 text-2xl;
 }
 
 .avatar-size-3xl {
-	@apply w-36 h-36 text-3xl;
+	@apply h-36 w-36 text-3xl;
 }
 
 .avatar-size-4xl {
-	@apply w-40 h-40 text-4xl;
+	@apply h-40 w-40 text-4xl;
 }

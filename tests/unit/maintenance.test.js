@@ -54,7 +54,8 @@ describe('maintenance and security contract', () => {
 	});
 
 	test('provides a private security channel and avoids public disclosure instructions', () => {
-		expect(securityPolicy).toContain('contact@sandovaldavid.com');
+		expect(securityPolicy).toContain('hello@sandovaldavid.com');
+		expect(securityPolicy).not.toContain('contact@sandovaldavid.com');
 		expect(securityPolicy).toContain('Do not open a public issue');
 		expect(securityPolicy).toContain('Coordinated disclosure');
 		expect(securityPolicy).toContain('current production version on `main`');
@@ -74,12 +75,13 @@ describe('maintenance and security contract', () => {
 		expect(maintenanceGuide).toContain('### Quarterly engineering review');
 	});
 
-	test('centralizes public social URLs and does not expose the private linktree repository', () => {
+	test('centralizes approved public social URLs and does not expose the private linktree repository', () => {
 		expect(siteConfig).toContain('socialUrls:');
 		expect(siteConfig).not.toContain('calendlyUrl');
 		expect(socialLinks).toContain('siteConfig.socialUrls.linkedin');
-		expect(socialLinks).toContain('siteConfig.socialUrls.facebook');
-		expect(socialLinks).not.toContain('https://youtube.com/@${h}');
+		expect(socialLinks).toContain('siteConfig.socialUrls.twitter');
+		expect(socialLinks).toContain('siteConfig.socialUrls.instagram');
+		expect(socialLinks).not.toMatch(/siteConfig\.socialUrls\.(?:facebook|youtube|tiktok)/);
 		expect(weeklyProjects).not.toContain("githubUrl: 'https://github.com/sandovaldavid/linktree'");
 	});
 });

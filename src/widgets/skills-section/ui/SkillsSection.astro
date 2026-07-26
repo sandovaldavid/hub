@@ -9,19 +9,14 @@ const { skills, title = 'Tecnologías', variant: _variant = 'compact' } = Astro.
 
 <div
 	class={cn(
-		'skills-card',
-		'w-full h-full',
-		'bg-white/70 dark:bg-neutral-950/70',
-		'border border-white/30 dark:border-white/10',
-		'backdrop-blur-xl rounded-xl',
-		'p-4 md:p-5 lg:p-6',
-		'shadow-md dark:shadow-lg'
+		'skills-card h-full w-full rounded-xl border p-4 shadow-sm backdrop-blur-xl md:p-5 lg:p-6',
+		'bg-card-background border-card-edge'
 	)}>
 	<h2
 		id="skills-heading"
 		class={cn(
 			'mb-4 text-lg font-bold leading-tight md:mb-5 md:text-xl',
-			'text-neutral-900 dark:text-neutral-100'
+			'text-channel-content-strong'
 		)}>
 		{title}
 	</h2>
@@ -32,8 +27,7 @@ const { skills, title = 'Tecnologías', variant: _variant = 'compact' } = Astro.
 				<div
 					class={cn(
 						'group flex min-w-0 flex-col items-center gap-1 md:gap-2',
-						'transition-all duration-300 ease-out',
-						'hover:-translate-y-1 hover:scale-105'
+						'transition-all duration-300 ease-out hover:-translate-y-0.5'
 					)}
 					data-skill-item
 					title={skill.name}>
@@ -41,22 +35,19 @@ const { skills, title = 'Tecnologías', variant: _variant = 'compact' } = Astro.
 						class={cn(
 							'flex items-center justify-center',
 							'h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14',
-							'bg-white dark:bg-neutral-900',
-							'border-2 border-neutral-200 dark:border-neutral-700',
-							'rounded-lg md:rounded-xl shadow-sm',
-							'transition-all duration-300',
-							'group-hover:border-primary-500 group-hover:shadow-lg'
+							'rounded-lg border-2 shadow-xs transition-all duration-300 md:rounded-xl',
+							'bg-channel-surface-default border-channel-edge-default',
+							'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
 						)}>
 						<span
-							class="flex size-6 items-center justify-center text-gray-950 transition-colors duration-300 md:size-8 lg:size-10 dark:text-gray-50"
+							class="flex size-6 items-center justify-center text-channel-content-strong transition-colors duration-300 md:size-8 lg:size-10"
 							set:html={skill.icon}
 						/>
 					</div>
 					<span
 						class={cn(
 							'w-full break-words text-center text-[0.625rem] font-medium leading-tight md:text-xs lg:text-sm',
-							'text-neutral-700 dark:text-neutral-300',
-							'group-hover:text-primary-600 dark:group-hover:text-primary-400',
+							'text-channel-content-muted group-hover:text-channel-accent-primary',
 							'transition-colors duration-300'
 						)}>
 						{skill.name}
