@@ -98,6 +98,7 @@ test.describe('Home page', () => {
 
 		const professionalLinks = [
 			'.cta-buttons__link[href="https://sandovaldavid.com"]',
+			'.social-button[href="https://sandovaldavid.com"]',
 			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]',
 			'.cta-buttons__link[href="#featured-projects-title"]',
 			'.cta-buttons__link[href="https://github.com/sandovaldavid"]',
@@ -108,7 +109,6 @@ test.describe('Home page', () => {
 		for (const selector of professionalLinks) {
 			await expect(page.locator(selector)).toHaveCount(1);
 		}
-		await expect(page.locator('.social-button[href="https://sandovaldavid.com"]')).toHaveCount(0);
 	});
 
 	test('share button is present', async ({ page }) => {
