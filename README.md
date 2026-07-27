@@ -13,6 +13,7 @@ A static, bilingual hub that gives recruiters, clients, and collaborators one pl
 - **Targeted interactivity:** browser JavaScript is limited to theme initialization and selection, native sharing with clipboard fallback, conversion events, and Vercel Analytics.
 - **Pragmatic architecture:** shallow boundaries make route composition, reusable concepts, interactive features, and page sections discoverable without applying full Feature-Sliced Design ceremony.
 - **Governed visual identity:** the Link Hub consumes shared Identity Core primitives through explicit Light/Dark channel aliases and component roles instead of maintaining an independent palette.
+- **Human-first SEO:** localized metadata identifies David and his durable Software Engineer role, while `ProfilePage` structured data connects the Hub to one canonical `Person` and approved public profiles.
 - **Repeatable validation:** the repository defines type, architecture, formatting, lint, link, unit, build, browser, accessibility, and Lighthouse checks, with an equivalent local gate for periods when hosted Actions are unavailable.
 
 ## Why Astro
@@ -95,7 +96,7 @@ It executes, in order:
 5. Internal and external link health with retry-aware transient warnings.
 6. Bun unit tests.
 7. The Astro production build.
-8. Playwright functional and Axe accessibility tests.
+8. Playwright functional, SEO and Axe accessibility tests.
 9. Lighthouse mobile and desktop audits for `/` and `/es/`.
 
 The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with Axe; the README does not claim formal conformance certification. Lighthouse enforces the documented category and metric budgets rather than describing performance as guaranteed across every device or network.
@@ -113,7 +114,7 @@ GitHub Actions may be unavailable when the account quota is exhausted. A skipped
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
-| `bun run test:e2e` | Run Playwright functional, accessibility and Link Hub channel coverage |
+| `bun run test:e2e` | Run Playwright functional, accessibility, SEO and Link Hub channel coverage |
 | `bun run test:e2e:show-report` | Serve the Playwright HTML report on container port `9323` |
 | `bun run test:lighthouse` | Run Lighthouse mobile and desktop profiles |
 | `bun run validate:quality` | Run type, architecture, format, lint, link, unit, and build checks |
@@ -143,6 +144,7 @@ Production deployment is configured for merges to `main`. Pull-request previews 
 
 - [`docs/architecture.md`](docs/architecture.md) — boundaries, dependency direction, and trade-offs
 - [`docs/design-system.md`](docs/design-system.md) — Identity Core, Link Hub aliases, component roles and visual evidence
+- [`docs/seo.md`](docs/seo.md) — human-first search intent, localized metadata, schema graph and social-preview validation
 - [`docs/devcontainer.md`](docs/devcontainer.md) — reproducible development environment and recovery
 - [`docs/ci-validation.md`](docs/ci-validation.md) — stable check contract and local fallback
 - [`docs/performance-budget.md`](docs/performance-budget.md) — Lighthouse thresholds and update policy

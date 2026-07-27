@@ -6,6 +6,7 @@ import ThemeToggle from '@features/theme-toggle/ui/ThemeToggle.astro';
 import type { SEOProps } from '@/app/models/seo.model';
 import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
+import { getProfilePageStructuredData } from '@data/structured-data';
 
 interface Props extends SEOProps {
 	alternates?: { en: string; es: string };
@@ -19,9 +20,12 @@ const {
 	themeColor,
 	applicationName = siteConfig.name,
 	appleMobileWebAppTitle = siteConfig.shortName,
-	ogType = 'website',
+	ogType = 'profile',
 	ogImageAlt = '',
+	ogImageSecureUrl,
 	ogImageType = 'image/png',
+	ogImageWidth,
+	ogImageHeight,
 	ogSiteName = siteConfig.name,
 	fbAppId = siteConfig.fbAppId,
 	ogLocale = 'en_US',
@@ -43,30 +47,18 @@ const themeScript = getThemeInitScript();
 const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
 const canonicalPath = canonicalUrl ?? Astro.url.pathname;
 const finalCanonicalUrl = new URL(canonicalPath, siteConfig.url).href;
-const absoluteOgImage = new URL(ogImage, siteConfig.url).href;
+const sitemapUrl = new URL('/sitemap-index.xml', siteConfig.url).href;
+const absoluteOgImage = new URL(ogImageSecureUrl ?? ogImage, siteConfig.url).href;
+const profileImageAlt = ogImageAlt || twitterImageAlt || `${author} professional profile`;
 const alternateLocale = ogLocale.startsWith('es_') ? 'en_US' : 'es_PE';
-
-const jsonLd = {
-	'@context': 'https://schema.org',
-	'@type': 'Person',
-	name: 'David Sandoval Salvador',
-	url: siteConfig.portfolioUrl,
-	mainEntityOfPage: finalCanonicalUrl,
-	image: absoluteOgImage,
-	email: `mailto:${siteConfig.email}`,
-	jobTitle: 'Software Engineer',
-	knowsLanguage: [
-		{ '@type': 'Language', name: 'English', alternateName: 'en' },
-		{ '@type': 'Language', name: 'Spanish', alternateName: 'es' },
-	],
-	sameAs: [
-		siteConfig.portfolioUrl,
-		siteConfig.socialUrls.linkedin,
-		siteConfig.githubUrl,
-		siteConfig.socialUrls.twitter,
-		siteConfig.socialUrls.instagram,
-	],
-};
+const jsonLd = getProfilePageStructuredData({
+	title,
+	description,
+	lang,
+	canonicalUrl: finalCanonicalUrl,
+	imageUrl: absoluteOgImage,
+	imageAlt: profileImageAlt,
+});
 ---
 
 <!doctype html>
@@ -75,7 +67,7 @@ const jsonLd = {
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="sitemap" href={sitemapUrl} />
 
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
@@ -104,6 +96,8 @@ const jsonLd = {
 		<meta property="og:author" content={author} />
 		{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
 		{ogImageType && <meta property="og:image:type" content={ogImageType} />}
+		{ogImageWidth && <meta property="og:image:width" content={String(ogImageWidth)} />}
+		{ogImageHeight && <meta property="og:image:height" content={String(ogImageHeight)} />}
 		{fbAppId && <meta property="fb:app_id" content={fbAppId} />}
 		<meta property="og:locale" content={ogLocale} />
 		<meta property="og:locale:alternate" content={alternateLocale} />

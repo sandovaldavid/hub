@@ -24,15 +24,17 @@ describe('public identity registry', () => {
 
 		expect(siteConfig).toContain("email: 'hello@sandovaldavid.com'");
 		expect(siteConfig).toContain("twitterHandle: '@jdsandoval_'");
+		expect(siteConfig).toContain("name: 'David Sandoval — Professional Link Hub'");
 		expect(siteConfig).not.toContain('contact@sandovaldavid.com');
 		expect(security).toContain('[hello@sandovaldavid.com](mailto:hello@sandovaldavid.com)');
 		expect(security).not.toContain('contact@sandovaldavid.com');
 	});
 
-	test('publishes only approved social destinations', async () => {
-		const [siteConfig, socialLinks, layout] = await Promise.all([
+	test('publishes only approved social destinations through structured data', async () => {
+		const [siteConfig, socialLinks, structuredData, layout] = await Promise.all([
 			read('src/data/site.config.ts'),
 			read('src/data/social-links.ts'),
+			read('src/data/structured-data.ts'),
 			read('src/app/layouts/Layout.astro'),
 		]);
 
@@ -50,9 +52,10 @@ describe('public identity registry', () => {
 		expect(socialLinks).toContain("username: '@jdsandovals'");
 		expect(socialLinks).toContain("username: '@jdsandoval_'");
 		expect(socialLinks).not.toMatch(/id: '(?:youtube|tiktok|facebook)'/);
-		expect(layout).toContain('siteConfig.socialUrls.linkedin');
-		expect(layout).toContain('siteConfig.socialUrls.twitter');
-		expect(layout).toContain('siteConfig.socialUrls.instagram');
+		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
+		expect(structuredData).toContain('url: siteConfig.portfolioUrl');
+		expect(layout).toContain('getProfilePageStructuredData');
+		expect(layout).not.toContain('siteConfig.socialUrls.');
 	});
 
 	test('includes the portfolio in the professional and social links section', async () => {

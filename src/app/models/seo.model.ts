@@ -40,6 +40,12 @@ export interface SEOProps {
 	/** OG image MIME type (image/png, image/jpeg, etc.) */
 	ogImageType?: string;
 
+	/** Intrinsic Open Graph image width in pixels */
+	ogImageWidth?: number;
+
+	/** Intrinsic Open Graph image height in pixels */
+	ogImageHeight?: number;
+
 	/** Site name for Open Graph */
 	ogSiteName?: string;
 
@@ -82,6 +88,6 @@ export interface SEOProps {
 	keywords?: string[];
 
 	//  Language
-	/** HTML lang attribute (es, en, etc.) */
-	lang?: string;
+	/** HTML lang attribute */
+	lang?: 'en' | 'es';
 }

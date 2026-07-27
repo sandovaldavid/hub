@@ -44,6 +44,22 @@ Contributors must not:
 - reuse social-platform colors as David's brand colors;
 - weaken contrast, reduced-motion, keyboard or high-contrast behavior.
 
+## SEO and public identity
+
+Read [`docs/seo.md`](docs/seo.md) before changing titles, descriptions, Open Graph, Twitter Cards, canonicals, `hreflang`, robots, sitemap behavior or JSON-LD.
+
+Contributors must:
+
+- keep David's name and durable Software Engineer role primary;
+- treat stacks, tools and technologies as supporting evidence rather than the identity definition;
+- keep English and Spanish metadata semantically equivalent;
+- build JSON-LD through `src/data/structured-data.ts` instead of embedding a second schema graph in the layout;
+- source public profiles from `siteConfig.sameAs` and the approved contact registry;
+- update unit and E2E contracts when metadata, schema relationships or social-preview assets change;
+- mark real platform previews as unconfirmed until the deployed result is inspected.
+
+Contributors must not introduce unsupported seniority, leadership, specialization, certification, authority, metrics or business-outcome claims.
+
 ## Validation
 
 Use the repository commands from a compatible Ubuntu environment or the DevContainer:
@@ -54,5 +70,7 @@ bun run validate:local
 ```
 
 For a focused design-system change, inspect the Playwright report attachments produced by `tests/e2e/channel-theme.spec.ts`. To capture matching deployed baseline screenshots, set `BASELINE_URL` as documented in [`docs/design-system.md`](docs/design-system.md).
+
+For an SEO change, verify the exact EN/ES metadata and JSON-LD through `tests/e2e/seo.spec.ts`, then inspect deployed social previews as documented in [`docs/seo.md`](docs/seo.md).
 
 A disabled, missing, skipped or quota-blocked GitHub Actions run is not a pass. Record every command that was not executed and the reason in the pull request.

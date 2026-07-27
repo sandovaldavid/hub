@@ -6,9 +6,9 @@ This repository uses a pragmatic, shallow structure for a small static Astro app
 
 | Directory | Responsibility |
 | --- | --- |
-| `src/app` | Global layout, application-wide styles, channel tokens and page-level models. |
+| `src/app` | Global layout, styles, channel tokens and page-level models. |
 | `src/pages` | Astro routes only. Pages compose sections and load localized data. |
-| `src/data` | Typed content and configuration used by routes and components. |
+| `src/data` | Typed content, external URLs, SEO metadata, structured data and configuration used by routes and components. |
 | `src/shared` | Reusable UI primitives, assets, utilities, i18n and analytics infrastructure. |
 | `src/entities` | Reusable domain-shaped UI and logic that has more than one consumer. |
 | `src/features` | Interactive user actions with their own behavior, such as sharing or theme selection. |
@@ -45,6 +45,14 @@ The command scans TypeScript, JavaScript and Astro imports, rejects circular dep
 External platform colors are a narrow exception owned by `src/entities/social-link/ui/SocialButton.css`. They remain local `--platform-*` values and must not flow into general Link Hub surfaces, text, focus or status behavior.
 
 The complete contract, source authority and validation rules are documented in [`design-system.md`](design-system.md).
+
+## SEO data boundary
+
+Localized metadata is owned by `src/shared/i18n/locales/en.json` and `es.json`, assembled through `src/data/seo.ts` and rendered by `src/app/layouts/Layout.astro`. The layout must not own a second copy of titles, descriptions, social-preview values or public profiles.
+
+`src/data/site.config.ts` owns the runtime copy of the approved public identity registry and the social-preview asset contract. `src/data/structured-data.ts` is the only builder for the schema.org graph. It models each localized Hub route as a `ProfilePage` around one canonical `Person` whose long-form website is the portfolio.
+
+The complete search intent, schema rationale, localization contract and manual social-preview procedure are documented in [`seo.md`](seo.md).
 
 ## Trade-offs
 
