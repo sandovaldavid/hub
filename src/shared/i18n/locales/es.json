@@ -63,24 +63,20 @@
 		"sectionsLabel": "Secciones del perfil profesional"
 	},
 	"seo": {
-		"title": "David Sandoval | Ingeniero de Software · Angular, .NET y TypeScript",
-		"description": "Ingeniero de Software que construye productos web confiables con Angular, .NET y TypeScript. En Lima y disponible para oportunidades remotas en Europa y Latinoamérica.",
-		"ogImageAlt": "David Sandoval - Ingeniero de Software especializado en Angular, .NET y TypeScript.",
-		"twitterImageAlt": "David Sandoval - Ingeniero de Software que construye productos web confiables para equipos remotos en Europa y Latinoamérica.",
-		"twitterLabel1": "Stack principal",
-		"twitterData1": "Angular · .NET · TypeScript",
+		"title": "David Sandoval | Ingeniero de Software",
+		"description": "David Sandoval es Ingeniero de Software: aprende continuamente, construye sistemas y productos mantenibles, documenta decisiones y comparte evidencia mediante su trabajo.",
+		"ogImageAlt": "Retrato de David Sandoval, Ingeniero de Software, con su nombre y rol profesional.",
+		"twitterImageAlt": "Retrato de David Sandoval, Ingeniero de Software, con su nombre y rol profesional.",
+		"twitterLabel1": "Enfoque profesional",
+		"twitterData1": "Sistemas · Productos · Evidencia",
 		"ogLocale": "es_PE",
 		"keywords": [
 			"David Sandoval",
 			"Ingeniero de Software",
-			"Desarrollador Angular",
-			"Desarrollador .NET",
-			"Desarrollador TypeScript",
-			"C#",
-			"Astro",
+			"Ingeniería de Software",
+			"Ingeniería de Sistemas y Productos",
+			"Portafolio de Ingeniería",
 			"Ingeniero de Software Remoto",
-			"Europa",
-			"Latinoamérica",
 			"Perú"
 		]
 	},
