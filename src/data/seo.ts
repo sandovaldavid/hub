@@ -9,6 +9,7 @@ const seoLocales = { en, es };
 
 export function getSEO(lang: Lang = 'en'): SEOProps {
 	const t = seoLocales[lang].seo;
+	const socialPreviewUrl = new URL(siteConfig.socialPreview.path, siteConfig.url).href;
 
 	return {
 		// Primary Meta Tags
@@ -22,11 +23,13 @@ export function getSEO(lang: Lang = 'en'): SEOProps {
 		themeColor: siteConfig.themeColor,
 
 		// Open Graph
-		ogType: 'website',
-		ogImage: '/og/og-image.png',
+		ogType: 'profile',
+		ogImage: siteConfig.socialPreview.path,
 		ogImageAlt: t.ogImageAlt,
-		ogImageSecureUrl: `${siteConfig.url}/og/og-image.png`,
-		ogImageType: 'image/png',
+		ogImageSecureUrl: socialPreviewUrl,
+		ogImageType: siteConfig.socialPreview.type,
+		ogImageWidth: siteConfig.socialPreview.width,
+		ogImageHeight: siteConfig.socialPreview.height,
 		ogSiteName: siteConfig.name,
 		fbAppId: siteConfig.fbAppId,
 		ogLocale: t.ogLocale,
