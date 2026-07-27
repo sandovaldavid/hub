@@ -47,6 +47,7 @@ const themeScript = getThemeInitScript();
 const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
 const canonicalPath = canonicalUrl ?? Astro.url.pathname;
 const finalCanonicalUrl = new URL(canonicalPath, siteConfig.url).href;
+const sitemapUrl = new URL('/sitemap-index.xml', siteConfig.url).href;
 const absoluteOgImage = new URL(ogImageSecureUrl ?? ogImage, siteConfig.url).href;
 const profileImageAlt = ogImageAlt || twitterImageAlt || `${author} professional profile`;
 const alternateLocale = ogLocale.startsWith('es_') ? 'en_US' : 'es_PE';
@@ -66,7 +67,7 @@ const jsonLd = getProfilePageStructuredData({
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="sitemap" href={sitemapUrl} />
 
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
