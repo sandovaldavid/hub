@@ -19,7 +19,7 @@ export const siteConfig = {
 	portfolioUrl,
 	githubUrl,
 	socialUrls: socialUrls,
-	// `url` identifies David's canonical website; `sameAs` is limited to approved public profiles.
+	// `portfolioUrl` identifies David's canonical website; `sameAs` lists approved profiles.
 	sameAs: [socialUrls.linkedin, githubUrl, socialUrls.twitter, socialUrls.instagram],
 	resume: {
 		en: 'https://sandovaldavid.com/resume/david-sandoval-resume.pdf',
