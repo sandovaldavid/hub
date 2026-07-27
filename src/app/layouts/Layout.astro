@@ -83,7 +83,7 @@ const jsonLd = getProfilePageStructuredData({
 		<meta name="color-scheme" content="light dark" />
 
 		<!-- Favicon -->
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link id="site-favicon" rel="icon" type="image/svg+xml" href="/favicon.dark.svg" />
 
 		<!-- Open Graph -->
 		<meta property="og:type" content={ogType} />
@@ -140,6 +140,22 @@ const jsonLd = getProfilePageStructuredData({
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 		<script is:inline set:html={themeScript} />
+		<script>
+			import { ThemeManager } from '@entities/theme/lib/theme-manager';
+			import { updateFavicon } from '@entities/theme/lib/theme-assets';
+
+			window.addEventListener('theme-change', event => {
+				const effectiveTheme = (event as CustomEvent<{ effective?: string }>).detail?.effective;
+
+				if (effectiveTheme === 'light' || effectiveTheme === 'dark') {
+					updateFavicon(effectiveTheme);
+				}
+			});
+
+			document.addEventListener('astro:after-swap', () => {
+				updateFavicon(new ThemeManager().getThemeState().effective);
+			});
+		</script>
 		<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	</head>
 	<body class="min-h-screen bg-channel-background-canvas text-channel-content-default">

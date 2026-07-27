@@ -154,6 +154,29 @@ Those values represent Instagram, Facebook, LinkedIn, YouTube and TikTok identit
 
 `src/data/site.config.ts` also contains the static browser `themeColor` metadata value. HTML metadata cannot consume a runtime CSS custom property, so the value is intentionally duplicated as the approved sRGB/HEX reference for `color/primary/500-light`. This is a synchronization exception, not a second design token.
 
+## Browser chrome assets
+
+The browser favicon follows the effective Light or Dark theme, including a
+manual preference that overrides the system preference. The two public favicon
+files mirror the approved logo files byte-for-byte because browsers require
+standalone public resources:
+
+```text
+public/logo/sandovaldavid.svg       → public/favicon.dark.svg
+public/logo/sandovaldavid.light.svg → public/favicon.light.svg
+```
+
+The unit contract in `tests/unit/theme.test.js` rejects drift between each logo
+and its favicon. Update the matching favicon whenever an approved logo changes.
+`Layout.astro` renders one stable `#site-favicon` link with the Dark asset as a
+no-JavaScript fallback. The early theme script selects the effective asset
+before interaction, and `ThemeManager` plus the `theme-change` event keep it
+synchronized after toggles and system preference changes.
+
+The static `theme-color` metadata remains a separate contract. HTML metadata
+cannot consume the runtime CSS custom property, so it continues to use the
+approved Light primary color rather than duplicating favicon behavior.
+
 ## Accessibility contract
 
 - Normal text and primary action states must meet WCAG AA `4.5:1` contrast in Light and Dark Mode.

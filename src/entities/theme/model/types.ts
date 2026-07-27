@@ -4,11 +4,12 @@
  */
 
 export type Theme = 'light' | 'dark' | 'system';
+export type EffectiveTheme = Exclude<Theme, 'system'>;
 
 export interface ThemeState {
 	current: Theme;
-	effective: 'light' | 'dark'; // The actual applied theme (resolves 'system')
-	systemPreference: 'light' | 'dark';
+	effective: EffectiveTheme; // The actual applied theme (resolves 'system')
+	systemPreference: EffectiveTheme;
 }
 
 export interface ThemeConfig {

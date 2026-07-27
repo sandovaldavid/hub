@@ -3,8 +3,9 @@
  * Theme management business logic
  */
 
-import type { Theme, ThemeState, ThemeConfig } from '../model/types';
+import type { EffectiveTheme, Theme, ThemeState, ThemeConfig } from '../model/types';
 import { DEFAULT_THEME_CONFIG } from '../model/types';
+import { THEME_FAVICON_PATHS, updateFavicon } from './theme-assets';
 
 export class ThemeManager {
 	private config: ThemeConfig;
@@ -64,6 +65,7 @@ export class ThemeManager {
 
 		const effectiveTheme = this.resolveEffectiveTheme(theme);
 		document.documentElement.setAttribute(this.config.attribute, effectiveTheme);
+		updateFavicon(effectiveTheme);
 	}
 
 	/**
@@ -125,20 +127,21 @@ export class ThemeManager {
 	/**
 	 * Listen to system preference changes
 	 */
-	watchSystemPreference(callback: (theme: 'light' | 'dark') => void): () => void {
+	watchSystemPreference(callback: (theme: EffectiveTheme) => void): () => void {
 		if (typeof window === 'undefined') return () => {};
 
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
 		const handler = (e: MediaQueryListEvent) => {
 			const newPreference = e.matches ? 'dark' : 'light';
-			callback(newPreference);
 
 			// If current theme is 'system', update automatically
 			const currentTheme = this.getStoredTheme() || this.config.defaultTheme;
 			if (currentTheme === 'system') {
 				this.applyTheme('system');
 			}
+
+			callback(newPreference);
 		};
 
 		mediaQuery.addEventListener('change', handler);
@@ -154,12 +157,14 @@ export class ThemeManager {
  */
 export function getThemeInitScript(config: Partial<ThemeConfig> = {}): string {
 	const cfg = { ...DEFAULT_THEME_CONFIG, ...config };
+	const faviconPaths = JSON.stringify(THEME_FAVICON_PATHS);
 
 	return `
     (function() {
       const storageKey = '${cfg.storageKey}';
       const attribute = '${cfg.attribute}';
       const defaultTheme = '${cfg.defaultTheme}';
+      const faviconPaths = ${faviconPaths};
       
       function getSystemPreference() {
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -174,6 +179,11 @@ export function getThemeInitScript(config: Partial<ThemeConfig> = {}): string {
       const effective = resolveTheme(theme);
       
       document.documentElement.setAttribute(attribute, effective);
+
+      const favicon = document.getElementById('site-favicon');
+      if (favicon && faviconPaths[effective]) {
+        favicon.setAttribute('href', faviconPaths[effective]);
+      }
     })();
   `;
 }
