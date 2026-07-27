@@ -20,8 +20,7 @@ const routes = [
 		title: 'David Sandoval | Software Engineer',
 		description:
 			'David Sandoval is a Software Engineer who learns continuously, builds maintainable systems and products, documents decisions, and shares evidence through his work.',
-		imageAlt:
-			'Portrait of David Sandoval, Software Engineer, with his name and professional role.',
+		imageAlt: 'Portrait of David Sandoval, Software Engineer, with his name and professional role.',
 		twitterLabel: 'Professional focus',
 		twitterData: 'Systems · Products · Evidence',
 	},
@@ -34,8 +33,7 @@ const routes = [
 		title: 'David Sandoval | Ingeniero de Software',
 		description:
 			'David Sandoval es Ingeniero de Software: aprende continuamente, construye sistemas y productos mantenibles, documenta decisiones y comparte evidencia mediante su trabajo.',
-		imageAlt:
-			'Retrato de David Sandoval, Ingeniero de Software, con su nombre y rol profesional.',
+		imageAlt: 'Retrato de David Sandoval, Ingeniero de Software, con su nombre y rol profesional.',
 		twitterLabel: 'Enfoque profesional',
 		twitterData: 'Sistemas · Productos · Evidencia',
 	},
@@ -67,10 +65,7 @@ for (const route of routes) {
 				'content',
 				'David Sandoval'
 			);
-			await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-				'content',
-				'index, follow'
-			);
+			await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
 			await expect(page.locator('meta[name="googlebot"]')).toHaveAttribute(
 				'content',
 				'index, follow'
@@ -85,10 +80,7 @@ for (const route of routes) {
 			const canonical = route.path === '/' ? `${siteUrl}/` : `${siteUrl}/es/`;
 			await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', canonical);
 			await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', canonical);
-			await expect(page.locator('meta[name="twitter:url"]')).toHaveAttribute(
-				'content',
-				canonical
-			);
+			await expect(page.locator('meta[name="twitter:url"]')).toHaveAttribute('content', canonical);
 			await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute(
 				'href',
 				`${siteUrl}/`

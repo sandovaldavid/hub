@@ -104,14 +104,7 @@ describe('human-first SEO contract', () => {
 	test('documents every audit classification and the selected alternatives', async () => {
 		const audit = await read('docs/seo.md');
 
-		for (const classification of [
-			'Critical',
-			'High',
-			'Medium',
-			'Low',
-			'Strength',
-			'Unconfirmed',
-		]) {
+		for (const classification of ['Critical', 'High', 'Medium', 'Low', 'Strength', 'Unconfirmed']) {
 			expect(audit).toContain(`| ${classification} |`);
 		}
 
