@@ -97,7 +97,8 @@ describe('human-first SEO contract', () => {
 		expect(robotsRoute).toContain("new URL('sitemap-index.xml', site)");
 		expect(robotsRoute).toContain('User-agent: *');
 		expect(robotsRoute).toContain('Allow: /');
-		expect(layout).toContain('<link rel="sitemap" href="/sitemap-index.xml" />');
+		expect(layout).toContain("const sitemapUrl = new URL('/sitemap-index.xml', siteConfig.url).href;");
+		expect(layout).toContain('<link rel="sitemap" href={sitemapUrl} />');
 		expect(layout).toContain('hreflang="x-default"');
 	});
 
