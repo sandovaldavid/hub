@@ -77,7 +77,8 @@ for (const route of routes) {
 			);
 
 			const keywordContent = await page.locator('meta[name="keywords"]').getAttribute('content');
-			expect(keywordContent).not.toMatch(/Angular|\.NET|TypeScript/i);
+			expect(keywordContent).not.toBeNull();
+			expect(keywordContent ?? '').not.toMatch(/Angular|\.NET|TypeScript/i);
 		});
 
 		test('publishes canonical, reciprocal hreflang and sitemap URLs', async ({ page }) => {
@@ -100,9 +101,10 @@ for (const route of routes) {
 				'href',
 				`${siteUrl}/`
 			);
-			expect(await page.locator('link[rel="sitemap"]').evaluate(element => element.href)).toBe(
-				`${siteUrl}/sitemap-index.xml`
-			);
+			const sitemapUrl = await page
+				.locator('link[rel="sitemap"]')
+				.evaluate(element => (element as HTMLLinkElement).href);
+			expect(sitemapUrl).toBe(`${siteUrl}/sitemap-index.xml`);
 		});
 
 		test('keeps Open Graph and Twitter metadata semantically aligned', async ({ page }) => {
