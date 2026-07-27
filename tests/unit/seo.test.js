@@ -55,7 +55,7 @@ describe('human-first SEO contract', () => {
 		expect(structuredData).toContain("'@type': 'ProfilePage'");
 		expect(structuredData).toContain("'@type': 'Person'");
 		expect(structuredData).toContain("'@type': 'ImageObject'");
-		expect(structuredData).toContain('mainEntity: {\'@id\': personId}'.replace("{\\'", "{ '").replace("\\':", "':"));
+		expect(structuredData).toContain("mainEntity: { '@id': personId }");
 		expect(structuredData).toContain("mainEntityOfPage: { '@id': pageId }");
 		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
 		expect(siteConfig).toContain(
