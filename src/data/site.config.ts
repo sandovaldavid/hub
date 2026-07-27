@@ -18,7 +18,7 @@ export const siteConfig = {
 	url: 'https://hub.sandovaldavid.com',
 	portfolioUrl,
 	githubUrl,
-	socialUrls,
+	socialUrls: socialUrls,
 	// `url` identifies David's canonical website; `sameAs` is limited to approved public profiles.
 	sameAs: [socialUrls.linkedin, githubUrl, socialUrls.twitter, socialUrls.instagram],
 	resume: {
