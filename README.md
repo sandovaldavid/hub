@@ -2,9 +2,9 @@
 
 A static, bilingual hub that gives recruiters, clients, and collaborators one place to reach my résumé, portfolio, selected projects, technical profiles, and contact channels.
 
-[View the production site](https://linktree.sandovaldavid.com) · [Open the portfolio](https://sandovaldavid.com) · [View the résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
+[View the production site](https://hub.sandovaldavid.com) · [Open the portfolio](https://sandovaldavid.com) · [View the résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
 
-[![Current production preview](public/og/og-image.png)](https://linktree.sandovaldavid.com)
+[![Current production preview](public/og/og-image.png)](https://hub.sandovaldavid.com)
 
 ## What this repository demonstrates
 
@@ -12,6 +12,7 @@ A static, bilingual hub that gives recruiters, clients, and collaborators one pl
 - **Typed content configuration:** profile data, external URLs, calls to action, projects, skills, and SEO metadata live under `src/data` rather than inside visual components.
 - **Targeted interactivity:** browser JavaScript is limited to theme initialization and selection, native sharing with clipboard fallback, conversion events, and Vercel Analytics.
 - **Pragmatic architecture:** shallow boundaries make route composition, reusable concepts, interactive features, and page sections discoverable without applying full Feature-Sliced Design ceremony.
+- **Governed visual identity:** the Link Hub consumes shared Identity Core primitives through explicit Light/Dark channel aliases and component roles instead of maintaining an independent palette.
 - **Repeatable validation:** the repository defines type, architecture, formatting, lint, link, unit, build, browser, accessibility, and Lighthouse checks, with an equivalent local gate for periods when hosted Actions are unavailable.
 
 ## Why Astro
@@ -112,7 +113,7 @@ GitHub Actions may be unavailable when the account quota is exhausted. A skipped
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
-| `bun run test:e2e` | Run Playwright functional and Axe coverage |
+| `bun run test:e2e` | Run Playwright functional, accessibility and Link Hub channel coverage |
 | `bun run test:e2e:show-report` | Serve the Playwright HTML report on container port `9323` |
 | `bun run test:lighthouse` | Run Lighthouse mobile and desktop profiles |
 | `bun run validate:quality` | Run type, architecture, format, lint, link, unit, and build checks |
@@ -141,11 +142,13 @@ Production deployment is configured for merges to `main`. Pull-request previews 
 ## Documentation
 
 - [`docs/architecture.md`](docs/architecture.md) — boundaries, dependency direction, and trade-offs
+- [`docs/design-system.md`](docs/design-system.md) — Identity Core, Link Hub aliases, component roles and visual evidence
 - [`docs/devcontainer.md`](docs/devcontainer.md) — reproducible development environment and recovery
 - [`docs/ci-validation.md`](docs/ci-validation.md) — stable check contract and local fallback
 - [`docs/performance-budget.md`](docs/performance-budget.md) — Lighthouse thresholds and update policy
 - [`docs/branch-governance.md`](docs/branch-governance.md) — promotion flow and versioned rulesets
 - [`docs/maintenance.md`](docs/maintenance.md) — dependency, link, content, security, and license maintenance
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow and design-system guardrails
 - [`SECURITY.md`](SECURITY.md) — private vulnerability reporting and coordinated disclosure
 
 ## Reuse

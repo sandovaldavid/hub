@@ -10,7 +10,7 @@ const astroConfig = await readFile(join(repositoryRoot, 'astro.config.mjs'), 'ut
 const siteConfig = await readFile(join(repositoryRoot, 'src/data/site.config.ts'), 'utf8');
 const layout = await readFile(join(repositoryRoot, 'src/app/layouts/Layout.astro'), 'utf8');
 
-const productionUrl = 'https://linktree.sandovaldavid.com';
+const productionUrl = 'https://hub.sandovaldavid.com';
 const previewPath = join(repositoryRoot, 'public/og/og-image.png');
 
 describe('README contract', () => {

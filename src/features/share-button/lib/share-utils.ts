@@ -21,10 +21,10 @@ export function isWebShareSupported(): boolean {
  * @returns ShareData object with page information
  */
 export function getShareData(): ShareData {
-	const pageTitle = typeof document !== 'undefined' ? document.title : 'sandovaldavid - Links Hub';
+	const pageTitle = typeof document !== 'undefined' ? document.title : 'David Sandoval — Link Hub';
 
 	const pageUrl =
-		typeof window !== 'undefined' ? window.location.href : 'https://linktree.sandovaldavid.com';
+		typeof window !== 'undefined' ? window.location.href : 'https://hub.sandovaldavid.com';
 
 	return {
 		title: pageTitle,
@@ -145,7 +145,7 @@ export async function share(): Promise<ShareResult> {
 		}
 	}
 
-	// Fallback: copy to clipboard
+	// Fallback: copy URL to clipboard
 	console.log('Falling back to clipboard copy');
 	return await copyToClipboard(shareData.url);
 }

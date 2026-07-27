@@ -1,7 +1,7 @@
 ---
 /**
  * Card Component - FSD Layer: shared/ui
- * Bento Grid item base with hover effects and gradient support
+ * Link Hub surface primitive with channel-aware variants.
  */
 
 import { cn } from '../lib/utils';
@@ -28,12 +28,11 @@ const {
 const baseClasses = 'rounded-2xl transition-all duration-300';
 
 const variantClasses = {
-	default:
-		'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm',
+	default: 'bg-card-background border border-card-edge shadow-sm',
 	gradient:
-		'bg-gradient-to-br from-primary-600 via-primary-500 to-accent-500 text-white border-0 shadow-lg',
-	glass: 'glass backdrop-blur-md shadow-lg',
-	outlined: 'bg-transparent border-2 border-neutral-300 dark:border-neutral-700',
+		'bg-linear-to-br from-channel-accent-primary to-channel-accent-secondary text-button-primary-content border-0 shadow-sm',
+	glass: 'bg-card-background border border-card-edge backdrop-blur-md shadow-sm',
+	outlined: 'bg-transparent border-2 border-channel-edge-default',
 };
 
 const paddingClasses = {
@@ -45,7 +44,7 @@ const paddingClasses = {
 };
 
 const interactiveClasses = interactive
-	? 'hover:scale-105 hover:shadow-xl cursor-pointer active:scale-100'
+	? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-retro-xs active:translate-y-0 active:shadow-none'
 	: '';
 
 const cardClasses = cn(

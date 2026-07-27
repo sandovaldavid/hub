@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const siteUrl = 'https://linktree.sandovaldavid.com';
+const siteUrl = 'https://hub.sandovaldavid.com';
 
 for (const route of [
 	{ path: '/', lang: 'en', locale: 'en_US', alternateLocale: 'es_PE', title: /Software Engineer/ },
@@ -64,9 +64,17 @@ for (const route of [
 
 			expect(structuredData['@type']).toBe('Person');
 			expect(structuredData.jobTitle).toBe('Software Engineer');
-			expect(structuredData.email).toBe('mailto:contact@sandovaldavid.com');
+			expect(structuredData.email).toBe('mailto:hello@sandovaldavid.com');
 			expect(structuredData.contactPoint).toBeUndefined();
-			expect(structuredData.sameAs).toContain('https://www.linkedin.com/in/jdavidsandoval');
+			expect(structuredData.sameAs).toEqual(
+				expect.arrayContaining([
+					'https://sandovaldavid.com',
+					'https://www.linkedin.com/in/jdsandovals',
+					'https://github.com/sandovaldavid',
+					'https://x.com/jdsandoval_',
+					'https://www.instagram.com/jdsandovals',
+				])
+			);
 			expect(structuredData.mainEntityOfPage).toBe(
 				route.path === '/' ? `${siteUrl}/` : `${siteUrl}/es/`
 			);

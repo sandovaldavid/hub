@@ -1,9 +1,13 @@
 @import '../../../app/styles/global.css';
 
 .weekly-project-card {
-	@apply relative flex h-full flex-col overflow-hidden rounded-2xl border border-primary-200/70 bg-white/75 shadow-lg backdrop-blur-xl;
-	@apply transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary-400/70 hover:shadow-xl;
-	@apply dark:border-primary-800/60 dark:bg-neutral-950/75 dark:hover:border-primary-600/70;
+	@apply relative flex h-full flex-col overflow-hidden rounded-2xl border shadow-sm backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-retro-xs;
+	background-color: var(--card-background);
+	border-color: var(--card-edge-accent);
+}
+
+.weekly-project-card:hover {
+	border-color: var(--channel-accent-primary);
 }
 
 .weekly-project-card::before {
@@ -11,7 +15,11 @@
 	position: absolute;
 	inset: 0 0 auto;
 	height: 3px;
-	background: linear-gradient(90deg, var(--color-primary-500), var(--color-accent-500));
+	background: linear-gradient(
+		90deg,
+		var(--channel-accent-primary),
+		var(--channel-accent-secondary)
+	);
 }
 
 .weekly-project-card__content {
@@ -27,11 +35,13 @@
 }
 
 .weekly-project-card__index {
-	@apply text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-primary-700 sm:text-xs dark:text-primary-300;
+	@apply text-[0.625rem] font-semibold uppercase tracking-[0.14em] sm:text-xs;
+	color: var(--channel-accent-primary);
 }
 
 .weekly-project-card__title {
-	@apply m-0 text-lg font-bold leading-snug text-neutral-900 md:text-xl dark:text-neutral-50;
+	@apply m-0 text-lg font-bold leading-snug md:text-xl;
+	color: var(--channel-content-strong);
 }
 
 .weekly-project-card__status {
@@ -39,15 +49,21 @@
 }
 
 .weekly-project-card__status[data-status-tone='live'] {
-	@apply border-success-300 bg-success-100 text-success-800 dark:border-success-700 dark:bg-success-900 dark:text-success-200;
+	background-color: var(--badge-success-background);
+	color: var(--badge-success-content);
+	border-color: var(--badge-success-edge);
 }
 
 .weekly-project-card__status[data-status-tone='active'] {
-	@apply border-primary-300 bg-primary-100 text-primary-800 dark:border-primary-700 dark:bg-primary-950 dark:text-primary-200;
+	background-color: var(--badge-brand-background);
+	color: var(--badge-brand-content);
+	border-color: var(--badge-brand-edge);
 }
 
 .weekly-project-card__status[data-status-tone='private'] {
-	@apply border-warning-300 bg-warning-100 text-warning-800 dark:border-warning-700 dark:bg-warning-900 dark:text-warning-200;
+	background-color: var(--badge-warning-background);
+	color: var(--badge-warning-content);
+	border-color: var(--badge-warning-edge);
 }
 
 .weekly-project-card__evidence {
@@ -55,35 +71,45 @@
 }
 
 .weekly-project-card__evidence-item {
-	@apply rounded-xl border border-neutral-200/55 bg-white/35 px-3 py-2.5 dark:border-neutral-800/75 dark:bg-neutral-900/35;
+	@apply rounded-xl border px-3 py-2.5;
+	background-color: var(--card-background-muted);
+	border-color: var(--card-edge);
 }
 
 .weekly-project-card__evidence-item--contribution {
-	@apply border-primary-200/55 bg-primary-50/40 dark:border-primary-900/75 dark:bg-primary-950/20;
+	background-color: var(--badge-brand-background);
+	border-color: var(--badge-brand-edge);
 }
 
 .weekly-project-card__evidence-item--outcome {
-	@apply border-success-200/55 bg-success-50/45 dark:border-success-900/75 dark:bg-success-900/15;
+	background-color: var(--badge-success-background);
+	border-color: var(--badge-success-edge);
 }
 
 .weekly-project-card__evidence dt {
-	@apply flex items-center gap-2 text-[0.6875rem] font-bold uppercase tracking-wide text-neutral-700 dark:text-neutral-200;
+	@apply flex items-center gap-2 text-[0.6875rem] font-bold uppercase tracking-wide;
+	color: var(--channel-content-default);
 }
 
 .weekly-project-card__evidence-marker {
-	@apply inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-[0.5625rem] font-bold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200;
+	@apply inline-flex size-5 shrink-0 items-center justify-center rounded-full text-[0.5625rem] font-bold;
+	background-color: var(--badge-neutral-background);
+	color: var(--badge-neutral-content);
 }
 
 .weekly-project-card__evidence-item--contribution .weekly-project-card__evidence-marker {
-	@apply bg-primary-200 text-primary-800 dark:bg-primary-800 dark:text-primary-100;
+	background-color: var(--badge-brand-content);
+	color: var(--badge-brand-background);
 }
 
 .weekly-project-card__evidence-item--outcome .weekly-project-card__evidence-marker {
-	@apply bg-success-200 text-success-800 dark:bg-success-800 dark:text-success-100;
+	background-color: var(--badge-success-content);
+	color: var(--badge-success-background);
 }
 
 .weekly-project-card__evidence dd {
-	@apply m-0 mt-1.5 text-xs leading-relaxed text-neutral-700 sm:text-sm dark:text-neutral-300;
+	@apply m-0 mt-1.5 text-xs leading-relaxed sm:text-sm;
+	color: var(--channel-content-default);
 }
 
 .weekly-project-card__technologies {
@@ -91,26 +117,39 @@
 }
 
 .weekly-project-card__tech-badge {
-	@apply inline-flex items-center rounded-full border border-primary-200/80 bg-primary-50/80 px-2.5 py-1 text-[0.6875rem] font-medium leading-none text-primary-800;
-	@apply dark:border-primary-800 dark:bg-primary-950/70 dark:text-primary-200;
+	@apply inline-flex items-center rounded-full border px-2.5 py-1 text-[0.6875rem] font-medium leading-none;
+	background-color: var(--badge-brand-background);
+	color: var(--badge-brand-content);
+	border-color: var(--badge-brand-edge);
 }
 
 .weekly-project-card__actions {
-	@apply mt-auto grid grid-cols-2 gap-2 border-t border-neutral-200/80 pt-3.5 dark:border-neutral-800;
+	@apply mt-auto grid grid-cols-2 gap-2 border-t pt-3.5;
+	border-color: var(--card-edge);
 }
 
 .weekly-project-card__button {
-	@apply inline-flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-center text-xs font-semibold leading-tight no-underline;
-	@apply transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:px-3 sm:text-sm;
+	@apply inline-flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-center text-xs font-semibold leading-tight no-underline transition-all duration-200 sm:px-3 sm:text-sm;
 }
 
 .weekly-project-card__button--primary {
-	@apply bg-primary-600 text-white shadow-sm hover:bg-primary-700 hover:shadow-md dark:bg-primary-700 dark:hover:bg-primary-600;
+	background-color: var(--button-primary-background);
+	color: var(--button-primary-content);
+}
+
+.weekly-project-card__button--primary:hover {
+	background-color: var(--button-primary-background-hover);
 }
 
 .weekly-project-card__button--secondary {
-	@apply border border-neutral-300 bg-white/75 text-neutral-900 hover:border-primary-400 hover:bg-primary-50;
-	@apply dark:border-neutral-700 dark:bg-neutral-900/80 dark:text-white dark:hover:border-primary-600 dark:hover:bg-primary-950/70;
+	background-color: var(--button-secondary-background);
+	color: var(--button-secondary-content);
+	border: 1px solid var(--button-secondary-edge);
+}
+
+.weekly-project-card__button--secondary:hover {
+	background-color: var(--button-secondary-background-hover);
+	border-color: var(--control-edge-hover);
 }
 
 .weekly-project-card__button-icon {
@@ -118,6 +157,8 @@
 }
 
 .weekly-project-card__availability {
-	@apply flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-dashed border-neutral-300 bg-white/35 px-2 py-2 text-center text-[0.6875rem] font-medium leading-tight text-neutral-600;
-	@apply dark:border-neutral-700 dark:bg-neutral-900/35 dark:text-neutral-400;
+	@apply flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-dashed px-2 py-2 text-center text-[0.6875rem] font-medium leading-tight;
+	background-color: var(--card-background-muted);
+	color: var(--channel-content-muted);
+	border-color: var(--card-edge);
 }

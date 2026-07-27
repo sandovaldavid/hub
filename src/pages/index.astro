@@ -21,7 +21,7 @@ const t = useTranslations(lang);
 const SEO = getSEO(lang);
 const alternates = getAlternateUrls(Astro.url);
 const projects = getFeaturedProjects(lang);
-const headerSocialLinks = socialLinks.filter(link => link.id !== 'website');
+const professionalSocialLinks = socialLinks.filter(link => link.priority !== 'footer');
 
 const localizedProfile = {
 	...profile,
@@ -55,7 +55,7 @@ const heroMetadata = [
 			role="region"
 			aria-label={t('hero.sectionsLabel')}>
 			<section
-				class="bento-item bento-item--hero min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-6 lg:col-start-1 lg:p-5 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
+				class="bento-item bento-item--hero min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-6 lg:col-start-1 lg:p-5"
 				data-layout-column="profile"
 				data-layout-panel="profile"
 				aria-labelledby="hero-heading">
@@ -82,17 +82,17 @@ const heroMetadata = [
 			</div>
 
 			<section
-				class="bento-item bento-item--social order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-white/80 md:bg-white/45 md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-4 lg:col-start-7 lg:p-5 md:dark:border-primary-900/50 md:dark:bg-neutral-950/40"
+				class="bento-item bento-item--social order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-lg md:backdrop-blur-xl lg:col-span-4 lg:col-start-7 lg:p-5"
 				data-layout-column="social"
 				data-layout-panel="social"
 				aria-labelledby="social-heading">
 				<h2
 					id="social-heading"
-					class="mb-2 block text-center text-xs font-semibold uppercase tracking-[0.12em] text-primary-700 md:text-left dark:text-primary-300">
+					class="mb-2 block text-center text-xs font-semibold uppercase tracking-[0.12em] text-channel-accent-primary md:text-left">
 					{t('social.heading')}
 				</h2>
 				<SocialGrid
-					links={headerSocialLinks}
+					links={professionalSocialLinks}
 					priorities={['primary', 'secondary']}
 					variant="compact"
 				/>
@@ -106,11 +106,10 @@ const heroMetadata = [
 			<header class="bento-item mx-auto max-w-3xl text-center">
 				<h2
 					id="cta-heading"
-					class="m-0 text-2xl font-bold leading-tight text-neutral-900 md:text-3xl dark:text-neutral-50">
+					class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
 					{t('cta.heading')}
 				</h2>
-				<p
-					class="mx-auto mt-2 text-sm leading-relaxed text-neutral-600 md:text-base dark:text-neutral-300">
+				<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-muted md:text-base">
 					{t('cta.description')}
 				</p>
 			</header>

@@ -27,7 +27,7 @@ const {
 	loading = 'lazy',
 	fetchpriority = loading === 'eager' ? 'high' : 'auto',
 	ring = false,
-	ringColor = 'ring-primary-500',
+	ringColor = 'ring-channel-accent-primary',
 	class: className,
 	...rest
 } = Astro.props;
@@ -57,7 +57,9 @@ const dimensions = {
 } as const;
 
 const roundedClasses = 'rounded-full';
-const ringClasses = ring ? `ring-2 ring-offset-2 ${ringColor}` : '';
+const ringClasses = ring
+	? `ring-2 ring-offset-2 ring-offset-channel-background-canvas ${ringColor}`
+	: '';
 const avatarClasses = cn(baseClasses, sizeClasses[size], roundedClasses, ringClasses, className);
 const dimension = dimensions[size];
 

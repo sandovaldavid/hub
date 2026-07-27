@@ -128,10 +128,10 @@ describe('CI workflow contract', () => {
 		);
 	});
 
-	test('gives the featured-project icon an explicit theme-aware color', () => {
+	test('gives the featured-project icon an explicit semantic theme color', () => {
 		expect(projectSection).toContain('weekly-project-section__icon');
-		expect(projectSectionStyles).toContain('text-primary-600');
-		expect(projectSectionStyles).toContain('dark:text-primary-300');
+		expect(projectSectionStyles).toContain('color: var(--channel-accent-primary);');
+		expect(projectSectionStyles).not.toMatch(/(?:dark:)?text-primary-\d{2,3}/);
 		expect(responsiveLayoutTest).toContain("projectsIconColor).not.toBe('rgb(255, 255, 255)')");
 	});
 

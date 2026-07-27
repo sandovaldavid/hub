@@ -4,45 +4,76 @@
 	@apply inline-flex items-center justify-center gap-2;
 	@apply font-medium transition-all duration-200;
 	@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
-	@apply disabled:opacity-50 disabled:pointer-events-none;
+	@apply disabled:pointer-events-none disabled:opacity-50;
+	--tw-ring-color: var(--focus-ring);
+	--tw-ring-offset-color: var(--channel-background-canvas);
 }
 
-/*
-* Variants 
-*/
-
 .button-primary {
-	@apply bg-primary-800 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500 shadow-sm hover:shadow-md transition-colors duration-200;
+	background-color: var(--button-primary-background);
+	color: var(--button-primary-content);
+	@apply shadow-sm transition-colors duration-200 hover:shadow-sm;
+}
+
+.button-primary:hover {
+	background-color: var(--button-primary-background-hover);
+}
+
+.button-primary:active {
+	background-color: var(--button-primary-background-active);
 }
 
 .button-secondary {
-	@apply bg-neutral-200 text-neutral-900 hover:bg-neutral-300 active:bg-neutral-400 focus-visible:ring-neutral-500 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700;
+	background-color: var(--button-secondary-background);
+	color: var(--button-secondary-content);
+	border: 1px solid var(--button-secondary-edge);
+}
+
+.button-secondary:hover {
+	background-color: var(--button-secondary-background-hover);
+}
+
+.button-secondary:active {
+	background-color: var(--button-secondary-background-active);
 }
 
 .button-ghost {
-	@apply bg-transparent text-neutral-700 hover:bg-neutral-100 active:bg-neutral-200 focus-visible:ring-neutral-400 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:active:bg-neutral-700;
+	background-color: transparent;
+	color: var(--button-ghost-content);
+}
+
+.button-ghost:hover {
+	background-color: var(--button-ghost-background-hover);
 }
 
 .button-link {
-	@apply bg-transparent text-primary-600 hover:text-primary-700 underline-offset-4 hover:underline focus-visible:ring-primary-500 dark:text-primary-400;
+	background-color: transparent;
+	color: var(--channel-accent-primary);
+	@apply underline-offset-4 hover:underline;
+}
+
+.button-link:hover {
+	color: var(--channel-accent-secondary);
 }
 
 .button-danger {
-	@apply bg-error-600 text-white hover:bg-error-700 active:bg-error-800 focus-visible:ring-error-500 shadow-sm hover:shadow-md;
+	background-color: var(--button-danger-background);
+	color: var(--button-danger-content);
+	@apply shadow-sm;
 }
 
-/*
-* Sizes
-*/
+.button-danger:hover {
+	background-color: var(--button-danger-background-hover);
+}
 
 .button-sm {
-	@apply h-8 px-3 text-sm rounded-md;
+	@apply h-8 rounded-md px-3 text-sm;
 }
 
 .button-md {
-	@apply h-10 px-4 text-base rounded-lg;
+	@apply h-10 rounded-lg px-4 text-base;
 }
 
 .button-lg {
-	@apply h-12 px-6 text-lg rounded-xl;
+	@apply h-12 rounded-xl px-6 text-lg;
 }

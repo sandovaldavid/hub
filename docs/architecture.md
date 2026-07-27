@@ -6,7 +6,7 @@ This repository uses a pragmatic, shallow structure for a small static Astro app
 
 | Directory | Responsibility |
 | --- | --- |
-| `src/app` | Global layout, application-wide styles and page-level models. |
+| `src/app` | Global layout, application-wide styles, channel tokens and page-level models. |
 | `src/pages` | Astro routes only. Pages compose sections and load localized data. |
 | `src/data` | Typed content and configuration used by routes and components. |
 | `src/shared` | Reusable UI primitives, assets, utilities, i18n and analytics infrastructure. |
@@ -37,6 +37,14 @@ bun run check:architecture
 ```
 
 The command scans TypeScript, JavaScript and Astro imports, rejects circular dependencies and prevents imports through single-module FSD barrels such as `@features/theme-toggle`.
+
+## Visual token boundary
+
+`src/app/styles/global.css` is the single implementation boundary for Identity Core primitives, Link Hub Light/Dark aliases and component color roles. Components may consume channel aliases or component roles, but they must not define a second primitive brand palette or choose independent Light/Dark ramp steps.
+
+External platform colors are a narrow exception owned by `src/entities/social-link/ui/SocialButton.css`. They remain local `--platform-*` values and must not flow into general Link Hub surfaces, text, focus or status behavior.
+
+The complete contract, source authority and validation rules are documented in [`design-system.md`](design-system.md).
 
 ## Trade-offs
 

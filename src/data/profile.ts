@@ -19,7 +19,6 @@ export const profile: Profile = {
 	},
 	contact: {
 		email: siteConfig.email,
-		whatsapp: '+51 901 148 564',
 	},
 	availability: {
 		status: 'available',
