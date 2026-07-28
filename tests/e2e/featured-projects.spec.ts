@@ -9,7 +9,7 @@ for (const route of [
 		outcome: 'Outcome',
 		kiokuTitle: 'Kioku · Persistent memory for AI agents',
 		yukidokeTitle: 'Yukidoke · Financial health platform',
-		linktreeTitle: 'Professional engineering hub',
+		hubTitle: 'Professional engineering hub',
 		privateRepository: 'Private repo',
 	},
 	{
@@ -20,7 +20,7 @@ for (const route of [
 		outcome: 'Resultado',
 		kiokuTitle: 'Kioku · Memoria persistente para agentes de IA',
 		yukidokeTitle: 'Yukidoke · Plataforma de salud financiera',
-		linktreeTitle: 'Hub profesional de ingeniería',
+		hubTitle: 'Hub profesional de ingeniería',
 		privateRepository: 'Repo privado',
 	},
 ]) {
@@ -49,17 +49,17 @@ for (const route of [
 
 			const kiokuCard = cardFor(route.kiokuTitle);
 			const yukidokeCard = cardFor(route.yukidokeTitle);
-			const linktreeCard = cardFor(route.linktreeTitle);
+			const hubCard = cardFor(route.hubTitle);
 
 			await expect(kiokuCard.getByRole('link', { name: /Repository|Repositorio/ })).toHaveAttribute(
 				'href',
 				'https://github.com/sandovaldavid/kioku'
 			);
 			await expect(yukidokeCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
-			await expect(linktreeCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
-			await expect(linktreeCard.getByRole('link', { name: /Live demo|Demo/ })).toHaveAttribute(
+			await expect(hubCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
+			await expect(hubCard.getByRole('link', { name: /Live demo|Demo/ })).toHaveAttribute(
 				'href',
-				'https://linktree.sandovaldavid.com'
+				'https://hub.sandovaldavid.com'
 			);
 		});
 	});

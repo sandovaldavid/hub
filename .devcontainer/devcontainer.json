@@ -1,5 +1,5 @@
 {
-	"name": "linktree",
+	"name": "hub",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
@@ -8,8 +8,8 @@
 			"PLAYWRIGHT_VERSION": "1.61.0"
 		},
 		"cacheFrom": [
-			"ghcr.io/sandovaldavid/linktree-devcontainer:main",
-			"ghcr.io/sandovaldavid/linktree-devcontainer:develop"
+			"ghcr.io/sandovaldavid/hub-devcontainer:main",
+			"ghcr.io/sandovaldavid/hub-devcontainer:develop"
 		]
 	},
 	"remoteUser": "node",
@@ -17,7 +17,7 @@
 	"workspaceFolder": "/workspace",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
 	"mounts": [
-		"source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume",
+		"source=hub-node-modules-v1,target=/workspace/node_modules,type=volume",
 		"source=devcontainer-${localWorkspaceFolderBasename}-zsh-history,target=/commandhistory,type=volume"
 	],
 	"containerEnv": {

@@ -10,7 +10,7 @@
 	"extensions": [".md", ".ts", ".json"],
 	"ignoredExternalUrls": [
 		{
-			"pattern": "^https://sandovaldavid\\.github\\.io/linktree/playwright-report/",
+			"pattern": "^https://sandovaldavid\\.github\\.io/hub/playwright-report/",
 			"reason": "Playwright report URLs only exist after a report has been published."
 		}
 	],

@@ -59,8 +59,8 @@ Prerequisites:
 - Node.js 22.19 or newer for the full Lighthouse toolchain
 
 ```bash
-git clone git@github.com:sandovaldavid/linktree.git
-cd linktree
+git clone git@github.com:sandovaldavid/hub.git
+cd hub
 git switch develop
 bun install --frozen-lockfile
 bun run dev
