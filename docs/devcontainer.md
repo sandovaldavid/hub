@@ -13,7 +13,7 @@ The DevContainer is the supported environment for running the complete validatio
 - GitHub CLI from the pinned `github-cli` Feature.
 - Starship `1.26.0`, eza `0.23.5` and pinned Zsh plugins installed by the repository lifecycle script.
 - Repository mounted at `/workspace`.
-- Linux `node_modules` stored in the named `linktree-node-modules-v1` volume.
+- Linux `node_modules` stored in the named `hub-node-modules-v1` volume.
 - Zsh history stored in a separate volume scoped to the workspace name.
 
 The source tree remains visible on the host, while Linux dependencies and executable links stay inside Docker. This prevents Bun from reusing `.bin` links or package artifacts created by another operating system.
@@ -76,7 +76,7 @@ Responsibilities:
 
 ## Open or rebuild the container
 
-1. Open the Linktree repository root in VS Code.
+1. Open the Hub repository root in VS Code.
 2. Check out the branch you intend to validate.
 3. Confirm `package.json` and `bun.lock` are committed and synchronized.
 4. Run **Dev Containers: Rebuild Container Without Cache** after changing `.devcontainer/**`.
@@ -210,8 +210,8 @@ bash .devcontainer/scripts/post-create.sh
 For a genuinely clean test, close the DevContainer and remove both persistent volumes from the host:
 
 ```bash
-docker volume rm linktree-node-modules-v1
-docker volume rm devcontainer-linktree-zsh-history
+docker volume rm hub-node-modules-v1
+docker volume rm devcontainer-hub-zsh-history
 ```
 
 The history volume name may differ when the local workspace folder has another name. List matching volumes first:

@@ -109,7 +109,7 @@ const requestUrl = async (url, fetchImpl, timeoutMs) => {
 			signal: AbortSignal.timeout(timeoutMs),
 			headers: {
 				accept: 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8',
-				'user-agent': 'sandovaldavid-linktree-link-check/1.0',
+				'user-agent': 'sandovaldavid-hub-link-check/1.0',
 				...(method === 'GET' ? { range: 'bytes=0-0' } : {}),
 			},
 		});

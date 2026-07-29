@@ -28,7 +28,7 @@ describe('DevContainer contract', () => {
 		expect(devcontainer.workspaceFolder).toBe('/workspace');
 		expect(devcontainer.workspaceMount).toContain('target=/workspace,type=bind');
 		expect(devcontainer.mounts).toContain(
-			'source=linktree-node-modules-v1,target=/workspace/node_modules,type=volume'
+			'source=hub-node-modules-v1,target=/workspace/node_modules,type=volume'
 		);
 		expect(devcontainer.mounts).toContain(
 			'source=devcontainer-${localWorkspaceFolderBasename}-zsh-history,target=/commandhistory,type=volume'

@@ -34,7 +34,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			featured: true,
 		},
 		{
-			id: 'linktree',
+			id: 'hub',
 			title: 'Professional engineering hub',
 			problem:
 				'Recruiters need a fast, accessible overview of projects, professional profiles and contact paths.',
@@ -44,7 +44,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 				'Created a maintainable public entry point connecting the portfolio, resume and engineering work.',
 			technologies: ['Astro', 'TypeScript', 'Playwright', 'Tailwind CSS'],
 			status: 'Live',
-			demoUrl: 'https://linktree.sandovaldavid.com',
+			demoUrl: 'https://hub.sandovaldavid.com',
 			repositoryAvailability: 'private',
 			demoAvailability: 'public',
 			featured: true,
@@ -83,7 +83,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			featured: true,
 		},
 		{
-			id: 'linktree',
+			id: 'hub',
 			title: 'Hub profesional de ingeniería',
 			problem:
 				'Los reclutadores necesitan una vista rápida y accesible de proyectos, perfiles y canales de contacto.',
@@ -93,7 +93,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 				'Creé un punto de entrada público y mantenible para conectar portafolio, CV y trabajo técnico.',
 			technologies: ['Astro', 'TypeScript', 'Playwright', 'Tailwind CSS'],
 			status: 'En producción',
-			demoUrl: 'https://linktree.sandovaldavid.com',
+			demoUrl: 'https://hub.sandovaldavid.com',
 			repositoryAvailability: 'private',
 			demoAvailability: 'public',
 			featured: true,

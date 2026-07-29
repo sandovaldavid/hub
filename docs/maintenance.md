@@ -1,6 +1,6 @@
 # Maintenance and security operations
 
-This document defines the preventive maintenance routine for the professional Linktree. It complements the local quality gate and does not replace review of production content.
+This document defines the preventive maintenance routine for the professional Link Hub. It complements the local quality gate and does not replace review of production content.
 
 ## Automated maintenance
 

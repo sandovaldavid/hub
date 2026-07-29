@@ -142,7 +142,7 @@ jobs:
       - name: Document report availability
         shell: bash
         run: |
-          REPORT_URL="https://sandovaldavid.github.io/linktree/playwright-report/${REPORT_DIRECTORY}/"
+          REPORT_URL="https://sandovaldavid.github.io/hub/playwright-report/${REPORT_DIRECTORY}/"
           {
             echo "## Playwright report availability"
             echo
