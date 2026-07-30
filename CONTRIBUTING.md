@@ -1,18 +1,53 @@
 # Contributing
 
+Read [`AGENTS.md`](AGENTS.md) before starting work. It defines the repository workflow, human-first identity rules, validation expectations and the boundary between this repository, Figma and Cortex-L7.
+
 ## Branch and pull-request flow
 
 Ordinary implementation work starts from and targets `develop`:
 
 ```text
-feature/*, fix/*, refactor/* -> develop -> main
+feature/*, fix/*, refactor/*, docs/* -> develop -> main
 ```
 
 Use Conventional Commits. Keep changes cohesive and avoid unrelated cleanup in issue-resolution pull requests.
 
+A change present on `develop` is not a verified production result. Promotion and live validation remain separate delivery gates.
+
+## Documentation ownership
+
+Read [`docs/repository-vault-boundary.md`](docs/repository-vault-boundary.md) before adding architecture, strategy, history or decision documentation.
+
+The source repository owns current behavior, setup, commands, tests, deployment and contributor contracts. Cortex-L7 owns durable strategy, rationale, alternatives, claim classification, private evidence context, cross-channel status, historical interpretation, plans and handoffs.
+
+Do not duplicate private vault content in this repository. The checked-out project must remain usable without Cortex-L7 access.
+
 ## Architecture
 
 Follow [`docs/architecture.md`](docs/architecture.md). Import concrete modules directly, preserve dependency direction and run `bun run check:architecture` before publishing.
+
+## Content and evidence
+
+Read [`docs/content-governance.md`](docs/content-governance.md) before changing profile copy, portrait, availability, skills, project cards, consulting language, calls to action or evidence wording.
+
+Contributors must:
+
+- keep David's name, real identity and Software Engineer positioning primary;
+- preserve the Hub's role as a compact recognition and routing surface;
+- verify project summaries against the relevant source repository or approved evidence record;
+- separate stable releases from active development;
+- expose private repository and demo limitations explicitly;
+- keep English and Spanish facts, lifecycle state and claim boundaries equivalent;
+- make technology emphasis reflect verified professional and project relevance;
+- ensure consulting wording matches the current operational launch state.
+
+Contributors must not:
+
+- make an illustration, mascot, logo or channel theme David's primary identity;
+- duplicate portfolio case studies or résumé paragraphs mechanically;
+- present a broad technology inventory as a core stack without evidence;
+- imply project adoption, production scale, users, revenue, leadership or business impact without verification;
+- expose private Cortex-L7, Atena, client or personal-contact information.
 
 ## Link Hub design-system rules
 
@@ -30,7 +65,7 @@ Contributors must:
 - preserve HEX only as the documented sRGB/interoperability reference;
 - define Light and Dark behavior at the semantic, channel or component-role layer;
 - use JetBrains Mono for display/headings and Inter for reading;
-- preserve David's portrait, name and professional evidence as the primary hierarchy;
+- preserve David's real portrait, name and professional evidence as the primary hierarchy;
 - add or update tests when introducing a token or component state;
 - document any unavoidable raw color literal as a narrowly scoped exception.
 
