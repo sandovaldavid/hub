@@ -1,10 +1,10 @@
 # Conversion analytics
 
-The hub uses Vercel Analytics custom events to measure whether visitors reach the professional destinations the site is designed to promote.
+The Hub uses Vercel Analytics custom events to measure whether visitors reach the professional destinations the site is designed to promote.
 
 ## Primary metric
 
-**Qualified conversion rate** is the percentage of visits that produce at least one of these events:
+**Qualified conversion rate** is the percentage of visits that produce at least one active destination event:
 
 - `resume_downloaded`
 - `portfolio_opened`
@@ -12,9 +12,22 @@ The hub uses Vercel Analytics custom events to measure whether visitors reach th
 - `linkedin_opened`
 - `project_opened`
 - `contact_clicked`
-- `calendly_opened`
 
-`language_changed` is a supporting navigation event and is not counted as a qualified conversion.
+`featured_projects_viewed` is a supporting evidence-navigation event. `language_changed` is a supporting navigation event. Neither is counted as a qualified destination conversion by itself.
+
+`calendly_opened` remains in the typed event catalog as a legacy compatibility value from the former scheduling flow. No current Hub UI should emit it. Remove the legacy value and its tests in a focused source change after confirming that no historical dashboard, consumer or migration contract requires it.
+
+## Interpretation boundary
+
+A conversion event proves that a visitor interacted with a route. It does not prove:
+
+- recruiter quality or hiring intent;
+- a completed application or contact outcome;
+- project adoption;
+- consulting demand;
+- revenue or business impact.
+
+Use analytics to improve route clarity, ordering and copy. Do not use event counts to strengthen public professional claims without a separately defined measurement method and evidence review.
 
 ## Event properties
 
@@ -35,4 +48,4 @@ Custom events are visible in the Vercel project Analytics dashboard after intera
 
 ## Evaluation
 
-Review conversion by locale, source category, and UI position. Prefer improving copy, ordering, and evidence when qualified conversion is weak; do not add invasive tracking or broaden the property set without a documented need and privacy review.
+Review conversion by locale, source category and UI position. Prefer improving copy, ordering and evidence when qualified conversion is weak. Do not add invasive tracking, broaden the property set or introduce a new business metric without a documented need, privacy review and evidence definition.

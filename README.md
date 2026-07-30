@@ -16,6 +16,19 @@ A static, bilingual hub that gives recruiters, clients, and collaborators one pl
 - **Human-first SEO:** localized metadata identifies David and his durable Software Engineer role, while `ProfilePage` structured data connects the Hub to one canonical `Person` and approved public profiles.
 - **Repeatable validation:** the repository defines type, architecture, formatting, lint, link, unit, build, browser, accessibility, and Lighthouse checks, with an equivalent local gate for periods when hosted Actions are unavailable.
 
+## Channel responsibility
+
+The Hub is a compact recognition and routing surface. It should establish who David is, his current Software Engineer positioning and the most useful next destinations without duplicating the portfolio, résumé or project repositories.
+
+Responsibility is intentionally split:
+
+- **Figma** defines designed intent and visual QA references.
+- **This repository** owns runtime behavior, routes, localized content implementation, metadata, commands, tests and delivery configuration.
+- **Cortex-L7** owns durable strategy, rationale, claim classification, private evidence context, cross-channel status, plans and historical handoffs.
+- **Portfolio, résumé and project repositories** own verifiable professional and technical evidence.
+
+Read [`AGENTS.md`](AGENTS.md), [`docs/repository-vault-boundary.md`](docs/repository-vault-boundary.md) and [`docs/content-governance.md`](docs/content-governance.md) before changing identity, profile copy, portrait, technology emphasis, project claims, consulting language or documentation ownership.
+
 ## Why Astro
 
 This product has two content-heavy routes and only a small amount of interaction. Astro fits that shape because it emits static HTML by default, keeps locale-specific route composition straightforward, and does not require shipping a client framework runtime for the page shell.
@@ -142,9 +155,13 @@ Production deployment is configured for merges to `main`. Pull-request previews 
 
 ## Documentation
 
+- [`AGENTS.md`](AGENTS.md) — agent workflow, safety, identity and ownership rules
+- [`docs/repository-vault-boundary.md`](docs/repository-vault-boundary.md) — repository, Cortex-L7 and Figma responsibilities
+- [`docs/content-governance.md`](docs/content-governance.md) — profile, technology, project-evidence, consulting and bilingual content contract
 - [`docs/architecture.md`](docs/architecture.md) — boundaries, dependency direction, and trade-offs
 - [`docs/design-system.md`](docs/design-system.md) — Identity Core, Link Hub aliases, component roles and visual evidence
 - [`docs/seo.md`](docs/seo.md) — human-first search intent, localized metadata, schema graph and social-preview validation
+- [`docs/analytics.md`](docs/analytics.md) — privacy-safe conversion events and interpretation boundary
 - [`docs/devcontainer.md`](docs/devcontainer.md) — reproducible development environment and recovery
 - [`docs/ci-validation.md`](docs/ci-validation.md) — stable check contract and local fallback
 - [`docs/performance-budget.md`](docs/performance-budget.md) — Lighthouse thresholds and update policy
