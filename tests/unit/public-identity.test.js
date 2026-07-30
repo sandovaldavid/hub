@@ -83,4 +83,20 @@ describe('public identity registry', () => {
 		expect(profile).not.toMatch(/whatsapp|901\s*148\s*564|\+51/i);
 		expect(profile).toContain('email: siteConfig.email');
 	});
+
+	test('tech stack leads with the verified current professional core', async () => {
+		const skills = await read('src/data/skills.ts');
+
+		expect(skills).toContain("id: 'dotnet'");
+		expect(skills).toContain("id: 'csharp'");
+
+		const dotnetIndex = skills.indexOf("id: 'dotnet'");
+		const csharpIndex = skills.indexOf("id: 'csharp'");
+		const reactIndex = skills.indexOf("id: 'react'");
+
+		expect(dotnetIndex).toBeGreaterThan(-1);
+		expect(reactIndex).toBeGreaterThan(-1);
+		expect(dotnetIndex).toBeLessThan(reactIndex);
+		expect(csharpIndex).toBeLessThan(reactIndex);
+	});
 });
