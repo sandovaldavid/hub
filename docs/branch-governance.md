@@ -20,11 +20,15 @@ Both rulesets:
 - require changes through pull requests;
 - require all review conversations to be resolved;
 - require the pull-request head to be tested against the latest target branch;
-- allow squash merges only;
-- require a linear history;
+- allow squash merges and merge commits;
 - block branch deletion;
 - block force pushes;
 - require zero approvals so the sole maintainer is not forced to approve their own work.
+
+## Merge method by direction
+
+- Feature/fix branches into `develop` use **squash**, keeping `develop`'s history one commit per unit of work.
+- `develop` promotions into `main`, and syncing `main` into `develop` (reconciling main-only commits such as a hotfix), always use a real **merge commit** so the full commit history is preserved on both sides instead of being flattened into a single squashed commit. This is why both rulesets allow `merge` alongside `squash` and neither requires linear history.
 
 The repository owner has an emergency bypass restricted to pull requests. It does not allow direct pushes, force pushes, or branch deletion. The bypass is reserved for external incidents such as an account-wide Actions outage and must retain the pull-request audit trail. It is not a substitute for local or hosted validation.
 
