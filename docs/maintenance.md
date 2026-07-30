@@ -43,8 +43,8 @@ Ignored URL patterns must be documented with a reason in `config/link-check.json
 
 1. Open `/` and `/es/` in production on mobile and desktop.
 2. Confirm the role, location, language, and availability statements are current.
-3. Verify portfolio, résumé, email, Calendly, GitHub, LinkedIn, and social destinations.
-4. Review the three featured projects for current status, repository visibility, demos, outcomes, and technologies.
+3. Verify portfolio, résumé, email, GitHub, LinkedIn, and social destinations.
+4. Review the featured projects for current status, repository visibility, demos, outcomes, and technologies.
 5. Run:
 
    ```bash

@@ -138,4 +138,15 @@ describe('public identity registry', () => {
 
 		expect(projects).not.toContain("id: 'hub'");
 	});
+
+	test('removes the legacy calendly conversion event', async () => {
+		const [conversion, ctaButtons] = await Promise.all([
+			read('src/shared/analytics/conversion.ts'),
+			read('src/widgets/cta-section/ui/CTAButtons.astro'),
+		]);
+
+		expect(conversion).not.toContain('calendly_opened');
+		expect(ctaButtons).not.toContain('calendly');
+		expect(ctaButtons).not.toContain('CalendarIcon');
+	});
 });

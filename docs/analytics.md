@@ -15,8 +15,6 @@ The Hub uses Vercel Analytics custom events to measure whether visitors reach th
 
 `featured_projects_viewed` is a supporting evidence-navigation event. `language_changed` is a supporting navigation event. Neither is counted as a qualified destination conversion by itself.
 
-`calendly_opened` remains in the typed event catalog as a legacy compatibility value from the former scheduling flow. No current Hub UI should emit it. Remove the legacy value and its tests in a focused source change after confirming that no historical dashboard, consumer or migration contract requires it.
-
 ## Interpretation boundary
 
 A conversion event proves that a visitor interacted with a route. It does not prove:
