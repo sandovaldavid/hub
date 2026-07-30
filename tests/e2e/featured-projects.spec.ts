@@ -9,7 +9,6 @@ for (const route of [
 		outcome: 'Outcome',
 		kiokuTitle: 'Kioku · Persistent memory for AI agents',
 		yukidokeTitle: 'Yukidoke · Financial health platform',
-		hubTitle: 'Professional engineering hub',
 		privateRepository: 'Private repo',
 	},
 	{
@@ -20,7 +19,6 @@ for (const route of [
 		outcome: 'Resultado',
 		kiokuTitle: 'Kioku · Memoria persistente para agentes de IA',
 		yukidokeTitle: 'Yukidoke · Plataforma de salud financiera',
-		hubTitle: 'Hub profesional de ingeniería',
 		privateRepository: 'Repo privado',
 	},
 ]) {
@@ -29,13 +27,13 @@ for (const route of [
 			await page.goto(route.path);
 		});
 
-		test('shows no more than three evidence-based projects', async ({ page }) => {
+		test('shows only evidence-based projects, without the Hub self-card', async ({ page }) => {
 			const sectionHeading = page.locator('#featured-projects-title');
 			await expect(sectionHeading).toBeVisible();
 			await expect(sectionHeading).toHaveText(route.heading);
 
 			const cards = page.locator('.weekly-project-card');
-			await expect(cards).toHaveCount(3);
+			await expect(cards).toHaveCount(2);
 			await expect(cards.first()).toContainText(route.problem);
 			await expect(cards.first()).toContainText(route.contribution);
 			await expect(cards.first()).toContainText(route.outcome);
@@ -49,18 +47,12 @@ for (const route of [
 
 			const kiokuCard = cardFor(route.kiokuTitle);
 			const yukidokeCard = cardFor(route.yukidokeTitle);
-			const hubCard = cardFor(route.hubTitle);
 
 			await expect(kiokuCard.getByRole('link', { name: /Repository|Repositorio/ })).toHaveAttribute(
 				'href',
 				'https://github.com/sandovaldavid/kioku'
 			);
 			await expect(yukidokeCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
-			await expect(hubCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
-			await expect(hubCard.getByRole('link', { name: /Live demo|Demo/ })).toHaveAttribute(
-				'href',
-				'https://hub.sandovaldavid.com'
-			);
 		});
 	});
 }

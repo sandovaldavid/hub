@@ -83,4 +83,70 @@ describe('public identity registry', () => {
 		expect(profile).not.toMatch(/whatsapp|901\s*148\s*564|\+51/i);
 		expect(profile).toContain('email: siteConfig.email');
 	});
+
+	test('tech stack leads with the verified current professional core', async () => {
+		const skills = await read('src/data/skills.ts');
+
+		expect(skills).toContain("id: 'dotnet'");
+		expect(skills).toContain("id: 'csharp'");
+
+		const dotnetIndex = skills.indexOf("id: 'dotnet'");
+		const csharpIndex = skills.indexOf("id: 'csharp'");
+		const reactIndex = skills.indexOf("id: 'react'");
+
+		expect(dotnetIndex).toBeGreaterThan(-1);
+		expect(reactIndex).toBeGreaterThan(-1);
+		expect(dotnetIndex).toBeLessThan(reactIndex);
+		expect(csharpIndex).toBeLessThan(reactIndex);
+	});
+
+	test('does not claim consulting is actively available before the launch gate', async () => {
+		const [en, es] = await Promise.all([
+			read('src/shared/i18n/locales/en.json'),
+			read('src/shared/i18n/locales/es.json'),
+		]);
+
+		expect(en).not.toMatch(/consulting and product discovery are available/i);
+		expect(es).not.toMatch(/consultor[ií]a.*est[aá]n disponibles/i);
+	});
+
+	test('does not claim unrestricted regional work-mode availability', async () => {
+		const [en, es] = await Promise.all([
+			read('src/shared/i18n/locales/en.json'),
+			read('src/shared/i18n/locales/es.json'),
+		]);
+
+		expect(en).not.toMatch(/Europe\s*&\s*Latin America/i);
+		expect(es).not.toMatch(/Europa\s*y\s*Latinoam[eé]rica/i);
+	});
+
+	test('keeps Yukidoke API and Web lifecycle states separate', async () => {
+		const projects = await read('src/data/weekly-project.ts');
+
+		expect(projects).toMatch(/API v1 complete.*Web in active beta/);
+		expect(projects).not.toMatch(/status:\s*'Private product in development'/);
+	});
+
+	test('separates Kioku stable release from active development', async () => {
+		const projects = await read('src/data/weekly-project.ts');
+
+		expect(projects).toMatch(/Stable v2\.3\.0.*active development/);
+	});
+
+	test('drops the Hub self-card from featured projects', async () => {
+		const projects = await read('src/data/weekly-project.ts');
+
+		expect(projects).not.toContain("id: 'hub'");
+	});
+
+	test('removes the legacy calendly conversion event', async () => {
+		const [conversion, ctaButtons] = await Promise.all([
+			read('src/shared/analytics/conversion.ts'),
+			read('src/widgets/cta-section/ui/CTAButtons.astro'),
+		]);
+
+		expect(conversion).not.toContain('calendly_opened');
+		expect(ctaButtons).not.toContain('calendly');
+		expect(ctaButtons).not.toContain('CalendarIcon');
+	});
 });

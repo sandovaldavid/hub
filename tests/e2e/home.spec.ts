@@ -47,7 +47,7 @@ test.describe('Home page', () => {
 			page.getByRole('heading', { level: 2, name: 'Core engineering stack' })
 		).toBeVisible();
 		await expect(
-			page.getByRole('heading', { level: 3, name: 'Need engineering consulting?' })
+			page.getByRole('heading', { level: 3, name: 'Engineering consulting is in preparation' })
 		).toBeVisible();
 		await expect(page.locator('.cta-button-card__title')).toHaveCount(4);
 		for (const heading of await page.locator('.cta-button-card__title').all()) {
@@ -63,7 +63,7 @@ test.describe('Home page', () => {
 		).toBeVisible();
 		await expect(page.getByText('Software Engineer · .NET, Angular & TypeScript')).toBeVisible();
 		await expect(page.getByText('Open to remote software engineering roles')).toBeVisible();
-		await expect(page.getByText('Remote · Europe & Latin America')).toBeVisible();
+		await expect(page.getByText('Remote · based in Peru')).toBeVisible();
 		await expect(page.locator('.hero-card__username')).toHaveCount(0);
 
 		const resumeLink = page.locator(
@@ -164,7 +164,7 @@ test.describe('Spanish version (/es/)', () => {
 			page.getByRole('heading', { level: 2, name: 'Stack principal de ingeniería' })
 		).toBeVisible();
 		await expect(
-			page.getByRole('heading', { level: 3, name: '¿Necesitas consultoría de ingeniería?' })
+			page.getByRole('heading', { level: 3, name: 'Consultoría de ingeniería en preparación' })
 		).toBeVisible();
 	});
 

@@ -12,7 +12,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			outcome:
 				'Established a reusable memory workflow for Claude Code, Codex and other MCP-compatible agents.',
 			technologies: ['.NET 10', 'C#', 'MCP', 'Obsidian'],
-			status: 'Active development',
+			status: 'Stable v2.3.0 · active development',
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			repositoryAvailability: 'public',
 			demoAvailability: 'unavailable',
@@ -24,29 +24,13 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			problem:
 				'Households need one place to understand debt cycles, income, expenses and repayment progress.',
 			contribution:
-				'Defined a scalable DDD and Clean Architecture backend with PostgreSQL, Keycloak and UTC-safe financial cycles.',
+				'Defined a scalable DDD and Clean Architecture .NET API — v1 complete and release-ready — paired with an Angular client migrating to server-authoritative financial rules.',
 			outcome:
 				'Produced a versioned API foundation designed for gradual product growth and multi-user workloads.',
-			technologies: ['.NET', 'PostgreSQL', 'DDD', 'Keycloak'],
-			status: 'Private product in development',
+			technologies: ['.NET', 'Angular', 'PostgreSQL', 'DDD', 'Keycloak'],
+			status: 'API v1 complete · Web in active beta',
 			repositoryAvailability: 'private',
 			demoAvailability: 'unavailable',
-			featured: true,
-		},
-		{
-			id: 'hub',
-			title: 'Professional engineering hub',
-			problem:
-				'Recruiters need a fast, accessible overview of projects, professional profiles and contact paths.',
-			contribution:
-				'Built a bilingual Astro hub with typed content, automated accessibility, SEO and Playwright coverage.',
-			outcome:
-				'Created a maintainable public entry point connecting the portfolio, resume and engineering work.',
-			technologies: ['Astro', 'TypeScript', 'Playwright', 'Tailwind CSS'],
-			status: 'Live',
-			demoUrl: 'https://hub.sandovaldavid.com',
-			repositoryAvailability: 'private',
-			demoAvailability: 'public',
 			featured: true,
 		},
 	],
@@ -61,7 +45,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			outcome:
 				'Establecí un flujo de memoria reutilizable para Claude Code, Codex y otros agentes compatibles con MCP.',
 			technologies: ['.NET 10', 'C#', 'MCP', 'Obsidian'],
-			status: 'Desarrollo activo',
+			status: 'Estable v2.3.0 · desarrollo activo',
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			repositoryAvailability: 'public',
 			demoAvailability: 'unavailable',
@@ -73,29 +57,13 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			problem:
 				'Los hogares necesitan comprender ciclos de deuda, ingresos, gastos y progreso de pago en un solo lugar.',
 			contribution:
-				'Definí un backend escalable con DDD, Clean Architecture, PostgreSQL, Keycloak y ciclos financieros en UTC.',
+				'Definí una API en .NET con DDD y Clean Architecture — v1 completa y lista para release — junto a un cliente Angular en migración hacia reglas financieras autoritativas en el servidor.',
 			outcome:
 				'Construí una base de API versionada preparada para crecimiento gradual y cargas multiusuario.',
-			technologies: ['.NET', 'PostgreSQL', 'DDD', 'Keycloak'],
-			status: 'Producto privado en desarrollo',
+			technologies: ['.NET', 'Angular', 'PostgreSQL', 'DDD', 'Keycloak'],
+			status: 'API v1 completa · Web en beta activa',
 			repositoryAvailability: 'private',
 			demoAvailability: 'unavailable',
-			featured: true,
-		},
-		{
-			id: 'hub',
-			title: 'Hub profesional de ingeniería',
-			problem:
-				'Los reclutadores necesitan una vista rápida y accesible de proyectos, perfiles y canales de contacto.',
-			contribution:
-				'Construí un hub bilingüe en Astro con contenido tipado, accesibilidad, SEO y pruebas Playwright.',
-			outcome:
-				'Creé un punto de entrada público y mantenible para conectar portafolio, CV y trabajo técnico.',
-			technologies: ['Astro', 'TypeScript', 'Playwright', 'Tailwind CSS'],
-			status: 'En producción',
-			demoUrl: 'https://hub.sandovaldavid.com',
-			repositoryAvailability: 'private',
-			demoAvailability: 'public',
 			featured: true,
 		},
 	],

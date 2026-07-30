@@ -4,7 +4,7 @@
 		"bio": "I design and build maintainable web products, from backend architecture to accessible frontend experiences.",
 		"availability": "Open to remote software engineering roles",
 		"location": "Lima, Peru · UTC-5",
-		"workMode": "Remote · Europe & Latin America",
+		"workMode": "Remote · based in Peru",
 		"languages": "English · Spanish",
 		"resumeAction": "Download resume",
 		"snapshotHeading": "Professional snapshot"
@@ -43,9 +43,9 @@
 		}
 	},
 	"contact": {
-		"title": "Need engineering consulting?",
-		"message": "Consulting and product discovery are available as a secondary engagement option.",
-		"buttonText": "Send a consulting inquiry",
+		"title": "Engineering consulting is in preparation",
+		"message": "I'm preparing a focused web-service offer. Reach out if you'd like to discuss a future engagement.",
+		"buttonText": "Send an inquiry",
 		"heading": "Engineering consulting"
 	},
 	"skills": {

@@ -8,7 +8,6 @@ export const conversionEvents = [
 	'linkedin_opened',
 	'project_opened',
 	'contact_clicked',
-	'calendly_opened',
 	'language_changed',
 ] as const;
 
