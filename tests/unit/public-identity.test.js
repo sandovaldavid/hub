@@ -119,4 +119,23 @@ describe('public identity registry', () => {
 		expect(en).not.toMatch(/Europe\s*&\s*Latin America/i);
 		expect(es).not.toMatch(/Europa\s*y\s*Latinoam[eé]rica/i);
 	});
+
+	test('keeps Yukidoke API and Web lifecycle states separate', async () => {
+		const projects = await read('src/data/weekly-project.ts');
+
+		expect(projects).toMatch(/API v1 complete.*Web in active beta/);
+		expect(projects).not.toMatch(/status:\s*'Private product in development'/);
+	});
+
+	test('separates Kioku stable release from active development', async () => {
+		const projects = await read('src/data/weekly-project.ts');
+
+		expect(projects).toMatch(/Stable v2\.3\.0.*active development/);
+	});
+
+	test('drops the Hub self-card from featured projects', async () => {
+		const projects = await read('src/data/weekly-project.ts');
+
+		expect(projects).not.toContain("id: 'hub'");
+	});
 });
