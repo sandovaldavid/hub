@@ -1,20 +1,24 @@
-# Ignorar directorios de dependencias
+# Directorios de dependencias
 node_modules/
 dist/
 .astro/
 
-# Ignorar archivos generados
+# Archivos generados
 *.min.js
 *.min.css
 
-# Ignorar archivos de bloqueo de paquetes
+# Lockfiles
 package-lock.json
 yarn.lock
+bun.lock
 bun.lockb
 
-# Otros archivos a ignorar
+# Dev Container
+.devcontainer/devcontainer-lock.json
+
+# Otros
 .DS_Store
 .claude/
 
-# Ignorar archivos Markdown
+# Archivos Markdown
 *.md

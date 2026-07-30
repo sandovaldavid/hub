@@ -14,14 +14,19 @@ export type SocialPlatform =
 	| 'website'
 	| 'medium';
 
+export type SocialLinkPriority = 'primary' | 'secondary' | 'footer';
+export type SocialLinkAudience = 'recruiter' | 'client' | 'community';
+
 export interface SocialLink {
 	id: string;
 	platform: SocialPlatform;
 	label: string;
 	url: string;
 	username: string;
+	priority: SocialLinkPriority;
+	audience: SocialLinkAudience[];
+	analyticsId: string;
 	verified?: boolean;
-	isPrimary: boolean;
 	classBrand?: string;
 	classIcon?: string;
 }

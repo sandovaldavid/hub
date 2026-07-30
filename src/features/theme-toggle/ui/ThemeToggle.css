@@ -1,51 +1,33 @@
 @import '../../../app/styles/global.css';
 
 .theme-toggle {
-	@apply fixed;
-	@apply top-4 right-4;
-	@apply z-[1200];
-	@apply inline-flex items-center;
-	@apply gap-2;
-	@apply px-2 py-2;
-	@apply bg-white/90 dark:bg-neutral-800/90;
-	@apply border border-neutral-200 dark:border-neutral-700;
-	@apply rounded-lg;
-	@apply cursor-pointer;
-	@apply transition-all duration-150;
-	@apply text-neutral-900 dark:text-neutral-50;
-	@apply font-medium;
-	@apply shadow-lg;
-	@apply min-w-10 min-h-10;
-	@apply flex justify-center;
+	@apply fixed top-4 right-4 z-[1200] inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-lg border px-2 py-2 font-medium shadow-sm transition-all duration-150;
+	background-color: var(--control-background);
+	color: var(--control-content);
+	border-color: var(--control-edge);
 }
 
 .theme-toggle:hover {
-	@apply bg-white dark:bg-neutral-800;
-	@apply border-primary-500;
-	@apply -translate-y-0.5;
-	@apply shadow-xl;
+	@apply -translate-y-0.5 shadow-retro-xs;
+	background-color: var(--control-background-hover);
+	border-color: var(--control-edge-hover);
 }
 
 .theme-toggle:active {
-	@apply translate-y-0;
+	@apply translate-y-0 shadow-none;
 }
 
 .theme-toggle:focus-visible {
-	@apply outline-2 outline-primary-500 dark:outline-primary-400;
-	@apply outline-offset-2;
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
 }
 
 .theme-toggle__icon {
-	@apply text-xl;
-	@apply leading-none;
-	@apply transition-transform duration-150;
-	@apply hidden;
-	@apply w-5 h-5;
+	@apply hidden h-5 w-5 text-xl leading-none transition-transform duration-150;
 }
 
 .theme-toggle__icon svg {
-	@apply w-full h-full;
-	@apply block;
+	@apply block h-full w-full;
 }
 
 .theme-toggle:hover .theme-toggle__icon {
@@ -53,18 +35,15 @@
 }
 
 .theme-toggle__label {
-	@apply text-sm;
-	@apply whitespace-nowrap;
+	@apply whitespace-nowrap text-sm;
 }
 
-/* Size variants */
 .theme-toggle--sm {
-	@apply px-1.5 py-1.5;
-	@apply rounded-md;
+	@apply rounded-md px-1.5 py-1.5;
 }
 
 .theme-toggle--sm .theme-toggle__icon {
-	@apply w-4 h-4;
+	@apply h-4 w-4;
 }
 
 .theme-toggle--sm .theme-toggle__label {
@@ -72,45 +51,33 @@
 }
 
 .theme-toggle--md {
-	@apply px-2 py-2;
-	@apply rounded-lg;
+	@apply rounded-lg px-2 py-2;
 }
 
 .theme-toggle--md .theme-toggle__icon {
-	@apply w-5 h-5;
+	@apply h-5 w-5;
 }
 
 .theme-toggle--lg {
-	@apply px-3 py-3;
-	@apply rounded-xl;
+	@apply rounded-xl px-3 py-3;
 }
 
 .theme-toggle--lg .theme-toggle__icon {
-	@apply w-6 h-6;
+	@apply h-6 w-6;
 }
 
 .theme-toggle--lg .theme-toggle__label {
 	@apply text-base;
 }
 
-/* Variant: Floating (fixed position) */
 .theme-toggle--floating {
-	@apply fixed;
-	@apply top-4 right-4;
-	@apply z-[1200];
-	@apply shadow-lg;
+	@apply fixed top-4 right-4 z-[1200];
 }
 
-.theme-toggle--floating:hover {
-	@apply shadow-xl;
-}
-
-/* Variant: Inline (normal flow) */
 .theme-toggle--inline {
 	@apply static;
 }
 
-/* Mobile adjustments */
 @media (max-width: 640px) {
 	.theme-toggle--floating {
 		@apply top-3 right-3;
@@ -121,7 +88,6 @@
 	}
 }
 
-/* Animation on theme change */
 @keyframes theme-switch {
 	0% {
 		transform: rotate(0deg) scale(1);

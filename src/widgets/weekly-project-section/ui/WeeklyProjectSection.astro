@@ -3,59 +3,37 @@ import { WeeklyProjectCard } from '@entities/weekly-project';
 import type { WeeklyProject } from '@entities/weekly-project';
 import './WeeklyProjectSection.css';
 import Rocket from '@shared/assets/rocket.svg';
-import { siteConfig } from '@data/site.config';
 
 interface Props {
-	project: WeeklyProject;
-	title?: string;
-	showDescription?: boolean;
-	variant?: 'default' | 'featured';
+	projects: WeeklyProject[];
+	lang: 'en' | 'es';
 }
 
-const {
-	project,
-	title = 'Proyecto de la Semana',
-	showDescription = true,
-	variant = 'default',
-} = Astro.props;
+const { projects, lang } = Astro.props;
+const copy =
+	lang === 'es'
+		? {
+				title: 'Proyectos destacados',
+				description:
+					'Casos seleccionados que muestran el problema, las decisiones técnicas y el resultado de mi trabajo.',
+			}
+		: {
+				title: 'Featured projects',
+				description:
+					'Selected cases showing the problem, technical decisions and outcome of my work.',
+			};
 ---
 
-<section
-	class={`weekly-project-section ${variant === 'featured' ? 'weekly-project-section--featured' : ''}`}
-	aria-labelledby="weekly-project-title">
-	<!-- Section Header -->
+<section class="weekly-project-section" aria-labelledby="featured-projects-title">
 	<div class="weekly-project-section__header">
-		<div class="flex justify-center items-center gap-2 md:gap-4">
-			<h2 id="weekly-project-title" class="weekly-project-section__title">
-				{title}
-			</h2>
-			<Rocket class="size-10" />
+		<div class="flex items-center justify-center gap-2 md:gap-3">
+			<h2 id="featured-projects-title" class="weekly-project-section__title">{copy.title}</h2>
+			<Rocket class="weekly-project-section__icon size-7 md:size-8" aria-hidden="true" />
 		</div>
-		{
-			showDescription && (
-				<p class="weekly-project-section__subtitle">
-					Cada semana comparto un proyecto en el que he estado trabajando
-				</p>
-			)
-		}
+		<p class="weekly-project-section__subtitle">{copy.description}</p>
 	</div>
 
-	<!-- Project Card Container -->
-	<div class="weekly-project-section__content">
-		<WeeklyProjectCard {project} />
-	</div>
-
-	<!-- Optional CTA Footer -->
-	<div class="weekly-project-section__footer">
-		<p class="weekly-project-section__footer-text">
-			¿Tienes un proyecto similar en mente?
-			<a href={siteConfig.calendlyUrl} class="weekly-project-section__footer-link">
-				Hablemos al respecto
-			</a>
-			o
-			<a href={`mailto:${siteConfig.email}`} class="weekly-project-section__footer-link">
-				envía un correo
-			</a>
-		</p>
+	<div class="weekly-project-section__content" data-project-count={projects.length}>
+		{projects.map((project, index) => <WeeklyProjectCard {project} {lang} position={index + 1} />)}
 	</div>
 </section>

@@ -1,83 +1,88 @@
 {
 	"profile": {
-		"tagline": "Construyo soluciones, comparto el proceso",
-		"bio": "Desarrollador Web creando apps escalables e inteligentes. Apasionado por compartir conocimiento y construir en público.",
-		"availability": "Disponible para nuevos proyectos y colaboraciones."
+		"tagline": "Ingeniero de Software · .NET, Angular y TypeScript",
+		"bio": "Diseño y construyo productos web mantenibles, desde la arquitectura backend hasta experiencias frontend accesibles.",
+		"availability": "Disponible para roles remotos de ingeniería",
+		"location": "Lima, Perú · UTC-5",
+		"workMode": "Remoto · con base en Perú",
+		"languages": "Inglés · Español",
+		"resumeAction": "Descargar CV",
+		"snapshotHeading": "Resumen profesional"
 	},
 	"nav": {
 		"skipToContent": "Saltar al contenido principal"
 	},
 	"hero": {
-		"sectionsLabel": "Secciones de perfil"
+		"sectionsLabel": "Secciones del perfil profesional"
 	},
 	"social": {
-		"heading": "Enlaces de redes sociales"
+		"heading": "Enlaces profesionales y redes sociales"
 	},
 	"cta": {
-		"business": {
-			"title": "¿Quieres digitalizar tu negocio sin estrés?",
-			"description": "Agenda una \"Llamada de Descubrimiento\" gratis. Entenderé tus metas y te daré un plan de acción claro, sin tecnicismos.",
-			"label": "Agendar llamada"
+		"heading": "Explora mi trabajo y conecta",
+		"description": "Accede directamente a mi portafolio, repositorios, casos de ingeniería seleccionados o canal de contacto.",
+		"portfolio": {
+			"title": "Ver Portafolio",
+			"description": "Explora proyectos seleccionados, experiencia y casos de estudio de ingeniería.",
+			"label": "Ver portafolio"
 		},
-		"learning": {
-			"title": "Aprende y Crece como Developer",
-			"description": "Consejos y recursos para developers",
-			"label": "Sígueme"
+		"projects": {
+			"title": "Ver proyectos destacados",
+			"description": "Revisa casos de ingeniería seleccionados y sus resultados en esta página.",
+			"label": "Ver proyectos destacados"
+		},
+		"github": {
+			"title": "Ver GitHub",
+			"description": "Revisa repositorios, decisiones de arquitectura y productos que estoy construyendo.",
+			"label": "Ver repositorios en GitHub"
+		},
+		"contact": {
+			"title": "Contactarme",
+			"description": "Conversemos sobre oportunidades de ingeniería de software y colaboraciones.",
+			"label": "Contactarme"
 		}
 	},
 	"contact": {
-		"title": "¿Tienes un proyecto en mente?",
-		"message": "Hablemos sobre cómo puedo ayudarte a alcanzar tus objetivos",
-		"buttonText": "Hablemos",
-		"heading": "Contacto"
+		"title": "Consultoría de ingeniería en preparación",
+		"message": "Estoy preparando una oferta enfocada de servicios web. Escríbeme si quieres conversar sobre una futura colaboración.",
+		"buttonText": "Enviar una consulta",
+		"heading": "Consultoría de ingeniería"
 	},
 	"skills": {
-		"title": "El motor detrás de las soluciones",
+		"title": "Stack principal de ingeniería",
 		"heading": "Tecnologías y habilidades"
 	},
 	"weeklyProject": {
-		"title": "Proyecto de la Semana",
+		"title": "Proyecto Destacado",
 		"demo": "Ver Demo",
 		"code": "Ver Código",
-		"heading": "Proyecto semanal"
+		"heading": "Proyecto destacado"
 	},
 	"page": {
-		"mainLabel": "Contenido principal",
-		"sectionsLabel": "Secciones de perfil"
+		"mainLabel": "Hub profesional de enlaces",
+		"sectionsLabel": "Secciones del perfil profesional"
 	},
 	"seo": {
-		"title": "sandovaldavid | Construyo soluciones, comparto el proceso",
-		"description": "Desarrollador Web creando apps escalables e inteligentes. Agenda una llamada gratis o sigue mi contenido.",
-		"ogImageAlt": "sandovaldavid - Desarrollador Web creando soluciones con IA Práctica.",
-		"twitterImageAlt": "sandovaldavid - Desarrollador Web especializado en React, Next.js, Python, Astro y tecnologías de IA.",
-		"twitterLabel1": "Especialidad",
-		"twitterData1": "Soluciones Web con IA Práctica",
+		"title": "David Sandoval | Ingeniero de Software",
+		"description": "David Sandoval es Ingeniero de Software: aprende continuamente, construye sistemas y productos mantenibles, documenta decisiones y comparte evidencia mediante su trabajo.",
+		"ogImageAlt": "Retrato de David Sandoval, Ingeniero de Software, con su nombre y rol profesional.",
+		"twitterImageAlt": "Retrato de David Sandoval, Ingeniero de Software, con su nombre y rol profesional.",
+		"twitterLabel1": "Enfoque profesional",
+		"twitterData1": "Sistemas · Productos · Evidencia",
 		"ogLocale": "es_PE",
 		"keywords": [
-			"sandovaldavid",
-			"David Sandoval Salvador",
-			"Desarrollador Web",
-			"Desarrollador de Software",
-			"Inteligencia Artificial",
-			"IA Práctica",
-			"Machine Learning",
-			"React",
-			"Next.js",
-			"Python",
-			"Astro",
-			"TypeScript",
-			"Node.js",
-			"Tailwind CSS",
-			"Aplicaciones Web para Pymes",
-			"Soluciones Digitales",
-			"Automatización de Negocios",
-			"Perú",
-			"Piura"
+			"David Sandoval",
+			"Ingeniero de Software",
+			"Ingeniería de Software",
+			"Ingeniería de Sistemas y Productos",
+			"Portafolio de Ingeniería",
+			"Ingeniero de Software Remoto",
+			"Perú"
 		]
 	},
 	"share": {
 		"ariaLabel": "Compartir esta página",
-		"copied": "¡Link copiado!"
+		"copied": "¡Enlace copiado!"
 	},
 	"theme": {
 		"light": "Cambiar a modo claro",

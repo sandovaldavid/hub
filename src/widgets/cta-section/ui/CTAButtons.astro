@@ -3,11 +3,11 @@ import type { CTAButtonsProps } from '../model/types';
 import { cn } from '@shared/lib/utils';
 import './CTAButtons.css';
 import ArrowIcon from '@shared/assets/arrow-right-filled.svg';
+import type { ConversionEvent } from '@shared/analytics/conversion';
 
 // Import CTA icons
 import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
 import BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw';
-import CalendarIcon from '@shared/assets/cta-icons/calendar.svg?raw';
 import FileIcon from '@shared/assets/cta-icons/file.svg?raw';
 import RocketIcon from '@shared/assets/cta-icons/rocket.svg?raw';
 import ChatIcon from '@shared/assets/cta-icons/chat.svg?raw';
@@ -16,14 +16,20 @@ export type Props = CTAButtonsProps;
 
 const { buttons, layout = 'horizontal' } = Astro.props;
 
-// Map icon names to SVG content
 const iconMap: Record<string, string> = {
 	email: EmailIcon,
 	briefcase: BriefcaseIcon,
-	calendar: CalendarIcon,
 	file: FileIcon,
 	rocket: RocketIcon,
 	chat: ChatIcon,
+};
+
+const eventMap: Partial<Record<string, ConversionEvent>> = {
+	portfolio: 'portfolio_opened',
+	projects: 'featured_projects_viewed',
+	resume: 'resume_downloaded',
+	github: 'github_opened',
+	contact: 'contact_clicked',
 };
 ---
 
@@ -31,6 +37,7 @@ const iconMap: Record<string, string> = {
 	{
 		buttons.map(button => {
 			const iconContent = iconMap[button.icon] || '';
+			const conversionEvent = eventMap[button.id];
 
 			return (
 				<a
@@ -38,6 +45,9 @@ const iconMap: Record<string, string> = {
 					class="cta-buttons__link group"
 					target={button.external ? '_blank' : undefined}
 					rel={button.external ? 'noopener noreferrer' : undefined}
+					data-conversion-event={conversionEvent}
+					data-conversion-position="primary-cta"
+					data-conversion-item={button.id}
 					aria-label={`${button.title}${button.description ? ': ' + button.description : ''}`}>
 					<div
 						class={cn(

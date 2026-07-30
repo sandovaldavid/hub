@@ -1,2 +1,3 @@
 export { default as HeroCard } from './ui/HeroCard.astro';
-export type { HeroCardProps } from './model/types';
+export { default as ProfileSnapshot } from './ui/ProfileSnapshot.astro';
+export type { HeroCardProps, HeroMetadataItem } from './model/types';

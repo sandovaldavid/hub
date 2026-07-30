@@ -1,9 +1,14 @@
 {
-	"name": "linktree-devsandoval",
+	"name": "hub-sandovaldavid",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"packageManager": "bun@1.3.14",
+	"engines": {
+		"node": ">=22.19.0"
+	},
 	"scripts": {
 		"dev": "astro dev --host 0.0.0.0",
+		"prebuild": "node scripts/check-removed-barrels.mjs",
 		"build": "astro build",
 		"preview": "astro preview --host 0.0.0.0",
 		"astro": "astro",
@@ -11,11 +16,23 @@
 		"format:check": "prettier --check .",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
+		"check:architecture": "node scripts/check-architecture.mjs",
+		"check:links": "node scripts/check-links.mjs",
+		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
+		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
+		"rulesets:apply": "node scripts/manage-rulesets.mjs apply",
+		"rulesets:verify": "node scripts/manage-rulesets.mjs verify",
+		"test:unit": "bun test tests/unit",
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:e2e:show-report": "playwright show-report --host 0.0.0.0 --port 9323",
 		"test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
-		"test:lighthouse": "lhci autorun"
+		"test:lighthouse:mobile": "lhci autorun",
+		"test:lighthouse:desktop": "LHCI_PROFILE=desktop lhci autorun",
+		"test:lighthouse": "bun run test:lighthouse:mobile && bun run test:lighthouse:desktop",
+		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run check:links && bun run test:unit && bun run build",
+		"validate:local": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@astrojs/sitemap": "^3.7.3",
@@ -29,15 +46,22 @@
 	"devDependencies": {
 		"@astrojs/check": "^0.9.9",
 		"@axe-core/playwright": "^4.11.3",
+		"@commitlint/cli": "^21.0.2",
+		"@commitlint/config-conventional": "^21.0.2",
 		"@eslint/js": "^10.0.1",
 		"@lhci/cli": "^0.15.1",
 		"@playwright/test": "^1.61.0",
 		"eslint": "^10.5.0",
 		"eslint-plugin-astro": "^1.7.0",
 		"eslint-plugin-jsx-a11y": "^6.10.2",
+		"husky": "^9.1.7",
+		"lighthouse": "13.4.1",
 		"prettier": "^3.8.4",
 		"prettier-plugin-astro": "^0.14.1",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.61.1"
+	},
+	"overrides": {
+		"lighthouse": "13.4.1"
 	}
 }

@@ -21,25 +21,25 @@ const { id, name, displayName, tagline, class: className } = Astro.props;
 ---
 
 <div class={cn('profile-name', className)}>
-	<section class="flex flex-col justify-center items-center z-10 gap-1">
+	<section class="z-10 flex flex-col items-center justify-center gap-1">
 		<span
 			class={cn(
-				'text-primary-600 text-xl font-google font-semibold weight italic px-3 py-1',
-				'bg-gray-500/20 flex items-center gap-2',
-				'border border-primary-500/60 rounded-full shadow-md cursor-pointer',
-				'animate-delay-200 animate-fade-in transition-colors duration-200 hover:bg-gray-500/50 hover:dark:bg-gray-500/30'
+				'flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1',
+				'font-technical text-xl font-semibold italic text-channel-accent-primary',
+				'bg-card-background-muted border-card-edge-accent shadow-xs',
+				'animate-delay-200 animate-fade-in transition-colors duration-200 hover:bg-control-background-hover'
 			)}>
 			@{displayName}
 			<CheckIcon
-				class="size-6 text-sky-500 inline-block animate-rubber-band animate-delay-300"
+				class="animate-rubber-band animate-delay-300 inline-block size-6 text-channel-accent-secondary"
 				aria-hidden="true"
 			/>
 		</span>
 		<h2
 			{...id && { id }}
 			class={cn(
-				'font-display text-2xl font-extrabold leading-tight text-center',
-				'text-gray-900 dark:text-gray-50'
+				'font-display text-center text-2xl font-extrabold leading-tight',
+				'text-channel-content-strong'
 			)}>
 			{name}
 		</h2>

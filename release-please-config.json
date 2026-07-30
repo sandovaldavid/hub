@@ -3,8 +3,7 @@
 		".": {
 			"release-type": "node",
 			"include-component-in-tag": false,
-			"prerelease": true,
-			"prerelease-type": "beta",
+			"release-as": "2.0.0",
 			"changelog-sections": [
 				{
 					"type": "feat",
@@ -39,8 +38,7 @@
 					"section": "Maintenance",
 					"hidden": true
 				}
-			],
-			"versioning": "prerelease"
+			]
 		}
 	}
 }

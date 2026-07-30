@@ -3,106 +3,162 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-	/* Primary - Sky Blue (Tech, Trust, Innovation) */
-	--color-primary: oklch(61.796% 0.18243 259.71);
-	--color-primary-50: oklch(95.219% 0.02 257.47);
-	--color-primary-100: oklch(91.232% 0.03785 260.69);
-	--color-primary-200: oklch(83.656% 0.07206 259.54);
-	--color-primary-300: oklch(75.983% 0.10852 259.79);
-	--color-primary-400: oklch(68.802% 0.14599 259.49);
-	--color-primary-500: oklch(61.796% 0.18243 259.71);
-	--color-primary-600: oklch(53.235% 0.21204 260.62);
-	--color-primary-700: oklch(44.306% 0.172 260.51);
-	--color-primary-800: oklch(34.902% 0.12952 260.21);
-	--color-primary-900: oklch(24.48% 0.08306 259.64);
-	--color-primary-950: oklch(19.038% 0.05761 257.92);
+	/*
+	 * Identity Core color primitives.
+	 * Canonical web authoring: OKLCH.
+	 * Figma representation and interoperability reference: sRGB / HEX.
+	 * Do not regenerate these conversions inside this repository.
+	 */
+	--color-primary-50: oklch(97.318% 0.01305 251.56);
+	--color-primary-100: oklch(94.544% 0.02585 248.1);
+	--color-primary-200: oklch(88.896% 0.05659 241.17);
+	--color-primary-300: oklch(80.049% 0.10523 240.14);
+	--color-primary-400-light: oklch(62.308% 0.18801 259.81);
+	--color-primary-400-dark: oklch(81.362% 0.14541 217.11);
+	--color-primary-500-light: oklch(50.992% 0.20091 260.06);
+	--color-primary-500-dark: oklch(72.084% 0.16317 239.29);
+	--color-primary-600-light: oklch(45.378% 0.21747 262.45);
+	--color-primary-600-dark: oklch(61.517% 0.21082 256.1);
+	--color-primary-700: oklch(48.82% 0.21717 264.38);
+	--color-primary-800: oklch(42.445% 0.18087 265.64);
+	--color-primary-900: oklch(37.906% 0.13776 265.52);
+	--color-primary-950: oklch(28.226% 0.08745 267.94);
 
-	/* Accent - Cyan (Energy, Creativity, Code) */
-	--color-accent: oklch(60.469% 0.21889 292.35);
-	--color-accent-50: oklch(100% 0 none);
-	--color-accent-100: oklch(97.994% 0.01077 297.63);
-	--color-accent-200: oklch(88.209% 0.0614 298.65);
-	--color-accent-300: oklch(78.597% 0.11572 297.87);
-	--color-accent-400: oklch(69.321% 0.1685 295.46);
-	--color-accent-500: oklch(60.469% 0.21889 292.35);
-	--color-accent-600: oklch(50.648% 0.2684 285.18);
-	--color-accent-700: oklch(43.439% 0.2557 280.44);
-	--color-accent-800: oklch(35.468% 0.20555 281.29);
-	--color-accent-900: oklch(27.037% 0.15202 282.86);
-	--color-accent-950: oklch(22.451% 0.12342 284.6);
+	/* Semantic primary steps preserve the approved Light/Dark source split. */
+	--color-primary-400: light-dark(var(--color-primary-400-light), var(--color-primary-400-dark));
+	--color-primary-500: light-dark(var(--color-primary-500-light), var(--color-primary-500-dark));
+	--color-primary-600: light-dark(var(--color-primary-600-light), var(--color-primary-600-dark));
 
-	/* Success - Emerald (Growth, Achievement) */
-	--color-success-50: oklch(98% 0.02 160);
-	--color-success-100: oklch(94% 0.05 160);
-	--color-success-200: oklch(88% 0.1 160);
-	--color-success-300: oklch(80% 0.15 160);
-	--color-success-400: oklch(70% 0.18 160);
-	--color-success-500: oklch(60% 0.2 160);
-	--color-success-600: oklch(50% 0.18 160);
-	--color-success-700: oklch(40% 0.14 160);
-	--color-success-800: oklch(30% 0.1 160);
-	--color-success-900: oklch(20% 0.06 160);
+	--color-neutral-50: oklch(98.817% 0.00411 271.37);
+	--color-neutral-100: oklch(95.938% 0.01081 256.7);
+	--color-neutral-200: oklch(92.876% 0.01262 255.51);
+	--color-neutral-300: oklch(86.898% 0.01985 252.89);
+	--color-neutral-400: oklch(71.067% 0.03511 256.79);
+	--color-neutral-500: oklch(55.439% 0.04072 257.42);
+	--color-neutral-600: oklch(44.553% 0.03745 257.28);
+	--color-neutral-700: oklch(37.17% 0.03916 257.29);
+	--color-neutral-800: oklch(27.95% 0.03685 260.03);
+	--color-neutral-900: oklch(20.768% 0.03982 265.75);
+	--color-neutral-950: oklch(10.543% 0.01489 255.89);
 
-	/* Warning - Amber (Attention, In-Progress) */
-	--color-warning-50: oklch(98% 0.02 80);
-	--color-warning-100: oklch(94% 0.05 80);
-	--color-warning-200: oklch(88% 0.1 80);
-	--color-warning-300: oklch(80% 0.15 80);
-	--color-warning-400: oklch(70% 0.18 80);
-	--color-warning-500: oklch(60% 0.2 80);
-	--color-warning-600: oklch(50% 0.18 80);
-	--color-warning-700: oklch(40% 0.14 80);
-	--color-warning-800: oklch(30% 0.1 80);
-	--color-warning-900: oklch(20% 0.06 80);
+	--color-success-500: oklch(80.987% 0.21415 151.77);
+	--color-success-900: oklch(42.539% 0.11588 144.31);
+	--color-warning-500: oklch(84.417% 0.17216 84.93);
+	--color-warning-900: oklch(70.757% 0.19745 46.46);
+	--color-error-500: oklch(63.747% 0.24894 20.73);
+	--color-error-900: oklch(50.164% 0.18868 27.48);
 
-	/* Error - Red (Alerts, Stopped) */
-	--color-error-50: oklch(98% 0.02 20);
-	--color-error-100: oklch(94% 0.05 20);
-	--color-error-200: oklch(88% 0.1 20);
-	--color-error-300: oklch(80% 0.15 20);
-	--color-error-400: oklch(70% 0.18 20);
-	--color-error-500: oklch(60% 0.2 20);
-	--color-error-600: oklch(50% 0.18 20);
-	--color-error-700: oklch(40% 0.14 20);
-	--color-error-800: oklch(30% 0.1 20);
-	--color-error-900: oklch(20% 0.06 20);
+	--color-base-white: oklch(100% 0 0);
+	--color-base-background-light: oklch(97.799% 0.00622 255.47);
+	--color-base-surface-highlight-light: oklch(94.778% 0.01616 262.75);
+	--color-base-surface-dark: oklch(15.939% 0.01573 266.59);
+	--color-base-surface-highlight-dark: oklch(22.235% 0.02948 263.69);
+	--color-base-content-strong-dark: oklch(96.826% 0.00685 247.9);
+	--color-base-status-success-text-light: oklch(43.18% 0.08647 166.91);
+	--color-base-status-success-text-dark: oklch(77.294% 0.15349 163.22);
 
-	/* Neutral - Blue-Gray (Professional, Clean) */
-	--color-neutral-50: oklch(99% 0.005 230);
-	--color-neutral-100: oklch(96% 0.01 230);
-	--color-neutral-200: oklch(90% 0.015 230);
-	--color-neutral-300: oklch(80% 0.02 230);
-	--color-neutral-400: oklch(65% 0.025 230);
-	--color-neutral-500: oklch(50% 0.03 230);
-	--color-neutral-600: oklch(40% 0.025 230);
-	--color-neutral-700: oklch(30% 0.02 230);
-	--color-neutral-800: oklch(20% 0.015 230);
-	--color-neutral-900: oklch(12% 0.01 230);
-	--color-neutral-950: oklch(8% 0.008 230);
+	/* Shared semantic roles mirrored from Figma Semantic / Color. */
+	--color-background: light-dark(var(--color-base-background-light), var(--color-neutral-950));
+	--color-surface: light-dark(var(--color-base-white), var(--color-base-surface-dark));
+	--color-surface-highlight: light-dark(
+		var(--color-base-surface-highlight-light),
+		var(--color-base-surface-highlight-dark)
+	);
+	--color-content-strong: light-dark(
+		var(--color-neutral-900),
+		var(--color-base-content-strong-dark)
+	);
+	--color-content: light-dark(var(--color-neutral-700), var(--color-neutral-300));
+	--color-content-muted: light-dark(var(--color-neutral-600), var(--color-neutral-400));
+	--color-edge-subtle: light-dark(var(--color-neutral-300), var(--color-neutral-800));
+	--color-edge-strong: light-dark(var(--color-neutral-900), var(--color-neutral-300));
 
-	/* Font Families */
+	/* Link Hub channel aliases exposed as Tailwind utilities. */
+	--color-channel-background-canvas: var(--channel-background-canvas);
+	--color-channel-surface-default: var(--channel-surface-default);
+	--color-channel-surface-highlight: var(--channel-surface-highlight);
+	--color-channel-content-strong: var(--channel-content-strong);
+	--color-channel-content-default: var(--channel-content-default);
+	--color-channel-content-muted: var(--channel-content-muted);
+	--color-channel-edge-default: var(--channel-edge-default);
+	--color-channel-accent-primary: var(--channel-accent-primary);
+	--color-channel-accent-secondary: var(--channel-accent-secondary);
+	--color-channel-status-online: var(--channel-status-online);
+
+	/* Component roles. Components must consume these instead of primitive ramps. */
+	--color-button-primary-background: var(--button-primary-background);
+	--color-button-primary-background-hover: var(--button-primary-background-hover);
+	--color-button-primary-background-active: var(--button-primary-background-active);
+	--color-button-primary-content: var(--button-primary-content);
+	--color-button-secondary-background: var(--button-secondary-background);
+	--color-button-secondary-background-hover: var(--button-secondary-background-hover);
+	--color-button-secondary-background-active: var(--button-secondary-background-active);
+	--color-button-secondary-content: var(--button-secondary-content);
+	--color-button-secondary-edge: var(--button-secondary-edge);
+	--color-button-ghost-background-hover: var(--button-ghost-background-hover);
+	--color-button-ghost-content: var(--button-ghost-content);
+	--color-button-danger-background: var(--button-danger-background);
+	--color-button-danger-background-hover: var(--button-danger-background-hover);
+	--color-button-danger-content: var(--button-danger-content);
+	--color-focus-ring: var(--focus-ring);
+
+	--color-badge-brand-background: var(--badge-brand-background);
+	--color-badge-brand-content: var(--badge-brand-content);
+	--color-badge-brand-edge: var(--badge-brand-edge);
+	--color-badge-secondary-background: var(--badge-secondary-background);
+	--color-badge-secondary-content: var(--badge-secondary-content);
+	--color-badge-secondary-edge: var(--badge-secondary-edge);
+	--color-badge-neutral-background: var(--badge-neutral-background);
+	--color-badge-neutral-content: var(--badge-neutral-content);
+	--color-badge-neutral-edge: var(--badge-neutral-edge);
+	--color-badge-success-background: var(--badge-success-background);
+	--color-badge-success-content: var(--badge-success-content);
+	--color-badge-success-edge: var(--badge-success-edge);
+	--color-badge-warning-background: var(--badge-warning-background);
+	--color-badge-warning-content: var(--badge-warning-content);
+	--color-badge-warning-edge: var(--badge-warning-edge);
+	--color-badge-error-background: var(--badge-error-background);
+	--color-badge-error-content: var(--badge-error-content);
+	--color-badge-error-edge: var(--badge-error-edge);
+
+	--color-control-background: var(--control-background);
+	--color-control-background-hover: var(--control-background-hover);
+	--color-control-content: var(--control-content);
+	--color-control-edge: var(--control-edge);
+	--color-control-edge-hover: var(--control-edge-hover);
+	--color-card-background: var(--card-background);
+	--color-card-background-muted: var(--card-background-muted);
+	--color-card-edge: var(--card-edge);
+	--color-card-edge-accent: var(--card-edge-accent);
+	--color-avatar-background: var(--avatar-background);
+	--color-avatar-content: var(--avatar-content);
+	--color-status-online-background: var(--status-online-background);
+	--color-status-online-content: var(--status-online-content);
+	--color-status-online-edge: var(--status-online-edge);
+
+	/* Link Hub Compact: JetBrains Mono display/headings, Inter reading. */
 	--font-sans:
 		'Inter Variable', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 	--font-mono:
 		'JetBrains Mono Variable', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Monaco,
 		'Courier New', monospace;
-	--font-display: 'Inter Variable', 'Inter', system-ui, sans-serif;
-	--font-google: 'Google Sans Code', monospace;
+	--font-display: var(--channel-font-display);
+	--font-heading: var(--channel-font-heading);
+	--font-body: var(--channel-font-body);
+	--font-technical: var(--channel-font-technical);
 
-	/* Font Sizes */
-	--font-size-xs: 0.75rem; /* 12px */
-	--font-size-sm: 0.875rem; /* 14px */
-	--font-size-base: 1rem; /* 16px */
-	--font-size-lg: 1.125rem; /* 18px */
-	--font-size-xl: 1.25rem; /* 20px */
-	--font-size-2xl: 1.5rem; /* 24px */
-	--font-size-3xl: 1.875rem; /* 30px */
-	--font-size-4xl: 2.25rem; /* 36px */
-	--font-size-5xl: 3rem; /* 48px */
-	--font-size-6xl: 3.75rem; /* 60px */
-	--font-size-7xl: 4.5rem; /* 72px */
+	--font-size-xs: 0.75rem;
+	--font-size-sm: 0.875rem;
+	--font-size-base: 1rem;
+	--font-size-lg: 1.125rem;
+	--font-size-xl: 1.25rem;
+	--font-size-2xl: 1.5rem;
+	--font-size-3xl: 1.875rem;
+	--font-size-4xl: 2.25rem;
+	--font-size-5xl: 3rem;
+	--font-size-6xl: 3.75rem;
+	--font-size-7xl: 4.5rem;
 
-	/* Font Weights */
 	--font-weight-light: 300;
 	--font-weight-normal: 400;
 	--font-weight-medium: 500;
@@ -111,7 +167,6 @@
 	--font-weight-extrabold: 800;
 	--font-weight-black: 900;
 
-	/* Line Heights */
 	--line-height-none: 1;
 	--line-height-tight: 1.25;
 	--line-height-snug: 1.375;
@@ -119,7 +174,6 @@
 	--line-height-relaxed: 1.625;
 	--line-height-loose: 2;
 
-	/* Letter Spacing */
 	--letter-spacing-tighter: -0.05em;
 	--letter-spacing-tight: -0.025em;
 	--letter-spacing-normal: 0;
@@ -127,56 +181,50 @@
 	--letter-spacing-wider: 0.05em;
 	--letter-spacing-widest: 0.1em;
 
-	/* ===== SPACING ===== */
-
 	--spacing-0: 0;
 	--spacing-px: 1px;
-	--spacing-0-5: 0.125rem; /* 2px */
-	--spacing-1: 0.25rem; /* 4px */
-	--spacing-1-5: 0.375rem; /* 6px */
-	--spacing-2: 0.5rem; /* 8px */
-	--spacing-2-5: 0.625rem; /* 10px */
-	--spacing-3: 0.75rem; /* 12px */
-	--spacing-3-5: 0.875rem; /* 14px */
-	--spacing-4: 1rem; /* 16px */
-	--spacing-5: 1.25rem; /* 20px */
-	--spacing-6: 1.5rem; /* 24px */
-	--spacing-7: 1.75rem; /* 28px */
-	--spacing-8: 2rem; /* 32px */
-	--spacing-9: 2.25rem; /* 36px */
-	--spacing-10: 2.5rem; /* 40px */
-	--spacing-11: 2.75rem; /* 44px */
-	--spacing-12: 3rem; /* 48px */
-	--spacing-14: 3.5rem; /* 56px */
-	--spacing-16: 4rem; /* 64px */
-	--spacing-20: 5rem; /* 80px */
-	--spacing-24: 6rem; /* 96px */
-	--spacing-28: 7rem; /* 112px */
-	--spacing-32: 8rem; /* 128px */
-	--spacing-36: 9rem; /* 144px */
-	--spacing-40: 10rem; /* 160px */
-	--spacing-44: 11rem; /* 176px */
-	--spacing-48: 12rem; /* 192px */
-	--spacing-52: 13rem; /* 208px */
-	--spacing-56: 14rem; /* 224px */
-	--spacing-60: 15rem; /* 240px */
-	--spacing-64: 16rem; /* 256px */
-	--spacing-72: 18rem; /* 288px */
-	--spacing-80: 20rem; /* 320px */
-	--spacing-96: 24rem; /* 384px */
-
-	/* ===== BORDER RADIUS ===== */
+	--spacing-0-5: 0.125rem;
+	--spacing-1: 0.25rem;
+	--spacing-1-5: 0.375rem;
+	--spacing-2: 0.5rem;
+	--spacing-2-5: 0.625rem;
+	--spacing-3: 0.75rem;
+	--spacing-3-5: 0.875rem;
+	--spacing-4: 1rem;
+	--spacing-5: 1.25rem;
+	--spacing-6: 1.5rem;
+	--spacing-7: 1.75rem;
+	--spacing-8: 2rem;
+	--spacing-9: 2.25rem;
+	--spacing-10: 2.5rem;
+	--spacing-11: 2.75rem;
+	--spacing-12: 3rem;
+	--spacing-14: 3.5rem;
+	--spacing-16: 4rem;
+	--spacing-20: 5rem;
+	--spacing-24: 6rem;
+	--spacing-28: 7rem;
+	--spacing-32: 8rem;
+	--spacing-36: 9rem;
+	--spacing-40: 10rem;
+	--spacing-44: 11rem;
+	--spacing-48: 12rem;
+	--spacing-52: 13rem;
+	--spacing-56: 14rem;
+	--spacing-60: 15rem;
+	--spacing-64: 16rem;
+	--spacing-72: 18rem;
+	--spacing-80: 20rem;
+	--spacing-96: 24rem;
 
 	--radius-none: 0;
-	--radius-sm: 0.25rem; /* 4px */
-	--radius-md: 0.5rem; /* 8px */
-	--radius-lg: 0.75rem; /* 12px */
-	--radius-xl: 1rem; /* 16px */
-	--radius-2xl: 1.5rem; /* 24px */
-	--radius-3xl: 2rem; /* 32px */
+	--radius-sm: 0.25rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.75rem;
+	--radius-xl: 1rem;
+	--radius-2xl: 1.5rem;
+	--radius-3xl: 2rem;
 	--radius-full: 9999px;
-
-	/* ===== SHADOWS ===== */
 
 	--shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -186,25 +234,16 @@
 	--shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 	--shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 	--shadow-none: 0 0 #0000;
-
-	/* Glow Effects (Tech vibes) */
-	--shadow-glow-sm: 0 0 10px rgb(var(--color-primary-500) / 0.3);
-	--shadow-glow-md: 0 0 20px rgb(var(--color-primary-500) / 0.4);
-	--shadow-glow-lg: 0 0 30px rgb(var(--color-primary-500) / 0.5);
-
-	/* ===== TRANSITIONS ===== */
+	--shadow-retro-xs: 1px 1px 0 0 var(--channel-edge-strong);
+	--shadow-retro-sm: 1.5px 1.5px 0 0 var(--channel-edge-strong);
 
 	--transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 	--transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 	--transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 	--transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-	/* Easing Functions */
 	--ease-in: cubic-bezier(0.4, 0, 1, 1);
 	--ease-out: cubic-bezier(0, 0, 0.2, 1);
 	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-
-	/* ===== Z-INDEX LAYERS ===== */
 
 	--z-base: 0;
 	--z-dropdown: 1000;
@@ -216,8 +255,6 @@
 	--z-tooltip: 1600;
 	--z-toast: 1700;
 
-	/* ===== BREAKPOINTS ===== */
-
 	--breakpoint-xs: 350px;
 	--breakpoint-sm: 640px;
 	--breakpoint-md: 768px;
@@ -226,17 +263,216 @@
 	--breakpoint-2xl: 1536px;
 }
 
-/* ACCESSIBILITY */
+/* Approved alpha primitives from Figma Primitives / Color. */
+:root {
+	--alpha-primary-500-06-light: oklch(50.992% 0.20091 260.06 / 6%);
+	--alpha-primary-500-10-light: oklch(50.992% 0.20091 260.06 / 10%);
+	--alpha-primary-500-20-light: oklch(50.992% 0.20091 260.06 / 20%);
+	--alpha-primary-600-40-light: oklch(45.378% 0.21747 262.45 / 40%);
+	--alpha-primary-600-60-light: oklch(45.378% 0.21747 262.45 / 60%);
+	--alpha-primary-400-60-dark: oklch(81.362% 0.14541 217.11 / 60%);
+	--alpha-primary-500-10-dark: oklch(72.084% 0.16317 239.29 / 10%);
+	--alpha-primary-500-14-dark: oklch(72.084% 0.16317 239.29 / 14%);
+	--alpha-primary-500-15-dark: oklch(72.084% 0.16317 239.29 / 15%);
+	--alpha-primary-500-25-dark: oklch(72.084% 0.16317 239.29 / 25%);
+	--alpha-primary-500-35-dark: oklch(72.084% 0.16317 239.29 / 35%);
+	--alpha-primary-500-40-dark: oklch(72.084% 0.16317 239.29 / 40%);
+	--alpha-success-05-light: oklch(69.587% 0.14907 162.48 / 5%);
+	--alpha-success-10-dark: oklch(69.587% 0.14907 162.48 / 10%);
+	--alpha-success-40-light: oklch(69.587% 0.14907 162.48 / 40%);
+	--alpha-success-60-dark: oklch(69.587% 0.14907 162.48 / 60%);
+}
 
-/* Skip Link - WCAG 2.1 Compliance */
+:root,
+[data-theme='light'] {
+	color-scheme: light;
+
+	/* Link Hub / Light channel aliases. */
+	--channel-background-canvas: var(--color-base-background-light);
+	--channel-surface-default: var(--color-base-white);
+	--channel-surface-highlight: var(--color-base-surface-highlight-light);
+	--channel-content-strong: var(--color-neutral-900);
+	--channel-content-default: var(--color-neutral-700);
+	--channel-content-muted: var(--color-neutral-600);
+	--channel-edge-default: var(--color-neutral-300);
+	--channel-edge-strong: var(--color-neutral-900);
+	--channel-accent-primary: var(--color-primary-500-light);
+	--channel-accent-secondary: var(--color-primary-400-light);
+
+	/*
+	 * Link Hub excludes the Portfolio-only terminal status color.
+	 * Online state uses the approved semantic success text primitive.
+	 */
+	--channel-status-online: var(--color-base-status-success-text-light);
+	--channel-font-display: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+	--channel-font-heading: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+	--channel-font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
+	--channel-font-technical: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+
+	--button-primary-background: var(--color-primary-600-light);
+	--button-primary-background-hover: var(--color-primary-700);
+	--button-primary-background-active: var(--color-primary-950);
+	--button-primary-content: var(--color-base-white);
+	--button-secondary-background: var(--color-base-surface-highlight-light);
+	--button-secondary-background-hover: var(--color-neutral-200);
+	--button-secondary-background-active: var(--color-neutral-300);
+	--button-secondary-content: var(--color-neutral-900);
+	--button-secondary-edge: var(--color-neutral-300);
+	--button-ghost-background-hover: var(--color-neutral-100);
+	--button-ghost-content: var(--color-neutral-700);
+	--button-danger-background: var(--color-error-900);
+	--button-danger-background-hover: var(--color-error-500);
+	--button-danger-content: var(--color-base-white);
+	--focus-ring: var(--color-primary-600-light);
+
+	--badge-brand-background: var(--alpha-primary-500-10-light);
+	--badge-brand-content: var(--color-primary-600-light);
+	--badge-brand-edge: var(--color-primary-300);
+	--badge-secondary-background: var(--color-base-surface-highlight-light);
+	--badge-secondary-content: var(--color-primary-600-light);
+	--badge-secondary-edge: var(--color-primary-400-light);
+	--badge-neutral-background: var(--color-neutral-100);
+	--badge-neutral-content: var(--color-neutral-700);
+	--badge-neutral-edge: var(--color-neutral-300);
+	--badge-success-background: var(--alpha-success-05-light);
+	--badge-success-content: var(--color-base-status-success-text-light);
+	--badge-success-edge: var(--alpha-success-40-light);
+	--badge-warning-background: color-mix(in oklch, var(--color-warning-500) 12%, transparent);
+	--badge-warning-content: var(--color-neutral-900);
+	--badge-warning-edge: color-mix(in oklch, var(--color-warning-500) 45%, transparent);
+	--badge-error-background: color-mix(in oklch, var(--color-error-500) 10%, transparent);
+	--badge-error-content: var(--color-error-900);
+	--badge-error-edge: color-mix(in oklch, var(--color-error-500) 40%, transparent);
+
+	--control-background: color-mix(in oklch, var(--color-base-white) 90%, transparent);
+	--control-background-hover: var(--color-base-white);
+	--control-content: var(--color-neutral-900);
+	--control-edge: var(--color-neutral-300);
+	--control-edge-hover: var(--color-primary-500-light);
+	--card-background: color-mix(in oklch, var(--color-base-white) 78%, transparent);
+	--card-background-muted: color-mix(
+		in oklch,
+		var(--color-base-surface-highlight-light) 66%,
+		transparent
+	);
+	--card-edge: color-mix(in oklch, var(--color-neutral-300) 82%, transparent);
+	--card-edge-accent: color-mix(in oklch, var(--color-primary-500-light) 46%, transparent);
+	--avatar-background: var(--color-neutral-200);
+	--avatar-content: var(--color-neutral-700);
+	--status-online-background: var(--alpha-success-05-light);
+	--status-online-content: var(--color-base-status-success-text-light);
+	--status-online-edge: var(--alpha-success-40-light);
+	--channel-canvas-gradient: linear-gradient(
+		135deg,
+		var(--color-primary-50) 0%,
+		var(--color-base-background-light) 52%,
+		var(--color-primary-100) 100%
+	);
+}
+
+[data-theme='dark'] {
+	color-scheme: dark;
+
+	/* Link Hub / Dark channel aliases. */
+	--channel-background-canvas: var(--color-neutral-950);
+	--channel-surface-default: var(--color-base-surface-dark);
+	--channel-surface-highlight: var(--color-base-surface-highlight-dark);
+	--channel-content-strong: var(--color-base-content-strong-dark);
+	--channel-content-default: var(--color-neutral-300);
+	--channel-content-muted: var(--color-neutral-400);
+	--channel-edge-default: var(--color-neutral-800);
+	--channel-edge-strong: var(--color-neutral-300);
+	--channel-accent-primary: var(--color-primary-500-dark);
+	--channel-accent-secondary: var(--color-primary-400-dark);
+	--channel-status-online: var(--color-base-status-success-text-dark);
+	--channel-font-display: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+	--channel-font-heading: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+	--channel-font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
+	--channel-font-technical: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+
+	--button-primary-background: var(--color-primary-500-dark);
+	--button-primary-background-hover: var(--color-primary-400-dark);
+	--button-primary-background-active: var(--color-primary-600-dark);
+	--button-primary-content: var(--color-neutral-950);
+	--button-secondary-background: var(--color-base-surface-highlight-dark);
+	--button-secondary-background-hover: var(--color-neutral-800);
+	--button-secondary-background-active: var(--color-neutral-700);
+	--button-secondary-content: var(--color-base-content-strong-dark);
+	--button-secondary-edge: var(--color-neutral-700);
+	--button-ghost-background-hover: var(--color-neutral-800);
+	--button-ghost-content: var(--color-neutral-300);
+	--button-danger-background: var(--color-error-500);
+	--button-danger-background-hover: var(--color-error-900);
+	--button-danger-content: var(--color-neutral-950);
+	--focus-ring: var(--color-primary-400-dark);
+
+	--badge-brand-background: var(--alpha-primary-500-15-dark);
+	--badge-brand-content: var(--color-primary-400-dark);
+	--badge-brand-edge: var(--alpha-primary-500-40-dark);
+	--badge-secondary-background: var(--alpha-primary-500-10-dark);
+	--badge-secondary-content: var(--color-primary-400-dark);
+	--badge-secondary-edge: var(--alpha-primary-400-60-dark);
+	--badge-neutral-background: var(--color-neutral-800);
+	--badge-neutral-content: var(--color-neutral-300);
+	--badge-neutral-edge: var(--color-neutral-600);
+	--badge-success-background: var(--alpha-success-10-dark);
+	--badge-success-content: var(--color-base-status-success-text-dark);
+	--badge-success-edge: var(--alpha-success-60-dark);
+	--badge-warning-background: color-mix(in oklch, var(--color-warning-500) 16%, transparent);
+	--badge-warning-content: var(--color-warning-500);
+	--badge-warning-edge: color-mix(in oklch, var(--color-warning-500) 50%, transparent);
+	--badge-error-background: color-mix(in oklch, var(--color-error-500) 16%, transparent);
+	--badge-error-content: var(--color-error-500);
+	--badge-error-edge: color-mix(in oklch, var(--color-error-500) 50%, transparent);
+
+	--control-background: color-mix(in oklch, var(--color-base-surface-dark) 90%, transparent);
+	--control-background-hover: var(--color-base-surface-highlight-dark);
+	--control-content: var(--color-base-content-strong-dark);
+	--control-edge: var(--color-neutral-700);
+	--control-edge-hover: var(--color-primary-500-dark);
+	--card-background: color-mix(in oklch, var(--color-base-surface-dark) 82%, transparent);
+	--card-background-muted: color-mix(
+		in oklch,
+		var(--color-base-surface-highlight-dark) 72%,
+		transparent
+	);
+	--card-edge: color-mix(in oklch, var(--color-neutral-700) 85%, transparent);
+	--card-edge-accent: color-mix(in oklch, var(--color-primary-500-dark) 50%, transparent);
+	--avatar-background: var(--color-neutral-800);
+	--avatar-content: var(--color-neutral-300);
+	--status-online-background: var(--alpha-success-10-dark);
+	--status-online-content: var(--color-base-status-success-text-dark);
+	--status-online-edge: var(--alpha-success-60-dark);
+	--channel-canvas-gradient: linear-gradient(
+		135deg,
+		var(--color-neutral-950) 0%,
+		var(--color-base-surface-dark) 52%,
+		var(--color-base-surface-highlight-dark) 100%
+	);
+}
+
+html {
+	background-color: var(--channel-background-canvas);
+	font-family: var(--channel-font-body);
+}
+
+body {
+	min-height: 100vh;
+	background-color: var(--channel-background-canvas);
+	background-image: var(--channel-canvas-gradient);
+	color: var(--channel-content-default);
+	font-family: var(--channel-font-body);
+	-webkit-font-smoothing: antialiased;
+}
+
 .skip-link {
 	position: absolute;
 	top: -100%;
 	left: 0;
 	z-index: 9999;
 	padding: 1rem 1.5rem;
-	background-color: var(--color-primary-600);
-	color: white;
+	background-color: var(--button-primary-background);
+	color: var(--button-primary-content);
 	font-weight: 600;
 	text-decoration: none;
 	border-radius: 0 0 0.5rem 0;
@@ -245,39 +481,30 @@
 
 .skip-link:focus {
 	top: 0;
-	outline: 3px solid var(--color-accent-500);
+	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
 
-/* Focus Visible - Consistent keyboard navigation indicators */
 *:focus-visible {
-	outline: 3px solid var(--color-primary-500);
+	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 	border-radius: 0.25rem;
 }
 
-/* Dark mode focus */
-[data-theme='dark'] *:focus-visible {
-	outline-color: var(--color-accent-400);
-}
-
-/* Remove default outline but keep focus-visible */
 *:focus:not(:focus-visible) {
 	outline: none;
 }
 
-/* Ensure interactive elements have focus styles */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 [tabindex]:focus-visible {
-	outline: 3px solid var(--color-primary-500);
+	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
 
-/* Reduced Motion - Respect user preferences */
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
@@ -289,15 +516,20 @@ select:focus-visible,
 	}
 }
 
-/* High Contrast Mode Support */
 @media (prefers-contrast: high) {
 	*:focus-visible {
 		outline-width: 4px;
 		outline-offset: 3px;
 	}
+
+	:root,
+	[data-theme='light'],
+	[data-theme='dark'] {
+		--channel-edge-default: currentColor;
+		--control-edge: currentColor;
+	}
 }
 
-/* Screen Reader Only - Visually hidden but accessible */
 .sr-only {
 	position: absolute;
 	width: 1px;

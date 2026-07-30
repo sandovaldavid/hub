@@ -1,11 +1,12 @@
 ---
 import '../styles/global.css';
-import { getThemeInitScript } from '@entities/theme';
-import { ShareButton } from '@features/share-button';
-import { ThemeToggle } from '@features/theme-toggle';
+import { getThemeInitScript } from '@entities/theme/lib/theme-manager';
+import ShareButton from '@features/share-button/ui/ShareButton.astro';
+import ThemeToggle from '@features/theme-toggle/ui/ThemeToggle.astro';
 import type { SEOProps } from '@/app/models/seo.model';
 import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
+import { getProfilePageStructuredData } from '@data/structured-data';
 
 interface Props extends SEOProps {
 	alternates?: { en: string; es: string };
@@ -19,10 +20,12 @@ const {
 	themeColor,
 	applicationName = siteConfig.name,
 	appleMobileWebAppTitle = siteConfig.shortName,
-	ogType = 'website',
+	ogType = 'profile',
 	ogImageAlt = '',
-	ogImageSecureUrl = `${siteConfig.url}/og/og-image.png`,
+	ogImageSecureUrl,
 	ogImageType = 'image/png',
+	ogImageWidth,
+	ogImageHeight,
 	ogSiteName = siteConfig.name,
 	fbAppId = siteConfig.fbAppId,
 	ogLocale = 'en_US',
@@ -42,27 +45,20 @@ const {
 
 const themeScript = getThemeInitScript();
 const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
-const finalCanonicalUrl = canonicalUrl || Astro.url.href;
-
-const jsonLd = {
-	'@context': 'https://schema.org',
-	'@type': 'Person',
-	name: 'David Sandoval Salvador',
-	url: siteConfig.url,
-	sameAs: [
-		`https://linkedin.com/in/${siteConfig.handle}`,
-		`https://github.com/${siteConfig.handle}`,
-		`https://twitter.com/${siteConfig.handle}`,
-		`https://youtube.com/@${siteConfig.handle}`,
-	],
-	jobTitle: 'Web Developer',
-	knowsLanguage: ['en', 'es'],
-	contactPoint: {
-		'@type': 'ContactPoint',
-		email: siteConfig.email,
-		contactType: 'customer support',
-	},
-};
+const canonicalPath = canonicalUrl ?? Astro.url.pathname;
+const finalCanonicalUrl = new URL(canonicalPath, siteConfig.url).href;
+const sitemapUrl = new URL('/sitemap-index.xml', siteConfig.url).href;
+const absoluteOgImage = new URL(ogImageSecureUrl ?? ogImage, siteConfig.url).href;
+const profileImageAlt = ogImageAlt || twitterImageAlt || `${author} professional profile`;
+const alternateLocale = ogLocale.startsWith('es_') ? 'en_US' : 'es_PE';
+const jsonLd = getProfilePageStructuredData({
+	title,
+	description,
+	lang,
+	canonicalUrl: finalCanonicalUrl,
+	imageUrl: absoluteOgImage,
+	imageAlt: profileImageAlt,
+});
 ---
 
 <!doctype html>
@@ -71,7 +67,7 @@ const jsonLd = {
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="sitemap" href={sitemapUrl} />
 
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
@@ -87,28 +83,31 @@ const jsonLd = {
 		<meta name="color-scheme" content="light dark" />
 
 		<!-- Favicon -->
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link id="site-favicon" rel="icon" type="image/svg+xml" href="/favicon.dark.svg" />
 
-		<!-- Open Graph / Facebook -->
+		<!-- Open Graph -->
 		<meta property="og:type" content={ogType} />
-		<meta property="og:url" content={Astro.url} />
+		<meta property="og:url" content={finalCanonicalUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content={new URL(ogImage, Astro.url)} />
+		<meta property="og:image" content={absoluteOgImage} />
+		<meta property="og:image:secure_url" content={absoluteOgImage} />
 		<meta property="og:site_name" content={ogSiteName} />
 		<meta property="og:author" content={author} />
-		{ogImageSecureUrl && <meta property="og:image:secure_url" content={ogImageSecureUrl} />}
 		{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
 		{ogImageType && <meta property="og:image:type" content={ogImageType} />}
+		{ogImageWidth && <meta property="og:image:width" content={String(ogImageWidth)} />}
+		{ogImageHeight && <meta property="og:image:height" content={String(ogImageHeight)} />}
 		{fbAppId && <meta property="fb:app_id" content={fbAppId} />}
 		<meta property="og:locale" content={ogLocale} />
+		<meta property="og:locale:alternate" content={alternateLocale} />
 
 		<!-- Twitter -->
-		<meta property="twitter:card" content={twitterCard} />
-		<meta property="twitter:url" content={Astro.url} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={new URL(ogImage, Astro.url)} />
+		<meta name="twitter:card" content={twitterCard} />
+		<meta name="twitter:url" content={finalCanonicalUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={absoluteOgImage} />
 		<meta name="twitter:site" content={twitterSite} />
 		{twitterCreator && <meta name="twitter:creator" content={twitterCreator} />}
 		{twitterImageAlt && <meta name="twitter:image:alt" content={twitterImageAlt} />}
@@ -119,28 +118,16 @@ const jsonLd = {
 		{
 			alternates && (
 				<>
-					<link rel="alternate" hreflang="en" href={`${siteConfig.url}${alternates.en}`} />
-					<link rel="alternate" hreflang="es" href={`${siteConfig.url}${alternates.es}`} />
-					<link rel="alternate" hreflang="x-default" href={siteConfig.url} />
+					<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
+					<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
+					<link
+						rel="alternate"
+						hreflang="x-default"
+						href={new URL(alternates.en, siteConfig.url)}
+					/>
 				</>
 			)
 		}
-
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-			rel="stylesheet"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
-			rel="stylesheet"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap"
-			rel="stylesheet"
-		/>
 
 		<!-- SEO & Performance -->
 		<link rel="canonical" href={finalCanonicalUrl} />
@@ -152,28 +139,38 @@ const jsonLd = {
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<!-- Theme Initialization Script (prevent FOUC) -->
 		<script is:inline set:html={themeScript} />
+		<script>
+			import { ThemeManager } from '@entities/theme/lib/theme-manager';
+			import { updateFavicon } from '@entities/theme/lib/theme-assets';
 
-		<!-- JSON-LD Structured Data -->
+			window.addEventListener('theme-change', event => {
+				const effectiveTheme = (event as CustomEvent<{ effective?: string }>).detail?.effective;
+
+				if (effectiveTheme === 'light' || effectiveTheme === 'dark') {
+					updateFavicon(effectiveTheme);
+				}
+			});
+
+			document.addEventListener('astro:after-swap', () => {
+				updateFavicon(new ThemeManager().getThemeState().effective);
+			});
+		</script>
 		<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	</head>
-	<body
-		class="bg-linear-to-br from-primary-50 via-primary-100 to-primary-200 dark:bg-linear-to-br dark:from-primary-950 dark:via-primary-900 dark:to-primary-800">
-		<!-- Skip Link for Keyboard Navigation -->
+	<body class="min-h-screen bg-channel-background-canvas text-channel-content-default">
 		<a href="#main-content" class="skip-link">
 			{lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
 		</a>
 
-		<!-- Share Button - Fixed Top Left -->
 		<ShareButton position="top-left" size="md" />
-
-		<!-- Theme Toggle Button (Floating) -->
 		<ThemeToggle variant="floating" size="md" />
 
 		<slot />
-
-		<!-- Analytics — placed at end of body for performance -->
 		<Analytics />
+		<script>
+			import { initConversionAnalytics } from '@shared/analytics/conversion';
+			initConversionAnalytics();
+		</script>
 	</body>
 </html>

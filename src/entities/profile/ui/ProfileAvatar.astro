@@ -1,11 +1,10 @@
 ---
 /**
  * ProfileAvatar Component - FSD Layer: entities/profile
- * Displays user profile avatar with brand logo badge
+ * Displays user profile avatar with an optional brand logo badge
  */
 
 import { Avatar } from '@shared/ui';
-import { profile } from '@data/profile';
 
 export interface Props {
 	src: string;
@@ -13,37 +12,59 @@ export interface Props {
 	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 	ring?: boolean;
 	showBrandLogo?: boolean;
+	brandLogoSrc?: string;
 	class?: string;
 }
 
-const { src, alt, size = 'lg', ring = true, showBrandLogo = true, class: className } = Astro.props;
+const {
+	src,
+	alt,
+	size = 'lg',
+	ring = true,
+	showBrandLogo = true,
+	brandLogoSrc,
+	class: className,
+} = Astro.props;
 
-// Logo size based on avatar size
 const logoSizeMap = {
-	xs: 'w-4 h-4',
-	sm: 'w-5 h-5',
-	md: 'w-6 h-6',
-	lg: 'w-8 h-8',
-	xl: 'w-10 h-10',
-	'2xl': 'w-12 h-12',
-	'3xl': 'w-16 h-16',
-	'4xl': 'w-20 h-20',
-};
+	xs: { className: 'h-4 w-4', dimension: 16 },
+	sm: { className: 'h-5 w-5', dimension: 20 },
+	md: { className: 'h-6 w-6', dimension: 24 },
+	lg: { className: 'h-8 w-8', dimension: 32 },
+	xl: { className: 'h-10 w-10', dimension: 40 },
+	'2xl': { className: 'h-12 w-12', dimension: 48 },
+	'3xl': { className: 'h-16 w-16', dimension: 64 },
+	'4xl': { className: 'h-20 w-20', dimension: 80 },
+} as const;
 
 const logoSize = logoSizeMap[size];
 ---
 
 <div class="relative inline-block w-fit" role="img" aria-label={alt}>
-	<Avatar {src} {alt} {size} {ring} ringColor="ring-primary-500" class={className} />
+	<Avatar
+		{src}
+		{alt}
+		{size}
+		{ring}
+		loading="eager"
+		fetchpriority="high"
+		ringColor="ring-channel-accent-primary"
+		class={className}
+	/>
 
 	{
-		showBrandLogo && (
+		showBrandLogo && brandLogoSrc && (
 			<img
-				src={profile.logo.url}
+				src={brandLogoSrc}
 				alt=""
 				role="presentation"
 				aria-hidden="true"
-				class={`absolute bottom-0 right-0 ${logoSize} rounded-full bg-gray-50 dark:border-gray-900 dark:bg-gray-900 shadow-lg transition-transform duration-200 hover:scale-105`}
+				width={logoSize.dimension}
+				height={logoSize.dimension}
+				loading="eager"
+				fetchpriority="low"
+				decoding="async"
+				class={`absolute right-0 bottom-0 ${logoSize.className} rounded-full border border-card-edge bg-channel-surface-default shadow-xs transition-transform duration-200 hover:scale-105`}
 			/>
 		)
 	}

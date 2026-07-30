@@ -1,76 +1,82 @@
 {
 	"profile": {
-		"tagline": "I build solutions, share the process",
-		"bio": "Web Developer building scalable and intelligent apps. Passionate about sharing knowledge and building in public.",
-		"availability": "Available for new projects and collaborations."
+		"tagline": "Software Engineer · .NET, Angular & TypeScript",
+		"bio": "I design and build maintainable web products, from backend architecture to accessible frontend experiences.",
+		"availability": "Open to remote software engineering roles",
+		"location": "Lima, Peru · UTC-5",
+		"workMode": "Remote · based in Peru",
+		"languages": "English · Spanish",
+		"resumeAction": "Download resume",
+		"snapshotHeading": "Professional snapshot"
 	},
 	"nav": {
 		"skipToContent": "Skip to main content"
 	},
 	"hero": {
-		"sectionsLabel": "Profile sections"
+		"sectionsLabel": "Professional profile sections"
 	},
 	"social": {
-		"heading": "Social media links"
+		"heading": "Professional and social links"
 	},
 	"cta": {
-		"business": {
-			"title": "Want to digitize your business without stress?",
-			"description": "Schedule a free Discovery Call. I will understand your goals and give you a clear action plan, without tech jargon.",
-			"label": "Book a Call"
+		"heading": "Explore my work and connect",
+		"description": "Go directly to my portfolio, repositories, selected engineering cases or contact channel.",
+		"portfolio": {
+			"title": "View Portfolio",
+			"description": "Explore selected projects, experience and engineering case studies.",
+			"label": "View portfolio"
 		},
-		"learning": {
-			"title": "Learn and Grow as a Developer",
-			"description": "Tips and resources for developers",
-			"label": "Follow me"
+		"projects": {
+			"title": "View Featured Projects",
+			"description": "Review selected engineering cases and outcomes on this page.",
+			"label": "View featured projects"
+		},
+		"github": {
+			"title": "View GitHub",
+			"description": "Inspect repositories, architecture decisions and products I am building.",
+			"label": "View GitHub repositories"
+		},
+		"contact": {
+			"title": "Contact Me",
+			"description": "Get in touch about software engineering opportunities and collaborations.",
+			"label": "Contact me"
 		}
 	},
 	"contact": {
-		"title": "Got a project in mind?",
-		"message": "Let's talk about how I can help you achieve your goals",
-		"buttonText": "Let's talk",
-		"heading": "Contact"
+		"title": "Engineering consulting is in preparation",
+		"message": "I'm preparing a focused web-service offer. Reach out if you'd like to discuss a future engagement.",
+		"buttonText": "Send an inquiry",
+		"heading": "Engineering consulting"
 	},
 	"skills": {
-		"title": "The engine behind the solutions",
+		"title": "Core engineering stack",
 		"heading": "Technologies and skills"
 	},
 	"weeklyProject": {
-		"title": "Weekly Project",
+		"title": "Featured Project",
 		"demo": "Live Demo",
 		"code": "View Code",
-		"heading": "Weekly project"
+		"heading": "Featured project"
 	},
 	"page": {
-		"mainLabel": "Main content",
-		"sectionsLabel": "Profile sections"
+		"mainLabel": "Professional link hub",
+		"sectionsLabel": "Professional profile sections"
 	},
 	"seo": {
-		"title": "sandovaldavid | I build solutions, share the process",
-		"description": "Web Developer building scalable and intelligent apps. Book a free discovery call or follow my content.",
-		"ogImageAlt": "sandovaldavid - Web Developer building solutions with Practical AI.",
-		"twitterImageAlt": "sandovaldavid - Web Developer specializing in React, Next.js, Python, Astro and AI technologies.",
-		"twitterLabel1": "Specialty",
-		"twitterData1": "Web Solutions with Practical AI",
+		"title": "David Sandoval | Software Engineer",
+		"description": "David Sandoval is a Software Engineer who learns continuously, builds maintainable systems and products, documents decisions, and shares evidence through his work.",
+		"ogImageAlt": "Portrait of David Sandoval, Software Engineer, with his name and professional role.",
+		"twitterImageAlt": "Portrait of David Sandoval, Software Engineer, with his name and professional role.",
+		"twitterLabel1": "Professional focus",
+		"twitterData1": "Systems · Products · Evidence",
 		"ogLocale": "en_US",
 		"keywords": [
-			"sandovaldavid",
 			"David Sandoval",
-			"Web Developer",
-			"Software Developer",
-			"Artificial Intelligence",
-			"Practical AI",
-			"Machine Learning",
-			"React",
-			"Next.js",
-			"Python",
-			"Astro",
-			"TypeScript",
-			"Node.js",
-			"Tailwind CSS",
-			"Web Applications",
-			"Digital Solutions",
-			"Business Automation",
+			"Software Engineer",
+			"Software Engineering",
+			"Systems and Product Engineering",
+			"Engineering Portfolio",
+			"Remote Software Engineer",
 			"Peru"
 		]
 	},
