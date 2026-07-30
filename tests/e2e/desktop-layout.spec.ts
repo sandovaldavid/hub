@@ -156,13 +156,13 @@ for (const route of routes) {
 				expect(projectsIconColor).not.toBe('rgba(0, 0, 0, 0)');
 
 				const projectCards = page.locator('[data-project-card]');
-				await expect(projectCards).toHaveCount(3);
-				await expect(page.locator('[data-project-evidence]')).toHaveCount(9);
+				await expect(projectCards).toHaveCount(2);
+				await expect(page.locator('[data-project-evidence]')).toHaveCount(6);
 				const projectRowCount = await projectCards.evaluateAll(elements => {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
 				});
-				expect(projectRowCount).toBe(viewport.width < 1280 ? 2 : 1);
+				expect(projectRowCount).toBe(1);
 
 				const projectRadii = await projectCards.evaluateAll(elements =>
 					elements.map(element => Number.parseFloat(getComputedStyle(element).borderTopLeftRadius))
@@ -240,16 +240,16 @@ for (const route of routes) {
 			expect(mobileActionRows).toBe(4);
 
 			const projectCards = page.locator('[data-project-card]');
-			await expect(projectCards).toHaveCount(3);
-			await expect(page.locator('[data-project-evidence]')).toHaveCount(9);
+			await expect(projectCards).toHaveCount(2);
+			await expect(page.locator('[data-project-evidence]')).toHaveCount(6);
 			const projectIndexes = await page.locator('.weekly-project-card__index').allTextContents();
-			expect(projectIndexes.map(index => index.slice(-2))).toEqual(['01', '02', '03']);
+			expect(projectIndexes.map(index => index.slice(-2))).toEqual(['01', '02']);
 
 			const mobileProjectRows = await projectCards.evaluateAll(elements => {
 				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 				return new Set(rows).size;
 			});
-			expect(mobileProjectRows).toBe(3);
+			expect(mobileProjectRows).toBe(2);
 
 			const projectActionRows = await projectCards.evaluateAll(cards =>
 				cards.map(card => {
@@ -260,7 +260,7 @@ for (const route of routes) {
 					return new Set(rows).size;
 				})
 			);
-			expect(projectActionRows).toEqual([1, 1, 1]);
+			expect(projectActionRows).toEqual([1, 1]);
 
 			const firstSkillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
 				const firstTop = Math.round(elements[0].getBoundingClientRect().top);
