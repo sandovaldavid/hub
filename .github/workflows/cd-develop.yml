@@ -13,7 +13,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -80,7 +80,7 @@ jobs:
             -d '{"state":"success","target_url":"${{ steps.deploy.outputs.url }}","description":"Preview deployment ready","context":"Vercel Preview"}'
 
       - name: Comment deploy URL on open PR
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const prs = await github.rest.pulls.list({
