@@ -43,19 +43,19 @@ describe('branch ruleset contract', () => {
 		expect(mainRuleset.conditions.ref_name.include).toEqual(['refs/heads/main']);
 	});
 
-	test('blocks deletion, force pushes, and non-linear history', () => {
+	test('blocks deletion and force pushes without forbidding merge commits', () => {
 		for (const ruleset of rulesets) {
 			const types = ruleset.rules.map(rule => rule.type);
 			expect(types).toContain('deletion');
 			expect(types).toContain('non_fast_forward');
-			expect(types).toContain('required_linear_history');
+			expect(types).not.toContain('required_linear_history');
 		}
 	});
 
 	test('requires pull requests without impossible solo-maintainer approvals', () => {
 		for (const ruleset of rulesets) {
 			const parameters = findRule(ruleset, 'pull_request').parameters;
-			expect(parameters.allowed_merge_methods).toEqual(['squash']);
+			expect(parameters.allowed_merge_methods).toEqual(['squash', 'merge']);
 			expect(parameters.required_approving_review_count).toBe(0);
 			expect(parameters.require_last_push_approval).toBe(false);
 			expect(parameters.require_code_owner_review).toBe(false);
