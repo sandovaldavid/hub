@@ -99,4 +99,24 @@ describe('public identity registry', () => {
 		expect(dotnetIndex).toBeLessThan(reactIndex);
 		expect(csharpIndex).toBeLessThan(reactIndex);
 	});
+
+	test('does not claim consulting is actively available before the launch gate', async () => {
+		const [en, es] = await Promise.all([
+			read('src/shared/i18n/locales/en.json'),
+			read('src/shared/i18n/locales/es.json'),
+		]);
+
+		expect(en).not.toMatch(/consulting and product discovery are available/i);
+		expect(es).not.toMatch(/consultor[ií]a.*est[aá]n disponibles/i);
+	});
+
+	test('does not claim unrestricted regional work-mode availability', async () => {
+		const [en, es] = await Promise.all([
+			read('src/shared/i18n/locales/en.json'),
+			read('src/shared/i18n/locales/es.json'),
+		]);
+
+		expect(en).not.toMatch(/Europe\s*&\s*Latin America/i);
+		expect(es).not.toMatch(/Europa\s*y\s*Latinoam[eé]rica/i);
+	});
 });

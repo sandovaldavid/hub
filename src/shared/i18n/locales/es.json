@@ -4,7 +4,7 @@
 		"bio": "Diseño y construyo productos web mantenibles, desde la arquitectura backend hasta experiencias frontend accesibles.",
 		"availability": "Disponible para roles remotos de ingeniería",
 		"location": "Lima, Perú · UTC-5",
-		"workMode": "Remoto · Europa y Latinoamérica",
+		"workMode": "Remoto · con base en Perú",
 		"languages": "Inglés · Español",
 		"resumeAction": "Descargar CV",
 		"snapshotHeading": "Resumen profesional"
@@ -43,9 +43,9 @@
 		}
 	},
 	"contact": {
-		"title": "¿Necesitas consultoría de ingeniería?",
-		"message": "La consultoría y el descubrimiento de producto están disponibles como una opción secundaria.",
-		"buttonText": "Enviar consulta de consultoría",
+		"title": "Consultoría de ingeniería en preparación",
+		"message": "Estoy preparando una oferta enfocada de servicios web. Escríbeme si quieres conversar sobre una futura colaboración.",
+		"buttonText": "Enviar una consulta",
 		"heading": "Consultoría de ingeniería"
 	},
 	"skills": {
