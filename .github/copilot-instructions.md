@@ -30,6 +30,14 @@ src/widgets   composed page sections
 
 Import concrete files when a barrel adds no useful public boundary. Keep content and external URLs out of visual components. Run `bun run check:architecture` after changing imports or placement.
 
+Scoped source rules are limited to:
+
+- `.github/instructions/source.instructions.md`;
+- `.github/instructions/app.instructions.md`;
+- `.github/instructions/design-system.instructions.md`.
+
+Do not add generic layer or segment templates. Every instruction must map to current source paths, implemented behavior and an executable validation contract.
+
 ## Identity, content and privacy
 
 - David's real identity and Software Engineer positioning remain primary.
