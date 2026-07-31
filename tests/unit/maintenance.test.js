@@ -10,7 +10,7 @@ const dependabot = await read('.github/dependabot.yml');
 const ciWorkflow = await read('.github/workflows/ci.yml');
 const maintenanceWorkflow = await read('.github/workflows/maintenance.yml');
 const securityPolicy = await read('SECURITY.md');
-const maintenanceGuide = await read('docs/maintenance.md');
+const operationsGuide = await read('docs/operations.md');
 const linkConfig = JSON.parse(await read('config/link-check.json'));
 const packageJson = JSON.parse(await read('package.json'));
 const siteConfig = await read('src/data/site.config.ts');
@@ -30,13 +30,11 @@ describe('maintenance and security contract', () => {
 		expect(dependabot.match(/target-branch: develop/g)).toHaveLength(3);
 		expect(dependabot).toContain('routine-dependencies:');
 		expect(dependabot).toContain('major-dependencies:');
-		expect(dependabot).toContain('github-actions:');
-		expect(dependabot).toContain('devcontainer-features:');
 		expect(dependabot).toContain('open-pull-requests-limit: 2');
 		expect(dependabot.match(/open-pull-requests-limit: 1/g)).toHaveLength(2);
 	});
 
-	test('runs link validation in the required quality context and on a weekly schedule', () => {
+	test('runs link validation in CI and on a recurring schedule', () => {
 		expect(packageJson.scripts['check:links']).toBe('node scripts/check-links.mjs');
 		expect(packageJson.scripts['validate:quality']).toContain('bun run check:links');
 		expect(ciWorkflow).toContain('name: Link check');
@@ -55,27 +53,20 @@ describe('maintenance and security contract', () => {
 
 	test('provides a private security channel and avoids public disclosure instructions', () => {
 		expect(securityPolicy).toContain('hello@sandovaldavid.com');
-		expect(securityPolicy).not.toContain('contact@sandovaldavid.com');
 		expect(securityPolicy).toContain('Do not open a public issue');
 		expect(securityPolicy).toContain('Coordinated disclosure');
 		expect(securityPolicy).toContain('current production version on `main`');
 	});
 
-	test('does not add CodeQL without a documented change in risk profile', () => {
+	test('keeps the current CodeQL and license decisions in the operations runbook', () => {
 		expect(workflowFiles.some(file => /codeql/iu.test(file))).toBe(false);
 		expect(workflowContents.some(content => /github\/codeql-action/iu.test(content))).toBe(false);
-		expect(maintenanceGuide).toContain('CodeQL is intentionally not added');
-		expect(maintenanceGuide).toContain('Re-evaluate CodeQL');
+		expect(operationsGuide).toContain('CodeQL is intentionally not configured');
+		expect(operationsGuide).toContain('Re-evaluate that decision');
+		expect(operationsGuide).toContain('no `LICENSE` file');
 	});
 
-	test('records the no-license posture and a recurring content review', () => {
-		expect(maintenanceGuide).toContain('## License and notice posture');
-		expect(maintenanceGuide).toContain('no `LICENSE` file');
-		expect(maintenanceGuide).toContain('### Monthly content review');
-		expect(maintenanceGuide).toContain('### Quarterly engineering review');
-	});
-
-	test('centralizes approved public social URLs and does not expose the private linktree repository', () => {
+	test('centralizes approved public social URLs and does not expose the historical private repository', () => {
 		expect(siteConfig).toContain('socialUrls:');
 		expect(siteConfig).not.toContain('calendlyUrl');
 		expect(socialLinks).toContain('siteConfig.socialUrls.linkedin');

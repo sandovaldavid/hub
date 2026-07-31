@@ -18,7 +18,7 @@ describe('README contract', () => {
 		const openingBlock = readme.split('\n').slice(0, 12).join('\n');
 
 		expect(openingBlock).toContain('Professional Link Hub');
-		expect(openingBlock).toContain('recruiters, clients, and collaborators');
+		expect(openingBlock).toContain('recruiters, clients and collaborators');
 		expect(openingBlock).toContain(productionUrl);
 		expect(astroConfig).toContain(`site: '${productionUrl}'`);
 		expect(siteConfig).toContain(`url: '${productionUrl}'`);
@@ -50,9 +50,9 @@ describe('README contract', () => {
 
 	test('explains the Astro decision and the browser JavaScript boundary', () => {
 		expect(readme).toContain('## Why Astro');
-		expect(readme).toContain('does not hydrate React, Vue, or Svelte islands');
-		expect(readme).toContain('src/features/theme-toggle/ui/ThemeToggle.astro');
-		expect(readme).toContain('src/features/share-button/ui/ShareButton.astro');
+		expect(readme).toContain('without hydrating React, Vue or Svelte islands');
+		expect(readme).toContain('src/features/theme-toggle');
+		expect(readme).toContain('src/features/share-button');
 		expect(readme).toContain('src/shared/analytics/conversion.ts');
 		expect(layout).toContain('getThemeInitScript');
 		expect(layout).toContain('initConversionAnalytics');
@@ -83,9 +83,16 @@ describe('README contract', () => {
 		}
 	});
 
+	test('documents the slim repository documentation surface and historical alias', () => {
+		expect(readme).toContain('docs/architecture.md');
+		expect(readme).toContain('docs/operations.md');
+		expect(readme).toContain('historically named `linktree`');
+		expect(readme).toContain('Decisions, alternatives, audits, notes, plans and historical handoffs belong in Cortex-L7');
+	});
+
 	test('describes rulesets as desired state until live enforcement is verified', () => {
-		expect(readme).toContain('versions desired rulesets for `develop` and `main`');
-		expect(readme).toContain('live enforcement state must be verified in GitHub');
+		expect(readme).toContain('Desired rulesets are versioned');
+		expect(readme).toContain('live enforcement must be verified in GitHub');
 		expect(readme).not.toContain('rulesets are active');
 	});
 });
