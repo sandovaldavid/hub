@@ -92,6 +92,19 @@ The layout renders metadata produced by `src/data/seo.ts`; it must not maintain 
 
 Analytics events measure navigation interactions only. They must use the allow-listed properties implemented in `src/shared/analytics/conversion.ts` and must not contain personal data, complete URLs, query strings or free-form input.
 
+## Agent instruction ownership
+
+Repository-specific coding instructions are intentionally limited to:
+
+| File | Scope |
+| --- | --- |
+| `.github/copilot-instructions.md` | Global project, identity, privacy, validation and documentation rules. |
+| `.github/instructions/source.instructions.md` | Source placement, real consumers and dependency direction. |
+| `.github/instructions/app.instructions.md` | Application shell, layout, global styles and app-level ownership. |
+| `.github/instructions/design-system.instructions.md` | Implemented tokens, channel expression, accessibility and visual tests. |
+
+Do not add generic per-layer or per-segment templates. A new instruction file must reference actual paths, describe implemented behavior, have a clear consumer and align with executable checks. Examples for hypothetical portfolio routes, forms, APIs, stores, barrels or framework integrations are not Hub documentation.
+
 ## Verification
 
 Run the architecture check directly while iterating:
