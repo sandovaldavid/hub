@@ -8,7 +8,10 @@ const read = path => readFile(join(repositoryRoot, path), 'utf8');
 
 const dependabot = await read('.github/dependabot.yml');
 const ciWorkflow = await read('.github/workflows/ci.yml');
+const deployDevelopWorkflow = await read('.github/workflows/cd-develop.yml');
+const deployProductionWorkflow = await read('.github/workflows/cd-production.yml');
 const maintenanceWorkflow = await read('.github/workflows/maintenance.yml');
+const releaseWorkflow = await read('.github/workflows/release-please.yml');
 const securityPolicy = await read('SECURITY.md');
 const operationsGuide = await read('docs/operations.md');
 const linkConfig = JSON.parse(await read('config/link-check.json'));
@@ -42,6 +45,17 @@ describe('maintenance and security contract', () => {
 		expect(maintenanceWorkflow).toContain("cron: '0 14 * * 1'");
 		expect(maintenanceWorkflow).toContain('workflow_dispatch:');
 		expect(maintenanceWorkflow).toContain('run: node scripts/check-links.mjs');
+	});
+
+	test('skips deployment and release workflows for non-runtime changes', () => {
+		for (const workflow of [deployDevelopWorkflow, deployProductionWorkflow, releaseWorkflow]) {
+			expect(workflow).toContain('paths-ignore:');
+			expect(workflow).toContain("'.agents/**'");
+			expect(workflow).toContain("'.vscode/**'");
+			expect(workflow).toContain("'.vercel/**'");
+			expect(workflow).toContain("'docs/**'");
+			expect(workflow).toContain("'**.md'");
+		}
 	});
 
 	test('documents every ignored external URL with a reason', () => {

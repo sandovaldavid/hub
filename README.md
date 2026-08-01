@@ -90,7 +90,7 @@ The accessibility implementation targets WCAG 2.1 AA practices and is regression
 | Command | Purpose |
 | --- | --- |
 | `bun run dev` | Start Astro on port `4321` |
-| `bun run build` | Validate removed barrels and build the static site |
+| `bun run build` | Validate architecture and build the static site |
 | `bun run check:architecture` | Detect circular dependencies and forbidden barrels |
 | `bun run check:links` | Validate repository and public destinations |
 | `bun run format:check` | Verify Prettier formatting |
