@@ -36,4 +36,3 @@ blob-report/
 # Generic logs and caches
 *.log
 .cache/
-.vercel
