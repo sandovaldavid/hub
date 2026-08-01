@@ -87,7 +87,9 @@ describe('README contract', () => {
 		expect(readme).toContain('docs/architecture.md');
 		expect(readme).toContain('docs/operations.md');
 		expect(readme).toContain('historically named `linktree`');
-		expect(readme).toContain('Decisions, alternatives, audits, notes, plans and historical handoffs belong in Cortex-L7');
+		expect(readme).toContain(
+			'Decisions, alternatives, audits, notes, plans and historical handoffs belong in Cortex-L7'
+		);
 	});
 
 	test('describes rulesets as desired state until live enforcement is verified', () => {

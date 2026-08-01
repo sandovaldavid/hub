@@ -1,0 +1,53 @@
+version: 1
+
+project:
+  id: hub
+  repository: sandovaldavid/hub
+  base_branch: develop
+  contract: AGENTS.md
+  archetype: astro-site
+
+primary_agent: project-maintainer
+
+specialists:
+  - quality-gate-runner
+  - ux-accessibility-reviewer
+  - evidence-content-reviewer
+  - docs-memory-synchronizer
+
+required_global_skills:
+  - kioku-project-workflow
+  - kioku-vault
+
+project_skills:
+  - astro-developer
+  - conventional-commits
+  - ui-ux-design-system
+  - webapp-testing
+  - playwright-generate-test
+  - web-perf
+
+mcp_profiles:
+  - astro
+  - frontend-debugging
+  - design
+  - github
+  - knowledge
+
+companions:
+  - repository: sandovaldavid/portfolio
+    branch: develop
+    concerns: [identity, destinations, public-claims]
+  - repository: sandovaldavid/resume
+    branch: develop
+    concerns: [professional-evidence, contact-data]
+
+validation:
+  source: AGENTS.md
+  rule: Use bun run validate:local for broad visible or delivery changes.
+
+safety:
+  direct_push: deny
+  merge: deny
+  destructive_git: deny
+  publish_private_context: deny

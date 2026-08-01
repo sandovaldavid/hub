@@ -39,6 +39,21 @@ const projectSectionStyles = await readFile(
 const packageJson = JSON.parse(await readFile(join(repositoryRoot, 'package.json'), 'utf8'));
 
 describe('CI workflow contract', () => {
+	test('skips heavy checks for non-runtime-only changes', () => {
+		expect(workflow).toContain('name: Detect runtime changes');
+		expect(workflow).toContain('.agents/*|.vscode/*|.vercel/*|docs/*|*.md|.gitignore');
+		expect(workflow).toContain('git diff --name-only');
+		expect(workflow).toContain('needs: changes');
+		expect(workflow).toContain("if: ${{ needs.changes.outputs.runtime == 'true' }}");
+	});
+
+	test('caches Bun packages and Playwright browsers by lockfile', () => {
+		expect(workflow).toContain('actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830');
+		expect(workflow).toContain('path: ~/.bun/install/cache');
+		expect(workflow).toContain('path: ~/.cache/ms-playwright');
+		expect(workflow).toContain("hashFiles('package.json', 'bun.lock')");
+	});
+
 	test('publishes stable functional check names for branch rulesets', () => {
 		expect(workflow).toContain('name: Quality');
 		expect(workflow).toContain('name: E2E');
@@ -141,7 +156,7 @@ describe('CI workflow contract', () => {
 		expect(packageJson.engines.node).toBe('>=22.19.0');
 		expect(workflow).toContain('NODE_VERSION: 22.19.0');
 		expect(workflow).toContain(
-			'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0'
+			'actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0'
 		);
 		expect(workflow).toContain('node-version: ${{ env.NODE_VERSION }}');
 	});

@@ -20,9 +20,61 @@ permissions:
   contents: read
 
 jobs:
+  # Keep required contexts resolvable while skipping heavy jobs for non-runtime changes.
+  changes:
+    name: Detect runtime changes
+    runs-on: ubuntu-latest
+    outputs:
+      runtime: ${{ steps.detect.outputs.runtime }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Detect runtime changes
+        id: detect
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base="$PR_BASE_SHA"
+          else
+            base="$PUSH_BASE_SHA"
+          fi
+
+          if [[ -z "$base" || "$base" =~ ^0+$ || "$base" == "$HEAD_SHA" ]]; then
+            echo "runtime=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if ! changed_files=$(git diff --name-only "$base" "$HEAD_SHA"); then
+            echo "runtime=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          runtime=false
+          while IFS= read -r path; do
+            case "$path" in
+              .agents/*|.vscode/*|.vercel/*|docs/*|*.md|.gitignore)
+                ;;
+              *)
+                runtime=true
+                break
+                ;;
+            esac
+          done <<< "$changed_files"
+
+          echo "runtime=$runtime" >> "$GITHUB_OUTPUT"
+
   # Required-check contract for #32. Do not rename without updating the rulesets documentation.
   quality:
     name: Quality
+    needs: changes
+    if: ${{ needs.changes.outputs.runtime == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -30,6 +82,12 @@ jobs:
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Cache Bun packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ env.BUN_VERSION }}-${{ hashFiles('package.json', 'bun.lock') }}
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -65,7 +123,8 @@ jobs:
 
   e2e:
     name: E2E
-    needs: quality
+    needs: [changes, quality]
+    if: ${{ needs.changes.outputs.runtime == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -78,6 +137,12 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
+      - name: Cache Bun packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ env.BUN_VERSION }}-${{ hashFiles('package.json', 'bun.lock') }}
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
@@ -86,6 +151,12 @@ jobs:
         with:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: dist
+
+      - name: Cache Playwright browser
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package.json', 'bun.lock') }}
 
       - name: Install Playwright browser
         run: bun x playwright install --with-deps chromium
@@ -153,7 +224,8 @@ jobs:
 
   lighthouse:
     name: Lighthouse
-    needs: quality
+    needs: [changes, quality]
+    if: ${{ needs.changes.outputs.runtime == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -168,6 +240,12 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
+      - name: Cache Bun packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ env.BUN_VERSION }}-${{ hashFiles('package.json', 'bun.lock') }}
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
@@ -176,6 +254,12 @@ jobs:
         with:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: dist
+
+      - name: Cache Playwright browser
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package.json', 'bun.lock') }}
 
       - name: Install Lighthouse browser
         run: bun x playwright install --with-deps chromium

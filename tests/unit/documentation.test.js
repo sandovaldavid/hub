@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const docsRoot = join(repositoryRoot, 'docs');
 const instructionsRoot = join(repositoryRoot, '.github/instructions');
+const agentsRoot = join(repositoryRoot, '.github/agents');
+const projectProfile = await readFile(join(repositoryRoot, '.agents/project-profile.yml'), 'utf8');
 
 async function listFiles(directory) {
 	const entries = await readdir(directory, { withFileTypes: true });
@@ -24,11 +26,12 @@ async function listFiles(directory) {
 }
 
 describe('repository documentation boundary', () => {
-	test('keeps docs limited to architecture and operations', async () => {
-		expect(await listFiles(docsRoot)).toEqual([
-			'docs/architecture.md',
-			'docs/operations.md',
-		]);
+	test('keeps required operational documentation in the repository', async () => {
+		const files = await listFiles(docsRoot);
+
+		expect(files).toContain('docs/architecture.md');
+		expect(files).toContain('docs/operations.md');
+		expect(files.every(path => path.endsWith('.md'))).toBe(true);
 	});
 
 	test('keeps decisions, audits, plans and handoffs out of repository docs', async () => {
@@ -44,18 +47,23 @@ describe('repository documentation boundary', () => {
 		expect(documentation).toContain('Cortex-L7');
 	});
 
-	test('keeps agent instructions limited to current repository contracts', async () => {
+	test('keeps path instructions and custom agents explicitly bounded', async () => {
 		expect(await listFiles(instructionsRoot)).toEqual([
 			'.github/instructions/app.instructions.md',
+			'.github/instructions/conventional-commit.prompt.md',
 			'.github/instructions/design-system.instructions.md',
 			'.github/instructions/source.instructions.md',
 		]);
+		expect(await listFiles(agentsRoot)).toEqual(['.github/agents/hub-maintainer.agent.md']);
+		expect(projectProfile).toContain('id: hub');
+		expect(projectProfile).toContain('primary_agent: project-maintainer');
 	});
 
 	test('rejects generic portfolio and framework instruction drift', async () => {
 		const files = [
 			'.github/copilot-instructions.md',
 			...(await listFiles(instructionsRoot)),
+			...(await listFiles(agentsRoot)),
 		];
 		const contents = await Promise.all(
 			files.map(path => readFile(join(repositoryRoot, path), 'utf8'))

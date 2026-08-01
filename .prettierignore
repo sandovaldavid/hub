@@ -16,6 +16,9 @@ bun.lockb
 # Dev Container
 .devcontainer/devcontainer-lock.json
 
+# Local deployment metadata
+.vercel/
+
 # Otros
 .DS_Store
 .claude/

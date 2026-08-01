@@ -2,6 +2,13 @@ name: Deploy Production
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '.agents/**'
+      - '.vscode/**'
+      - '.vercel/**'
+      - 'docs/**'
+      - '**.md'
+      - '.gitignore'
 
 permissions:
   contents: read

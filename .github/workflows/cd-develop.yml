@@ -2,6 +2,13 @@ name: Deploy Develop
 on:
   push:
     branches: [develop]
+    paths-ignore:
+      - '.agents/**'
+      - '.vscode/**'
+      - '.vercel/**'
+      - 'docs/**'
+      - '**.md'
+      - '.gitignore'
 
 permissions:
   contents: read

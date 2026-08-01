@@ -320,57 +320,40 @@ const printExternalResult = result => {
 };
 
 const main = async () => {
-	const args = new Set(process.argv.slice(2));
-	const validArgs = new Set(['--internal-only', '--external-only']);
-	for (const arg of args) {
-		if (!validArgs.has(arg)) {
-			throw new Error(`Unknown argument: ${arg}`);
-		}
-	}
-	if (args.has('--internal-only') && args.has('--external-only')) {
-		throw new Error('Use only one of --internal-only or --external-only.');
-	}
-
 	const config = await loadConfiguration();
 	const extensions = new Set(config.extensions);
 	let hasFailures = false;
 
-	if (!args.has('--external-only')) {
-		const markdownFiles = await expandConfiguredEntries(config.markdownSources, extensions);
-		const internal = await checkInternalLinks(markdownFiles);
-		console.log(
-			`[links] internal: ${internal.checked} checked across ${markdownFiles.length} files`
-		);
-		for (const failure of internal.broken) {
-			console.error(`[error] ${failure.source} -> ${failure.target}`);
-		}
-		hasFailures ||= internal.broken.length > 0;
+	const markdownFiles = await expandConfiguredEntries(config.markdownSources, extensions);
+	const internal = await checkInternalLinks(markdownFiles);
+	console.log(`[links] internal: ${internal.checked} checked across ${markdownFiles.length} files`);
+	for (const failure of internal.broken) {
+		console.error(`[error] ${failure.source} -> ${failure.target}`);
 	}
+	hasFailures ||= internal.broken.length > 0;
 
-	if (!args.has('--internal-only')) {
-		const externalFiles = await expandConfiguredEntries(config.externalSources, extensions);
-		const urls = await collectExternalUrls(externalFiles, config.ignoredExternalUrls);
-		const transientStatusCodes = new Set(config.transientStatusCodes);
-		const results = await mapWithConcurrency(urls, config.concurrency, url =>
-			checkExternalUrl(url, {
-				timeoutMs: config.timeoutMs,
-				retries: config.retries,
-				retryDelayMs: config.retryDelayMs,
-				transientStatusCodes,
-			})
-		);
-		const broken = results.filter(result => result.state === 'broken');
-		const transient = results.filter(result => result.state === 'transient');
-		const ok = results.filter(result => result.state === 'ok');
+	const externalFiles = await expandConfiguredEntries(config.externalSources, extensions);
+	const urls = await collectExternalUrls(externalFiles, config.ignoredExternalUrls);
+	const transientStatusCodes = new Set(config.transientStatusCodes);
+	const results = await mapWithConcurrency(urls, config.concurrency, url =>
+		checkExternalUrl(url, {
+			timeoutMs: config.timeoutMs,
+			retries: config.retries,
+			retryDelayMs: config.retryDelayMs,
+			transientStatusCodes,
+		})
+	);
+	const broken = results.filter(result => result.state === 'broken');
+	const transient = results.filter(result => result.state === 'transient');
+	const ok = results.filter(result => result.state === 'ok');
 
-		console.log(
-			`[links] external: ${ok.length} healthy, ${transient.length} transient warning(s), ${broken.length} broken`
-		);
-		for (const result of [...broken, ...transient]) {
-			printExternalResult(result);
-		}
-		hasFailures ||= broken.length > 0;
+	console.log(
+		`[links] external: ${ok.length} healthy, ${transient.length} transient warning(s), ${broken.length} broken`
+	);
+	for (const result of [...broken, ...transient]) {
+		printExternalResult(result);
 	}
+	hasFailures ||= broken.length > 0;
 
 	if (hasFailures) {
 		process.exitCode = 1;
