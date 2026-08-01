@@ -47,7 +47,10 @@ describe('link checker', () => {
 		expect(shouldIgnoreExternalUrl('https://example.com/${path}', ignored)).toBe(true);
 		expect(shouldIgnoreExternalUrl('http://localhost:4321', ignored)).toBe(true);
 		expect(
-			shouldIgnoreExternalUrl('https://sandovaldavid.github.io/hub/playwright-report/123/', ignored)
+			shouldIgnoreExternalUrl(
+				'https://sandovaldavid.github.io/hub/playwright-report/123/',
+				ignored
+			)
 		).toBe(true);
 		expect(shouldIgnoreExternalUrl('https://sandovaldavid.com', ignored)).toBe(false);
 	});
