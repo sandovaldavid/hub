@@ -88,7 +88,7 @@ The CI workflow defines these functional check names:
 - `CI / E2E`;
 - `CI / Lighthouse`.
 
-`CI / Playwright report availability` is informational and must not be interpreted as the E2E result.
+`CI / E2E` is the authoritative functional test result.
 
 The exact workflow, artifact flow and commands live in `.github/workflows/ci.yml`. Lighthouse thresholds and profiles live in `.lighthouserc.cjs`. Renaming a required context requires synchronized ruleset and contract-test changes.
 

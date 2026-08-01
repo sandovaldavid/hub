@@ -73,10 +73,12 @@ describe('CI workflow contract', () => {
 		expect(workflow.match(/Download production build/g)).toHaveLength(2);
 	});
 
-	test('keeps functional results separate from report publication', () => {
-		expect(workflow).toContain('name: Playwright report availability');
-		expect(workflow).toContain('Use `CI / E2E` for the functional test result.');
-		expect(workflow).not.toContain('context":"Playwright Report"');
+	test('keeps functional results separate from report artifacts', () => {
+		expect(workflow).toContain('name: Upload Playwright report');
+		expect(workflow).not.toMatch(/^\s+publish[^:]*:/m);
+		expect(workflow).not.toMatch(/uses: .*pages/u);
+		expect(workflow).not.toContain('github.io');
+		expect(workflow).not.toContain('contents: write');
 		expect(workflow).not.toContain('continue-on-error: true');
 		expect(workflow).not.toContain('LHCI_GITHUB_APP_TOKEN');
 	});
@@ -84,7 +86,7 @@ describe('CI workflow contract', () => {
 	test('uploads a generated report after failure but not after cancellation', () => {
 		expect(workflow).toContain('if: ${{ !cancelled() }}');
 		expect(workflow).toContain("!cancelled() && steps.detect_report.outputs.available == 'true'");
-		expect(workflow).toContain("!cancelled() && needs.e2e.outputs.report_available == 'true'");
+		expect(workflow).not.toContain('report_available');
 		expect(workflow).not.toContain('if: always()');
 	});
 
