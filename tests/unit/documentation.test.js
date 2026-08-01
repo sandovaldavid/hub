@@ -56,9 +56,7 @@ describe('repository documentation boundary', () => {
 			'.github/instructions/design-system.instructions.md',
 			'.github/instructions/source.instructions.md',
 		]);
-		expect(await listFiles(agentsRoot)).toEqual([
-			'.github/agents/hub-maintainer.agent.md',
-		]);
+		expect(await listFiles(agentsRoot)).toEqual(['.github/agents/hub-maintainer.agent.md']);
 		expect(projectProfile).toContain('id: hub');
 		expect(projectProfile).toContain('primary_agent: project-maintainer');
 	});
