@@ -128,8 +128,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    outputs:
-      report_available: ${{ steps.detect_report.outputs.available }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
@@ -185,42 +183,6 @@ jobs:
           path: playwright-report/
           retention-days: 7
           if-no-files-found: error
-
-  publish-playwright-report:
-    name: Playwright report availability
-    needs: e2e
-    if: ${{ !cancelled() && needs.e2e.outputs.report_available == 'true' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    env:
-      REPORT_DIRECTORY: ${{ github.event.pull_request.number || github.ref_name }}
-    steps:
-      - name: Download Playwright report
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        with:
-          name: ${{ env.PLAYWRIGHT_REPORT_ARTIFACT_NAME }}
-          path: playwright-report
-
-      - name: Deploy Playwright report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
-          destination_dir: playwright-report/${{ env.REPORT_DIRECTORY }}
-          keep_files: true
-
-      - name: Document report availability
-        shell: bash
-        run: |
-          REPORT_URL="https://sandovaldavid.github.io/hub/playwright-report/${REPORT_DIRECTORY}/"
-          {
-            echo "## Playwright report availability"
-            echo
-            echo "The HTML report was published at ${REPORT_URL}"
-            echo
-            echo '> This check reports publication only. Use `CI / E2E` for the functional test result.'
-          } >> "$GITHUB_STEP_SUMMARY"
 
   lighthouse:
     name: Lighthouse

@@ -75,7 +75,7 @@ describe('branch ruleset contract', () => {
 		}
 	});
 
-	test('requires the stable functional CI contexts and excludes report publication', () => {
+	test('requires the stable functional CI contexts', () => {
 		const functionalContexts = ['CI / Quality', 'CI / E2E', 'CI / Lighthouse'];
 
 		for (const ruleset of rulesets) {
@@ -83,7 +83,6 @@ describe('branch ruleset contract', () => {
 			for (const context of functionalContexts) {
 				expect(contexts).toContain(context);
 			}
-			expect(contexts).not.toContain('CI / Playwright report availability');
 			expect(
 				findRule(ruleset, 'required_status_checks').parameters.strict_required_status_checks_policy
 			).toBe(true);

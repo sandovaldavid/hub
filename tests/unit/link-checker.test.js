@@ -36,20 +36,10 @@ describe('link checker', () => {
 		expect(classifyHttpStatus(410)).toBe('broken');
 	});
 
-	test('ignores templates, local servers, and documented generated URLs', () => {
-		const ignored = [
-			{
-				pattern: '^https://sandovaldavid\\.github\\.io/hub/playwright-report/',
-				reason: 'Generated report.',
-			},
-		];
-
-		expect(shouldIgnoreExternalUrl('https://example.com/${path}', ignored)).toBe(true);
-		expect(shouldIgnoreExternalUrl('http://localhost:4321', ignored)).toBe(true);
-		expect(
-			shouldIgnoreExternalUrl('https://sandovaldavid.github.io/hub/playwright-report/123/', ignored)
-		).toBe(true);
-		expect(shouldIgnoreExternalUrl('https://sandovaldavid.com', ignored)).toBe(false);
+	test('ignores templates and local servers', () => {
+		expect(shouldIgnoreExternalUrl('https://example.com/${path}')).toBe(true);
+		expect(shouldIgnoreExternalUrl('http://localhost:4321')).toBe(true);
+		expect(shouldIgnoreExternalUrl('https://sandovaldavid.com')).toBe(false);
 	});
 
 	test('falls back from a rejected HEAD request to a successful ranged GET', async () => {

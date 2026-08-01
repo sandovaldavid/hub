@@ -14,7 +14,6 @@ const maintenanceWorkflow = await read('.github/workflows/maintenance.yml');
 const releaseWorkflow = await read('.github/workflows/release-please.yml');
 const securityPolicy = await read('SECURITY.md');
 const operationsGuide = await read('docs/operations.md');
-const linkConfig = JSON.parse(await read('config/link-check.json'));
 const packageJson = JSON.parse(await read('package.json'));
 const siteConfig = await read('src/data/site.config.ts');
 const socialLinks = await read('src/data/social-links.ts');
@@ -55,13 +54,6 @@ describe('maintenance and security contract', () => {
 			expect(workflow).toContain("'.vercel/**'");
 			expect(workflow).toContain("'docs/**'");
 			expect(workflow).toContain("'**.md'");
-		}
-	});
-
-	test('documents every ignored external URL with a reason', () => {
-		for (const entry of linkConfig.ignoredExternalUrls) {
-			expect(entry.pattern.trim().length).toBeGreaterThan(0);
-			expect(entry.reason.trim().length).toBeGreaterThan(0);
 		}
 	});
 

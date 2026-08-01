@@ -22,12 +22,13 @@ The workflow follows least privilege:
 
 | Job | Permissions | Reason |
 | --- | --- | --- |
-| `check` | `contents: read` | Checkout, install, typecheck, format, lint, unit tests, build |
-| `test` | `contents: read` | Checkout, build, Playwright execution, artifact upload |
+| `quality` | `contents: read` | Checkout, install, typecheck, format, lint, unit tests, build |
+| `e2e` | `contents: read` | Checkout, build, Playwright execution, artifact upload |
 | `lighthouse` | `contents: read` | Checkout, build, Lighthouse CI |
-| `publish-playwright-report` | `contents: write`, `statuses: write` | Publish the HTML report to GitHub Pages and attach its URL to the commit |
 
-No repository secrets are required. The workflow uses the ephemeral `GITHUB_TOKEN` supplied by GitHub Actions. Write access is scoped only to the report publishing job.
+The CI workflow does not require repository secrets. Each job uses the
+ephemeral `GITHUB_TOKEN` supplied by GitHub Actions with read-only repository
+contents access.
 
 ## Third-party actions
 
@@ -39,6 +40,5 @@ Actions are pinned to immutable commit SHAs rather than floating major tags. Upd
 
 ## Playwright reports
 
-The `test` job uploads the Playwright HTML report as an immutable workflow artifact. A separate job downloads and publishes it. The publishing job does not run when the test job is skipped or cancelled.
-
-The `Playwright Report` commit status indicates report availability only; the authoritative test result is the `CI / test` check.
+The `e2e` job uploads the Playwright HTML report as an immutable workflow artifact.
+The `CI / E2E` check is the authoritative functional test result.
