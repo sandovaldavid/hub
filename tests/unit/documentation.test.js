@@ -7,10 +7,7 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const docsRoot = join(repositoryRoot, 'docs');
 const instructionsRoot = join(repositoryRoot, '.github/instructions');
 const agentsRoot = join(repositoryRoot, '.github/agents');
-const projectProfile = await readFile(
-	join(repositoryRoot, '.agents/project-profile.yml'),
-	'utf8'
-);
+const projectProfile = await readFile(join(repositoryRoot, '.agents/project-profile.yml'), 'utf8');
 
 async function listFiles(directory) {
 	const entries = await readdir(directory, { withFileTypes: true });
