@@ -50,6 +50,7 @@ describe('repository documentation boundary', () => {
 	test('keeps path instructions and custom agents explicitly bounded', async () => {
 		expect(await listFiles(instructionsRoot)).toEqual([
 			'.github/instructions/app.instructions.md',
+			'.github/instructions/conventional-commit.prompt.md',
 			'.github/instructions/design-system.instructions.md',
 			'.github/instructions/source.instructions.md',
 		]);
