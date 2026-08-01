@@ -25,10 +25,7 @@ async function listFiles(directory) {
 
 describe('repository documentation boundary', () => {
 	test('keeps docs limited to architecture and operations', async () => {
-		expect(await listFiles(docsRoot)).toEqual([
-			'docs/architecture.md',
-			'docs/operations.md',
-		]);
+		expect(await listFiles(docsRoot)).toEqual(['docs/architecture.md', 'docs/operations.md']);
 	});
 
 	test('keeps decisions, audits, plans and handoffs out of repository docs', async () => {
@@ -53,10 +50,7 @@ describe('repository documentation boundary', () => {
 	});
 
 	test('rejects generic portfolio and framework instruction drift', async () => {
-		const files = [
-			'.github/copilot-instructions.md',
-			...(await listFiles(instructionsRoot)),
-		];
+		const files = ['.github/copilot-instructions.md', ...(await listFiles(instructionsRoot))];
 		const contents = await Promise.all(
 			files.map(path => readFile(join(repositoryRoot, path), 'utf8'))
 		);
