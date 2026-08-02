@@ -10,6 +10,10 @@ on:
       - '**.md'
       - '.gitignore'
 
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_name != 'main' }}
+
 permissions:
   contents: read
   deployments: write
