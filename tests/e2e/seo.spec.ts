@@ -20,7 +20,8 @@ const routes = [
 		title: 'David Sandoval | Software Engineer',
 		description:
 			'David Sandoval is a Software Engineer who learns continuously, builds maintainable systems and products, documents decisions, and shares evidence through his work.',
-		imageAlt: 'Portrait of David Sandoval, Software Engineer, with his name and professional role.',
+		imageAlt:
+			'Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.',
 		twitterLabel: 'Professional focus',
 		twitterData: 'Systems · Products · Evidence',
 	},
@@ -33,7 +34,8 @@ const routes = [
 		title: 'David Sandoval | Ingeniero de Software',
 		description:
 			'David Sandoval es Ingeniero de Software: aprende continuamente, construye sistemas y productos mantenibles, documenta decisiones y comparte evidencia mediante su trabajo.',
-		imageAlt: 'Retrato de David Sandoval, Ingeniero de Software, con su nombre y rol profesional.',
+		imageAlt:
+			'Retrato de David Sandoval con su nombre, rol de Ingeniero de Software y enfoque en sistemas mantenibles, decisiones documentadas y evidencia de ingeniería.',
 		twitterLabel: 'Enfoque profesional',
 		twitterData: 'Sistemas · Productos · Evidencia',
 	},
