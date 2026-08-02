@@ -8,5 +8,4 @@ export interface Skill {
 export interface SkillsSectionProps {
 	skills: Skill[];
 	title?: string;
-	variant?: 'compact' | 'default';
 }

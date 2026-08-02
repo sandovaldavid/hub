@@ -5,55 +5,17 @@
  * Falls back to copy-to-clipboard if Web Share API is not available
  */
 
-import type { ShareButtonProps } from '../model/types';
-import { cn } from '../../../shared/lib';
 import './ShareButton.css';
 import ShareIcon from '../../../shared/assets/share-icon.svg?raw';
-
-type Props = ShareButtonProps;
-
-const {
-	position = 'top-left',
-	variant = 'floating',
-	size = 'md',
-	showLabel = false,
-	class: className,
-} = Astro.props;
-
-const positionClasses = {
-	'top-left': 'share-button--top-left',
-	'top-right': 'share-button--top-right',
-	'bottom-left': 'share-button--bottom-left',
-	'bottom-right': 'share-button--bottom-right',
-};
-
-const sizeClasses = {
-	sm: 'share-button--sm',
-	md: 'share-button--md',
-	lg: 'share-button--lg',
-};
-
-const variantClasses = {
-	floating: 'share-button--floating',
-	inline: 'share-button--inline',
-};
 ---
 
 <button
 	id="share-button"
-	class={cn(
-		'share-button',
-		positionClasses[position],
-		sizeClasses[size],
-		variantClasses[variant],
-		className
-	)}
+	class="share-button"
 	aria-label="Compartir sitio"
 	title="Compartir"
 	type="button">
 	<span class="share-button__icon" set:html={ShareIcon} />
-
-	{showLabel && <span class="share-button__label">Compartir</span>}
 
 	<!-- Feedback visual cuando se copia al clipboard -->
 	<span class="share-button__feedback" id="share-feedback"> ¡Link copiado! </span>

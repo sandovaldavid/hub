@@ -3,17 +3,10 @@
  * Theme management business logic
  */
 
-import type { EffectiveTheme, Theme, ThemeState, ThemeConfig } from '../model/types';
-import { DEFAULT_THEME_CONFIG } from '../model/types';
+import type { EffectiveTheme, Theme, ThemeState } from '../model/types';
 import { THEME_FAVICON_PATHS, updateFavicon } from './theme-assets';
 
 export class ThemeManager {
-	private config: ThemeConfig;
-
-	constructor(config: Partial<ThemeConfig> = {}) {
-		this.config = { ...DEFAULT_THEME_CONFIG, ...config };
-	}
-
 	/**
 	 * Get system color scheme preference
 	 */
@@ -29,7 +22,7 @@ export class ThemeManager {
 	getStoredTheme(): Theme | null {
 		if (typeof window === 'undefined') return null;
 
-		const stored = localStorage.getItem(this.config.storageKey);
+		const stored = localStorage.getItem('sandovaldavid-theme');
 
 		if (stored === 'light' || stored === 'dark' || stored === 'system') {
 			return stored;
@@ -44,7 +37,7 @@ export class ThemeManager {
 	setStoredTheme(theme: Theme): void {
 		if (typeof window === 'undefined') return;
 
-		localStorage.setItem(this.config.storageKey, theme);
+		localStorage.setItem('sandovaldavid-theme', theme);
 	}
 
 	/**
@@ -64,7 +57,7 @@ export class ThemeManager {
 		if (typeof document === 'undefined') return;
 
 		const effectiveTheme = this.resolveEffectiveTheme(theme);
-		document.documentElement.setAttribute(this.config.attribute, effectiveTheme);
+		document.documentElement.setAttribute('data-theme', effectiveTheme);
 		updateFavicon(effectiveTheme);
 	}
 
@@ -73,7 +66,7 @@ export class ThemeManager {
 	 */
 	getThemeState(): ThemeState {
 		const stored = this.getStoredTheme();
-		const current = stored || this.config.defaultTheme;
+		const current = stored || 'system';
 		const systemPreference = this.getSystemPreference();
 		const effective = this.resolveEffectiveTheme(current);
 
@@ -120,7 +113,7 @@ export class ThemeManager {
 	 */
 	initialize(): void {
 		const stored = this.getStoredTheme();
-		const theme = stored || this.config.defaultTheme;
+		const theme = stored || 'system';
 		this.applyTheme(theme);
 	}
 
@@ -136,7 +129,7 @@ export class ThemeManager {
 			const newPreference = e.matches ? 'dark' : 'light';
 
 			// If current theme is 'system', update automatically
-			const currentTheme = this.getStoredTheme() || this.config.defaultTheme;
+			const currentTheme = this.getStoredTheme() || 'system';
 			if (currentTheme === 'system') {
 				this.applyTheme('system');
 			}
@@ -155,15 +148,14 @@ export class ThemeManager {
  * Get inline script to prevent flash of unstyled content (FOUC)
  * This should be inlined in <head> before any content renders
  */
-export function getThemeInitScript(config: Partial<ThemeConfig> = {}): string {
-	const cfg = { ...DEFAULT_THEME_CONFIG, ...config };
+export function getThemeInitScript(): string {
 	const faviconPaths = JSON.stringify(THEME_FAVICON_PATHS);
 
 	return `
     (function() {
-      const storageKey = '${cfg.storageKey}';
-      const attribute = '${cfg.attribute}';
-      const defaultTheme = '${cfg.defaultTheme}';
+      const storageKey = 'sandovaldavid-theme';
+      const attribute = 'data-theme';
+      const defaultTheme = 'system';
       const faviconPaths = ${faviconPaths};
       
       function getSystemPreference() {

@@ -9,8 +9,6 @@
         "@tailwindcss/vite": "^4.3.1",
         "@vercel/analytics": "^2.0.1",
         "astro": "7.1.6",
-        "clsx": "^2.1.1",
-        "tailwind-merge": "^3.6.0",
         "tailwindcss": "^4.3.1",
       },
       "devDependencies": {
@@ -23,7 +21,6 @@
         "@playwright/test": "^1.61.0",
         "eslint": "^10.5.0",
         "eslint-plugin-astro": "^3.0.1",
-        "eslint-plugin-jsx-a11y": "^6.10.2",
         "husky": "^9.1.7",
         "lighthouse": "13.4.1",
         "prettier": "^3.8.4",
@@ -1514,8 +1511,6 @@
     "supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
 
     "svgo": ["svgo@4.0.1", "", { "dependencies": { "commander": "^11.1.0", "css-select": "^5.1.0", "css-tree": "^3.0.1", "css-what": "^6.1.0", "csso": "^5.0.5", "picocolors": "^1.1.1", "sax": "^1.5.0" }, "bin": "./bin/svgo.js" }, "sha512-XDpWUOPC6FEibaLzjfe0ucaV0YrOjYotGJO1WpF0Zd+n6ZGEQUsSugaoLq9QkEZtAfQIxT42UChcssDVPP3+/w=="],
-
-    "tailwind-merge": ["tailwind-merge@3.6.0", "", {}, "sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w=="],
 
     "tailwindcss": ["tailwindcss@4.3.1", "", {}, "sha512-hk+TB1m+K8CYNrP6rjQaq/Y+4Zylwpa87mLYBKCunwnnQ9p+fHb7kmSfGqyEJoxF/O6CDyABWVFEafNSYKll+Q=="],
 

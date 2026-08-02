@@ -3,7 +3,17 @@
  * Business logic for sharing functionality using Web Share API
  */
 
-import type { ShareData, ShareResult } from '../model/types';
+interface ShareData {
+	title: string;
+	text: string;
+	url: string;
+}
+
+interface ShareResult {
+	success: boolean;
+	method: 'web-share-api' | 'clipboard' | 'none';
+	error?: string;
+}
 
 /**
  * Check if Web Share API is supported in the current browser
