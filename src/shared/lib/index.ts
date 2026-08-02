@@ -1,1 +1,1 @@
-export { cn, copyToClipboard } from './utils';
+export { cn } from './utils';

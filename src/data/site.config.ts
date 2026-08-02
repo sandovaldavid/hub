@@ -35,6 +35,4 @@ export const siteConfig = {
 	themeColor: '#0a5cd6',
 	// PUBLIC_ vars are embedded in the build (visible in HTML — not a secret)
 	fbAppId: import.meta.env.PUBLIC_FB_APP_ID ?? '',
-	defaultLocale: 'en' as const,
-	locales: ['en', 'es'] as const,
 } as const;

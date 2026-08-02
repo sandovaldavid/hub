@@ -3,33 +3,16 @@
  * Interactive theme toggle button with light/dark/system modes.
  */
 
-import type { ThemeToggleProps } from '../model/types';
-import { cn } from '@shared/lib';
 import './ThemeToggle.css';
 
 import SunIcon from '@shared/assets/theme-icons/sun.svg?raw';
 import MoonIcon from '@shared/assets/theme-icons/moon.svg?raw';
 import SystemIcon from '@shared/assets/theme-icons/system.svg?raw';
-
-type Props = ThemeToggleProps;
-
-const { size = 'md', showLabel = false, variant = 'floating', class: className } = Astro.props;
-
-const sizeClasses = {
-	sm: 'theme-toggle--sm',
-	md: 'theme-toggle--md',
-	lg: 'theme-toggle--lg',
-};
-
-const variantClasses = {
-	floating: 'theme-toggle--floating',
-	inline: 'theme-toggle--inline',
-};
 ---
 
 <button
 	id="theme-toggle"
-	class={cn('theme-toggle', sizeClasses[size], variantClasses[variant], className)}
+	class="theme-toggle"
 	aria-label="Cambiar tema"
 	title="Cambiar tema"
 	type="button">
@@ -42,26 +25,23 @@ const variantClasses = {
 	<span class="theme-toggle__icon" data-theme-icon="system">
 		<Fragment set:html={SystemIcon} />
 	</span>
-
-	{
-		showLabel && (
-			<span class="theme-toggle__label" id="theme-label">
-				Modo Claro
-			</span>
-		)
-	}
 </button>
 
 <script>
 	import { ThemeManager } from '@entities/theme/lib/theme-manager';
-	import { THEME_LABELS } from '../model/types';
+
+	type Theme = 'light' | 'dark' | 'system';
+	const THEME_LABELS: Record<Theme, string> = {
+		light: 'Modo Claro',
+		dark: 'Modo Oscuro',
+		system: 'Sistema',
+	};
 
 	const button = document.getElementById('theme-toggle');
-	const label = document.getElementById('theme-label');
 	const themeManager = new ThemeManager();
 
 	if (button) {
-		function updateUI(theme: 'light' | 'dark' | 'system') {
+		function updateUI(theme: Theme) {
 			if (!button) return;
 
 			const icons = button.querySelectorAll('[data-theme-icon]');
@@ -72,10 +52,6 @@ const variantClasses = {
 			const currentIcon = button.querySelector(`[data-theme-icon="${theme}"]`);
 			if (currentIcon) {
 				(currentIcon as HTMLElement).style.display = 'inline-block';
-			}
-
-			if (label) {
-				label.textContent = THEME_LABELS[theme];
 			}
 
 			button.setAttribute('aria-label', `Tema actual: ${THEME_LABELS[theme]}`);

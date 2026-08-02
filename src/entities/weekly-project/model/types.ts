@@ -14,9 +14,3 @@ export interface WeeklyProject {
 	demoAvailability: ProjectAvailability;
 	featured: boolean;
 }
-
-export type WeeklyProjectCardProps = {
-	project: WeeklyProject;
-	lang: 'en' | 'es';
-	variant?: 'default' | 'compact';
-};

@@ -1,2 +1,2 @@
-export { getLangFromUrl, useTranslations, getAlternateUrls, getKeywords } from './utils';
+export { useTranslations, getAlternateUrls } from './utils';
 export type { Lang } from './utils';

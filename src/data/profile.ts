@@ -1,7 +1,7 @@
 import type { Profile } from '@entities/profile/model/types';
 import { siteConfig } from './site.config';
 
-// tagline, bio, availability.message are intentionally absent here.
+// tagline and bio are intentionally absent here.
 // They are locale-specific strings — get them via useTranslations() from @shared/i18n.
 export const profile: Profile = {
 	name: 'David Sandoval Salvador',
@@ -19,8 +19,5 @@ export const profile: Profile = {
 	},
 	contact: {
 		email: siteConfig.email,
-	},
-	availability: {
-		status: 'available',
 	},
 };

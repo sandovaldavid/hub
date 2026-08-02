@@ -1,4 +1,3 @@
-import type { SEOProps } from '@app/models/seo.model';
 import { profile } from './profile';
 import { siteConfig } from './site.config';
 import type { Lang } from '@shared/i18n';
@@ -7,7 +6,7 @@ import es from '../shared/i18n/locales/es.json';
 
 const seoLocales = { en, es };
 
-export function getSEO(lang: Lang = 'en'): SEOProps {
+export function getSEO(lang: Lang = 'en') {
 	const t = seoLocales[lang].seo;
 	const socialPreviewUrl = new URL(siteConfig.socialPreview.path, siteConfig.url).href;
 
@@ -54,5 +53,4 @@ export function getSEO(lang: Lang = 'en'): SEOProps {
 	};
 }
 
-// Keep a static export for backward compatibility — defaults to English
-export const SEO = getSEO('en');
+export type SEOProps = ReturnType<typeof getSEO>;
