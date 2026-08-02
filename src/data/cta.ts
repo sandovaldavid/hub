@@ -1,7 +1,6 @@
-import type { Lang } from '@shared/i18n';
 import { siteConfig } from './site.config';
 
-export const getCtaButtons = (_lang: Lang) => [
+export const getCtaButtons = () => [
 	{
 		id: 'portfolio',
 		icon: 'briefcase',

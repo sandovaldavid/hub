@@ -11,15 +11,3 @@ export interface ThemeState {
 	effective: EffectiveTheme; // The actual applied theme (resolves 'system')
 	systemPreference: EffectiveTheme;
 }
-
-export interface ThemeConfig {
-	defaultTheme: Theme;
-	storageKey: string;
-	attribute: string;
-}
-
-export const DEFAULT_THEME_CONFIG: ThemeConfig = {
-	defaultTheme: 'system',
-	storageKey: 'sandovaldavid-theme',
-	attribute: 'data-theme',
-};

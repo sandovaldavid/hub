@@ -125,7 +125,7 @@ Production deployment is configured for `main`. Verify the corresponding GitHub 
 - `.github/dependabot.yml` targets `develop` and groups routine dependency updates.
 - `scripts/check-links.mjs` validates local targets and public destinations.
 - `.github/workflows/maintenance.yml` schedules recurring link checks.
-- `config/link-check.json` contains narrowly documented URL exceptions.
+- `config/link-check.json` contains link-check inputs and retry settings.
 
 Run:
 

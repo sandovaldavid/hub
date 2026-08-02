@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { getThemeInitScript } from '@entities/theme/lib/theme-manager';
 import ShareButton from '@features/share-button/ui/ShareButton.astro';
 import ThemeToggle from '@features/theme-toggle/ui/ThemeToggle.astro';
-import type { SEOProps } from '@/app/models/seo.model';
+import type { SEOProps } from '@data/seo';
 import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
 import { getProfilePageStructuredData } from '@data/structured-data';
@@ -35,7 +35,6 @@ const {
 	twitterImageAlt = '',
 	twitterLabel1 = '',
 	twitterData1 = '',
-	canonicalUrl,
 	robots = 'index, follow',
 	googlebot = 'index, follow',
 	keywords = [],
@@ -45,8 +44,7 @@ const {
 
 const themeScript = getThemeInitScript();
 const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
-const canonicalPath = canonicalUrl ?? Astro.url.pathname;
-const finalCanonicalUrl = new URL(canonicalPath, siteConfig.url).href;
+const finalCanonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
 const sitemapUrl = new URL('/sitemap-index.xml', siteConfig.url).href;
 const absoluteOgImage = new URL(ogImageSecureUrl ?? ogImage, siteConfig.url).href;
 const profileImageAlt = ogImageAlt || twitterImageAlt || `${author} professional profile`;
@@ -163,8 +161,8 @@ const jsonLd = getProfilePageStructuredData({
 			{lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
 		</a>
 
-		<ShareButton position="top-left" size="md" />
-		<ThemeToggle variant="floating" size="md" />
+		<ShareButton />
+		<ThemeToggle />
 
 		<slot />
 		<Analytics />

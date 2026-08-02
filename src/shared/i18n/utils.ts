@@ -16,11 +16,6 @@ function resolvePath(obj: Record<string, unknown>, path: string): string {
 	return typeof result === 'string' ? result : path;
 }
 
-export function getLangFromUrl(url: URL): Lang {
-	const [, segment] = url.pathname.split('/');
-	return segment === 'es' ? 'es' : 'en';
-}
-
 export function useTranslations(lang: Lang) {
 	return function t(key: string): string {
 		const value = resolvePath(translations[lang] as Record<string, unknown>, key);
@@ -37,8 +32,4 @@ export function getAlternateUrls(url: URL): { en: string; es: string } {
 		en: path,
 		es: path === '/' ? '/es/' : `/es${path}`,
 	};
-}
-
-export function getKeywords(lang: Lang): string[] {
-	return translations[lang].seo.keywords as string[];
 }
