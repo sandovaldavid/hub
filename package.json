@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"dev": "astro dev --host 0.0.0.0",
-		"prebuild": "node scripts/check-removed-barrels.mjs",
+		"prebuild": "node scripts/check-architecture.mjs",
 		"build": "astro build",
 		"preview": "astro preview --host 0.0.0.0",
 		"astro": "astro",
@@ -37,10 +37,8 @@
 	"dependencies": {
 		"@astrojs/sitemap": "^3.7.3",
 		"@tailwindcss/vite": "^4.3.1",
-		"@vercel/analytics": "^1.6.1",
-		"astro": "6.4.8",
-		"clsx": "^2.1.1",
-		"tailwind-merge": "^3.6.0",
+		"@vercel/analytics": "^2.0.1",
+		"astro": "7.1.6",
 		"tailwindcss": "^4.3.1"
 	},
 	"devDependencies": {
@@ -52,8 +50,7 @@
 		"@lhci/cli": "^0.15.1",
 		"@playwright/test": "^1.61.0",
 		"eslint": "^10.5.0",
-		"eslint-plugin-astro": "^1.7.0",
-		"eslint-plugin-jsx-a11y": "^6.10.2",
+		"eslint-plugin-astro": "^3.0.1",
 		"husky": "^9.1.7",
 		"lighthouse": "13.4.1",
 		"prettier": "^3.8.4",

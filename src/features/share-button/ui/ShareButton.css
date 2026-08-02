@@ -1,7 +1,7 @@
 @import '../../../app/styles/global.css';
 
 .share-button {
-	@apply fixed z-[1000] flex cursor-pointer select-none items-center justify-center gap-2 rounded-lg border p-2 text-sm font-medium shadow-sm outline-none transition-all duration-300 ease-in-out;
+	@apply fixed top-4 left-4 z-[1000] flex min-h-10 min-w-10 cursor-pointer select-none items-center justify-center gap-2 rounded-lg border p-2 text-sm font-medium shadow-sm outline-none transition-all duration-300 ease-in-out;
 	background-color: var(--control-background);
 	color: var(--control-content);
 	border-color: var(--control-edge);
@@ -29,60 +29,12 @@
 	outline-offset: 2px;
 }
 
-.share-button--top-left {
-	@apply top-4 left-4;
-}
-
-.share-button--top-right {
-	@apply top-4 right-4;
-}
-
-.share-button--bottom-left {
-	@apply bottom-4 left-4;
-}
-
-.share-button--bottom-right {
-	@apply right-4 bottom-4;
-}
-
-.share-button--sm {
-	@apply p-1.5 text-xs;
-}
-
-.share-button--sm .share-button__icon {
-	@apply h-5 w-5;
-}
-
-.share-button--md {
-	@apply p-2 text-sm;
-}
-
-.share-button--md .share-button__icon {
-	@apply h-5 w-5;
-}
-
-.share-button--lg {
-	@apply p-3 text-base;
-}
-
-.share-button--lg .share-button__icon {
-	@apply h-6 w-6;
-}
-
-.share-button--inline {
-	@apply relative top-auto right-auto bottom-auto left-auto;
-}
-
 .share-button__icon {
 	@apply flex h-5 w-5 shrink-0 items-center justify-center text-current;
 }
 
 .share-button__icon svg {
 	@apply h-full w-full stroke-current;
-}
-
-.share-button__label {
-	@apply whitespace-nowrap font-semibold;
 }
 
 .share-button__feedback {
@@ -110,41 +62,7 @@
 }
 
 @media (max-width: 640px) {
-	.share-button--top-left {
-		@apply top-3 left-3;
-	}
-
-	.share-button--top-right {
-		@apply top-3 right-3;
-	}
-
-	.share-button--bottom-left {
-		@apply bottom-3 left-3;
-	}
-
-	.share-button--bottom-right {
-		@apply right-3 bottom-3;
-	}
-
 	.share-button {
-		@apply min-h-10 min-w-10;
-	}
-}
-
-@media (min-width: 641px) {
-	.share-button--top-left {
-		@apply top-4 left-4;
-	}
-
-	.share-button--top-right {
-		@apply top-4 right-4;
-	}
-
-	.share-button--bottom-left {
-		@apply bottom-4 left-4;
-	}
-
-	.share-button--bottom-right {
-		@apply right-4 bottom-4;
+		@apply top-3 left-3;
 	}
 }

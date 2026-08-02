@@ -10,16 +10,16 @@ import {
 describe('link checker', () => {
 	test('extracts repository and external targets without markdown titles', () => {
 		const content = [
-			'[Docs](docs/maintenance.md)',
-			'[Production](https://linktree.sandovaldavid.com "Live site")',
+			'[Operations](docs/operations.md)',
+			'[Production](https://hub.sandovaldavid.com "Live site")',
 			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf',
 		].join('\n');
 
 		expect(extractMarkdownTargets(content)).toEqual([
-			'docs/maintenance.md',
-			'https://linktree.sandovaldavid.com',
+			'docs/operations.md',
+			'https://hub.sandovaldavid.com',
 		]);
-		expect(extractExternalUrls(content)).toContain('https://linktree.sandovaldavid.com');
+		expect(extractExternalUrls(content)).toContain('https://hub.sandovaldavid.com');
 		expect(extractExternalUrls(content)).toContain(
 			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
 		);
@@ -36,23 +36,10 @@ describe('link checker', () => {
 		expect(classifyHttpStatus(410)).toBe('broken');
 	});
 
-	test('ignores templates, local servers, and documented generated URLs', () => {
-		const ignored = [
-			{
-				pattern: '^https://sandovaldavid\\.github\\.io/linktree/playwright-report/',
-				reason: 'Generated report.',
-			},
-		];
-
-		expect(shouldIgnoreExternalUrl('https://example.com/${path}', ignored)).toBe(true);
-		expect(shouldIgnoreExternalUrl('http://localhost:4321', ignored)).toBe(true);
-		expect(
-			shouldIgnoreExternalUrl(
-				'https://sandovaldavid.github.io/linktree/playwright-report/123/',
-				ignored
-			)
-		).toBe(true);
-		expect(shouldIgnoreExternalUrl('https://sandovaldavid.com', ignored)).toBe(false);
+	test('ignores templates and local servers', () => {
+		expect(shouldIgnoreExternalUrl('https://example.com/${path}')).toBe(true);
+		expect(shouldIgnoreExternalUrl('http://localhost:4321')).toBe(true);
+		expect(shouldIgnoreExternalUrl('https://sandovaldavid.com')).toBe(false);
 	});
 
 	test('falls back from a rejected HEAD request to a successful ranged GET', async () => {

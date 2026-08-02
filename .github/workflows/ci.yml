@@ -20,16 +20,74 @@ permissions:
   contents: read
 
 jobs:
+  # Keep required contexts resolvable while skipping heavy jobs for non-runtime changes.
+  changes:
+    name: Detect runtime changes
+    runs-on: ubuntu-latest
+    outputs:
+      runtime: ${{ steps.detect.outputs.runtime }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Detect runtime changes
+        id: detect
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base="$PR_BASE_SHA"
+          else
+            base="$PUSH_BASE_SHA"
+          fi
+
+          if [[ -z "$base" || "$base" =~ ^0+$ || "$base" == "$HEAD_SHA" ]]; then
+            echo "runtime=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if ! changed_files=$(git diff --name-only "$base" "$HEAD_SHA"); then
+            echo "runtime=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          runtime=false
+          while IFS= read -r path; do
+            case "$path" in
+              .agents/*|.vscode/*|.vercel/*|docs/*|*.md|.gitignore)
+                ;;
+              *)
+                runtime=true
+                break
+                ;;
+            esac
+          done <<< "$changed_files"
+
+          echo "runtime=$runtime" >> "$GITHUB_OUTPUT"
+
   # Required-check contract for #32. Do not rename without updating the rulesets documentation.
   quality:
     name: Quality
+    needs: changes
+    if: ${{ needs.changes.outputs.runtime == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Cache Bun packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ env.BUN_VERSION }}-${{ hashFiles('package.json', 'bun.lock') }}
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -56,7 +114,7 @@ jobs:
         run: bun run build
 
       - name: Upload production build
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: dist/
@@ -65,27 +123,38 @@ jobs:
 
   e2e:
     name: E2E
-    needs: quality
+    needs: [changes, quality]
+    if: ${{ needs.changes.outputs.runtime == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    outputs:
-      report_available: ${{ steps.detect_report.outputs.available }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
+      - name: Cache Bun packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ env.BUN_VERSION }}-${{ hashFiles('package.json', 'bun.lock') }}
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Download production build
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: dist
+
+      - name: Cache Playwright browser
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package.json', 'bun.lock') }}
 
       - name: Install Playwright browser
         run: bun x playwright install --with-deps chromium
@@ -108,59 +177,24 @@ jobs:
 
       - name: Upload Playwright report
         if: ${{ !cancelled() && steps.detect_report.outputs.available == 'true' }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ${{ env.PLAYWRIGHT_REPORT_ARTIFACT_NAME }}
           path: playwright-report/
           retention-days: 7
           if-no-files-found: error
 
-  publish-playwright-report:
-    name: Playwright report availability
-    needs: e2e
-    if: ${{ !cancelled() && needs.e2e.outputs.report_available == 'true' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    env:
-      REPORT_DIRECTORY: ${{ github.event.pull_request.number || github.ref_name }}
-    steps:
-      - name: Download Playwright report
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: ${{ env.PLAYWRIGHT_REPORT_ARTIFACT_NAME }}
-          path: playwright-report
-
-      - name: Deploy Playwright report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
-          destination_dir: playwright-report/${{ env.REPORT_DIRECTORY }}
-          keep_files: true
-
-      - name: Document report availability
-        shell: bash
-        run: |
-          REPORT_URL="https://sandovaldavid.github.io/hub/playwright-report/${REPORT_DIRECTORY}/"
-          {
-            echo "## Playwright report availability"
-            echo
-            echo "The HTML report was published at ${REPORT_URL}"
-            echo
-            echo '> This check reports publication only. Use `CI / E2E` for the functional test result.'
-          } >> "$GITHUB_STEP_SUMMARY"
-
   lighthouse:
     name: Lighthouse
-    needs: quality
+    needs: [changes, quality]
+    if: ${{ needs.changes.outputs.runtime == 'true' && (github.event_name == 'pull_request' || github.ref_name == 'main') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -168,14 +202,26 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
+      - name: Cache Bun packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ env.BUN_VERSION }}-${{ hashFiles('package.json', 'bun.lock') }}
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Download production build
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: dist
+
+      - name: Cache Playwright browser
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package.json', 'bun.lock') }}
 
       - name: Install Lighthouse browser
         run: bun x playwright install --with-deps chromium

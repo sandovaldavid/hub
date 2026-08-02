@@ -1,75 +1,65 @@
 # David Sandoval — Professional Link Hub
 
-A static, bilingual hub that gives recruiters, clients, and collaborators one place to reach my résumé, portfolio, selected projects, technical profiles, and contact channels.
+A static, bilingual hub that helps recruiters, clients and collaborators recognize David Sandoval, understand his current Software Engineer positioning and reach the right destination quickly.
 
-[View the production site](https://hub.sandovaldavid.com) · [Open the portfolio](https://sandovaldavid.com) · [View the résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
+[View production](https://hub.sandovaldavid.com) · [Open the portfolio](https://sandovaldavid.com) · [View the résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
 
 [![Current production preview](public/og/og-image.png)](https://hub.sandovaldavid.com)
 
-## What this repository demonstrates
+## Product responsibility
 
-- **Content-driven static delivery:** Astro pre-renders the English route at `/` and the Spanish route at `/es/`.
-- **Typed content configuration:** profile data, external URLs, calls to action, projects, skills, and SEO metadata live under `src/data` rather than inside visual components.
-- **Targeted interactivity:** browser JavaScript is limited to theme initialization and selection, native sharing with clipboard fallback, conversion events, and Vercel Analytics.
-- **Pragmatic architecture:** shallow boundaries make route composition, reusable concepts, interactive features, and page sections discoverable without applying full Feature-Sliced Design ceremony.
-- **Governed visual identity:** the Link Hub consumes shared Identity Core primitives through explicit Light/Dark channel aliases and component roles instead of maintaining an independent palette.
-- **Human-first SEO:** localized metadata identifies David and his durable Software Engineer role, while `ProfilePage` structured data connects the Hub to one canonical `Person` and approved public profiles.
-- **Repeatable validation:** the repository defines type, architecture, formatting, lint, link, unit, build, browser, accessibility, and Lighthouse checks, with an equivalent local gate for periods when hosted Actions are unavailable.
+The Hub is a compact recognition and routing surface. It does not replace the portfolio, résumé or project repositories.
 
-## Channel responsibility
+- **Figma** owns approved visual intent and assets.
+- **This repository** owns current routes, content implementation, metadata, tests, commands and delivery configuration.
+- **Cortex-L7** owns durable rationale, alternatives, evidence interpretation, plans, history and cross-channel status.
+- **Portfolio, résumé and project repositories** own detailed professional evidence.
 
-The Hub is a compact recognition and routing surface. It should establish who David is, his current Software Engineer positioning and the most useful next destinations without duplicating the portfolio, résumé or project repositories.
+The repository was historically named `linktree`. New operational references use `hub`; old references remain only where they describe dated history or a permanent redirect.
 
-Responsibility is intentionally split:
+## Implementation
 
-- **Figma** defines designed intent and visual QA references.
-- **This repository** owns runtime behavior, routes, localized content implementation, metadata, commands, tests and delivery configuration.
-- **Cortex-L7** owns durable strategy, rationale, claim classification, private evidence context, cross-channel status, plans and historical handoffs.
-- **Portfolio, résumé and project repositories** own verifiable professional and technical evidence.
-
-Read [`AGENTS.md`](AGENTS.md), [`docs/repository-vault-boundary.md`](docs/repository-vault-boundary.md) and [`docs/content-governance.md`](docs/content-governance.md) before changing identity, profile copy, portrait, technology emphasis, project claims, consulting language or documentation ownership.
+- Astro pre-renders `/` in English and `/es/` in Spanish.
+- Typed content and public destinations live under `src/data`.
+- English and Spanish catalogs live under `src/shared/i18n/locales`.
+- Browser JavaScript is limited to theme management, native sharing, conversion analytics and Vercel Analytics.
+- Light, Dark and System themes consume the shared Identity System through Link Hub channel aliases.
+- Localized metadata and `ProfilePage` structured data identify one canonical `Person`.
 
 ## Why Astro
 
-This product has two content-heavy routes and only a small amount of interaction. Astro fits that shape because it emits static HTML by default, keeps locale-specific route composition straightforward, and does not require shipping a client framework runtime for the page shell.
+This product has two content-heavy routes and a small interaction boundary. Astro emits static HTML without hydrating React, Vue or Svelte islands for the page shell.
 
-The page does not hydrate React, Vue, or Svelte islands. The JavaScript that reaches the browser has an explicit purpose:
+The browser behavior is implemented by:
 
-| Browser behavior | Implementation |
+| Behavior | Source |
 | --- | --- |
-| Apply the saved/system theme before paint | Inline initialization generated by `src/entities/theme/lib/theme-manager.ts` |
-| Cycle light, dark, and system modes | `src/features/theme-toggle/ui/ThemeToggle.astro` |
-| Open the Web Share API or copy the URL | `src/features/share-button/ui/ShareButton.astro` |
-| Record conversion-oriented interactions | `src/shared/analytics/conversion.ts` |
+| Apply and change Light/Dark/System theme | `src/entities/theme` and `src/features/theme-toggle` |
+| Share or copy the current URL | `src/features/share-button` |
+| Record privacy-safe navigation events | `src/shared/analytics/conversion.ts` |
 | Collect deployment analytics | `@vercel/analytics/astro` in `src/app/layouts/Layout.astro` |
 
-This keeps the default page server-rendered while preserving the few interactions that improve the hub experience.
-
-## Product structure
+## Source structure
 
 ```text
 src/
-├── app/                  # Global layout, styles, and page-level models
-├── data/                 # Typed content, URLs, and configuration
-├── entities/             # Reusable product concepts with multiple consumers
-├── features/             # Interactive user actions
-├── pages/                # English and Spanish route composition
-├── shared/               # Reusable UI, assets, utilities, i18n, and analytics
-└── widgets/              # Page sections composed from multiple modules
-scripts/                  # Validation and repository-maintenance commands
-tests/                    # Unit, E2E, accessibility, and CI contract coverage
+├── app/       # layout, global styles and page-level models
+├── data/      # typed content, URLs, SEO and structured data
+├── entities/  # reusable product concepts
+├── features/  # interactive user actions
+├── pages/     # English and Spanish route composition
+├── shared/    # reusable UI, assets, utilities, i18n and analytics
+└── widgets/   # composed page sections
 ```
 
-The remaining `entities`, `features`, and `widgets` folders communicate useful product boundaries; they are not intended as a complete FSD implementation. Concrete modules are imported directly where a barrel would only add indirection. See [`docs/architecture.md`](docs/architecture.md) for dependency direction, placement rules, and trade-offs.
+See [`docs/architecture.md`](docs/architecture.md) for placement, dependency and runtime ownership rules.
 
-## Run from a clean environment
-
-### Native setup
+## Run locally
 
 Prerequisites:
 
-- [Bun 1.3.14](https://bun.sh/), matching `packageManager` in `package.json`
-- Node.js 22.19 or newer for the full Lighthouse toolchain
+- Bun `1.3.14`;
+- Node.js `22.19` or newer when running the native Lighthouse toolchain.
 
 ```bash
 git clone git@github.com:sandovaldavid/hub.git
@@ -79,96 +69,60 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-Open `http://localhost:4321`. A frozen installation must fail when `package.json` and `bun.lock` differ; regenerate and commit the lockfile rather than bypassing that failure.
+Open `http://localhost:4321`.
 
-### DevContainer
-
-The repository DevContainer is the recommended path on Fedora or when a reproducible Linux browser environment is required.
-
-1. Open the repository root in VS Code.
-2. Run **Dev Containers: Rebuild Container Without Cache**.
-3. Wait for `postCreateCommand` to complete `bun ci`.
-4. Confirm the terminal opens as the non-root `node` user in `/workspace`.
-
-The Node 24 image installs pinned Bun and Playwright versions, Chromium and WebKit, Zsh, Starship, eza, GitHub CLI and the repository shell plugins. Linux `node_modules` and Zsh history are stored in separate Docker volumes. Setup, port forwarding, signing and recovery procedures are documented in [`docs/devcontainer.md`](docs/devcontainer.md).
+The DevContainer is the recommended environment on Fedora or for reproducible Playwright and Lighthouse execution. Setup and recovery instructions are in [`docs/operations.md`](docs/operations.md).
 
 ## Validation
 
-Run the complete CI-equivalent gate from the DevContainer or a compatible Ubuntu environment:
+Run the complete CI-equivalent gate:
 
 ```bash
 bun run validate:local 2>&1 | tee validation-local.log
 ```
 
-It executes, in order:
+It covers type checking, architecture, formatting, lint, link health, unit tests, build, Playwright, Axe and Lighthouse mobile/desktop audits.
 
-1. Astro type checking.
-2. Architecture validation.
-3. Prettier verification.
-4. ESLint.
-5. Internal and external link health with retry-aware transient warnings.
-6. Bun unit tests.
-7. The Astro production build.
-8. Playwright functional, SEO and Axe accessibility tests.
-9. Lighthouse mobile and desktop audits for `/` and `/es/`.
+The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with Axe; it does not claim formal conformance certification. A disabled, skipped, interrupted, missing or quota-blocked GitHub Actions run is **not** treated as successful validation.
 
-The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with Axe; the README does not claim formal conformance certification. Lighthouse enforces the documented category and metric budgets rather than describing performance as guaranteed across every device or network.
-
-GitHub Actions may be unavailable when the account quota is exhausted. A skipped, disabled, interrupted, or quota-blocked workflow is **not** treated as successful validation; exact local commands and outputs must be recorded in the pull request. See [`docs/ci-validation.md`](docs/ci-validation.md) and [`docs/performance-budget.md`](docs/performance-budget.md).
-
-## Key commands
+## Commands
 
 | Command | Purpose |
 | --- | --- |
-| `bun run dev` | Start the Astro development server on container port `4321` |
-| `bun run build` | Validate removed barrels and build the static site |
-| `bun run check:architecture` | Detect circular imports and forbidden barrel usage |
-| `bun run check:links` | Validate repository-local and public content destinations |
+| `bun run dev` | Start Astro on port `4321` |
+| `bun run build` | Validate architecture and build the static site |
+| `bun run check:architecture` | Detect circular dependencies and forbidden barrels |
+| `bun run check:links` | Validate repository and public destinations |
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
-| `bun run test:e2e` | Run Playwright functional, accessibility, SEO and Link Hub channel coverage |
-| `bun run test:e2e:show-report` | Serve the Playwright HTML report on container port `9323` |
-| `bun run test:lighthouse` | Run Lighthouse mobile and desktop profiles |
-| `bun run validate:quality` | Run type, architecture, format, lint, link, unit, and build checks |
-| `bun run validate:local` | Run the complete local equivalent of CI |
-| `bun run rulesets:plan` | Show missing or drifted GitHub rulesets without changing settings |
-| `bun run rulesets:verify` | Compare active GitHub rulesets with the versioned desired state |
+| `bun run test:e2e` | Run Playwright functional, SEO and accessibility coverage |
+| `bun run test:e2e:show-report` | Serve the Playwright report on port `9323` |
+| `bun run test:lighthouse` | Run mobile and desktop Lighthouse profiles |
+| `bun run validate:quality` | Run type, architecture, format, lint, link, unit and build checks |
+| `bun run validate:local` | Run the complete local validation gate |
+| `bun run rulesets:plan` | Inspect missing or drifted GitHub rulesets |
+| `bun run rulesets:verify` | Compare live rulesets with versioned desired state |
 
-## Maintenance and security
-
-Dependabot groups npm updates onto `develop` each week and checks GitHub Actions and Dev Container Features monthly. The same link checker runs in `CI / Quality` and in a weekly maintenance workflow; persistent broken links fail, while access controls, rate limits, timeouts, and server-side incidents remain visible warnings.
-
-Report vulnerabilities through the private channel in [`SECURITY.md`](SECURITY.md), not through a public issue. The recurring content review, CodeQL decision, dependency policy, and license/notice posture are documented in [`docs/maintenance.md`](docs/maintenance.md).
-
-## Delivery and branch governance
-
-The normal promotion path is:
+## Delivery
 
 ```text
-feature/* or fix/* -> develop -> main
+feature/*, fix/*, refactor/*, docs/* -> develop -> main
 ```
 
-The CI workflow defines stable functional contexts for quality, E2E, and Lighthouse. The repository also versions desired rulesets for `develop` and `main`; their live enforcement state must be verified in GitHub before relying on them. Ruleset application, bypass policy, and hosted negative tests are documented in [`docs/branch-governance.md`](docs/branch-governance.md).
-
-Production deployment is configured for merges to `main`. Pull-request previews are provided by the connected deployment integration when available. Workflow availability and deployment success must be checked from the corresponding GitHub or Vercel run rather than inferred from configuration alone.
+`develop` is the integration branch. `main` is the stable deployment branch. Desired rulesets are versioned under `.github/rulesets/`; their live enforcement must be verified in GitHub rather than inferred from repository files.
 
 ## Documentation
 
-- [`AGENTS.md`](AGENTS.md) — agent workflow, safety, identity and ownership rules
-- [`docs/repository-vault-boundary.md`](docs/repository-vault-boundary.md) — repository, Cortex-L7 and Figma responsibilities
-- [`docs/content-governance.md`](docs/content-governance.md) — profile, technology, project-evidence, consulting and bilingual content contract
-- [`docs/architecture.md`](docs/architecture.md) — boundaries, dependency direction, and trade-offs
-- [`docs/design-system.md`](docs/design-system.md) — Identity Core, Link Hub aliases, component roles and visual evidence
-- [`docs/seo.md`](docs/seo.md) — human-first search intent, localized metadata, schema graph and social-preview validation
-- [`docs/analytics.md`](docs/analytics.md) — privacy-safe conversion events and interpretation boundary
-- [`docs/devcontainer.md`](docs/devcontainer.md) — reproducible development environment and recovery
-- [`docs/ci-validation.md`](docs/ci-validation.md) — stable check contract and local fallback
-- [`docs/performance-budget.md`](docs/performance-budget.md) — Lighthouse thresholds and update policy
-- [`docs/branch-governance.md`](docs/branch-governance.md) — promotion flow and versioned rulesets
-- [`docs/maintenance.md`](docs/maintenance.md) — dependency, link, content, security, and license maintenance
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow and design-system guardrails
-- [`SECURITY.md`](SECURITY.md) — private vulnerability reporting and coordinated disclosure
+The repository intentionally keeps a small documentation surface:
+
+- [`AGENTS.md`](AGENTS.md) — agent workflow, identity, privacy and ownership rules;
+- [`docs/architecture.md`](docs/architecture.md) — current source boundaries and runtime ownership;
+- [`docs/operations.md`](docs/operations.md) — setup, validation, delivery, maintenance and troubleshooting;
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution expectations;
+- [`SECURITY.md`](SECURITY.md) — private vulnerability reporting.
+
+Decisions, alternatives, audits, notes, plans and historical handoffs belong in Cortex-L7.
 
 ## Reuse
 

@@ -21,11 +21,5 @@ export interface Profile {
 	};
 	contact: {
 		email: string;
-		phone?: string;
-		whatsapp?: string;
-	};
-	availability: {
-		status: 'available' | 'busy' | 'unavailable';
-		message?: string;
 	};
 }

@@ -42,6 +42,13 @@ for (const route of routes) {
 				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(260);
 				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(240);
 				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(170);
+				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
+				const avatarBox = await avatar.boundingBox();
+				expect(avatarBox).not.toBeNull();
+				expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(96);
+				expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(96);
+				await expect(page.locator('.hero-card__username')).toHaveCount(0);
+				await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeHidden();
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
 				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
@@ -204,6 +211,16 @@ for (const route of routes) {
 			expect(snapshotBox?.y ?? 0).toBeGreaterThan((profileBox?.y ?? 0) + (profileBox?.height ?? 0));
 			expect(socialBox?.y ?? 0).toBeGreaterThan((snapshotBox?.y ?? 0) + (snapshotBox?.height ?? 0));
 			await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible();
+			const availability = page.locator('.hero-card__identity--compact .hero-card__availability');
+			const availabilityStyles = await availability.evaluate(element => {
+				const styles = getComputedStyle(element);
+				return {
+					justifyContent: styles.justifyContent,
+					textAlign: styles.textAlign,
+				};
+			});
+			expect(availabilityStyles.justifyContent).toBe('center');
+			expect(availabilityStyles.textAlign).toBe('center');
 
 			const metadataItems = page.locator('.profile-snapshot__metadata-item');
 			await expect(metadataItems).toHaveCount(3);

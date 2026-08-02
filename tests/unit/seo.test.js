@@ -104,20 +104,13 @@ describe('human-first SEO contract', () => {
 		expect(layout).toContain('hreflang="x-default"');
 	});
 
-	test('documents every audit classification and the selected alternatives', async () => {
-		const audit = await read('docs/seo.md');
+	test('keeps SEO implementation ownership discoverable without a historical audit document', async () => {
+		const architecture = await read('docs/architecture.md');
 
-		for (const classification of ['Critical', 'High', 'Medium', 'Low', 'Strength', 'Unconfirmed']) {
-			expect(audit).toContain(`| ${classification} |`);
-		}
-
-		expect(audit).toContain('### Link Hub');
-		expect(audit).toContain('### Portfolio');
-		expect(audit).toContain('### English title alternatives');
-		expect(audit).toContain('### Spanish title alternatives');
-		expect(audit).toContain('### English description alternatives');
-		expect(audit).toContain('### Spanish description alternatives');
-		expect(audit).toContain('ProfilePage (localized Hub URL)');
-		expect(audit).toContain('Real platform crops and cache behavior remain manual evidence');
+		expect(architecture).toContain('src/data/seo.ts');
+		expect(architecture).toContain('src/data/structured-data.ts');
+		expect(architecture).toContain('src/shared/i18n/locales/*.json');
+		expect(architecture).toContain('src/data/site.config.ts');
+		expect(architecture).toContain('Cortex-L7');
 	});
 });

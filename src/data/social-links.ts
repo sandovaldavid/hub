@@ -1,4 +1,4 @@
-import type { SocialLink, SocialLinkPriority } from '@entities/social-link';
+import type { SocialLink, SocialLinkPriority } from '@entities/social-link/model/types';
 import { siteConfig } from './site.config';
 
 const h = siteConfig.handle;
