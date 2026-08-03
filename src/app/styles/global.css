@@ -406,8 +406,14 @@ select:focus-visible,
 	}
 }
 
-@media (prefers-contrast: more), (prefers-contrast: high) {
-	*:focus-visible {
+@media (prefers-contrast: more) {
+	*:focus-visible,
+	a:focus-visible,
+	button:focus-visible,
+	input:focus-visible,
+	textarea:focus-visible,
+	select:focus-visible,
+	[tabindex]:focus-visible {
 		outline-width: 4px;
 		outline-offset: 3px;
 	}

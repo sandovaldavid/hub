@@ -359,6 +359,7 @@ describe('Link Hub design-system contract', () => {
 		const css = await readFile(globalStylesPath, 'utf8');
 
 		expect(css).toContain('prefers-contrast: more');
+		expect(css).not.toContain('prefers-contrast: high');
 		expect(css).toContain('forced-colors: active');
 		expect(css).toContain('CanvasText');
 	});
