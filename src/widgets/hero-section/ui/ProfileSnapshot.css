@@ -30,7 +30,7 @@
 }
 
 .profile-snapshot__metadata-item dt {
-	@apply text-[0.625rem] uppercase tracking-wide text-channel-content-muted sm:text-xs;
+	@apply text-xs uppercase tracking-wide text-channel-content-muted;
 }
 
 .profile-snapshot__metadata-item dd {
