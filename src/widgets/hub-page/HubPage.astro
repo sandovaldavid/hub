@@ -128,12 +128,7 @@ const heroMetadata = [
 					class="bento-item bento-item--contact flex min-w-0"
 					data-layout-column="contact"
 					aria-labelledby="contact-heading">
-					<ContactCTA
-						email={profile.contact.email}
-						title={t('contact.title')}
-						message={t('contact.message')}
-						buttonText={t('contact.buttonText')}
-					/>
+					<ContactCTA email={profile.contact.email} {lang} />
 				</section>
 			</div>
 		</section>
