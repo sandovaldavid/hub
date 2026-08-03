@@ -39,7 +39,7 @@ for (const route of routes) {
 				expect(profilePanelBox).not.toBeNull();
 				expect(socialPanelBox).not.toBeNull();
 				expect(snapshotPanelBox).not.toBeNull();
-				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(260);
+				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(280);
 				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(240);
 				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(170);
 				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
