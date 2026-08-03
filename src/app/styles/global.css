@@ -225,26 +225,23 @@
 	--badge-success-background: var(--alpha-success-05-light);
 	--badge-success-content: var(--color-base-status-success-text-light);
 	--badge-success-edge: var(--alpha-success-40-light);
-	--badge-warning-background: color-mix(in oklch, var(--color-warning-500) 12%, transparent);
+	--badge-warning-background: var(--color-neutral-100);
 	--badge-warning-content: var(--color-neutral-900);
-	--badge-warning-edge: color-mix(in oklch, var(--color-warning-500) 45%, transparent);
-	--badge-error-background: color-mix(in oklch, var(--color-error-500) 10%, transparent);
+	--badge-warning-edge: var(--color-warning-500);
+	--badge-error-background: var(--color-neutral-100);
 	--badge-error-content: var(--color-error-900);
-	--badge-error-edge: color-mix(in oklch, var(--color-error-500) 40%, transparent);
+	--badge-error-edge: var(--color-error-500);
 
-	--control-background: color-mix(in oklch, var(--color-base-white) 90%, transparent);
-	--control-background-hover: var(--color-base-white);
+	/* ponytail: solid card and control surfaces ensure deterministic WCAG AA contrast; upgrade path: Figma tokens for ambient blur surfaces. */
+	--control-background: var(--channel-surface-default);
+	--control-background-hover: var(--channel-surface-highlight);
 	--control-content: var(--color-neutral-900);
 	--control-edge: var(--color-neutral-300);
 	--control-edge-hover: var(--color-primary-500-light);
-	--card-background: color-mix(in oklch, var(--color-base-white) 78%, transparent);
-	--card-background-muted: color-mix(
-		in oklch,
-		var(--color-base-surface-highlight-light) 66%,
-		transparent
-	);
-	--card-edge: color-mix(in oklch, var(--color-neutral-300) 82%, transparent);
-	--card-edge-accent: color-mix(in oklch, var(--color-primary-500-light) 46%, transparent);
+	--card-background: var(--channel-surface-default);
+	--card-background-muted: var(--channel-surface-highlight);
+	--card-edge: var(--channel-edge-default);
+	--card-edge-accent: var(--color-primary-400-light);
 	--avatar-background: var(--color-neutral-200);
 	--avatar-content: var(--color-neutral-700);
 	--status-online-background: var(--alpha-success-05-light);
@@ -306,26 +303,22 @@
 	--badge-success-background: var(--alpha-success-10-dark);
 	--badge-success-content: var(--color-base-status-success-text-dark);
 	--badge-success-edge: var(--alpha-success-60-dark);
-	--badge-warning-background: color-mix(in oklch, var(--color-warning-500) 16%, transparent);
+	--badge-warning-background: var(--color-neutral-800);
 	--badge-warning-content: var(--color-warning-500);
-	--badge-warning-edge: color-mix(in oklch, var(--color-warning-500) 50%, transparent);
-	--badge-error-background: color-mix(in oklch, var(--color-error-500) 16%, transparent);
+	--badge-warning-edge: var(--color-warning-500);
+	--badge-error-background: var(--color-neutral-800);
 	--badge-error-content: var(--color-error-500);
-	--badge-error-edge: color-mix(in oklch, var(--color-error-500) 50%, transparent);
+	--badge-error-edge: var(--color-error-500);
 
-	--control-background: color-mix(in oklch, var(--color-base-surface-dark) 90%, transparent);
-	--control-background-hover: var(--color-base-surface-highlight-dark);
+	--control-background: var(--channel-surface-default);
+	--control-background-hover: var(--channel-surface-highlight);
 	--control-content: var(--color-base-content-strong-dark);
 	--control-edge: var(--color-neutral-700);
 	--control-edge-hover: var(--color-primary-500-dark);
-	--card-background: color-mix(in oklch, var(--color-base-surface-dark) 82%, transparent);
-	--card-background-muted: color-mix(
-		in oklch,
-		var(--color-base-surface-highlight-dark) 72%,
-		transparent
-	);
-	--card-edge: color-mix(in oklch, var(--color-neutral-700) 85%, transparent);
-	--card-edge-accent: color-mix(in oklch, var(--color-primary-500-dark) 50%, transparent);
+	--card-background: var(--channel-surface-default);
+	--card-background-muted: var(--channel-surface-highlight);
+	--card-edge: var(--channel-edge-default);
+	--card-edge-accent: var(--alpha-primary-500-40-dark);
 	--avatar-background: var(--color-neutral-800);
 	--avatar-content: var(--color-neutral-300);
 	--status-online-background: var(--alpha-success-10-dark);
