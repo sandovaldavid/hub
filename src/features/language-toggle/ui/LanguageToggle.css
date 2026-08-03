@@ -18,11 +18,6 @@
 	@apply translate-y-0 shadow-none;
 }
 
-.language-toggle:focus-visible {
-	outline: 2px solid var(--focus-ring);
-	outline-offset: 2px;
-}
-
 @media (max-width: 640px) {
 	.language-toggle {
 		@apply top-3 right-15;
