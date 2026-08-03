@@ -150,10 +150,6 @@
 	.hero-card__identity-actions {
 		width: auto;
 	}
-
-	.hero-card__primary-action--mobile-only {
-		display: none;
-	}
 }
 
 @keyframes pulse-status {

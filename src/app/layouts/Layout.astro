@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { getThemeInitScript } from '@entities/theme/lib/theme-manager';
 import ShareButton from '@features/share-button/ui/ShareButton.astro';
 import ThemeToggle from '@features/theme-toggle/ui/ThemeToggle.astro';
+import LanguageToggle from '@features/language-toggle/ui/LanguageToggle.astro';
 import type { SEOProps } from '@data/seo';
 import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
@@ -161,8 +162,9 @@ const jsonLd = getProfilePageStructuredData({
 			{lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
 		</a>
 
-		<ShareButton />
-		<ThemeToggle />
+		<ShareButton {lang} />
+		<LanguageToggle {lang} {alternates} />
+		<ThemeToggle {lang} />
 
 		<slot />
 		<Analytics />

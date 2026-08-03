@@ -1,0 +1,27 @@
+---
+import type { Lang } from '@shared/i18n';
+import './LanguageToggle.css';
+
+interface Props {
+	lang: Lang;
+	alternates?: { en: string; es: string };
+}
+
+const { lang, alternates } = Astro.props;
+const targetLang = lang === 'en' ? 'es' : 'en';
+const targetUrl = alternates ? alternates[targetLang] : targetLang === 'es' ? '/es/' : '/';
+const ariaLabel = lang === 'en' ? 'Cambiar idioma a español' : 'Switch language to English';
+const title = lang === 'en' ? 'Español' : 'English';
+const displayLabel = targetLang.toUpperCase();
+---
+
+<a
+	href={targetUrl}
+	class="language-toggle"
+	aria-label={ariaLabel}
+	{title}
+	data-conversion-event="language_switched"
+	data-conversion-position="nav"
+	data-conversion-item={targetLang}>
+	<span>{displayLabel}</span>
+</a>
