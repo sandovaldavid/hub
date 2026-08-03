@@ -96,4 +96,37 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 		await toggleToEn.click();
 		await page.waitForURL('**/');
 	});
+
+	test('prefers-contrast: more has no violations and strengthens focus outline (#92)', async ({
+		page,
+		browserName,
+	}) => {
+		await page.emulateMedia({ contrast: 'more' });
+		await prepareAccessibilityScan(page, '/', 'light');
+		const results = await analyzeAccessibility(page, browserName);
+		expect(results.violations).toEqual([]);
+
+		const button = page.locator('button:visible').first();
+		await button.focus();
+		const outlineWidth = await button.evaluate(el => window.getComputedStyle(el).outlineWidth);
+		expect(outlineWidth).toBe('4px');
+	});
+
+	test('forced-colors: active preserves visible focus and control borders (#92)', async ({
+		page,
+		browserName,
+	}) => {
+		test.skip(browserName !== 'chromium', 'forced-colors emulation is only supported in Chromium');
+		await page.emulateMedia({ forcedColors: 'active' });
+		await prepareAccessibilityScan(page, '/', 'light');
+
+		const button = page.locator('button:visible').first();
+		await button.focus();
+		const outline = await button.evaluate(el => {
+			const style = window.getComputedStyle(el);
+			return { color: style.outlineColor, width: style.outlineWidth };
+		});
+		expect(outline.width).not.toBe('0px');
+		expect(outline.color).not.toBe('');
+	});
 });
