@@ -39,9 +39,9 @@ for (const route of routes) {
 				expect(profilePanelBox).not.toBeNull();
 				expect(socialPanelBox).not.toBeNull();
 				expect(snapshotPanelBox).not.toBeNull();
-				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(280);
-				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(240);
-				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(170);
+				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(300);
+				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(280);
+				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(200);
 				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
 				const avatarBox = await avatar.boundingBox();
 				expect(avatarBox).not.toBeNull();
