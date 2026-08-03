@@ -48,6 +48,20 @@ A frozen install must fail when `package.json` and `bun.lock` differ. Regenerate
 
 ## Validation contract
 
+### Test gate tiers (#98)
+
+Do not run every browser/locale/theme permutation in every fast PR job. Coverage is divided intentionally into three tiers:
+
+- **Required PR gate** — `CI / E2E` on GitHub Actions: EN + ES, Light + Dark, Chromium desktop only, keyboard/focus checks, the Axe WCAG 2.1 AA baseline, and critical contrast-token assertions (`tests/e2e/accessibility.spec.ts`, `tests/e2e/accessible-navigation.spec.ts`).
+- **Complete local gate** — `bun run validate:local`: adds System theme resolution, `prefers-contrast: more`, `forced-colors: active`, 320px/200%-zoom reflow, 200% text scaling, fallback-font stability, and the Mobile Safari (WebKit) and Firefox projects, none of which run in CI.
+- **Scheduled or release gate** — manual, before `develop → main` promotion: the full local gate plus the manual checklist in `docs/accessibility/manual-checklist.md`, including Windows High Contrast / forced-colors evidence and OS-level verification that cannot be automated.
+
+### Browser availability
+
+- Chromium runs in CI and locally.
+- WebKit (`Mobile Safari` project) and Firefox are **local-only** — their binaries are not installed on CI runners. A PR that only ran `CI / E2E` has not exercised WebKit or Firefox; record that coverage as `Not run`, not `Passed`, until `bun run validate:local` (or an explicit local WebKit/Firefox run) has been executed on the same head.
+- Axe's `color-contrast` rule is disabled on WebKit; `tests/e2e/accessibility.spec.ts` carries an explicit computed-style contrast assertion as its documented substitute.
+
 ### Complete local gate
 
 ```bash

@@ -44,6 +44,22 @@ Use this checklist before merging changes that affect layout, navigation, conten
 - [ ] Verify hover, focus, active, disabled, and unavailable states meet contrast requirements.
 - [ ] Verify content remains understandable with forced colors or high contrast enabled.
 
+## Windows High Contrast / forced-colors (#92)
+
+Automated coverage emulates `prefers-contrast: more` and `forced-colors: active` in Chromium (`tests/e2e/accessibility.spec.ts`), but no engine lets Playwright emulate real Windows High Contrast Mode. Confirm on actual Windows hardware or a Windows VM before release:
+
+- [ ] Enable a Windows High Contrast theme (Settings → Accessibility → Contrast themes).
+- [ ] Load `/` and `/es/` and confirm text, borders, focus rings, badges, and buttons remain distinguishable using system colors (`Canvas`, `CanvasText`, `Highlight`).
+- [ ] Confirm no control disables forced colors globally (`forced-color-adjust: none` should not appear outside a narrowly justified, documented exception).
+- [ ] Attach a screenshot or screen recording as evidence in the pull request or release notes.
+
+## Release evidence (#98)
+
+- [ ] Run `bun run validate:local` on the exact commit being promoted from `develop` to `main`.
+- [ ] Confirm the `develop → main` pull request shows no unresolved conflicts and every required check passed on its own head.
+- [ ] Record WebKit/Firefox local-run results explicitly as `Passed`, `Failed`, `Blocked`, or `Not run` — never assume from the CI-only Chromium result.
+- [ ] After merge, verify the change on the deployed `main` result (GitHub + Vercel), not only the merged pull request.
+
 ## Automated validation
 
 - [ ] Run `bun run format:check`.
