@@ -61,6 +61,27 @@ test.describe('Accessible motion and navigation', () => {
 		await expect(page.locator('#theme-toggle')).toHaveAccessibleName(/.+/);
 	});
 
+	test('floating controls expose localized accessible names for EN and ES (#98)', async ({
+		page,
+	}) => {
+		// ShareButton's client script replaces the SSR aria-label with the Web Share
+		// or clipboard variant once it detects API support; headless browsers fall
+		// back to the clipboard label.
+		await page.goto('/');
+		await expect(page.locator('#share-button')).toHaveAccessibleName('Copy link to clipboard');
+		await expect(page.locator('#theme-toggle')).toHaveAccessibleName('Use system preference');
+		await expect(page.locator('.language-toggle')).toHaveAccessibleName('Cambiar idioma a español');
+
+		await page.goto('/es/');
+		await expect(page.locator('#share-button')).toHaveAccessibleName('Copiar link al portapapeles');
+		await expect(page.locator('#theme-toggle')).toHaveAccessibleName(
+			'Usar preferencia del sistema'
+		);
+		await expect(page.locator('.language-toggle')).toHaveAccessibleName(
+			'Switch language to English'
+		);
+	});
+
 	for (const theme of ['light', 'dark']) {
 		test(`${theme} theme exposes visible focus`, async ({ page }) => {
 			await page.goto('/');
