@@ -7,18 +7,32 @@
 
 import './ShareButton.css';
 import ShareIcon from '../../../shared/assets/share-icon.svg?raw';
+import { useTranslations, type Lang } from '@shared/i18n';
+
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const initialLabel = t('share.ariaLabel');
+const webshareLabel =
+	lang === 'es' ? 'Compartir sitio usando el menú del sistema' : 'Share site using system menu';
+const clipboardLabel = lang === 'es' ? 'Copiar link al portapapeles' : 'Copy link to clipboard';
 ---
 
 <button
 	id="share-button"
 	class="share-button"
-	aria-label="Compartir sitio"
-	title="Compartir"
+	aria-label={initialLabel}
+	title={initialLabel}
+	data-share-label-webshare={webshareLabel}
+	data-share-label-clipboard={clipboardLabel}
 	type="button">
 	<span class="share-button__icon" set:html={ShareIcon} />
 
 	<!-- Feedback visual cuando se copia al clipboard -->
-	<span class="share-button__feedback" id="share-feedback"> ¡Link copiado! </span>
+	<span class="share-button__feedback" id="share-feedback"> {t('share.copied')} </span>
 </button>
 
 <script>
@@ -28,14 +42,17 @@ import ShareIcon from '../../../shared/assets/share-icon.svg?raw';
 	const feedback = document.getElementById('share-feedback');
 
 	if (button) {
+		const webshareLabel = button.getAttribute('data-share-label-webshare') || 'Share site';
+		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || 'Copy link';
+
 		// Update aria-label based on Web Share API support
 		const updateAriaLabel = () => {
 			if (isWebShareSupported()) {
-				button.setAttribute('aria-label', 'Compartir sitio usando el menú del sistema');
-				button.setAttribute('title', 'Compartir');
+				button.setAttribute('aria-label', webshareLabel);
+				button.setAttribute('title', webshareLabel);
 			} else {
-				button.setAttribute('aria-label', 'Copiar link al portapapeles');
-				button.setAttribute('title', 'Copiar link');
+				button.setAttribute('aria-label', clipboardLabel);
+				button.setAttribute('title', clipboardLabel);
 			}
 		};
 
