@@ -43,6 +43,8 @@ const requiredComponentTokens = [
 	'--card-edge',
 	'--avatar-background',
 	'--status-online-background',
+	'--detail-step-marker-background',
+	'--detail-step-marker-content',
 ];
 
 const canonicalPrimitives = {
@@ -334,6 +336,7 @@ describe('Link Hub design-system contract', () => {
 				['--focus-ring', '--channel-background-canvas'],
 				['--button-primary-content', '--button-primary-background'],
 				['--button-primary-content', '--button-primary-background-hover'],
+				['--detail-step-marker-content', '--detail-step-marker-background'],
 			];
 
 			for (const [foregroundToken, backgroundToken] of pairs) {

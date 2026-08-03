@@ -92,19 +92,10 @@
 }
 
 .weekly-project-card__evidence-marker {
-	@apply inline-flex size-5 shrink-0 items-center justify-center rounded-full text-[0.5625rem] font-bold;
-	background-color: var(--badge-neutral-background);
-	color: var(--badge-neutral-content);
-}
-
-.weekly-project-card__evidence-item--contribution .weekly-project-card__evidence-marker {
-	background-color: var(--badge-brand-content);
-	color: var(--badge-brand-background);
-}
-
-.weekly-project-card__evidence-item--outcome .weekly-project-card__evidence-marker {
-	background-color: var(--badge-success-content);
-	color: var(--badge-success-background);
+	@apply inline-flex size-5 shrink-0 items-center justify-center rounded-full border text-[0.5625rem] font-bold;
+	background-color: var(--detail-step-marker-background);
+	color: var(--detail-step-marker-content);
+	border-color: var(--detail-step-marker-edge);
 }
 
 .weekly-project-card__evidence dd {
