@@ -116,5 +116,5 @@
 }
 
 .social-button--compact .social-button__username {
-	@apply block text-[0.6875rem] md:text-xs;
+	@apply block text-xs;
 }
