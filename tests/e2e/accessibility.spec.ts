@@ -70,9 +70,30 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 		expect(outlineStyle).not.toBe('0px');
 	});
 
-	test('Spanish page (/es/) has no violations', async ({ page, browserName }) => {
+	test('Spanish page (/es/) in light mode has no violations', async ({ page, browserName }) => {
 		await prepareAccessibilityScan(page, '/es/', 'light');
 		const results = await analyzeAccessibility(page, browserName);
 		expect(results.violations).toEqual([]);
+	});
+
+	test('Spanish page (/es/) in dark mode has no violations', async ({ page, browserName }) => {
+		await prepareAccessibilityScan(page, '/es/', 'dark');
+		const results = await analyzeAccessibility(page, browserName);
+		expect(results.violations).toEqual([]);
+	});
+
+	test('LanguageToggle navigates between EN and ES routes', async ({ page }) => {
+		await page.goto('/');
+		const toggleToEs = page.locator('.language-toggle');
+		await expect(toggleToEs).toBeVisible();
+		await expect(toggleToEs).toHaveText('ES');
+		await toggleToEs.click();
+		await page.waitForURL('**/es/**');
+
+		const toggleToEn = page.locator('.language-toggle');
+		await expect(toggleToEn).toBeVisible();
+		await expect(toggleToEn).toHaveText('EN');
+		await toggleToEn.click();
+		await page.waitForURL('**/');
 	});
 });
