@@ -70,9 +70,63 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 		expect(outlineStyle).not.toBe('0px');
 	});
 
-	test('Spanish page (/es/) has no violations', async ({ page, browserName }) => {
+	test('Spanish page (/es/) in light mode has no violations', async ({ page, browserName }) => {
 		await prepareAccessibilityScan(page, '/es/', 'light');
 		const results = await analyzeAccessibility(page, browserName);
 		expect(results.violations).toEqual([]);
+	});
+
+	test('Spanish page (/es/) in dark mode has no violations', async ({ page, browserName }) => {
+		await prepareAccessibilityScan(page, '/es/', 'dark');
+		const results = await analyzeAccessibility(page, browserName);
+		expect(results.violations).toEqual([]);
+	});
+
+	test('LanguageToggle navigates between EN and ES routes', async ({ page }) => {
+		await page.goto('/');
+		const toggleToEs = page.locator('.language-toggle');
+		await expect(toggleToEs).toBeVisible();
+		await expect(toggleToEs).toHaveText('ES');
+		await toggleToEs.click();
+		await page.waitForURL('**/es/**');
+
+		const toggleToEn = page.locator('.language-toggle');
+		await expect(toggleToEn).toBeVisible();
+		await expect(toggleToEn).toHaveText('EN');
+		await toggleToEn.click();
+		await page.waitForURL('**/');
+	});
+
+	test('prefers-contrast: more has no violations and strengthens focus outline (#92)', async ({
+		page,
+		browserName,
+	}) => {
+		await page.emulateMedia({ contrast: 'more' });
+		await prepareAccessibilityScan(page, '/', 'light');
+		const results = await analyzeAccessibility(page, browserName);
+		expect(results.violations).toEqual([]);
+
+		const button = page.locator('button:visible').first();
+		await button.focus();
+		const outlineWidth = await button.evaluate(el => window.getComputedStyle(el).outlineWidth);
+		expect(outlineWidth).toBe('4px');
+	});
+
+	test('forced-colors: active preserves visible focus and control borders (#92)', async ({
+		page,
+		browserName,
+	}) => {
+		test.skip(browserName !== 'chromium', 'forced-colors emulation is only supported in Chromium');
+		await page.emulateMedia({ forcedColors: 'active' });
+		await prepareAccessibilityScan(page, '/', 'light');
+
+		const button = page.locator('button:visible').first();
+		await button.focus();
+		const outline = await button.evaluate(el => {
+			const style = window.getComputedStyle(el);
+			return { color: style.outlineColor, width: style.outlineWidth };
+		});
+		expect(outline.width).not.toBe('0px');
+		expect(outline.color).not.toBe('');
 	});
 });

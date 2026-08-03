@@ -2,8 +2,10 @@
 import { cn } from '@shared/lib/utils';
 import ChatIcon from '@shared/assets/cta-icons/chat.svg?raw';
 import SentIcon from '@shared/assets/sent.svg';
+import { useTranslations, type Lang } from '@shared/i18n';
 
 interface Props {
+	lang?: Lang;
 	title?: string;
 	message?: string;
 	buttonText?: string;
@@ -12,12 +14,15 @@ interface Props {
 }
 
 const {
-	title = '¿Tienes un proyecto en mente?',
-	message = 'Hablemos sobre cómo puedo ayudarte a alcanzar tus objetivos',
-	buttonText = 'Hablemos',
+	lang = 'en',
 	email,
-	subject = 'Consulta desde Hub Personal',
+	subject = lang === 'es' ? 'Consulta desde Hub Personal' : 'Inquiry from Personal Hub',
 } = Astro.props;
+
+const t = useTranslations(lang);
+const title = Astro.props.title ?? t('contact.title');
+const message = Astro.props.message ?? t('contact.message');
+const buttonText = Astro.props.buttonText ?? t('contact.buttonText');
 
 const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 ---
@@ -25,7 +30,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 <div
 	class={cn(
 		'contact-cta relative flex h-full w-full overflow-hidden lg:min-h-40',
-		'bg-card-background border border-card-edge-accent rounded-2xl shadow-sm backdrop-blur-lg'
+		'bg-card-background border border-card-edge-accent rounded-2xl shadow-sm'
 	)}>
 	<div
 		class={cn(
@@ -67,7 +72,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 			data-conversion-event="contact_clicked"
 			data-conversion-position="contact"
 			data-conversion-item="email"
-			aria-label={`Enviar correo a ${email}: ${subject}`}>
+			aria-label={`${buttonText}: ${email}`}>
 			<span
 				class="button-primary flex min-h-10 w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-base font-semibold text-button-primary-content transition-colors duration-200 bg-button-primary-background hover:bg-button-primary-background-hover">
 				<span>{buttonText}</span>

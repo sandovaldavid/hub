@@ -26,6 +26,10 @@
 	@apply grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6 xl:grid-cols-3;
 }
 
+.weekly-project-section__content[data-project-count='2'] {
+	@apply xl:grid-cols-2 xl:max-w-5xl xl:mx-auto;
+}
+
 @media (min-width: 1024px) and (max-width: 1279px) {
 	.weekly-project-section__content > :last-child:nth-child(odd) {
 		grid-column: 1 / -1;

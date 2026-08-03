@@ -1,7 +1,7 @@
 @import '../../../app/styles/global.css';
 
 .profile-snapshot {
-	@apply grid min-w-0 gap-4 rounded-2xl border border-card-edge bg-card-background p-4 shadow-lg backdrop-blur-xl;
+	@apply grid min-w-0 gap-4 rounded-2xl border border-card-edge bg-card-background p-4 shadow-sm;
 	@apply md:grid-cols-[minmax(0,1.35fr)_minmax(0,2fr)] md:items-center md:gap-5 md:p-5;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .profile-snapshot__metadata-item dt {
-	@apply text-[0.625rem] uppercase tracking-wide text-channel-content-muted sm:text-xs;
+	@apply text-xs uppercase tracking-wide text-channel-content-muted;
 }
 
 .profile-snapshot__metadata-item dd {

@@ -17,11 +17,6 @@
 	@apply translate-y-0 shadow-none;
 }
 
-.theme-toggle:focus-visible {
-	outline: 2px solid var(--focus-ring);
-	outline-offset: 2px;
-}
-
 .theme-toggle__icon {
 	@apply hidden h-5 w-5 text-xl leading-none transition-transform duration-150;
 }

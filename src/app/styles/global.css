@@ -135,6 +135,9 @@
 	--color-status-online-background: var(--status-online-background);
 	--color-status-online-content: var(--status-online-content);
 	--color-status-online-edge: var(--status-online-edge);
+	--color-detail-step-marker-background: var(--detail-step-marker-background);
+	--color-detail-step-marker-content: var(--detail-step-marker-content);
+	--color-detail-step-marker-edge: var(--detail-step-marker-edge);
 
 	/* Link Hub Compact: JetBrains Mono display/headings, Inter reading. */
 	--font-sans:
@@ -247,6 +250,9 @@
 	--status-online-background: var(--alpha-success-05-light);
 	--status-online-content: var(--color-base-status-success-text-light);
 	--status-online-edge: var(--alpha-success-40-light);
+	--detail-step-marker-background: var(--color-neutral-100);
+	--detail-step-marker-content: var(--color-neutral-700);
+	--detail-step-marker-edge: var(--color-neutral-300);
 	--channel-canvas-gradient: linear-gradient(
 		135deg,
 		var(--color-primary-50) 0%,
@@ -324,6 +330,9 @@
 	--status-online-background: var(--alpha-success-10-dark);
 	--status-online-content: var(--color-base-status-success-text-dark);
 	--status-online-edge: var(--alpha-success-60-dark);
+	--detail-step-marker-background: var(--color-neutral-800);
+	--detail-step-marker-content: var(--color-neutral-300);
+	--detail-step-marker-edge: var(--color-neutral-600);
 	--channel-canvas-gradient: linear-gradient(
 		135deg,
 		var(--color-neutral-950) 0%,
@@ -397,8 +406,14 @@ select:focus-visible,
 	}
 }
 
-@media (prefers-contrast: high) {
-	*:focus-visible {
+@media (prefers-contrast: more) {
+	*:focus-visible,
+	a:focus-visible,
+	button:focus-visible,
+	input:focus-visible,
+	textarea:focus-visible,
+	select:focus-visible,
+	[tabindex]:focus-visible {
 		outline-width: 4px;
 		outline-offset: 3px;
 	}
@@ -408,6 +423,28 @@ select:focus-visible,
 	[data-theme='dark'] {
 		--channel-edge-default: currentColor;
 		--control-edge: currentColor;
+		--card-edge: currentColor;
+	}
+}
+
+@media (forced-colors: active) {
+	*:focus-visible {
+		outline: 3px solid Highlight !important;
+		outline-offset: 3px !important;
+	}
+
+	a,
+	button,
+	.social-button,
+	.cta-button-card,
+	.weekly-project-card,
+	.weekly-project-card__status,
+	.weekly-project-card__evidence-marker,
+	.weekly-project-card__tech-badge,
+	.theme-toggle,
+	.share-button,
+	.language-toggle {
+		border-color: CanvasText;
 	}
 }
 

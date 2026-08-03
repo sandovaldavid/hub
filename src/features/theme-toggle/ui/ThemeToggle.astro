@@ -8,13 +8,28 @@ import './ThemeToggle.css';
 import SunIcon from '@shared/assets/theme-icons/sun.svg?raw';
 import MoonIcon from '@shared/assets/theme-icons/moon.svg?raw';
 import SystemIcon from '@shared/assets/theme-icons/system.svg?raw';
+import { useTranslations, type Lang } from '@shared/i18n';
+
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const initialLabel = t('theme.system');
+const labelLight = t('theme.light');
+const labelDark = t('theme.dark');
+const labelSystem = t('theme.system');
 ---
 
 <button
 	id="theme-toggle"
 	class="theme-toggle"
-	aria-label="Cambiar tema"
-	title="Cambiar tema"
+	aria-label={initialLabel}
+	title={initialLabel}
+	data-label-light={labelLight}
+	data-label-dark={labelDark}
+	data-label-system={labelSystem}
 	type="button">
 	<span class="theme-toggle__icon" data-theme-icon="light">
 		<Fragment set:html={SunIcon} />
@@ -31,16 +46,17 @@ import SystemIcon from '@shared/assets/theme-icons/system.svg?raw';
 	import { ThemeManager } from '@entities/theme/lib/theme-manager';
 
 	type Theme = 'light' | 'dark' | 'system';
-	const THEME_LABELS: Record<Theme, string> = {
-		light: 'Modo Claro',
-		dark: 'Modo Oscuro',
-		system: 'Sistema',
-	};
 
 	const button = document.getElementById('theme-toggle');
 	const themeManager = new ThemeManager();
 
 	if (button) {
+		const labels: Record<Theme, string> = {
+			light: button.getAttribute('data-label-light') || 'Light mode',
+			dark: button.getAttribute('data-label-dark') || 'Dark mode',
+			system: button.getAttribute('data-label-system') || 'System preference',
+		};
+
 		function updateUI(theme: Theme) {
 			if (!button) return;
 
@@ -54,7 +70,9 @@ import SystemIcon from '@shared/assets/theme-icons/system.svg?raw';
 				(currentIcon as HTMLElement).style.display = 'inline-block';
 			}
 
-			button.setAttribute('aria-label', `Tema actual: ${THEME_LABELS[theme]}`);
+			const currentLabel = labels[theme];
+			button.setAttribute('aria-label', currentLabel);
+			button.setAttribute('title', currentLabel);
 		}
 
 		const initialState = themeManager.getThemeState();

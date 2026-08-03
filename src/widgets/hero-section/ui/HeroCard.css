@@ -83,7 +83,7 @@
 }
 
 .hero-card__metadata-item dt {
-	@apply text-[0.625rem] uppercase tracking-wide sm:text-xs;
+	@apply text-xs uppercase tracking-wide;
 	color: var(--channel-content-muted);
 }
 
@@ -149,10 +149,6 @@
 
 	.hero-card__identity-actions {
 		width: auto;
-	}
-
-	.hero-card__primary-action--mobile-only {
-		display: none;
 	}
 }
 

@@ -43,6 +43,8 @@ const requiredComponentTokens = [
 	'--card-edge',
 	'--avatar-background',
 	'--status-online-background',
+	'--detail-step-marker-background',
+	'--detail-step-marker-content',
 ];
 
 const canonicalPrimitives = {
@@ -334,6 +336,7 @@ describe('Link Hub design-system contract', () => {
 				['--focus-ring', '--channel-background-canvas'],
 				['--button-primary-content', '--button-primary-background'],
 				['--button-primary-content', '--button-primary-background-hover'],
+				['--detail-step-marker-content', '--detail-step-marker-background'],
 			];
 
 			for (const [foregroundToken, backgroundToken] of pairs) {
@@ -350,5 +353,14 @@ describe('Link Hub design-system contract', () => {
 				expect(ratio).toBeGreaterThanOrEqual(4.5);
 			}
 		}
+	});
+
+	test('supports prefers-contrast: more and forced-colors: active adaptation (#92)', async () => {
+		const css = await readFile(globalStylesPath, 'utf8');
+
+		expect(css).toContain('prefers-contrast: more');
+		expect(css).not.toContain('prefers-contrast: high');
+		expect(css).toContain('forced-colors: active');
+		expect(css).toContain('CanvasText');
 	});
 });

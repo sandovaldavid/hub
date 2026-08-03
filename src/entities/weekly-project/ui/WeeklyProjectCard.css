@@ -35,7 +35,7 @@
 }
 
 .weekly-project-card__index {
-	@apply text-[0.625rem] font-semibold uppercase tracking-[0.14em] sm:text-xs;
+	@apply text-xs font-semibold uppercase tracking-[0.14em];
 	color: var(--channel-accent-primary);
 }
 
@@ -45,7 +45,7 @@
 }
 
 .weekly-project-card__status {
-	@apply w-fit rounded-full border px-2.5 py-1 text-[0.6875rem] font-semibold leading-none;
+	@apply w-fit rounded-full border px-2.5 py-1 text-xs font-semibold leading-none;
 }
 
 .weekly-project-card__status[data-status-tone='live'] {
@@ -87,24 +87,15 @@
 }
 
 .weekly-project-card__evidence dt {
-	@apply flex items-center gap-2 text-[0.6875rem] font-bold uppercase tracking-wide;
+	@apply flex items-center gap-2 text-xs font-bold uppercase tracking-wide;
 	color: var(--channel-content-default);
 }
 
 .weekly-project-card__evidence-marker {
-	@apply inline-flex size-5 shrink-0 items-center justify-center rounded-full text-[0.5625rem] font-bold;
-	background-color: var(--badge-neutral-background);
-	color: var(--badge-neutral-content);
-}
-
-.weekly-project-card__evidence-item--contribution .weekly-project-card__evidence-marker {
-	background-color: var(--badge-brand-content);
-	color: var(--badge-brand-background);
-}
-
-.weekly-project-card__evidence-item--outcome .weekly-project-card__evidence-marker {
-	background-color: var(--badge-success-content);
-	color: var(--badge-success-background);
+	@apply inline-flex size-6 shrink-0 items-center justify-center rounded-full border text-xs font-bold;
+	background-color: var(--detail-step-marker-background);
+	color: var(--detail-step-marker-content);
+	border-color: var(--detail-step-marker-edge);
 }
 
 .weekly-project-card__evidence dd {
@@ -117,7 +108,7 @@
 }
 
 .weekly-project-card__tech-badge {
-	@apply inline-flex items-center rounded-full border px-2.5 py-1 text-[0.6875rem] font-medium leading-none;
+	@apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium leading-none;
 	background-color: var(--badge-brand-background);
 	color: var(--badge-brand-content);
 	border-color: var(--badge-brand-edge);
@@ -157,7 +148,7 @@
 }
 
 .weekly-project-card__availability {
-	@apply flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-dashed px-2 py-2 text-center text-[0.6875rem] font-medium leading-tight;
+	@apply flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-dashed px-2 py-2 text-center text-xs font-medium leading-tight;
 	background-color: var(--card-background-muted);
 	color: var(--channel-content-muted);
 	border-color: var(--card-edge);

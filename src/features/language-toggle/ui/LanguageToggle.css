@@ -1,0 +1,25 @@
+@import '../../../app/styles/global.css';
+
+.language-toggle {
+	@apply fixed top-4 right-16 z-[1200] inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center rounded-lg border px-2.5 py-2 text-xs font-bold uppercase tracking-wider shadow-sm no-underline transition-all duration-150;
+	background-color: var(--control-background);
+	color: var(--control-content);
+	border-color: var(--control-edge);
+}
+
+.language-toggle:hover {
+	@apply -translate-y-0.5 shadow-retro-xs;
+	background-color: var(--control-background-hover);
+	border-color: var(--control-edge-hover);
+	color: var(--channel-accent-primary);
+}
+
+.language-toggle:active {
+	@apply translate-y-0 shadow-none;
+}
+
+@media (max-width: 640px) {
+	.language-toggle {
+		@apply top-3 right-15;
+	}
+}
