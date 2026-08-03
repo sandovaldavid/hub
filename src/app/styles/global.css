@@ -406,7 +406,7 @@ select:focus-visible,
 	}
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more), (prefers-contrast: high) {
 	*:focus-visible {
 		outline-width: 4px;
 		outline-offset: 3px;
@@ -417,6 +417,28 @@ select:focus-visible,
 	[data-theme='dark'] {
 		--channel-edge-default: currentColor;
 		--control-edge: currentColor;
+		--card-edge: currentColor;
+	}
+}
+
+@media (forced-colors: active) {
+	*:focus-visible {
+		outline: 3px solid Highlight !important;
+		outline-offset: 3px !important;
+	}
+
+	a,
+	button,
+	.social-button,
+	.cta-button-card,
+	.weekly-project-card,
+	.weekly-project-card__status,
+	.weekly-project-card__evidence-marker,
+	.weekly-project-card__tech-badge,
+	.theme-toggle,
+	.share-button,
+	.language-toggle {
+		border-color: CanvasText;
 	}
 }
 
