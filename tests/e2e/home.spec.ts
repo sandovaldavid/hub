@@ -55,7 +55,7 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test('hero exposes clear positioning and a mobile-only resume action', async ({ page }) => {
+	test('hero exposes clear positioning and a resume action', async ({ page }) => {
 		await page.setViewportSize({ width: 1280, height: 720 });
 		await page.goto('/');
 		await expect(
@@ -70,7 +70,7 @@ test.describe('Home page', () => {
 			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]'
 		);
 		await expect(resumeLink).toBeAttached();
-		await expect(resumeLink).toBeHidden();
+		await expect(resumeLink).toBeVisible();
 		await expect(resumeLink).toHaveAttribute('target', '_blank');
 		await expect(resumeLink).toHaveAttribute('rel', /noopener/);
 		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
@@ -174,14 +174,14 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(htmlEl).toHaveAttribute('lang', 'es');
 	});
 
-	test('has a localized mobile-only resume action', async ({ page }) => {
+	test('has a localized resume action', async ({ page }) => {
 		await page.setViewportSize({ width: 1280, height: 720 });
 		await page.goto('/es/');
 		const resumeLink = page.locator(
 			'.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]'
 		);
 		await expect(resumeLink).toBeAttached();
-		await expect(resumeLink).toBeHidden();
+		await expect(resumeLink).toBeVisible();
 		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 
 		await page.setViewportSize({ width: 390, height: 844 });
