@@ -24,11 +24,6 @@
 	transform: none;
 }
 
-.share-button:focus-visible {
-	outline: 2px solid var(--focus-ring);
-	outline-offset: 2px;
-}
-
 .share-button__icon {
 	@apply flex h-5 w-5 shrink-0 items-center justify-center text-current;
 }
