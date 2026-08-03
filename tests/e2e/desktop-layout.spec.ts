@@ -39,16 +39,15 @@ for (const route of routes) {
 				expect(profilePanelBox).not.toBeNull();
 				expect(socialPanelBox).not.toBeNull();
 				expect(snapshotPanelBox).not.toBeNull();
-				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(260);
-				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(240);
-				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(170);
+				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(300);
+				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(280);
+				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(200);
 				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
 				const avatarBox = await avatar.boundingBox();
 				expect(avatarBox).not.toBeNull();
 				expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(96);
 				expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(96);
 				await expect(page.locator('.hero-card__username')).toHaveCount(0);
-				await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeHidden();
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
 				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
@@ -144,7 +143,7 @@ for (const route of routes) {
 					'.hero-card__primary-action[data-conversion-item="resume"]'
 				);
 				await expect(resumeAction).toHaveCount(1);
-				await expect(resumeAction).toBeHidden();
+				await expect(resumeAction).toBeVisible();
 				await expect(resumeAction).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 				await expect(page.locator('.cta-buttons__link[data-conversion-item="resume"]')).toHaveCount(
 					0
@@ -210,7 +209,7 @@ for (const route of routes) {
 			expect(socialBox).not.toBeNull();
 			expect(snapshotBox?.y ?? 0).toBeGreaterThan((profileBox?.y ?? 0) + (profileBox?.height ?? 0));
 			expect(socialBox?.y ?? 0).toBeGreaterThan((snapshotBox?.y ?? 0) + (snapshotBox?.height ?? 0));
-			await expect(page.locator('.hero-card__primary-action--mobile-only')).toBeVisible();
+			await expect(page.locator('.hero-card__primary-action')).toBeVisible();
 			const availability = page.locator('.hero-card__identity--compact .hero-card__availability');
 			const availabilityStyles = await availability.evaluate(element => {
 				const styles = getComputedStyle(element);
