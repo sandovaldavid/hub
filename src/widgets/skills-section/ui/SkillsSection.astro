@@ -4,56 +4,115 @@ import { cn } from '@shared/lib/utils';
 
 type Props = SkillsSectionProps;
 
-const { skills, title = 'Tecnologías' } = Astro.props;
+const {
+	coreSkills,
+	toolingSkills,
+	skills,
+	title = 'Tecnologías y habilidades',
+	coreTitle = 'Stack principal de ingeniería',
+	toolsTitle = 'Herramientas de entrega y producto',
+} = Astro.props;
+
+const effectiveCore = coreSkills ?? (skills ? skills.slice(0, 7) : []);
+const effectiveTooling = toolingSkills ?? (skills ? skills.slice(7) : []);
 ---
 
 <div
 	class={cn(
-		'skills-card h-full w-full rounded-xl border p-4 shadow-sm md:p-5 lg:p-6',
+		'skills-card flex h-full w-full flex-col gap-5 rounded-xl border p-4 shadow-sm md:p-5 lg:p-6',
 		'bg-card-background border-card-edge'
 	)}>
 	<h2
 		id="skills-heading"
-		class={cn(
-			'mb-4 text-lg font-bold leading-tight md:mb-5 md:text-xl',
-			'text-channel-content-strong'
-		)}>
+		class={cn('text-lg font-bold leading-tight md:text-xl', 'text-channel-content-strong')}>
 		{title}
 	</h2>
-	<div
-		class="grid grid-cols-4 gap-x-2 gap-y-4 sm:grid-cols-5 sm:gap-x-3 md:grid-cols-7 md:gap-4 lg:grid-cols-9 xl:grid-cols-10">
-		{
-			skills.map(skill => (
-				<div
-					class={cn(
-						'group flex min-w-0 flex-col items-center gap-1 md:gap-2',
-						'transition-all duration-300 ease-out hover:-translate-y-0.5'
-					)}
-					data-skill-item
-					title={skill.name}>
+
+	<!-- Primary Core Engineering Stack -->
+	<div class="flex flex-col gap-3">
+		<h3 class="text-xs font-semibold uppercase tracking-[0.12em] text-channel-accent-primary">
+			{coreTitle}
+		</h3>
+		<div class="grid grid-cols-4 gap-x-2 gap-y-4 sm:grid-cols-5 sm:gap-x-3 md:grid-cols-7 md:gap-4">
+			{
+				effectiveCore.map(skill => (
 					<div
 						class={cn(
-							'flex items-center justify-center',
-							'h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14',
-							'rounded-lg border-2 shadow-xs transition-all duration-300 md:rounded-xl',
-							'bg-channel-surface-default border-channel-edge-default',
-							'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
-						)}>
+							'group flex min-w-0 flex-col items-center gap-1.5 md:gap-2',
+							'transition-all duration-300 ease-out hover:-translate-y-0.5'
+						)}
+						data-skill-item
+						data-skill-tier="core"
+						title={skill.name}>
+						<div
+							class={cn(
+								'flex items-center justify-center',
+								'h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14',
+								'rounded-lg border-2 shadow-xs transition-all duration-300 md:rounded-xl',
+								'bg-channel-surface-default border-channel-edge-default',
+								'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
+							)}>
+							<span
+								class="flex size-6 items-center justify-center text-channel-content-strong transition-colors duration-300 md:size-8 lg:size-10"
+								set:html={skill.icon}
+							/>
+						</div>
 						<span
-							class="flex size-6 items-center justify-center text-channel-content-strong transition-colors duration-300 md:size-8 lg:size-10"
-							set:html={skill.icon}
-						/>
+							class={cn(
+								'w-full break-words text-center text-xs font-medium leading-[1.125rem] tracking-[0.0125rem]',
+								'text-channel-content-muted group-hover:text-channel-accent-primary',
+								'transition-colors duration-300'
+							)}>
+							{skill.name}
+						</span>
 					</div>
-					<span
-						class={cn(
-							'w-full break-words text-center text-[0.625rem] font-medium leading-tight md:text-xs lg:text-sm',
-							'text-channel-content-muted group-hover:text-channel-accent-primary',
-							'transition-colors duration-300'
-						)}>
-						{skill.name}
-					</span>
-				</div>
-			))
-		}
+				))
+			}
+		</div>
 	</div>
+
+	<!-- Secondary Delivery & Product Tooling -->
+	{
+		effectiveTooling.length > 0 && (
+			<div class="flex flex-col gap-3 border-t border-card-edge pt-4">
+				<h3 class="text-xs font-medium uppercase tracking-[0.12em] text-channel-content-muted">
+					{toolsTitle}
+				</h3>
+				<div class="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 md:grid-cols-6 md:gap-4">
+					{effectiveTooling.map(skill => (
+						<div
+							class={cn(
+								'group flex min-w-0 flex-col items-center gap-1.5 md:gap-2',
+								'transition-all duration-300 ease-out hover:-translate-y-0.5'
+							)}
+							data-skill-item
+							data-skill-tier="tooling"
+							title={skill.name}>
+							<div
+								class={cn(
+									'flex items-center justify-center',
+									'h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11',
+									'rounded-lg border shadow-xs transition-all duration-300 md:rounded-xl',
+									'bg-channel-surface-default border-channel-edge-default',
+									'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
+								)}>
+								<span
+									class="flex size-5 items-center justify-center text-channel-content-muted transition-colors duration-300 group-hover:text-channel-content-strong md:size-6 lg:size-7"
+									set:html={skill.icon}
+								/>
+							</div>
+							<span
+								class={cn(
+									'w-full break-words text-center text-xs font-normal leading-[1.125rem] tracking-[0.0125rem]',
+									'text-channel-content-muted group-hover:text-channel-content-strong',
+									'transition-colors duration-300'
+								)}>
+								{skill.name}
+							</span>
+						</div>
+					))}
+				</div>
+			</div>
+		)
+	}
 </div>
