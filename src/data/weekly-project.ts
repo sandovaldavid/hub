@@ -12,7 +12,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			outcome:
 				'Established a reusable memory workflow for Claude Code, Codex and other MCP-compatible agents.',
 			technologies: ['.NET 10', 'C#', 'MCP', 'Obsidian'],
-			status: 'Stable v2.3.0 · active development',
+			status: 'Stable v3.0.1 · active development',
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			repositoryAvailability: 'public',
 			demoAvailability: 'unavailable',
@@ -45,7 +45,7 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			outcome:
 				'Establecí un flujo de memoria reutilizable para Claude Code, Codex y otros agentes compatibles con MCP.',
 			technologies: ['.NET 10', 'C#', 'MCP', 'Obsidian'],
-			status: 'Estable v2.3.0 · desarrollo activo',
+			status: 'Estable v3.0.1 · desarrollo activo',
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			repositoryAvailability: 'public',
 			demoAvailability: 'unavailable',

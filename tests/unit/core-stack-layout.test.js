@@ -2,13 +2,15 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { skills } from '../../src/data/skills';
+import { skills, coreSkills, toolingSkills } from '../../src/data/skills';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
-describe('Core engineering stack and layout hierarchy (#93, #95, #97)', () => {
-	test('skills catalog prioritizes verified core engineering stack (#93)', () => {
+describe('Core engineering stack and layout hierarchy (#93, #95, #97, #112)', () => {
+	test('skills catalog separates core engineering stack from tooling (#93, #112)', () => {
 		const skillIds = skills.map(s => s.id);
+		const coreIds = coreSkills.map(s => s.id);
+		const toolingIds = toolingSkills.map(s => s.id);
 
 		expect(skillIds).toContain('dotnet');
 		expect(skillIds).toContain('csharp');
@@ -19,8 +21,12 @@ describe('Core engineering stack and layout hierarchy (#93, #95, #97)', () => {
 		expect(skillIds).toContain('astro');
 		expect(skillIds).toContain('githubactions');
 
-		// First 3 items lead with .NET, C# and Angular
-		expect(skillIds.slice(0, 3)).toEqual(['dotnet', 'csharp', 'angular']);
+		// First 3 items lead with .NET, C# and Angular in coreSkills
+		expect(coreIds.slice(0, 3)).toEqual(['dotnet', 'csharp', 'angular']);
+		expect(coreIds).toHaveLength(7);
+		expect(toolingIds).toHaveLength(6);
+		expect(coreSkills.every(s => s.tier === 'core')).toBe(true);
+		expect(toolingSkills.every(s => s.tier === 'tooling')).toBe(true);
 	});
 
 	test('WeeklyProjectSection centers 2-card project layout at wide viewports (#95)', async () => {

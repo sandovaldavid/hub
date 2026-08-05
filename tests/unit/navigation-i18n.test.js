@@ -32,6 +32,8 @@ describe('Navigation and i18n control contracts (#90, #91)', () => {
 		);
 		const content = await readFile(langTogglePath, 'utf8');
 
+		expect(content).toContain('useTranslations');
+		expect(content).toContain("t('nav.switchLanguage')");
 		expect(content).toContain('data-conversion-event="language_switched"');
 		expect(content).toContain('targetLang.toUpperCase()');
 	});
