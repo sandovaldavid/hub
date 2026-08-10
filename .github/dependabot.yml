@@ -17,8 +17,6 @@ updates:
       prefix: chore(deps)
     ignore:
       - dependency-name: '@playwright/test'
-        update-types:
-          - version-update:semver-minor
       - dependency-name: typescript
         update-types:
           - version-update:semver-major
