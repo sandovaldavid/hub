@@ -12,7 +12,7 @@ const viewports = [
 ] as const;
 
 for (const locale of locales) {
-	test(`${locale.path} keeps the approved portrait stable across target viewports`, async ({ page }) => {
+	test(`${locale.path} keeps approved portrait across target viewports`, async ({ page }) => {
 		for (const viewport of viewports) {
 			await page.setViewportSize(viewport);
 			await page.goto(locale.path);
@@ -53,5 +53,6 @@ test('portrait remains present with reduced motion enabled', async ({ page }) =>
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.goto('/');
 
-	await expect(page.getByRole('img', { name: 'Portrait of David Sandoval', exact: true })).toBeVisible();
+	const portrait = page.getByRole('img', { name: 'Portrait of David Sandoval', exact: true });
+	await expect(portrait).toBeVisible();
 });
