@@ -2,8 +2,8 @@ import { test, expect, type Page, type TestInfo } from '@playwright/test';
 
 const THEMES = ['light', 'dark'] as const;
 const ROUTES = [
-	{ path: '/', locale: 'en' },
-	{ path: '/es/', locale: 'es' },
+	{ path: '/', locale: 'en', avatarAlt: 'Portrait of David Sandoval' },
+	{ path: '/es/', locale: 'es', avatarAlt: 'Retrato de David Sandoval' },
 ] as const;
 const VIEWPORTS = [
 	{ name: 'desktop', width: 1440, height: 1000 },
@@ -98,7 +98,7 @@ test.describe('Link Hub Compact channel theme', () => {
 					await expect(page.locator('html')).toHaveAttribute('lang', route.locale);
 					await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
 					await expect(page.locator('h1#hero-heading')).toBeVisible();
-					await expect(page.locator('[role="img"][aria-label*="Profile photo"]')).toBeVisible();
+					await expect(page.getByRole('img', { name: route.avatarAlt, exact: true })).toBeVisible();
 
 					const tokenContract = await page.evaluate(() => {
 						const root = getComputedStyle(document.documentElement);
