@@ -29,6 +29,10 @@ const professionalSocialLinks = socialLinks.filter(link => link.priority !== 'fo
 
 const localizedProfile = {
 	...profile,
+	avatar: {
+		...profile.avatar,
+		alt: t('profile.avatarAlt'),
+	},
 	tagline: t('profile.tagline'),
 	bio: t('profile.bio'),
 };
@@ -110,10 +114,10 @@ const heroMetadata = [
 			<header class="bento-item mx-auto max-w-3xl text-center">
 				<h2
 					id="cta-heading"
-					class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
+					class="m-0 text-2xl font-bold leading-tight text-center text-channel-content-strong md:text-3xl">
 					{t('cta.heading')}
 				</h2>
-				<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-muted md:text-base">
+				<p class="mx-auto mt-2 text-sm leading-relaxed text-center text-channel-content-muted md:text-base">
 					{t('cta.description')}
 				</p>
 			</header>
