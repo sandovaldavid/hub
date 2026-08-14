@@ -7,7 +7,8 @@
 		"workMode": "Remote · based in Peru",
 		"languages": "English · Spanish",
 		"resumeAction": "Download resume",
-		"snapshotHeading": "Professional snapshot"
+		"snapshotHeading": "Professional snapshot",
+		"avatarAlt": "Portrait of David Sandoval"
 	},
 	"nav": {
 		"skipToContent": "Skip to main content",
