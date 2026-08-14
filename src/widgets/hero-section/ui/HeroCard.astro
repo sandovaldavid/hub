@@ -17,10 +17,7 @@ const isCompact = variant === 'compact';
 			isCompact && 'hero-card__identity--compact'
 		)}>
 		<div class="hero-card__header">
-			<div
-				class="hero-card__avatar-wrapper"
-				role="img"
-				aria-label={`Profile photo of ${profile.name}`}>
+			<div class="hero-card__avatar-wrapper">
 				<ProfileAvatar
 					src={profile.avatar.url}
 					alt={profile.avatar.alt}
@@ -96,7 +93,7 @@ const isCompact = variant === 'compact';
 	{
 		!isCompact && primaryAction && (
 			<a
-				class="hero-card__primary-action"
+				class="button-primary hero-card__primary-action"
 				href={primaryAction.href}
 				target={primaryAction.external ? '_blank' : undefined}
 				rel={primaryAction.external ? 'noopener noreferrer' : undefined}

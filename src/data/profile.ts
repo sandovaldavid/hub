@@ -1,8 +1,8 @@
 import type { Profile } from '@entities/profile/model/types';
 import { siteConfig } from './site.config';
 
-// tagline and bio are intentionally absent here.
-// They are locale-specific strings — get them via useTranslations() from @shared/i18n.
+// tagline, bio and the route-specific avatar label are intentionally absent here.
+// Locale-specific strings are applied via useTranslations() from @shared/i18n.
 export const profile: Profile = {
 	name: 'David Sandoval Salvador',
 	displayName: siteConfig.handle,
@@ -10,8 +10,8 @@ export const profile: Profile = {
 	timezone: 'America/Lima',
 	languages: ['Español', 'English'],
 	avatar: {
-		url: '/profile/retrato-giblin.webp',
-		alt: `${siteConfig.handle} profile photo`,
+		url: '/profile/perfil.webp',
+		alt: 'David Sandoval',
 	},
 	logo: {
 		url: `/logo/${siteConfig.handle}.svg`,

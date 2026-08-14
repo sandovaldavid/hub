@@ -7,10 +7,12 @@
 		"workMode": "Remote · based in Peru",
 		"languages": "English · Spanish",
 		"resumeAction": "Download resume",
-		"snapshotHeading": "Professional snapshot"
+		"snapshotHeading": "Professional snapshot",
+		"avatarAlt": "Portrait of David Sandoval"
 	},
 	"nav": {
-		"skipToContent": "Skip to main content"
+		"skipToContent": "Skip to main content",
+		"switchLanguage": "Switch language to Spanish"
 	},
 	"hero": {
 		"sectionsLabel": "Professional profile sections"
@@ -50,6 +52,8 @@
 	},
 	"skills": {
 		"title": "Core engineering stack",
+		"coreTitle": "Core Engineering Stack",
+		"toolsTitle": "Delivery & Product Tooling",
 		"heading": "Technologies and skills"
 	},
 	"weeklyProject": {

@@ -70,16 +70,16 @@ test.describe('Accessible motion and navigation', () => {
 		await page.goto('/');
 		await expect(page.locator('#share-button')).toHaveAccessibleName('Copy link to clipboard');
 		await expect(page.locator('#theme-toggle')).toHaveAccessibleName('Use system preference');
-		await expect(page.locator('.language-toggle')).toHaveAccessibleName('Cambiar idioma a español');
+		await expect(page.locator('.language-toggle')).toHaveAccessibleName(
+			'Switch language to Spanish'
+		);
 
 		await page.goto('/es/');
 		await expect(page.locator('#share-button')).toHaveAccessibleName('Copiar link al portapapeles');
 		await expect(page.locator('#theme-toggle')).toHaveAccessibleName(
 			'Usar preferencia del sistema'
 		);
-		await expect(page.locator('.language-toggle')).toHaveAccessibleName(
-			'Switch language to English'
-		);
+		await expect(page.locator('.language-toggle')).toHaveAccessibleName('Cambiar idioma a inglés');
 	});
 
 	for (const theme of ['light', 'dark']) {

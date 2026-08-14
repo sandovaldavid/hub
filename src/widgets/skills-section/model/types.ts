@@ -3,9 +3,14 @@ export interface Skill {
 	name: string;
 	icon?: string;
 	category: 'frontend' | 'backend' | 'tools' | 'cloud' | 'ai';
+	tier?: 'core' | 'tooling';
 }
 
 export interface SkillsSectionProps {
-	skills: Skill[];
+	skills?: Skill[];
+	coreSkills?: Skill[];
+	toolingSkills?: Skill[];
 	title?: string;
+	coreTitle?: string;
+	toolsTitle?: string;
 }

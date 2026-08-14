@@ -1,5 +1,5 @@
 ---
-import type { Lang } from '@shared/i18n';
+import { useTranslations, type Lang } from '@shared/i18n';
 import './LanguageToggle.css';
 
 interface Props {
@@ -8,10 +8,11 @@ interface Props {
 }
 
 const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
 const targetLang = lang === 'en' ? 'es' : 'en';
 const targetUrl = alternates ? alternates[targetLang] : targetLang === 'es' ? '/es/' : '/';
-const ariaLabel = lang === 'en' ? 'Cambiar idioma a español' : 'Switch language to English';
-const title = lang === 'en' ? 'Español' : 'English';
+const ariaLabel = t('nav.switchLanguage');
+const title = ariaLabel;
 const displayLabel = targetLang.toUpperCase();
 ---
 

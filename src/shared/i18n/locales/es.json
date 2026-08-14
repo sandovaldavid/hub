@@ -7,10 +7,12 @@
 		"workMode": "Remoto · con base en Perú",
 		"languages": "Inglés · Español",
 		"resumeAction": "Descargar CV",
-		"snapshotHeading": "Resumen profesional"
+		"snapshotHeading": "Resumen profesional",
+		"avatarAlt": "Retrato de David Sandoval"
 	},
 	"nav": {
-		"skipToContent": "Saltar al contenido principal"
+		"skipToContent": "Saltar al contenido principal",
+		"switchLanguage": "Cambiar idioma a inglés"
 	},
 	"hero": {
 		"sectionsLabel": "Secciones del perfil profesional"
@@ -50,6 +52,8 @@
 	},
 	"skills": {
 		"title": "Stack principal de ingeniería",
+		"coreTitle": "Stack principal de ingeniería",
+		"toolsTitle": "Herramientas de entrega y producto",
 		"heading": "Tecnologías y habilidades"
 	},
 	"weeklyProject": {

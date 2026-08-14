@@ -10,7 +10,7 @@ import WeeklyProjectSection from '@widgets/weekly-project-section/ui/WeeklyProje
 import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
 import { getCtaButtons } from '@data/cta';
-import { skills } from '@data/skills';
+import { coreSkills, toolingSkills } from '@data/skills';
 import { getFeaturedProjects } from '@data/weekly-project';
 import { getSEO } from '@data/seo';
 import { siteConfig } from '@data/site.config';
@@ -29,6 +29,10 @@ const professionalSocialLinks = socialLinks.filter(link => link.priority !== 'fo
 
 const localizedProfile = {
 	...profile,
+	avatar: {
+		...profile.avatar,
+		alt: t('profile.avatarAlt'),
+	},
 	tagline: t('profile.tagline'),
 	bio: t('profile.bio'),
 };
@@ -141,7 +145,13 @@ const heroMetadata = [
 			class="bento-item bento-item--skills"
 			data-layout-section="skills"
 			aria-labelledby="skills-heading">
-			<SkillsSection {skills} title={t('skills.title')} />
+			<SkillsSection
+				{coreSkills}
+				{toolingSkills}
+				title={t('skills.title')}
+				coreTitle={t('skills.coreTitle')}
+				toolsTitle={t('skills.toolsTitle')}
+			/>
 		</section>
 	</main>
 </Layout>

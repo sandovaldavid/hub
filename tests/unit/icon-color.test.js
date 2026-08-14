@@ -7,7 +7,7 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');
 
 describe('theme-aware icon color contract', () => {
-	test('makes the consulting send icon inherit the primary button content color', async () => {
+	test('makes the consulting send icon inherit the button content color', async () => {
 		const [sentIcon, contactCta] = await Promise.all([
 			read('src/shared/assets/sent.svg'),
 			read('src/widgets/contact-cta/ui/ContactCTA.astro'),
@@ -15,8 +15,8 @@ describe('theme-aware icon color contract', () => {
 
 		expect(sentIcon).toContain('stroke="currentColor"');
 		expect(sentIcon).not.toMatch(/#fff(?:fff)?\b|\bwhite\b/i);
-		expect(contactCta).toContain('text-button-primary-content');
-		expect(contactCta).toContain('bg-button-primary-background');
+		expect(contactCta).toContain('text-button-secondary-content');
+		expect(contactCta).toContain('bg-button-secondary-background');
 		expect(contactCta).toContain('<SentIcon class="h-4 w-4" aria-hidden="true" />');
 	});
 });
