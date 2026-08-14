@@ -11,7 +11,7 @@ const illustratedPortraitPath = join(repositoryRoot, 'public/profile/retrato-gib
 const approvedPortfolioBlob = 'dfcf2ff042b1ebbb04fd45fac810d8c05796478d';
 
 describe('Human-first portrait contract (#60)', () => {
-	test('uses the approved real portrait as the primary avatar and removes the unused illustration', async () => {
+	test('uses the approved real portrait and removes the unused illustration', async () => {
 		const profileSource = await readFile(join(repositoryRoot, 'src/data/profile.ts'), 'utf8');
 
 		expect(profileSource).toContain("url: '/profile/perfil.webp'");
