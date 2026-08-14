@@ -29,6 +29,10 @@ const professionalSocialLinks = socialLinks.filter(link => link.priority !== 'fo
 
 const localizedProfile = {
 	...profile,
+	avatar: {
+		...profile.avatar,
+		alt: t('profile.avatarAlt'),
+	},
 	tagline: t('profile.tagline'),
 	bio: t('profile.bio'),
 };
