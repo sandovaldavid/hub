@@ -33,22 +33,16 @@ test.describe('Home page', () => {
 	test('uses a clear h1, h2 and h3 hierarchy', async ({ page }) => {
 		await page.goto('/');
 
-		await expect(
-			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
-		).toHaveCount(1);
+		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toHaveCount(1);
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Professional snapshot' })
 		).toBeVisible();
-		await expect(
-			page.getByRole('heading', { level: 2, name: 'Explore my work and connect' })
-		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Explore my work' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Core engineering stack' })
 		).toBeVisible();
-		await expect(
-			page.getByRole('heading', { level: 3, name: 'Engineering consulting is in preparation' })
-		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: "Let's talk" })).toBeVisible();
 		await expect(page.locator('.cta-button-card__title')).toHaveCount(4);
 		for (const heading of await page.locator('.cta-button-card__title').all()) {
 			expect(await heading.evaluate(element => element.tagName)).toBe('H3');
@@ -58,10 +52,10 @@ test.describe('Home page', () => {
 	test('hero exposes clear positioning and a resume action', async ({ page }) => {
 		await page.setViewportSize({ width: 1280, height: 720 });
 		await page.goto('/');
+		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toBeVisible();
 		await expect(
-			page.getByRole('heading', { level: 1, name: 'David Sandoval Salvador' })
+			page.getByText('Backend-oriented Software Engineer · .NET, C# & Angular')
 		).toBeVisible();
-		await expect(page.getByText('Software Engineer · .NET, Angular & TypeScript')).toBeVisible();
 		await expect(page.getByText('Open to remote software engineering roles')).toBeVisible();
 		await expect(page.getByText('Remote · based in Peru')).toBeVisible();
 		await expect(page.locator('.hero-card__username')).toHaveCount(0);
@@ -144,7 +138,7 @@ test.describe('Spanish version (/es/)', () => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
 		await expect(
-			page.getByText('Ingeniero de Software · .NET, Angular y TypeScript')
+			page.getByText('Ingeniero de Software orientado a backend · .NET, C# y Angular')
 		).toBeVisible();
 		await expect(page.getByText('Disponible para roles remotos de ingeniería')).toBeVisible();
 	});
@@ -154,18 +148,14 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Resumen profesional' })
 		).toBeVisible();
-		await expect(
-			page.getByRole('heading', { level: 2, name: 'Explora mi trabajo y conecta' })
-		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Explora mi trabajo' })).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })
 		).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Stack principal de ingeniería' })
 		).toBeVisible();
-		await expect(
-			page.getByRole('heading', { level: 3, name: 'Consultoría de ingeniería en preparación' })
-		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'Conversemos' })).toBeVisible();
 	});
 
 	test('html lang attribute is es', async ({ page }) => {
