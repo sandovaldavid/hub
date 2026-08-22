@@ -24,7 +24,9 @@ function collectPublicUrlFields(config) {
 		fields.push([`socialUrls.${key}`, value]);
 	}
 
-	config.sameAs.forEach((value, index) => fields.push([`sameAs[${index}]`, value]));
+	config.sameAs.forEach((value, index) =>
+		fields.push([`sameAs[${index}]`, value])
+	);
 
 	return fields;
 }
