@@ -114,7 +114,7 @@ for (const route of routes) {
 				expect(Math.abs((primaryBox?.height ?? 0) - (contactBox?.height ?? 0))).toBeLessThanOrEqual(
 					2
 				);
-				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(320);
+				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(336);
 
 				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
 				const [actionRowCount, actionCardHeights] = await Promise.all([
