@@ -7,8 +7,8 @@
 	color: var(--channel-content-strong);
 }
 
-.social-button:hover {
-	@apply -translate-y-0.5 shadow-retro-xs;
+.social-button:active {
+	@apply scale-95;
 }
 
 .social-button__icon {
@@ -24,10 +24,17 @@
 	@apply h-full w-full;
 }
 
-.social-button:hover .social-button__icon,
-.social-button:hover .social-button__label,
-.social-button:hover .social-button__username {
-	color: var(--platform-on-brand);
+/* Sticky-hover fix: see ThemeToggle.css for why this is gated. */
+@media (hover: hover) {
+	.social-button:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+	}
+
+	.social-button:hover .social-button__icon,
+	.social-button:hover .social-button__label,
+	.social-button:hover .social-button__username {
+		color: var(--platform-on-brand);
+	}
 }
 
 .social-button__content {
@@ -75,32 +82,38 @@
 	--platform-on-brand: #ffffff;
 }
 
-.social-button--github:hover,
-.social-button--x:hover,
-.social-button--linkedin:hover {
-	border-color: var(--platform-edge);
-	background: linear-gradient(90deg, var(--platform-gradient-start), var(--platform-gradient-end));
-}
+@media (hover: hover) {
+	.social-button--github:hover,
+	.social-button--x:hover,
+	.social-button--linkedin:hover {
+		border-color: var(--platform-edge);
+		background: linear-gradient(
+			90deg,
+			var(--platform-gradient-start),
+			var(--platform-gradient-end)
+		);
+	}
 
-.social-button--instagram:hover {
-	--platform-on-brand: #ffffff;
-	border-color: var(--platform-edge);
-	background: linear-gradient(
-		135deg,
-		var(--platform-gradient-start) 0%,
-		var(--platform-gradient-middle) 50%,
-		var(--platform-gradient-end) 100%
-	);
-}
+	.social-button--instagram:hover {
+		--platform-on-brand: #ffffff;
+		border-color: var(--platform-edge);
+		background: linear-gradient(
+			135deg,
+			var(--platform-gradient-start) 0%,
+			var(--platform-gradient-middle) 50%,
+			var(--platform-gradient-end) 100%
+		);
+	}
 
-.social-button--website:hover {
-	--platform-on-brand: var(--button-primary-content);
-	border-color: var(--channel-accent-primary);
-	background: linear-gradient(
-		90deg,
-		var(--channel-accent-primary),
-		var(--channel-accent-secondary)
-	);
+	.social-button--website:hover {
+		--platform-on-brand: var(--button-primary-content);
+		border-color: var(--channel-accent-primary);
+		background: linear-gradient(
+			90deg,
+			var(--channel-accent-primary),
+			var(--channel-accent-secondary)
+		);
+	}
 }
 
 .social-button--compact {
