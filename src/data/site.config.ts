@@ -9,7 +9,7 @@ const socialUrls = {
 export const siteConfig = {
 	// Public identity registry — approved values shared by SEO, content and contact surfaces.
 	handle: 'sandovaldavid',
-	name: 'David Sandoval — Professional Link Hub',
+	name: 'David Sandoval',
 	shortName: 'David Sandoval',
 	email: 'hello@sandovaldavid.com',
 	recruiterEmailSubject: 'Software engineering opportunity',
