@@ -24,9 +24,7 @@ function collectPublicUrlFields(config) {
 		fields.push([`socialUrls.${key}`, value]);
 	}
 
-	config.sameAs.forEach((value, index) =>
-		fields.push([`sameAs[${index}]`, value])
-	);
+	config.sameAs.forEach((value, index) => fields.push([`sameAs[${index}]`, value]));
 
 	return fields;
 }
@@ -70,10 +68,7 @@ describe('public privacy contract', () => {
 		for (const [field, value] of collectPublicUrlFields(siteConfig)) {
 			const url = parsePublicUrl(field, value);
 			for (const key of url.searchParams.keys()) {
-				expect(
-					SECRET_QUERY_KEYS.has(key.toLowerCase()),
-					`${field} query key "${key}"`
-				).toBe(false);
+				expect(SECRET_QUERY_KEYS.has(key.toLowerCase()), `${field} query key "${key}"`).toBe(false);
 			}
 		}
 	});
