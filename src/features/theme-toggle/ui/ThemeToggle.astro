@@ -57,7 +57,7 @@ const labelSystem = t('theme.system');
 			system: button.getAttribute('data-label-system') || 'System preference',
 		};
 
-		function updateUI(theme: Theme) {
+		function updateUI(theme: Theme, animate = false) {
 			if (!button) return;
 
 			const icons = button.querySelectorAll('[data-theme-icon]');
@@ -68,6 +68,15 @@ const labelSystem = t('theme.system');
 			const currentIcon = button.querySelector(`[data-theme-icon="${theme}"]`);
 			if (currentIcon) {
 				(currentIcon as HTMLElement).style.display = 'inline-block';
+
+				if (animate) {
+					currentIcon.classList.add('theme-toggle__icon--spin');
+					currentIcon.addEventListener(
+						'animationend',
+						() => currentIcon.classList.remove('theme-toggle__icon--spin'),
+						{ once: true }
+					);
+				}
 			}
 
 			const currentLabel = labels[theme];
@@ -80,7 +89,7 @@ const labelSystem = t('theme.system');
 
 		button.addEventListener('click', () => {
 			const newState = themeManager.cycleTheme();
-			updateUI(newState.current);
+			updateUI(newState.current, true);
 
 			window.dispatchEvent(
 				new CustomEvent('theme-change', {

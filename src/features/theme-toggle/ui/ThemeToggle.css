@@ -7,14 +7,24 @@
 	border-color: var(--control-edge);
 }
 
-.theme-toggle:hover {
-	@apply -translate-y-0.5 shadow-retro-xs;
-	background-color: var(--control-background-hover);
-	border-color: var(--control-edge-hover);
+/* Sticky-hover fix: touch devices report a phantom `:hover` after tap
+   with no way to clear it, so the lift/shadow looked stuck ("se queda pegado").
+   Gate it to devices that actually have a hover-capable pointer, matching the
+   guard Tailwind's own `hover:` utilities already apply by default in v4. */
+@media (hover: hover) {
+	.theme-toggle:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+		background-color: var(--control-background-hover);
+		border-color: var(--control-edge-hover);
+	}
+
+	.theme-toggle:hover .theme-toggle__icon {
+		@apply scale-110 rotate-[10deg];
+	}
 }
 
 .theme-toggle:active {
-	@apply translate-y-0 shadow-none;
+	@apply translate-y-0 scale-95 shadow-none;
 }
 
 .theme-toggle__icon {
@@ -23,10 +33,6 @@
 
 .theme-toggle__icon svg {
 	@apply block h-full w-full;
-}
-
-.theme-toggle:hover .theme-toggle__icon {
-	@apply scale-110 rotate-[10deg];
 }
 
 @media (max-width: 640px) {
@@ -47,6 +53,9 @@
 	}
 }
 
-.theme-toggle__icon {
+/* Only spins when JS adds this on click (see ThemeToggle.astro) — the bare
+   class used to carry the animation unconditionally, so it also auto-played
+   once on every page load instead of only on an actual theme switch. */
+.theme-toggle__icon--spin {
 	animation: theme-switch 0.5s ease-in-out;
 }

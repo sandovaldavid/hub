@@ -98,11 +98,17 @@
 	color: var(--button-primary-content);
 }
 
-.hero-card__primary-action:hover {
-	background-color: var(--button-primary-background-hover);
+/* Sticky-hover fix: see ThemeToggle.css for why this is gated
+   (the hover:-translate-y-0.5 utility above is already safe — Tailwind v4
+   gates its own hover: variant by default; this raw :hover selector isn't). */
+@media (hover: hover) {
+	.hero-card__primary-action:hover {
+		background-color: var(--button-primary-background-hover);
+	}
 }
 
 .hero-card__primary-action:active {
+	@apply scale-[0.98];
 	background-color: var(--button-primary-background-active);
 }
 

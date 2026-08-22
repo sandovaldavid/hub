@@ -6,8 +6,17 @@
 	border-color: var(--card-edge-accent);
 }
 
-.weekly-project-card:hover {
-	border-color: var(--channel-accent-primary);
+/* Sticky-hover fix: see ThemeToggle.css for why this is gated
+   (the hover:* utilities above are already safe — Tailwind v4 gates its
+   own hover: variant by default; this raw :hover selector isn't). */
+@media (hover: hover) {
+	.weekly-project-card:hover {
+		border-color: var(--channel-accent-primary);
+	}
+}
+
+.weekly-project-card:active {
+	@apply scale-[0.99];
 }
 
 .weekly-project-card::before {
@@ -128,19 +137,21 @@
 	color: var(--button-primary-content);
 }
 
-.weekly-project-card__button--primary:hover {
-	background-color: var(--button-primary-background-hover);
-}
-
 .weekly-project-card__button--secondary {
 	background-color: var(--button-secondary-background);
 	color: var(--button-secondary-content);
 	border: 1px solid var(--button-secondary-edge);
 }
 
-.weekly-project-card__button--secondary:hover {
-	background-color: var(--button-secondary-background-hover);
-	border-color: var(--control-edge-hover);
+@media (hover: hover) {
+	.weekly-project-card__button--primary:hover {
+		background-color: var(--button-primary-background-hover);
+	}
+
+	.weekly-project-card__button--secondary:hover {
+		background-color: var(--button-secondary-background-hover);
+		border-color: var(--control-edge-hover);
+	}
 }
 
 .weekly-project-card__button-icon {
