@@ -1,7 +1,7 @@
 {
 	"profile": {
-		"tagline": "Software Engineer · .NET, Angular & TypeScript",
-		"bio": "I design and build maintainable web products, from backend architecture to accessible frontend experiences.",
+		"tagline": "Backend-oriented Software Engineer · .NET, C# & Angular",
+		"bio": "I break down complex problems, connect technical decisions with business context, and build maintainable systems through validation and clear documentation.",
 		"availability": "Open to remote software engineering roles",
 		"location": "Lima, Peru · UTC-5",
 		"workMode": "Remote · based in Peru",
@@ -21,21 +21,21 @@
 		"heading": "Professional and social links"
 	},
 	"cta": {
-		"heading": "Explore my work and connect",
-		"description": "Go directly to my portfolio, repositories, selected engineering cases or contact channel.",
+		"heading": "Explore my work",
+		"description": "Start with my portfolio, inspect public engineering evidence on GitHub, or contact me directly.",
 		"portfolio": {
 			"title": "View Portfolio",
-			"description": "Explore selected projects, experience and engineering case studies.",
+			"description": "See selected projects, professional experience, and engineering case studies.",
 			"label": "View portfolio"
 		},
 		"projects": {
 			"title": "View Featured Projects",
-			"description": "Review selected engineering cases and outcomes on this page.",
+			"description": "Review selected projects, technical decisions, and current status.",
 			"label": "View featured projects"
 		},
 		"github": {
 			"title": "View GitHub",
-			"description": "Inspect repositories, architecture decisions and products I am building.",
+			"description": "Inspect public repositories, tests, releases, and technical documentation.",
 			"label": "View GitHub repositories"
 		},
 		"contact": {
@@ -45,10 +45,10 @@
 		}
 	},
 	"contact": {
-		"title": "Engineering consulting is in preparation",
-		"message": "I'm preparing a focused web-service offer. Reach out if you'd like to discuss a future engagement.",
-		"buttonText": "Send an inquiry",
-		"heading": "Engineering consulting"
+		"title": "Let's talk",
+		"message": "For software engineering opportunities, collaborations, or relevant project conversations, email me directly.",
+		"buttonText": "Send email",
+		"heading": "Contact"
 	},
 	"skills": {
 		"title": "Core engineering stack",
