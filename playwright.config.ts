@@ -16,8 +16,13 @@ export default defineConfig({
 			name: 'chromium',
 			use: { ...devices['Desktop Chrome'] },
 		},
-		// webkit and firefox are not installed on CI runners — local-only (#98)
-		...(process.env.CI
+		// webkit and firefox are not installed on CI runners — local-only (#98).
+		// `GITHUB_ACTIONS` (set only by Actions itself) is the right gate here, not the
+		// generic `CI` — `validate:local` also sets `CI=1` (for the preview server and
+		// deterministic retries/workers below), and that script's whole point is to run
+		// every locally-capable browser, including inside a container with webkit/firefox
+		// installed. Only hosted Actions runners actually lack those binaries.
+		...(process.env.GITHUB_ACTIONS
 			? []
 			: [
 					{ name: 'Mobile Safari', use: { ...devices['iPhone 14'] } },
