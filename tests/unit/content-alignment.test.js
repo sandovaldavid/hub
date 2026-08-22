@@ -23,9 +23,7 @@ describe('Hub messaging alignment contract', () => {
 			readJson('src/shared/i18n/locales/es.json'),
 		]);
 
-		expect(english.profile.tagline).toBe(
-			'Backend-oriented Software Engineer · .NET, C# & Angular'
-		);
+		expect(english.profile.tagline).toBe('Backend-oriented Software Engineer · .NET, C# & Angular');
 		expect(spanish.profile.tagline).toBe(
 			'Ingeniero de Software orientado a backend · .NET, C# y Angular'
 		);
