@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const approvedPortraitPath = join(repositoryRoot, 'public/profile/perfil.webp');
 const illustratedPortraitPath = join(repositoryRoot, 'public/profile/retrato-giblin.webp');
-const approvedPortfolioBlob = 'dfcf2ff042b1ebbb04fd45fac810d8c05796478d';
+const approvedPortfolioBlob = '8b0c1634cac7f4c1d08f7f4bc3a4b314762827f1';
 
 describe('Human-first portrait contract (#60)', () => {
 	test('uses the approved real portrait and removes the unused illustration', async () => {

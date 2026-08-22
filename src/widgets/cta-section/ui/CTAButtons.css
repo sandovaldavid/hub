@@ -14,18 +14,25 @@
 	border-color: var(--card-edge);
 }
 
-.cta-button-card:hover {
-	@apply -translate-y-0.5 shadow-retro-xs;
-	background-color: var(--control-background-hover);
-	border-color: var(--control-edge-hover);
+.cta-button-card:active {
+	@apply scale-[0.98];
 }
 
 .cta-button-card--primary {
 	border-color: var(--card-edge-accent);
 }
 
-.cta-button-card--primary:hover {
-	border-color: var(--channel-accent-primary);
+/* Sticky-hover fix: see ThemeToggle.css for why this is gated. */
+@media (hover: hover) {
+	.cta-button-card:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+		background-color: var(--control-background-hover);
+		border-color: var(--control-edge-hover);
+	}
+
+	.cta-button-card--primary:hover {
+		border-color: var(--channel-accent-primary);
+	}
 }
 
 .cta-button-card--secondary {
@@ -64,9 +71,11 @@
 	color: var(--channel-accent-primary);
 }
 
-.cta-button-card:hover .cta-button-card__arrow {
-	@apply translate-x-1;
-	color: var(--channel-accent-secondary);
+@media (hover: hover) {
+	.cta-button-card:hover .cta-button-card__arrow {
+		@apply translate-x-1;
+		color: var(--channel-accent-secondary);
+	}
 }
 
 .cta-buttons--vertical {

@@ -2,18 +2,18 @@
 
 A static, bilingual hub that helps recruiters, clients and collaborators recognize David Sandoval, understand his current Software Engineer positioning and reach the right destination quickly.
 
-[View production](https://hub.sandovaldavid.com) · [Open the portfolio](https://sandovaldavid.com) · [View the résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
+[View production](https://hub.sandovaldavid.com) · [Open the portfolio](https://sandovaldavid.com) · [View the resume](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
 
-[![Current production preview](public/og/og-image.png)](https://hub.sandovaldavid.com)
+[![Current production preview](public/og/og_dark.png)](https://hub.sandovaldavid.com)
 
 ## Product responsibility
 
-The Hub is a compact recognition and routing surface. It does not replace the portfolio, résumé or project repositories.
+The Hub is a compact recognition and routing surface. It does not replace the portfolio, resume or project repositories.
 
 - **Figma** owns approved visual intent and assets.
 - **This repository** owns current routes, content implementation, metadata, tests, commands and delivery configuration.
 - **Cortex-L7** owns durable rationale, alternatives, evidence interpretation, plans, history and cross-channel status.
-- **Portfolio, résumé and project repositories** own detailed professional evidence.
+- **Portfolio, resume and project repositories** own detailed professional evidence.
 
 The repository was historically named `linktree`. New operational references use `hub`; old references remain only where they describe dated history or a permanent redirect.
 

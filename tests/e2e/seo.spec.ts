@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 const siteUrl = 'https://hub.sandovaldavid.com';
 const portfolioUrl = 'https://sandovaldavid.com';
-const socialPreviewUrl = `${siteUrl}/og/og-image.png`;
+const socialPreviewUrl = `${siteUrl}/og/og_dark.png`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
@@ -232,7 +232,7 @@ for (const route of routes) {
 }
 
 test('serves the declared social preview asset', async ({ request }) => {
-	const response = await request.get('/og/og-image.png');
+	const response = await request.get('/og/og_dark.png');
 	expect(response.ok()).toBe(true);
 	expect(response.headers()['content-type']).toContain('image/png');
 	expect((await response.body()).byteLength).toBeGreaterThan(0);
