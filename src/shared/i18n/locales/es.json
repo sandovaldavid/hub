@@ -1,7 +1,7 @@
 {
 	"profile": {
-		"tagline": "Ingeniero de Software · .NET, Angular y TypeScript",
-		"bio": "Diseño y construyo productos web mantenibles, desde la arquitectura backend hasta experiencias frontend accesibles.",
+		"tagline": "Ingeniero de Software orientado a backend · .NET, C# y Angular",
+		"bio": "Descompongo problemas complejos, conecto decisiones técnicas con el contexto de negocio y construyo sistemas mantenibles mediante validación y documentación clara.",
 		"availability": "Disponible para roles remotos de ingeniería",
 		"location": "Lima, Perú · UTC-5",
 		"workMode": "Remoto · con base en Perú",
@@ -21,21 +21,21 @@
 		"heading": "Enlaces profesionales y redes sociales"
 	},
 	"cta": {
-		"heading": "Explora mi trabajo y conecta",
-		"description": "Accede directamente a mi portafolio, repositorios, casos de ingeniería seleccionados o canal de contacto.",
+		"heading": "Explora mi trabajo",
+		"description": "Empieza por mi portafolio, revisa evidencia técnica pública en GitHub o contáctame directamente.",
 		"portfolio": {
-			"title": "Ver Portafolio",
-			"description": "Explora proyectos seleccionados, experiencia y casos de estudio de ingeniería.",
+			"title": "Ver portafolio",
+			"description": "Revisa proyectos seleccionados, experiencia profesional y casos de estudio de ingeniería.",
 			"label": "Ver portafolio"
 		},
 		"projects": {
 			"title": "Ver proyectos destacados",
-			"description": "Revisa casos de ingeniería seleccionados y sus resultados en esta página.",
+			"description": "Revisa proyectos seleccionados, decisiones técnicas y su estado actual.",
 			"label": "Ver proyectos destacados"
 		},
 		"github": {
 			"title": "Ver GitHub",
-			"description": "Revisa repositorios, decisiones de arquitectura y productos que estoy construyendo.",
+			"description": "Revisa repositorios públicos, tests, releases y documentación técnica.",
 			"label": "Ver repositorios en GitHub"
 		},
 		"contact": {
@@ -45,10 +45,10 @@
 		}
 	},
 	"contact": {
-		"title": "Consultoría de ingeniería en preparación",
-		"message": "Estoy preparando una oferta enfocada de servicios web. Escríbeme si quieres conversar sobre una futura colaboración.",
-		"buttonText": "Enviar una consulta",
-		"heading": "Consultoría de ingeniería"
+		"title": "Conversemos",
+		"message": "Para oportunidades de ingeniería de software, colaboraciones o conversaciones sobre proyectos relevantes, escríbeme directamente.",
+		"buttonText": "Enviar correo",
+		"heading": "Contacto"
 	},
 	"skills": {
 		"title": "Stack principal de ingeniería",

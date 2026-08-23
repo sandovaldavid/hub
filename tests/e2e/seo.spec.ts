@@ -57,11 +57,11 @@ for (const route of routes) {
 			);
 			await expect(page.locator('meta[name="author"]')).toHaveAttribute(
 				'content',
-				'David Sandoval Salvador'
+				'David Sandoval'
 			);
 			await expect(page.locator('meta[name="application-name"]')).toHaveAttribute(
 				'content',
-				'David Sandoval — Professional Link Hub'
+				'David Sandoval'
 			);
 			await expect(page.locator('meta[name="apple-mobile-web-app-title"]')).toHaveAttribute(
 				'content',
@@ -137,7 +137,7 @@ for (const route of routes) {
 			);
 			await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
 				'content',
-				'David Sandoval — Professional Link Hub'
+				'David Sandoval'
 			);
 			await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
 				'content',
@@ -203,7 +203,7 @@ for (const route of routes) {
 			});
 			expect(person).toMatchObject({
 				'@id': personId,
-				name: 'David Sandoval Salvador',
+				name: 'David Sandoval',
 				url: portfolioUrl,
 				mainEntityOfPage: { '@id': pageId },
 				image: { '@id': imageId },
@@ -226,7 +226,7 @@ for (const route of routes) {
 			const headings = page.getByRole('heading', { level: 1 });
 			await expect(headings).toHaveCount(1);
 			await expect(headings).toBeVisible();
-			await expect(headings).toContainText('David Sandoval Salvador');
+			await expect(headings).toContainText('David Sandoval');
 		});
 	});
 }

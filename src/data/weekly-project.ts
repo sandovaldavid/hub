@@ -24,9 +24,9 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			problem:
 				'Households need one place to understand debt cycles, income, expenses and repayment progress.',
 			contribution:
-				'Defined a scalable DDD and Clean Architecture .NET API — v1 complete and release-ready — paired with an Angular client migrating to server-authoritative financial rules.',
+				'Designed a .NET API using DDD and Clean Architecture — v1 complete and release-ready — with an Angular client migrating toward server-authoritative financial rules.',
 			outcome:
-				'Produced a versioned API foundation designed for gradual product growth and multi-user workloads.',
+				'Produced a versioned API foundation with explicit domain boundaries and an incremental path for product growth.',
 			technologies: ['.NET', 'Angular', 'PostgreSQL', 'DDD', 'Keycloak'],
 			status: 'API v1 complete · Web in active beta',
 			repositoryAvailability: 'private',
@@ -57,9 +57,9 @@ const projects: Record<Lang, WeeklyProject[]> = {
 			problem:
 				'Los hogares necesitan comprender ciclos de deuda, ingresos, gastos y progreso de pago en un solo lugar.',
 			contribution:
-				'Definí una API en .NET con DDD y Clean Architecture — v1 completa y lista para release — junto a un cliente Angular en migración hacia reglas financieras autoritativas en el servidor.',
+				'Diseñé una API en .NET con DDD y Clean Architecture — v1 completa y lista para release — junto a un cliente Angular en migración hacia reglas financieras autoritativas en el servidor.',
 			outcome:
-				'Construí una base de API versionada preparada para crecimiento gradual y cargas multiusuario.',
+				'Construí una base de API versionada con límites de dominio explícitos y una ruta incremental para el crecimiento del producto.',
 			technologies: ['.NET', 'Angular', 'PostgreSQL', 'DDD', 'Keycloak'],
 			status: 'API v1 completa · Web en beta activa',
 			repositoryAvailability: 'private',

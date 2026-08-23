@@ -6,7 +6,7 @@ import { skills, coreSkills, toolingSkills } from '../../src/data/skills';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
-describe('Core engineering stack and layout hierarchy (#93, #95, #97, #112)', () => {
+describe('Core engineering stack and layout hierarchy (#93, #95, #112)', () => {
 	test('skills catalog separates core engineering stack from tooling (#93, #112)', () => {
 		const skillIds = skills.map(s => s.id);
 		const coreIds = coreSkills.map(s => s.id);
@@ -38,17 +38,5 @@ describe('Core engineering stack and layout hierarchy (#93, #95, #97, #112)', ()
 		expect(css).toContain("[data-project-count='2']");
 		expect(css).toContain('xl:grid-cols-2');
 		expect(css).toContain('xl:mx-auto');
-	});
-
-	test('ContactCTA frames consulting offer as in-preparation (#97)', async () => {
-		const enJson = JSON.parse(
-			await readFile(join(repositoryRoot, 'src/shared/i18n/locales/en.json'), 'utf8')
-		);
-		const esJson = JSON.parse(
-			await readFile(join(repositoryRoot, 'src/shared/i18n/locales/es.json'), 'utf8')
-		);
-
-		expect(enJson.contact.title).toContain('in preparation');
-		expect(esJson.contact.title).toContain('en preparación');
 	});
 });
