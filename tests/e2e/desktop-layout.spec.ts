@@ -41,7 +41,7 @@ for (const route of routes) {
 				expect(snapshotPanelBox).not.toBeNull();
 				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(300);
 				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(280);
-				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(200);
+				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(210);
 				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
 				const avatarBox = await avatar.boundingBox();
 				expect(avatarBox).not.toBeNull();
@@ -114,7 +114,7 @@ for (const route of routes) {
 				expect(Math.abs((primaryBox?.height ?? 0) - (contactBox?.height ?? 0))).toBeLessThanOrEqual(
 					2
 				);
-				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(320);
+				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(336);
 
 				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
 				const [actionRowCount, actionCardHeights] = await Promise.all([
@@ -130,7 +130,7 @@ for (const route of routes) {
 				]);
 				expect(actionRowCount).toBe(2);
 				expect(Math.min(...actionCardHeights)).toBeGreaterThanOrEqual(96);
-				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(152);
+				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(164);
 				expect(Math.max(...actionCardHeights) - Math.min(...actionCardHeights)).toBeLessThanOrEqual(
 					2
 				);

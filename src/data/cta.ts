@@ -4,8 +4,6 @@ export const getCtaButtons = () => [
 	{
 		id: 'portfolio',
 		icon: 'briefcase',
-		title: 'View Portfolio',
-		description: 'Explore selected projects, experience and engineering case studies.',
 		href: siteConfig.portfolioUrl,
 		variant: 'primary' as const,
 		external: true,
@@ -13,8 +11,6 @@ export const getCtaButtons = () => [
 	{
 		id: 'projects',
 		icon: 'rocket',
-		title: 'View Featured Projects',
-		description: 'Review selected engineering cases and outcomes on this page.',
 		href: '#featured-projects-title',
 		variant: 'primary' as const,
 		external: false,
@@ -22,8 +18,6 @@ export const getCtaButtons = () => [
 	{
 		id: 'github',
 		icon: 'briefcase',
-		title: 'View GitHub',
-		description: 'Inspect repositories, architecture decisions and products I am building.',
 		href: siteConfig.githubUrl,
 		variant: 'secondary' as const,
 		external: true,
@@ -31,8 +25,6 @@ export const getCtaButtons = () => [
 	{
 		id: 'contact',
 		icon: 'email',
-		title: 'Contact Me',
-		description: 'Get in touch about software engineering opportunities and collaborations.',
 		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(siteConfig.recruiterEmailSubject)}`,
 		variant: 'secondary' as const,
 		external: false,
