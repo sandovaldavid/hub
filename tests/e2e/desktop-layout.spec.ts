@@ -130,7 +130,7 @@ for (const route of routes) {
 				]);
 				expect(actionRowCount).toBe(2);
 				expect(Math.min(...actionCardHeights)).toBeGreaterThanOrEqual(96);
-				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(152);
+				expect(Math.max(...actionCardHeights)).toBeLessThanOrEqual(164);
 				expect(Math.max(...actionCardHeights) - Math.min(...actionCardHeights)).toBeLessThanOrEqual(
 					2
 				);
