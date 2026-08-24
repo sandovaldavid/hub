@@ -1,7 +1,7 @@
 @import '../../../app/styles/global.css';
 
 .share-button {
-	@apply fixed top-4 left-4 z-[1000] flex min-h-10 min-w-10 cursor-pointer select-none items-center justify-center gap-2 rounded-lg border p-2 text-sm font-medium shadow-sm outline-none transition-all duration-300 ease-in-out;
+	@apply fixed top-4 left-4 z-[var(--z-index-fixed-control)] flex min-h-10 min-w-10 cursor-pointer select-none items-center justify-center gap-2 rounded-lg border p-2 text-sm font-medium shadow-sm outline-none transition-all duration-150;
 	background-color: var(--control-background);
 	color: var(--control-content);
 	border-color: var(--control-edge);
@@ -36,13 +36,40 @@
 }
 
 .share-button__feedback {
-	@apply pointer-events-none absolute top-full left-1/2 -translate-x-1/2 translate-y-2 rounded-lg px-4 py-2 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-300 ease-in-out;
+	@apply pointer-events-none absolute top-1/2 left-full ml-2 -translate-x-1 -translate-y-1/2 rounded-lg px-4 py-2 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-300 ease-in-out;
 	background-color: var(--channel-content-strong);
 	color: var(--channel-background-canvas);
 }
 
 .share-button__feedback--visible {
-	@apply translate-y-3 opacity-100;
+	@apply translate-x-0 opacity-100;
+}
+
+/* Custom hover tooltip replacing the native title attribute — see
+   ThemeToggle.css. Positioned below-left (not beside, like __feedback
+   above) so the two never overlap if a click confirmation is still
+   showing while the pointer lingers over the button. */
+.share-button::after {
+	content: attr(aria-label);
+	@apply pointer-events-none absolute top-full left-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	background-color: var(--channel-content-strong);
+	color: var(--channel-background-canvas);
+}
+
+@media (hover: hover) {
+	.share-button:hover::after {
+		@apply translate-y-0 opacity-100;
+	}
+}
+
+.share-button:focus-visible::after {
+	@apply translate-y-0 opacity-100;
+}
+
+/* While the click-confirmation feedback is showing, suppress the hover
+   tooltip instead of stacking two dark pills at once. */
+.share-button:has(.share-button__feedback--visible)::after {
+	@apply opacity-0;
 }
 
 @keyframes pulse {

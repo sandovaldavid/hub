@@ -111,6 +111,11 @@ describe('human-first SEO contract', () => {
 		expect(architecture).toContain('src/data/structured-data.ts');
 		expect(architecture).toContain('src/shared/i18n/locales/*.json');
 		expect(architecture).toContain('src/data/site.config.ts');
-		expect(architecture).toContain('Cortex-L7');
+		// #140 moved the public docs from naming the maintainer's private
+		// history/rationale system directly to a generic boundary statement
+		// (also reflected in AGENTS.md's "Public repository boundary"
+		// section) — this still protects the same intent: no SEO rationale
+		// is expected to live only in an inaccessible private system.
+		expect(architecture).toContain('without access to private planning systems');
 	});
 });

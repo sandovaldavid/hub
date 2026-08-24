@@ -56,12 +56,6 @@
 		"toolsTitle": "Herramientas de entrega y producto",
 		"heading": "Tecnologías y habilidades"
 	},
-	"weeklyProject": {
-		"title": "Proyecto Destacado",
-		"demo": "Ver Demo",
-		"code": "Ver Código",
-		"heading": "Proyecto destacado"
-	},
 	"page": {
 		"mainLabel": "Hub profesional de enlaces",
 		"sectionsLabel": "Secciones del perfil profesional"
@@ -92,5 +86,9 @@
 		"light": "Cambiar a modo claro",
 		"dark": "Cambiar a modo oscuro",
 		"system": "Usar preferencia del sistema"
+	},
+	"footer": {
+		"builtWith": "Construido con Astro y Tailwind CSS",
+		"backToTop": "Volver arriba"
 	}
 }

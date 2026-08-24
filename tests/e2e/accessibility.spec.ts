@@ -54,7 +54,7 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 	test('skip link is keyboard accessible', async ({ page }) => {
 		await page.goto('/');
 		await page.keyboard.press('Tab');
-		const skipLink = page.locator('a[href="#main-content"]');
+		const skipLink = page.locator('.skip-link');
 		await expect(skipLink).toBeFocused();
 	});
 

@@ -9,7 +9,7 @@ Follow [`AGENTS.md`](../../AGENTS.md) and [`docs/architecture.md`](../../docs/ar
 ## Current application shape
 
 - Routes are limited to English `/` and Spanish `/es/` unless a product requirement explicitly changes the routing contract.
-- Astro owns static rendering. Browser JavaScript is limited to theme behavior, sharing, conversion analytics and Vercel Analytics.
+- Astro owns static rendering. Browser JavaScript is limited to theme behavior, sharing, privacy-safe analytics and small progressive-enhancement interactions such as scroll-to-top behavior.
 - Do not invent portfolio pages, dynamic project routes, contact forms, APIs, stores or framework islands that the current product does not require.
 
 ## Source ownership
@@ -40,6 +40,7 @@ pages/layouts
 - Add a new slice, segment or abstraction only when it has a distinct responsibility and real consumers.
 - Preserve the existing localized catalogs rather than creating a second translation source.
 - Preserve the single SEO and structured-data builders in `src/data`.
+- Prefer progressive enhancement over a persistent client runtime when the interaction can be expressed with static HTML/CSS plus a small isolated script.
 
 ## Product and accessibility constraints
 
@@ -59,4 +60,4 @@ bun run test:unit
 bun run build
 ```
 
-Run `bun run validate:local` before approval.
+Run `bun run validate:local` before approval when the change affects browser behavior, accessibility, themes or release readiness.

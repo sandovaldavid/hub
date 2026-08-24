@@ -1,6 +1,8 @@
 # Architecture
 
-This document describes the current source structure and ownership boundaries of the Hub. Durable rationale, rejected alternatives, historical audits and cross-channel decisions belong in Cortex-L7.
+This document describes the current public architecture contract of the Hub: where responsibilities live, how dependencies flow and which browser behaviors are intentionally allowed.
+
+The repository must remain understandable without access to private planning systems. Code, configuration, tests and workflows are the executable source of truth for contributors.
 
 ## Application shape
 
@@ -9,7 +11,24 @@ The Hub is a statically generated Astro application with two localized routes:
 - `/` — English;
 - `/es/` — Spanish.
 
-Astro renders the page shell as static HTML. Browser JavaScript is limited to theme management, sharing, conversion analytics and Vercel Analytics.
+Astro renders the page shell as static HTML. Browser JavaScript is intentionally limited to behavior that requires a client runtime:
+
+- theme management;
+- native sharing/copy behavior;
+- privacy-safe navigation analytics;
+- Vercel Analytics;
+- small progressive-enhancement interactions such as scroll-to-top behavior.
+
+There is no hydrated SPA shell.
+
+## Architectural principles
+
+1. **Keep the product small.** Add abstraction only when an implemented responsibility has multiple real consumers.
+2. **Keep content out of visual components.** Public destinations, profile data, metadata and localized copy have typed owners.
+3. **Prefer static output.** Client JavaScript must justify its runtime cost and remain progressively enhanced where practical.
+4. **Preserve one public identity model.** Visible content, metadata and structured data must not maintain conflicting identity catalogs.
+5. **Keep boundaries executable.** Architecture rules should be represented by imports, scripts, tests or clearly named source ownership.
+6. **Do not require private context.** Public contributors must be able to understand implementation constraints from the repository and the associated issue or pull request.
 
 ## Source directories
 
@@ -68,11 +87,13 @@ bun run check:architecture
 | Theme behavior | `src/entities/theme` and `src/features/theme-toggle` |
 | Conversion event catalog and privacy-safe properties | `src/shared/analytics/conversion.ts` |
 
-Tests enforce these implementation contracts. Figma remains the authority for approved visual intent. Cortex-L7 remains the authority for positioning, evidence interpretation, decision rationale and cross-channel history.
+Tests enforce these implementation contracts.
 
-## Design implementation boundary
+## Identity and design implementation
 
-The token path is:
+David Sandoval is the primary identity represented by the Hub. The logo, typography, color system and other visual assets are supporting implementation layers, not a separate product identity.
+
+The implemented token path is:
 
 ```text
 Identity Core primitive
@@ -84,13 +105,29 @@ Identity Core primitive
 
 `src/app/styles/global.css` owns shared primitives, Light/Dark aliases and reusable component roles. Components consume aliases or component roles and must not introduce a second brand palette. The scoped external-platform color exception remains in `src/entities/social-link/ui/SocialButton.css`.
 
+Maintainers may use external design references to approve visual intent, but contributors should not need unpublished files to understand the implemented contract. If a visual requirement is not represented by existing tokens, source, tests or the change request, it must be clarified before implementation rather than inferred.
+
 Changes must preserve keyboard operation, visible focus, Light/Dark/System themes, reduced motion, high-contrast behavior, bilingual parity and responsive layout.
 
-## SEO and analytics boundaries
+## Content and localization
 
-The layout renders metadata produced by `src/data/seo.ts`; it must not maintain a second title, description, public-profile or social-preview catalog. `src/data/structured-data.ts` is the only builder for the localized `ProfilePage` graph around the canonical `Person`.
+English and Spanish should express the same facts, claim status, lifecycle state, privacy boundary and CTA intent. Natural phrasing is preferred over literal translation, but one locale must not introduce stronger claims than the other.
+
+Public professional claims must be supported by the visible project/repository state or another approved public source. Private evidence should not be copied into this repository merely to justify copy.
+
+## SEO and structured data
+
+The layout renders metadata produced by `src/data/seo.ts`; it must not maintain a second title, description, public-profile or social-preview catalog.
+
+`src/data/structured-data.ts` is the only builder for the localized `ProfilePage` graph around the canonical `Person`.
+
+Canonical URLs, alternate locale URLs, Open Graph data and visible identity content should remain aligned.
+
+## Analytics boundary
 
 Analytics events measure navigation interactions only. They must use the allow-listed properties implemented in `src/shared/analytics/conversion.ts` and must not contain personal data, complete URLs, query strings or free-form input.
+
+Adding broader analytics collection requires an explicit privacy review rather than silently expanding the current event payload.
 
 ## Agent instruction ownership
 
@@ -98,12 +135,13 @@ Repository-specific coding instructions are intentionally limited to:
 
 | File | Scope |
 | --- | --- |
-| `.github/copilot-instructions.md` | Global project, identity, privacy, validation and documentation rules. |
+| `AGENTS.md` | Repository-wide agent behavior, privacy and validation rules. |
+| `.github/copilot-instructions.md` | GitHub Copilot project guidance. |
 | `.github/instructions/source.instructions.md` | Source placement, real consumers and dependency direction. |
 | `.github/instructions/app.instructions.md` | Application shell, layout, global styles and app-level ownership. |
 | `.github/instructions/design-system.instructions.md` | Implemented tokens, channel expression, accessibility and visual tests. |
 
-Do not add generic per-layer or per-segment templates. A new instruction file must reference actual paths, describe implemented behavior, have a clear consumer and align with executable checks. Examples for hypothetical portfolio routes, forms, APIs, stores, barrels or framework integrations are not Hub documentation.
+Do not add generic per-layer or per-segment templates. A new instruction file must reference actual paths, describe implemented behavior, have a clear consumer and align with executable checks.
 
 ## Verification
 
@@ -113,7 +151,13 @@ Run the architecture check directly while iterating:
 bun run check:architecture
 ```
 
-Run the complete repository gate before approving a source change:
+Run the fast repository-quality gate for source changes:
+
+```bash
+bun run validate:quality
+```
+
+Run the complete repository gate for browser-, accessibility- or release-sensitive changes:
 
 ```bash
 bun run validate:local

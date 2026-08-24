@@ -1,74 +1,67 @@
 # Operations
 
-This is the repository runbook for setup, validation, delivery and maintenance. Configuration files, scripts and workflows are the executable source of truth; this document explains how to use them.
+This is the public runbook for setting up, validating and maintaining the Hub. Configuration files, scripts and GitHub workflows are the executable source of truth; this document explains how to use them.
 
 ## Supported environment
 
-The recommended environment is the repository DevContainer, especially on Fedora or when Playwright and Lighthouse must run in a reproducible Linux browser environment.
+The recommended environment is the repository DevContainer, especially when Playwright and Lighthouse must run in a reproducible Linux browser environment.
 
 Current toolchain constraints are declared in `package.json` and `.devcontainer/`:
 
 - Bun `1.3.14`;
 - Node.js `>=22.19.0` for the native Lighthouse toolchain;
 - Astro static generation;
-- Playwright Chromium and WebKit installed by the DevContainer image.
+- Playwright browser dependencies installed by the DevContainer image.
 
-### Native setup
+## Local setup
+
+For a read-only or exploratory local run, cloning the default branch is enough:
 
 ```bash
-git clone git@github.com:sandovaldavid/hub.git
+git clone https://github.com/sandovaldavid/hub.git
 cd hub
-git switch develop
 bun install --frozen-lockfile
 bun run dev
 ```
 
-The development server is available on port `4321`.
+The development server is available at `http://localhost:4321`.
 
-### DevContainer setup
+For contribution work, branch from the latest `develop` as described in [`../CONTRIBUTING.md`](../CONTRIBUTING.md).
+
+Basic development does not require private credentials. The optional public metadata field is documented in [`.env.example`](../.env.example).
+
+## DevContainer setup
 
 1. Open the repository root in VS Code.
 2. Run **Dev Containers: Rebuild Container Without Cache** after changing `.devcontainer/**` or when testing a clean environment.
-3. Wait for `postCreateCommand` to complete `bun ci`.
+3. Wait for the configured `postCreateCommand` to finish dependency setup.
 4. Confirm the terminal uses the non-root `node` user in `/workspace`.
-5. Run `bun run validate:local`.
+5. Run `bun run validate:quality` or the complete `bun run validate:local` gate as appropriate.
 
-The container stores Linux dependencies in `hub-node-modules-v1` and forwards:
+The container forwards:
 
 - `4321` — Astro development/preview;
 - `9323` — Playwright HTML report.
 
-Serve an existing report with:
+Serve an existing Playwright report with:
 
 ```bash
 bun run test:e2e:show-report
 ```
 
-A frozen install must fail when `package.json` and `bun.lock` differ. Regenerate and review the lockfile intentionally; do not add a mutable fallback to lifecycle scripts.
+A frozen install must fail when `package.json` and `bun.lock` differ. Regenerate and review the lockfile intentionally; do not introduce a mutable fallback in lifecycle scripts.
 
-## Validation contract
+## Validation model
 
-### Test gate tiers (#98)
+Validation is split into tiers so fast changes do not pay the cost of every browser and accessibility permutation while release-sensitive changes still receive deeper coverage.
 
-Do not run every browser/locale/theme permutation in every fast PR job. Coverage is divided intentionally into three tiers:
-
-- **Required PR gate** — `CI / E2E` on GitHub Actions: EN + ES, Light + Dark, Chromium desktop only, keyboard/focus checks, the Axe WCAG 2.1 AA baseline, and critical contrast-token assertions (`tests/e2e/accessibility.spec.ts`, `tests/e2e/accessible-navigation.spec.ts`).
-- **Complete local gate** — `bun run validate:local`: adds System theme resolution, `prefers-contrast: more`, `forced-colors: active`, 320px/200%-zoom reflow, 200% text scaling, fallback-font stability, and the Mobile Safari (WebKit) and Firefox projects, none of which run in CI.
-- **Scheduled or release gate** — manual, before `develop → main` promotion: the full local gate plus the manual checklist in `docs/accessibility/manual-checklist.md`, including Windows High Contrast / forced-colors evidence and OS-level verification that cannot be automated.
-
-### Browser availability
-
-- Chromium runs in CI and locally.
-- WebKit (`Mobile Safari` project) and Firefox are **local-only** — their binaries are not installed on CI runners. A PR that only ran `CI / E2E` has not exercised WebKit or Firefox; record that coverage as `Not run`, not `Passed`, until `bun run validate:local` (or an explicit local WebKit/Firefox run) has been executed on the same head.
-- Axe's `color-contrast` rule is disabled on WebKit; `tests/e2e/accessibility.spec.ts` carries an explicit computed-style contrast assertion as its documented substitute.
-
-### Complete local gate
+### Fast quality gate
 
 ```bash
-bun run validate:local 2>&1 | tee validation-local.log
+bun run validate:quality
 ```
 
-The command runs, in order:
+This runs:
 
 1. Astro type checking;
 2. architecture validation;
@@ -76,15 +69,36 @@ The command runs, in order:
 4. ESLint;
 5. internal and external link validation;
 6. unit and repository-contract tests;
-7. the production build;
-8. Playwright functional, SEO and accessibility tests;
-9. Lighthouse mobile and desktop audits for `/` and `/es/`.
+7. the production build.
 
-The command is fail-fast. After correcting a failure, rerun the complete gate on the exact branch head.
+Use this as the minimum local gate for normal source changes.
 
-### Result classification
+### Complete local gate
 
-Record every relevant check as one of:
+```bash
+bun run validate:local 2>&1 | tee validation-local.log
+```
+
+This adds to the fast gate:
+
+- Playwright functional, SEO and accessibility tests;
+- System-theme resolution;
+- additional contrast and forced-colors scenarios;
+- narrow-viewport/reflow and text-scaling checks;
+- local browser projects beyond the CI baseline when available;
+- Lighthouse mobile and desktop audits for `/` and `/es/`.
+
+Use this for changes that affect browser behavior, themes, layout, accessibility, SEO, performance or release readiness.
+
+### Manual release-oriented checks
+
+Before promoting UI- or accessibility-sensitive work to production, also use [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md).
+
+Some operating-system behavior, such as real Windows High Contrast Mode, cannot be fully proven by browser emulation. Record those checks separately rather than treating automation as equivalent evidence.
+
+## Result classification
+
+When documenting validation in a pull request, classify relevant checks as:
 
 - `Passed`;
 - `Failed`;
@@ -92,19 +106,27 @@ Record every relevant check as one of:
 - `Blocked`;
 - `Not applicable`.
 
-A disabled, skipped, interrupted, missing or quota-blocked GitHub Actions run is `Not run` or `Blocked`; it is never `Passed`.
+A disabled, skipped, interrupted, missing or quota-blocked GitHub Actions run is `Not run` or `Blocked`; it is never a passing result.
 
-### Stable hosted contexts
+## CI
 
-The CI workflow defines these functional check names:
+The primary workflow lives in `.github/workflows/ci.yml` and exposes stable functional check names including:
 
 - `CI / Quality`;
 - `CI / E2E`;
 - `CI / Lighthouse`.
 
-`CI / E2E` is the authoritative functional test result.
+The exact job matrix, artifacts and commands are defined by the workflow itself. Lighthouse thresholds and profiles live in `.lighthouserc.cjs`.
 
-The exact workflow, artifact flow and commands live in `.github/workflows/ci.yml`. Lighthouse thresholds and profiles live in `.lighthouserc.cjs`. Renaming a required context requires synchronized ruleset and contract-test changes.
+Do not infer that a local pass guarantees the hosted workflow will pass, or vice versa. Record both when they are relevant.
+
+## Browser coverage
+
+Chromium is the primary hosted browser baseline. Additional browser projects may be available in the DevContainer/local toolchain even when they are not installed on a particular CI runner.
+
+When a browser was not executed on the exact commit under review, mark it `Not run` rather than assuming coverage from another engine.
+
+Axe's browser-engine limitations are supplemented by project-specific computed-style assertions where required; see `tests/e2e/accessibility.spec.ts` for the executable contract.
 
 ## Branch and delivery flow
 
@@ -112,27 +134,32 @@ The exact workflow, artifact flow and commands live in `.github/workflows/ci.yml
 feature/*, fix/*, refactor/*, docs/* -> develop -> main
 ```
 
-- Normal work targets `develop`.
-- Feature and fix pull requests into `develop` use squash merge.
-- Promotions from `develop` to `main`, and reconciliations from `main` back into `develop`, use a merge commit so both branch histories remain connected.
-- `main` is the stable deployment branch.
-- A change present only on `develop` is not a verified production outcome.
+- `develop` is the integration branch.
+- Normal feature/fix/documentation pull requests target `develop`.
+- `main` is the stable production branch.
+- A change present only on `develop` is not yet a verified production outcome.
+- Production behavior must be confirmed from the deployed result, not inferred solely from a merge.
 
-Versioned desired rulesets live in:
+The repository versions desired branch/ruleset intent under `.github/rulesets/`.
 
-- `.github/rulesets/develop.json`;
-- `.github/rulesets/main.json`.
-
-Inspect and compare them with live GitHub settings through:
+Read-only verification commands include:
 
 ```bash
 bun run rulesets:plan
 bun run rulesets:verify
 ```
 
-Administrative writes require the explicit confirmation flags implemented by `scripts/manage-rulesets.mjs`. Do not activate required contexts that GitHub Actions cannot emit. An emergency owner bypass must retain a pull request and documented local validation; it is not a replacement for testing.
+Administrative ruleset writes are maintainer operations and require the explicit safeguards implemented by `scripts/manage-rulesets.mjs`.
 
-Production deployment is configured for `main`. Verify the corresponding GitHub and Vercel result directly; configuration or a merged pull request does not prove a successful live deployment.
+## Release automation
+
+release-please configuration lives in:
+
+- `release-please-config.json`;
+- `.release-please-manifest.json`;
+- `.github/workflows/release-please.yml`.
+
+Do not manually describe a release as published until the tag/release exists and the production deployment has been verified.
 
 ## Link and dependency maintenance
 
@@ -147,30 +174,36 @@ Run:
 bun run check:links
 ```
 
-Persistent definitive failures such as HTTP `404` or `410` fail the check. Access controls, rate limits, anti-bot responses, timeouts and server incidents remain visible warnings after retries and require manual review.
+Persistent definitive failures such as HTTP `404` or `410` fail the check. Access controls, rate limits, anti-bot responses, timeouts and upstream incidents remain visible warnings after retries and require manual review.
 
-Review the production Hub periodically in English and Spanish, on mobile and desktop, checking current role copy, project lifecycle states, résumé, portfolio, contact destinations, themes and social previews.
+Periodically review the production Hub in English and Spanish on mobile and desktop, including role copy, project lifecycle states, résumé/portfolio/contact destinations, themes and social previews.
 
-## Security and licensing
+## Security
 
-Security reports use the private channel documented in `SECURITY.md`; do not open a public vulnerability issue.
+Security reports use the private channel documented in [`../SECURITY.md`](../SECURITY.md). Do not open a public issue containing vulnerability details, credentials, tokens or personal data.
 
-CodeQL is intentionally not configured for the current static-site risk profile. Re-evaluate that decision before adding server endpoints, authentication, storage, uploads, user-generated content, untrusted build processing or another runtime that handles user-controlled input.
+CodeQL is not currently part of the project checks. Re-evaluate the static-site threat model before adding server endpoints, authentication, storage, uploads, user-generated content, untrusted build processing or another runtime that handles user-controlled input.
 
-The repository currently has no `LICENSE` file. Do not describe it as open source or assume reuse permission unless the owner deliberately adds a license.
+## Licensing
+
+The repository currently has no open-source `LICENSE` file. Public visibility allows inspection but does not itself grant reuse, modification or redistribution rights.
+
+Adding or changing a license is an explicit maintainer decision and should not be bundled into unrelated implementation work.
 
 ## Updating the environment
 
 When changing Bun, Playwright, Lighthouse, Node, Dev Container Features or shell tooling:
 
-1. update every version declaration and lockfile affected by the change;
+1. update every affected version declaration and lockfile;
 2. rebuild the DevContainer without cache;
 3. verify the non-root environment and browser installation;
-4. run `bun run validate:local` on the exact head;
-5. record unavailable hosted checks explicitly.
+4. run the relevant complete validation on the exact head;
+5. record unavailable hosted or browser checks explicitly.
 
 Commit `.devcontainer/devcontainer-lock.json` after upgrading Features; it is generated state and must not be edited manually.
 
 ## Documentation ownership
 
-Keep repository documentation limited to current setup, architecture, commands, tests, delivery and troubleshooting. Put rationale, alternatives, audits, decisions, plans, incidents, cross-channel status and session handoffs in Cortex-L7. Historical `linktree` references may remain only where they describe dated evidence or permanent redirects; new operational references use `hub`.
+Keep repository documentation focused on current public behavior: setup, architecture, commands, tests, delivery, security, maintenance and troubleshooting.
+
+Private strategy, unpublished evidence, personal planning and historical session handoffs are not prerequisites for contributing. Any requirement that affects a public change must be represented in repository documentation, code/tests, or the associated issue/pull request.

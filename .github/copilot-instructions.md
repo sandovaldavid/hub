@@ -14,6 +14,12 @@ Follow [`AGENTS.md`](../AGENTS.md) first. Use [`README.md`](../README.md), [`doc
 
 The Hub is David Sandoval's compact professional recognition and routing surface. It is not a second portfolio, an independent brand or a generic technology catalog.
 
+## Public repository boundary
+
+Work from public repository evidence first: source, configuration, tests, workflows, documentation, issues and pull requests.
+
+Do not assume access to private strategy systems, employer context, private repositories or unpublished design files. If an implementation requirement depends on unavailable context, surface that dependency instead of guessing. Maintainer-only sources may inform a task when their relevant requirements are explicitly supplied, but the repository must remain buildable and testable without them.
+
 ## Architecture
 
 Use the existing shallow structure rather than imposing full Feature-Sliced Design:
@@ -45,8 +51,7 @@ Do not add generic layer or segment templates. Every instruction must map to cur
 - Preserve factual parity between English and Spanish.
 - Keep project lifecycle, repository access and demo availability accurate.
 - Do not invent seniority, leadership, adoption, scale, metrics, certifications or business outcomes.
-- Do not expose private Cortex-L7, Atena, client, credential, phone or personal-contact data.
-- Figma owns approved visual intent; Cortex-L7 owns rationale, evidence interpretation, plans and history.
+- Do not expose confidential employer/client information, credentials, private contact data or maintainer-private strategy/planning content.
 
 ## Design implementation
 
@@ -58,12 +63,20 @@ Identity Core primitive -> semantic role -> Link Hub channel alias -> component 
 
 `src/app/styles/global.css` owns shared primitives and aliases. Preserve Light, Dark and System themes, keyboard operation, visible focus, contrast, reduced motion, high contrast and mobile-first layout. Do not introduce Portfolio Retro terminal, HUD, phosphor, pixel, glow, glitch or scanline expression.
 
+When a task includes an approved external visual reference, implement only the requirements that are actually available from that reference or stated in the task. Otherwise preserve the existing public design contract.
+
 ## Validation
 
 Use repository scripts:
 
 ```bash
 bun install --frozen-lockfile
+bun run validate:quality
+```
+
+Use the complete local gate for browser-, accessibility- or release-sensitive work:
+
+```bash
 bun run validate:local
 ```
 
@@ -71,4 +84,6 @@ Do not report a missing, skipped, disabled or quota-blocked GitHub Actions run a
 
 ## Documentation
 
-Do not create strategy, decision, audit, plan, note or handoff documents in this repository. Update current operational facts in `README.md`, `docs/architecture.md`, `docs/operations.md`, `AGENTS.md`, `CONTRIBUTING.md` or `SECURITY.md` only when contributors need them to build, test, deploy or maintain the source. Put durable context in Cortex-L7.
+Keep repository documentation focused on information contributors need to understand, build, test and maintain the public source.
+
+Do not add private strategy, personal planning, confidential evidence or session-handoff documents to the repository. Maintainers may preserve durable private context elsewhere, but any constraint that affects a public implementation must also be represented by repository code/tests, documentation or the associated issue/pull request.

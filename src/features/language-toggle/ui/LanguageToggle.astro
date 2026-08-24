@@ -12,7 +12,6 @@ const t = useTranslations(lang);
 const targetLang = lang === 'en' ? 'es' : 'en';
 const targetUrl = alternates ? alternates[targetLang] : targetLang === 'es' ? '/es/' : '/';
 const ariaLabel = t('nav.switchLanguage');
-const title = ariaLabel;
 const displayLabel = targetLang.toUpperCase();
 ---
 
@@ -20,7 +19,6 @@ const displayLabel = targetLang.toUpperCase();
 	href={targetUrl}
 	class="language-toggle"
 	aria-label={ariaLabel}
-	{title}
 	data-conversion-event="language_switched"
 	data-conversion-position="nav"
 	data-conversion-item={targetLang}>

@@ -1,0 +1,50 @@
+@import '../../../app/styles/global.css';
+
+.back-to-top {
+	@apply relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border shadow-sm no-underline transition-all duration-200;
+	background-color: var(--control-background);
+	color: var(--control-content);
+	border-color: var(--control-edge);
+}
+
+/* Sticky-hover fix: see ThemeToggle.css for why this is gated. */
+@media (hover: hover) {
+	.back-to-top:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+		background-color: var(--control-background-hover);
+		border-color: var(--control-edge-hover);
+	}
+}
+
+.back-to-top:active {
+	@apply translate-y-0 scale-95 shadow-none;
+}
+
+.back-to-top__icon {
+	@apply h-5 w-5;
+}
+
+.back-to-top__icon svg {
+	@apply h-full w-full;
+}
+
+/* Custom tooltip replacing the native title attribute — see ThemeToggle.css.
+   Anchored above (not below, like the other controls): this button sits at
+   the bottom of the page, so a below-anchored tooltip would have nowhere
+   safe to render. */
+.back-to-top::after {
+	content: attr(aria-label);
+	@apply pointer-events-none absolute bottom-full right-0 z-[var(--z-index-fixed-control)] mb-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	background-color: var(--channel-content-strong);
+	color: var(--channel-background-canvas);
+}
+
+@media (hover: hover) {
+	.back-to-top:hover::after {
+		@apply translate-y-0 opacity-100;
+	}
+}
+
+.back-to-top:focus-visible::after {
+	@apply translate-y-0 opacity-100;
+}

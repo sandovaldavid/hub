@@ -1,43 +1,56 @@
-# David Sandoval — Professional Link Hub
+# David Sandoval — Professional Hub
 
-A static, bilingual hub that helps recruiters, clients and collaborators recognize David Sandoval, understand his current Software Engineer positioning and reach the right destination quickly.
+I built this compact, bilingual professional Hub as a focused entry point to my work as a Software Engineer. It helps recruiters, collaborators and potential clients understand what I do and reach the right public destination quickly, without duplicating the depth of my portfolio, résumé or project repositories.
 
-[View production](https://hub.sandovaldavid.com) · [Open the portfolio](https://sandovaldavid.com) · [View the resume](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
+[View production](https://hub.sandovaldavid.com) · [Portfolio](https://sandovaldavid.com) · [Résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
 
 [![Current production preview](public/og/og_dark.png)](https://hub.sandovaldavid.com)
 
-## Product responsibility
+## Why I built this
 
-The Hub is a compact recognition and routing surface. It does not replace the portfolio, resume or project repositories.
+I intentionally keep the Hub small. Its job is recognition and routing:
 
-- **Figma** owns approved visual intent and assets.
-- **This repository** owns current routes, content implementation, metadata, tests, commands and delivery configuration.
-- **Cortex-L7** owns durable rationale, alternatives, evidence interpretation, plans, history and cross-channel status.
-- **Portfolio, resume and project repositories** own detailed professional evidence.
+- establish who I am and what I do;
+- surface a small set of relevant professional destinations;
+- preserve factual parity between English and Spanish;
+- provide a fast, accessible experience across mobile and desktop;
+- keep public metadata, structured data and social previews aligned with the visible content.
 
-The repository was historically named `linktree`. New operational references use `hub`; old references remain only where they describe dated history or a permanent redirect.
+I do **not** treat it as a second portfolio, a generic link-in-bio template or an independent brand. My name, work and professional evidence remain primary; the visual system supports that identity rather than replacing it.
 
-## Implementation
+## What I wanted this project to demonstrate
 
-- Astro pre-renders `/` in English and `/es/` in Spanish.
-- Typed content and public destinations live under `src/data`.
-- English and Spanish catalogs live under `src/shared/i18n/locales`.
-- Browser JavaScript is limited to theme management, native sharing, conversion analytics and Vercel Analytics.
-- Light, Dark and System themes consume the shared Identity System through Link Hub channel aliases.
-- Localized metadata and `ProfilePage` structured data identify one canonical `Person`.
+Beyond serving as my professional Hub, I use this repository as public evidence of how I approach a small production web application:
+
+- Static generation with Astro for two localized routes: `/` and `/es/`.
+- Typed content, destination and metadata ownership instead of scattering copy and URLs through components.
+- A shared Light, Dark and System theme implementation derived from the same semantic token system.
+- Responsive and keyboard-first interaction patterns, including reduced-motion and high-contrast behavior.
+- SEO and social metadata assembled from the same public identity sources as the rendered page.
+- `ProfilePage` structured data around one canonical `Person`.
+- Automated quality checks for architecture, formatting, linting, links, unit tests, browser behavior, accessibility and Lighthouse.
+- Versioned GitHub ruleset intent, Dependabot maintenance and automated release preparation.
 
 ## Why Astro
 
-This product has two content-heavy routes and a small interaction boundary. Astro emits static HTML without hydrating React, Vue or Svelte islands for the page shell.
+I chose Astro because this product has two content-focused routes and a deliberately small client-side interaction boundary. Most of the experience can be delivered as static HTML, so I avoid introducing framework hydration where the product does not need it.
 
-The browser behavior is implemented by:
+The browser JavaScript is limited to behavior that genuinely requires it, including theme management, sharing, navigation analytics and the scroll-to-top control.
 
-| Behavior | Source |
+## Stack
+
+| Area | Technology |
 | --- | --- |
-| Apply and change Light/Dark/System theme | `src/entities/theme` and `src/features/theme-toggle` |
-| Share or copy the current URL | `src/features/share-button` |
-| Record privacy-safe navigation events | `src/shared/analytics/conversion.ts` |
-| Collect deployment analytics | `@vercel/analytics/astro` in `src/app/layouts/Layout.astro` |
+| Framework | Astro 7 |
+| Language | TypeScript |
+| Styling | Tailwind CSS 4 + project CSS tokens |
+| Package manager | Bun 1.3.14 |
+| Browser testing | Playwright |
+| Accessibility | Axe + manual accessibility checks |
+| Performance | Lighthouse CI |
+| Analytics | Vercel Analytics + privacy-safe navigation events |
+| Deployment | Vercel |
+| Release automation | release-please |
 
 ## Source structure
 
@@ -52,40 +65,49 @@ src/
 └── widgets/   # composed page sections
 ```
 
-See [`docs/architecture.md`](docs/architecture.md) for placement, dependency and runtime ownership rules.
+The structure is deliberately shallow. The project borrows useful separation ideas from feature-oriented architectures without imposing ceremony that the application does not need.
+
+See [`docs/architecture.md`](docs/architecture.md) for placement rules, dependency direction and runtime ownership.
 
 ## Run locally
 
-Prerequisites:
+### Prerequisites
 
 - Bun `1.3.14`;
-- Node.js `22.19` or newer when running the native Lighthouse toolchain.
+- Node.js `22.19` or newer only when running the native Lighthouse toolchain.
 
 ```bash
-git clone git@github.com:sandovaldavid/hub.git
+git clone https://github.com/sandovaldavid/hub.git
 cd hub
-git switch develop
 bun install --frozen-lockfile
 bun run dev
 ```
 
 Open `http://localhost:4321`.
 
-The DevContainer is the recommended environment on Fedora or for reproducible Playwright and Lighthouse execution. Setup and recovery instructions are in [`docs/operations.md`](docs/operations.md).
+Basic development does not require private credentials. [`.env.example`](.env.example) documents the optional public Facebook App ID metadata field.
+
+For a reproducible Linux browser environment, especially for Playwright and Lighthouse, use the repository DevContainer. Detailed setup and recovery instructions live in [`docs/operations.md`](docs/operations.md).
 
 ## Validation
 
-Run the complete CI-equivalent gate:
+For a fast repository-quality gate:
 
 ```bash
-bun run validate:local 2>&1 | tee validation-local.log
+bun run validate:quality
 ```
 
-It covers type checking, architecture, formatting, lint, link health, unit tests, build, Playwright, Axe and Lighthouse mobile/desktop audits.
+For the complete local gate used before release-oriented changes:
 
-The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with Axe; it does not claim formal conformance certification. A disabled, skipped, interrupted, missing or quota-blocked GitHub Actions run is **not** treated as successful validation.
+```bash
+bun run validate:local
+```
 
-## Commands
+The complete gate covers type checking, architecture rules, formatting, linting, link health, unit tests, production build, Playwright browser coverage, Axe checks and Lighthouse mobile/desktop audits.
+
+The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with automated and manual checks; this repository does **not** claim formal accessibility certification.
+
+### Useful commands
 
 | Command | Purpose |
 | --- | --- |
@@ -97,33 +119,45 @@ The accessibility implementation targets WCAG 2.1 AA practices and is regression
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
 | `bun run test:e2e` | Run Playwright functional, SEO and accessibility coverage |
-| `bun run test:e2e:show-report` | Serve the Playwright report on port `9323` |
 | `bun run test:lighthouse` | Run mobile and desktop Lighthouse profiles |
-| `bun run validate:quality` | Run type, architecture, format, lint, link, unit and build checks |
+| `bun run validate:quality` | Run the fast quality gate |
 | `bun run validate:local` | Run the complete local validation gate |
-| `bun run rulesets:plan` | Inspect missing or drifted GitHub rulesets |
-| `bun run rulesets:verify` | Compare live rulesets with versioned desired state |
 
-## Delivery
+## Development and delivery
+
+The repository uses `develop` as the integration branch and `main` as the stable production branch:
 
 ```text
 feature/*, fix/*, refactor/*, docs/* -> develop -> main
 ```
 
-`develop` is the integration branch. `main` is the stable deployment branch. Desired rulesets are versioned under `.github/rulesets/`; their live enforcement must be verified in GitHub rather than inferred from repository files.
+External contributors should branch from `develop` and open pull requests back to `develop`. Production deployment is associated with `main`.
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution scope and validation expectations.
 
 ## Documentation
 
-The repository intentionally keeps a small documentation surface:
+Start with [`docs/README.md`](docs/README.md) for the contributor-facing documentation map.
 
-- [`AGENTS.md`](AGENTS.md) — agent workflow, identity, privacy and ownership rules;
-- [`docs/architecture.md`](docs/architecture.md) — current source boundaries and runtime ownership;
-- [`docs/operations.md`](docs/operations.md) — setup, validation, delivery, maintenance and troubleshooting;
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution expectations;
-- [`SECURITY.md`](SECURITY.md) — private vulnerability reporting.
+Key documents:
 
-Decisions, alternatives, audits, notes, plans and historical handoffs belong in Cortex-L7.
+- [`docs/architecture.md`](docs/architecture.md) — source boundaries, dependency direction and runtime ownership;
+- [`docs/operations.md`](docs/operations.md) — setup, validation, CI, delivery and maintenance;
+- [`docs/accessibility/manual-checklist.md`](docs/accessibility/manual-checklist.md) — manual accessibility and release checks;
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow and project constraints;
+- [`SECURITY.md`](SECURITY.md) — private vulnerability reporting;
+- [`AGENTS.md`](AGENTS.md) — repository-specific guidance for coding agents and maintainer automation.
 
-## Reuse
+I keep the public repository self-contained: a developer should be able to understand, build and test it without access to my private strategy, notes or planning systems.
 
-This repository does not currently include a `LICENSE` file. Do not assume permission to reuse source code or visual assets unless a license is added.
+## Contributing
+
+I welcome bug reports, accessibility findings, documentation improvements and focused maintainability fixes. Because this is a personal professional surface with intentionally narrow scope, please open an issue before starting a substantial feature or product-direction change.
+
+## Security
+
+Please do not disclose vulnerabilities, credentials or personal data in a public issue. Follow [`SECURITY.md`](SECURITY.md) for private reporting.
+
+## License
+
+I keep this repository public for transparency and technical review, but it currently does **not** include an open-source `LICENSE` file. No license is granted here for reuse, modification or redistribution of the source code or visual assets.

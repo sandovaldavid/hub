@@ -1,65 +1,128 @@
 # Contributing
 
-Read [`AGENTS.md`](AGENTS.md) before starting work. It defines the Hub's human-first identity, privacy rules, source ownership and validation expectations.
+Thanks for taking the time to improve the Hub.
 
-## Workflow
+This is David Sandoval's personal professional hub, so the product scope is intentionally narrow. Contributions are most useful when they improve correctness, accessibility, maintainability, documentation, performance or the reliability of an existing user flow.
 
-Normal implementation work starts from and targets `develop`:
+For a substantial new feature or product-direction change, open an issue first so the scope can be discussed before implementation begins.
+
+## Before you start
+
+Read:
+
+- [`README.md`](README.md) for the project purpose and quick start;
+- [`docs/architecture.md`](docs/architecture.md) for source placement and dependency rules;
+- [`docs/operations.md`](docs/operations.md) for validation and delivery;
+- [`docs/accessibility/manual-checklist.md`](docs/accessibility/manual-checklist.md) when the change affects UI, content hierarchy, interaction, motion or color.
+
+`AGENTS.md` and `.github/**instructions*.md` contain additional repository constraints for coding agents. Human contributors do not need private maintainer systems to work on this repository.
+
+## Development workflow
+
+`develop` is the integration branch. `main` is the stable production branch.
 
 ```text
 feature/*, fix/*, refactor/*, docs/* -> develop -> main
 ```
 
-Use Conventional Commits, keep each pull request cohesive and avoid unrelated cleanup. A change on `develop` is not a verified production result until it is promoted and reviewed live.
+For an external contribution:
 
-## Source documentation
+1. Fork the repository.
+2. Create your branch from the latest `develop`.
+3. Keep the change focused on one problem or cohesive improvement.
+4. Run the relevant validation locally.
+5. Open a pull request against `develop`.
 
-The repository intentionally keeps only the operational documentation contributors need:
+Example:
 
-- [`docs/architecture.md`](docs/architecture.md) — source placement, dependency direction and runtime ownership;
-- [`docs/operations.md`](docs/operations.md) — setup, validation, branches, delivery, maintenance and troubleshooting.
-
-Decisions, alternatives, audits, plans, historical notes, evidence interpretation and session handoffs belong in Cortex-L7. Do not add another repository document when the information is already expressed by code, configuration, tests or one of the two documents above.
-
-## Implementation rules
-
-Contributors must:
-
-- keep David's real identity and Software Engineer positioning primary;
-- preserve the Hub as a compact routing surface rather than a portfolio duplicate;
-- keep content, URLs, metadata and structured data in their current typed owners;
-- verify project claims and distinguish stable, active, private and unavailable states;
-- preserve factual and hierarchical parity between English and Spanish;
-- use concrete imports and the current shallow architecture;
-- consume shared Identity Core primitives through semantic, channel and component roles;
-- preserve Light, Dark and System themes, keyboard operation, focus, contrast, reduced motion and responsive behavior;
-- update tests with every behavior or contract change.
-
-Contributors must not:
-
-- make an illustration, mascot, logo or theme David's primary identity;
-- introduce full Feature-Sliced Design ceremony, speculative abstractions or single-module barrels;
-- create a second palette or copy Portfolio Retro terminal/HUD/phosphor expression;
-- present unsupported seniority, leadership, adoption, scale, metrics, certifications or business impact;
-- expose private Cortex-L7, Atena, client or personal-contact information.
-
-The visual implementation path is:
-
-```text
-Identity Core primitive -> semantic role -> Link Hub channel alias -> component role -> component
+```bash
+git clone https://github.com/<your-user>/hub.git
+cd hub
+git remote add upstream https://github.com/sandovaldavid/hub.git
+git fetch upstream
+git switch -c fix/example upstream/develop
+bun install --frozen-lockfile
 ```
 
-`src/app/styles/global.css` owns shared primitives and aliases. The external-platform color exception is scoped to `src/entities/social-link/ui/SocialButton.css`.
+## Commit style
+
+Use Conventional Commits where practical:
+
+```text
+feat(scope): add behavior
+fix(scope): correct behavior
+docs(scope): clarify documentation
+refactor(scope): simplify implementation
+```
+
+Avoid unrelated cleanup in the same pull request.
+
+## Implementation expectations
+
+Preserve the current product and architecture contracts:
+
+- David's real identity and Software Engineer positioning remain primary;
+- the Hub remains a compact recognition and routing surface rather than a portfolio duplicate;
+- public content, URLs, metadata and structured data stay in their typed owners;
+- English and Spanish preserve the same facts, lifecycle state, privacy boundary and CTA intent;
+- shared Identity System primitives flow through semantic and channel/component roles rather than a second palette;
+- Light, Dark and System themes remain supported;
+- keyboard operation, visible focus, reduced motion, contrast and responsive behavior remain first-class requirements;
+- source placement stays shallow and concrete instead of introducing speculative architecture;
+- tests are updated when a behavior or repository contract changes.
+
+Do not introduce unsupported claims about seniority, leadership, adoption, scale, metrics, certifications or business impact.
+
+Do not expose private employer, client, financial, credential, phone, personal-contact or maintainer-strategy information.
 
 ## Validation
 
-Use a compatible Ubuntu environment or the repository DevContainer:
+Run at least the fast quality gate for source changes:
 
 ```bash
-bun install --frozen-lockfile
+bun run validate:quality
+```
+
+Run the complete local gate when the change affects browser behavior, accessibility, themes, responsive layout, SEO or release-sensitive behavior:
+
+```bash
 bun run validate:local
 ```
 
-Record the exact head SHA and classify every relevant check as `Passed`, `Failed`, `Not run`, `Blocked` or `Not applicable`. A disabled, skipped, missing or quota-blocked GitHub Actions run is not a pass.
+The full gate adds Playwright, Axe and Lighthouse coverage to the repository-quality checks.
 
-For identity, copy, SEO or design changes, also inspect `/` and `/es/` on mobile and desktop in Light, Dark and System themes, including keyboard focus, reduced motion and deployed social previews where applicable.
+When a platform, browser or hosted check could not be run, say so explicitly. Use one of these states in the pull request when useful:
+
+- `Passed`;
+- `Failed`;
+- `Not run`;
+- `Blocked`;
+- `Not applicable`.
+
+A missing, skipped, disabled, interrupted or quota-blocked GitHub Actions run is not a passing result.
+
+For visual or content changes, also review `/` and `/es/` on relevant viewport sizes and themes. Follow the manual accessibility checklist when applicable.
+
+## Pull requests
+
+A good pull request explains:
+
+- the problem being solved;
+- what changed and what intentionally did not change;
+- relevant issue or context;
+- commands and checks actually run;
+- screenshots or recordings for visible changes;
+- accessibility, localization or privacy impact when relevant;
+- known limitations or follow-up work.
+
+The repository's pull request template mirrors these expectations.
+
+## Public contributor boundary
+
+Maintainers may use external design or private strategy systems for long-term brand governance and decision history. Contributors are **not** expected to have access to them.
+
+Any requirement necessary to implement or review a public change must be represented in this repository, its tests, or the associated issue/pull request. If a request appears to depend on unavailable private context, ask for the requirement to be stated publicly rather than guessing.
+
+## Licensing
+
+This repository currently has no open-source `LICENSE` file. A contribution does not change that status. Do not assume that the repository or its visual assets may be reused or redistributed outside the permissions explicitly provided by the owner.

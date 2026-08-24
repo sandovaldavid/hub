@@ -56,12 +56,6 @@
 		"toolsTitle": "Delivery & Product Tooling",
 		"heading": "Technologies and skills"
 	},
-	"weeklyProject": {
-		"title": "Featured Project",
-		"demo": "Live Demo",
-		"code": "View Code",
-		"heading": "Featured project"
-	},
 	"page": {
 		"mainLabel": "Professional link hub",
 		"sectionsLabel": "Professional profile sections"
@@ -92,5 +86,9 @@
 		"light": "Switch to light mode",
 		"dark": "Switch to dark mode",
 		"system": "Use system preference"
+	},
+	"footer": {
+		"builtWith": "Built with Astro & Tailwind CSS",
+		"backToTop": "Back to top"
 	}
 }
