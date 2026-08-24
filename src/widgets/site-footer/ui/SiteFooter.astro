@@ -1,0 +1,95 @@
+---
+import { siteConfig } from '@data/site.config';
+import { getRequiredSocialLink } from '@data/social-links';
+import { useTranslations, type Lang } from '@shared/i18n';
+import { cn } from '@shared/lib/utils';
+import type { ConversionEvent } from '@shared/analytics/conversion';
+import BackToTop from '@features/back-to-top/ui/BackToTop.astro';
+
+import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
+import GitHubIcon from '@shared/assets/social-platform/github.svg?raw';
+import BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const currentYear = new Date().getFullYear();
+
+const portfolio = getRequiredSocialLink('website');
+const github = getRequiredSocialLink('github');
+
+const footerLinks: Array<{
+	id: string;
+	href: string;
+	icon: string;
+	label: string;
+	external: boolean;
+	conversionEvent: ConversionEvent;
+}> = [
+	{
+		id: 'portfolio',
+		href: portfolio.url,
+		icon: BriefcaseIcon,
+		label: portfolio.label,
+		external: true,
+		conversionEvent: 'portfolio_opened',
+	},
+	{
+		id: 'github',
+		href: github.url,
+		icon: GitHubIcon,
+		label: github.label,
+		external: true,
+		conversionEvent: 'github_opened',
+	},
+	{
+		id: 'email',
+		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(siteConfig.recruiterEmailSubject)}`,
+		icon: EmailIcon,
+		label: t('contact.buttonText'),
+		external: false,
+		conversionEvent: 'contact_clicked',
+	},
+];
+---
+
+<footer id="site-footer" class="border-t border-channel-edge-default bg-channel-surface-highlight">
+	<div
+		class={cn(
+			'mx-auto flex w-full max-w-384 flex-col items-center gap-4 px-4 py-6 text-center',
+			'sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left',
+			'md:px-6 md:py-7 lg:px-8 xl:px-10'
+		)}>
+		<p class="m-0 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-2">
+			<span class="font-display text-sm font-bold text-channel-content-strong">
+				&copy; {currentYear}
+				{siteConfig.name}
+			</span>
+			<span class="font-mono text-xs text-channel-content-muted">
+				{t('footer.builtWith')} · v{siteConfig.version}
+			</span>
+		</p>
+
+		<div class="flex items-center gap-4">
+			{
+				footerLinks.map(link => (
+					<a
+						href={link.href}
+						target={link.external ? '_blank' : undefined}
+						rel={link.external ? 'noopener noreferrer' : undefined}
+						class="inline-flex items-center gap-1.5 text-sm font-medium text-channel-content-muted no-underline transition-colors duration-200 hover:text-channel-accent-primary"
+						data-conversion-event={link.conversionEvent}
+						data-conversion-position="navigation"
+						data-conversion-item={link.id}>
+						<span class="h-4 w-4 shrink-0 [&_svg]:h-full [&_svg]:w-full" set:html={link.icon} />
+						{link.label}
+					</a>
+				))
+			}
+			<BackToTop {lang} />
+		</div>
+	</div>
+</footer>

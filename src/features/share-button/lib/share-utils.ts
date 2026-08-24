@@ -83,7 +83,6 @@ export async function shareViaWebAPI(data: ShareData): Promise<ShareResult> {
 		if (error instanceof Error) {
 			// AbortError means user cancelled - not a real error
 			if (error.name === 'AbortError') {
-				console.log('Share cancelled by user');
 				return {
 					success: false,
 					method: 'web-share-api',
@@ -156,6 +155,5 @@ export async function share(): Promise<ShareResult> {
 	}
 
 	// Fallback: copy URL to clipboard
-	console.log('Falling back to clipboard copy');
 	return await copyToClipboard(shareData.url);
 }

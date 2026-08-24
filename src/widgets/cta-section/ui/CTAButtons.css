@@ -9,7 +9,7 @@
 }
 
 .cta-button-card {
-	@apply flex h-full w-full cursor-pointer items-center gap-4 rounded-xl border px-4 py-4 shadow-sm backdrop-blur-xl transition-all duration-300 ease-in-out md:px-5 md:py-5;
+	@apply flex h-full w-full cursor-pointer items-center gap-4 rounded-xl border px-4 py-4 shadow-sm backdrop-blur-xl transition-all duration-300 ease-out md:px-5 md:py-5;
 	background-color: var(--card-background);
 	border-color: var(--card-edge);
 }

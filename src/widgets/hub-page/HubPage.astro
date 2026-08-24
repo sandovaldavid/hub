@@ -80,7 +80,7 @@ const heroMetadata = [
 			</section>
 
 			<div
-				class="bento-item order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
+				class="bento-item bento-item--profile-snapshot order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
 				data-layout-section="profile-snapshot">
 				<ProfileSnapshot
 					heading={t('profile.snapshotHeading')}
@@ -103,6 +103,7 @@ const heroMetadata = [
 					links={professionalSocialLinks}
 					priorities={['primary', 'secondary']}
 					variant="compact"
+					{lang}
 				/>
 			</section>
 		</div>
@@ -111,7 +112,7 @@ const heroMetadata = [
 			class="flex flex-col gap-4 md:gap-6"
 			data-layout-section="actions"
 			aria-labelledby="cta-heading">
-			<header class="bento-item mx-auto max-w-3xl text-center">
+			<header class="bento-item bento-item--cta-heading mx-auto max-w-3xl text-center">
 				<h2
 					id="cta-heading"
 					class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
@@ -162,23 +163,30 @@ const heroMetadata = [
 		opacity: 0;
 	}
 
+	/* Stagger follows reading order top-to-bottom in 0.05s steps. */
 	.bento-item--hero {
 		animation-delay: 0.1s;
+	}
+	.bento-item--profile-snapshot {
+		animation-delay: 0.15s;
 	}
 	.bento-item--social {
 		animation-delay: 0.2s;
 	}
-	.bento-item--cta {
+	.bento-item--cta-heading {
 		animation-delay: 0.25s;
 	}
-	.bento-item--weekly-project {
+	.bento-item--cta {
+		animation-delay: 0.3s;
+	}
+	.bento-item--contact {
 		animation-delay: 0.35s;
+	}
+	.bento-item--weekly-project {
+		animation-delay: 0.4s;
 	}
 	.bento-item--skills {
 		animation-delay: 0.45s;
-	}
-	.bento-item--contact {
-		animation-delay: 0.5s;
 	}
 
 	@keyframes fade-in {

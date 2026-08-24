@@ -1,7 +1,7 @@
 @import '../../../app/styles/global.css';
 
 .theme-toggle {
-	@apply fixed top-4 right-4 z-[1200] inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-lg border px-2 py-2 font-medium shadow-sm transition-all duration-150;
+	@apply fixed top-4 right-4 z-[var(--z-index-fixed-control)] inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-lg border px-2 py-2 font-medium shadow-sm transition-all duration-150;
 	background-color: var(--control-background);
 	color: var(--control-content);
 	border-color: var(--control-edge);
@@ -25,6 +25,26 @@
 
 .theme-toggle:active {
 	@apply translate-y-0 scale-95 shadow-none;
+}
+
+/* Custom tooltip replacing the native title attribute: reads the live
+   aria-label (kept in sync by ThemeToggle.astro's updateUI()) so the text
+   can never drift out of sync with the accessible name. */
+.theme-toggle::after {
+	content: attr(aria-label);
+	@apply pointer-events-none absolute top-full right-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	background-color: var(--channel-content-strong);
+	color: var(--channel-background-canvas);
+}
+
+@media (hover: hover) {
+	.theme-toggle:hover::after {
+		@apply translate-y-0 opacity-100;
+	}
+}
+
+.theme-toggle:focus-visible::after {
+	@apply translate-y-0 opacity-100;
 }
 
 .theme-toggle__icon {

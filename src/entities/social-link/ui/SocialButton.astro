@@ -9,12 +9,22 @@ export interface Props {
 	username?: string;
 	analyticsId: string;
 	variant?: 'default' | 'compact';
+	lang?: 'en' | 'es';
 	class?: string;
 }
 
-const { url, label, username, analyticsId, variant = 'default', class: className } = Astro.props;
+const {
+	url,
+	label,
+	username,
+	analyticsId,
+	variant = 'default',
+	lang = 'en',
+	class: className,
+} = Astro.props;
 
 const normalizedId = analyticsId.toLowerCase();
+const ariaLabel = lang === 'es' ? `Visita el perfil de ${label}` : `Visit ${label} profile`;
 const conversionEvent: ConversionEvent | undefined = normalizedId.includes('linkedin')
 	? 'linkedin_opened'
 	: normalizedId.includes('github')
@@ -31,7 +41,7 @@ const conversionEvent: ConversionEvent | undefined = normalizedId.includes('link
 	data-conversion-event={conversionEvent}
 	data-conversion-position="social"
 	data-conversion-item={normalizedId}
-	aria-label={`Visit ${label} profile`}>
+	aria-label={ariaLabel}>
 	<span class="social-button__icon" aria-hidden="true">
 		<slot name="icon" />
 	</span>

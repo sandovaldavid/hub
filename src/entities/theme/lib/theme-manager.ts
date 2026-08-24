@@ -6,6 +6,10 @@
 import type { EffectiveTheme, Theme, ThemeState } from '../model/types';
 import { THEME_FAVICON_PATHS, updateFavicon } from './theme-assets';
 
+// Single source of truth: also interpolated into the inline FOUC-prevention
+// script in getThemeInitScript() below, which runs before this module loads.
+export const THEME_STORAGE_KEY = 'sandovaldavid-theme';
+
 export class ThemeManager {
 	/**
 	 * Get system color scheme preference
@@ -22,7 +26,7 @@ export class ThemeManager {
 	getStoredTheme(): Theme | null {
 		if (typeof window === 'undefined') return null;
 
-		const stored = localStorage.getItem('sandovaldavid-theme');
+		const stored = localStorage.getItem(THEME_STORAGE_KEY);
 
 		if (stored === 'light' || stored === 'dark' || stored === 'system') {
 			return stored;
@@ -37,7 +41,7 @@ export class ThemeManager {
 	setStoredTheme(theme: Theme): void {
 		if (typeof window === 'undefined') return;
 
-		localStorage.setItem('sandovaldavid-theme', theme);
+		localStorage.setItem(THEME_STORAGE_KEY, theme);
 	}
 
 	/**
@@ -153,7 +157,7 @@ export function getThemeInitScript(): string {
 
 	return `
     (function() {
-      const storageKey = 'sandovaldavid-theme';
+      const storageKey = ${JSON.stringify(THEME_STORAGE_KEY)};
       const attribute = 'data-theme';
       const defaultTheme = 'system';
       const faviconPaths = ${faviconPaths};
