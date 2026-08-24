@@ -17,7 +17,7 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://bun.sh/install -o /tmp/bun-ins
         bash /tmp/bun-install.sh "bun-v${BUN_VERSION}" \
     && rm -f /tmp/bun-install.sh \
     && mkdir -p "${PLAYWRIGHT_BROWSERS_PATH}" \
-    && npx --yes "playwright@${PLAYWRIGHT_VERSION}" install --with-deps chromium webkit \
+    && npx --yes "playwright@${PLAYWRIGHT_VERSION}" install --with-deps chromium webkit firefox \
     && chmod -R a+rX "${PLAYWRIGHT_BROWSERS_PATH}"
 
 ENV PATH="/home/node/.bun/bin:/home/node/.local/bin:${PATH}" \
