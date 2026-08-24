@@ -4,7 +4,6 @@ import { getThemeInitScript } from '@entities/theme/lib/theme-manager';
 import ShareButton from '@features/share-button/ui/ShareButton.astro';
 import ThemeToggle from '@features/theme-toggle/ui/ThemeToggle.astro';
 import LanguageToggle from '@features/language-toggle/ui/LanguageToggle.astro';
-import BackToTop from '@features/back-to-top/ui/BackToTop.astro';
 import SiteFooter from '@widgets/site-footer/ui/SiteFooter.astro';
 import type { SEOProps } from '@data/seo';
 import Analytics from '@vercel/analytics/astro';
@@ -170,7 +169,6 @@ const jsonLd = getProfilePageStructuredData({
 
 		<slot />
 		<SiteFooter {lang} />
-		<BackToTop {lang} />
 		<Analytics />
 		<script>
 			import { initConversionAnalytics } from '@shared/analytics/conversion';
