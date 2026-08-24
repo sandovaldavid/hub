@@ -14,9 +14,10 @@ interface Props {
 	links: SocialLink[];
 	priorities?: SocialLinkPriority[];
 	variant?: 'default' | 'compact';
+	lang?: 'en' | 'es';
 }
 
-const { links, priorities = ['primary'], variant = 'default' } = Astro.props as Props;
+const { links, priorities = ['primary'], variant = 'default', lang = 'en' } = Astro.props as Props;
 const displayLinks = links.filter(link => priorities.includes(link.priority));
 const hasOddLinkCount = displayLinks.length % 2 === 1;
 ---
@@ -39,7 +40,8 @@ const hasOddLinkCount = displayLinks.length % 2 === 1;
 						url={link.url}
 						username={link.username}
 						analyticsId={link.analyticsId}
-						{variant}>
+						{variant}
+						{lang}>
 						<span slot="icon">
 							{link.platform === 'linkedin' && (
 								<LinkedInIcon class={`social-button__icon ${link.classIcon}`} />
