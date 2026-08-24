@@ -65,7 +65,7 @@
 }
 
 .hero-card__identity-actions {
-	@apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:flex-row md:items-center;
+	@apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:flex-row md:items-center md:justify-between;
 }
 
 .hero-card__metadata {
@@ -147,10 +147,6 @@
 	[data-layout-panel='social'].bento-item {
 		align-self: stretch;
 		height: 100%;
-	}
-
-	.hero-card__identity-actions {
-		width: auto;
 	}
 }
 
