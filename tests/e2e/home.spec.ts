@@ -117,8 +117,9 @@ test.describe('Home page', () => {
 
 	test('skip link is present and points to main content', async ({ page }) => {
 		await page.goto('/');
-		const skipLink = page.locator('a[href="#main-content"]');
+		const skipLink = page.locator('.skip-link');
 		await expect(skipLink).toBeAttached();
+		await expect(skipLink).toHaveAttribute('href', '#main-content');
 	});
 
 	test('all images have alt text', async ({ page }) => {

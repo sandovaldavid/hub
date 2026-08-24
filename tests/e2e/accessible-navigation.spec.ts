@@ -36,19 +36,14 @@ test.describe('Accessible motion and navigation', () => {
 	test('skip link moves keyboard focus to main content', async ({ page }) => {
 		await page.goto('/');
 		await page.keyboard.press('Tab');
-		await expect(page.locator('a[href="#main-content"]')).toBeFocused();
+		await expect(page.locator('.skip-link')).toBeFocused();
 		await page.keyboard.press('Enter');
 		await expect(page.locator('#main-content')).toBeFocused();
 	});
 
 	test('keyboard navigation starts with skip link and floating controls', async ({ page }) => {
 		await page.goto('/');
-		for (const selector of [
-			'a[href="#main-content"]',
-			'#share-button',
-			'.language-toggle',
-			'#theme-toggle',
-		]) {
+		for (const selector of ['.skip-link', '#share-button', '.language-toggle', '#theme-toggle']) {
 			await page.keyboard.press('Tab');
 			await expect(page.locator(selector)).toBeFocused();
 		}
@@ -91,7 +86,7 @@ test.describe('Accessible motion and navigation', () => {
 			await expectVisibleFocus(page, '#share-button');
 			await expectVisibleFocus(page, '.language-toggle');
 			await expectVisibleFocus(page, '#theme-toggle');
-			await expectVisibleFocus(page, 'a[href="#main-content"]');
+			await expectVisibleFocus(page, '.skip-link');
 		});
 	}
 });
