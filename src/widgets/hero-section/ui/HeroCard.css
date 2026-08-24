@@ -65,7 +65,7 @@
 }
 
 .hero-card__identity-actions {
-	@apply mt-1 flex w-full min-w-0 flex-col items-start gap-2;
+	@apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:flex-row md:items-center;
 }
 
 .hero-card__metadata {
@@ -149,12 +149,18 @@
 		height: 100%;
 	}
 
-	[data-layout-panel='social'].bento-item {
-		justify-content: center;
-	}
-
 	.hero-card__identity-actions {
 		width: auto;
+	}
+}
+
+@media (min-width: 1024px) {
+	/* Only center the social panel's content once the profile panel's own
+	   avatar+text layout goes side-by-side (below) and the two panels are
+	   close enough in height that centering reads as intentional, not like
+	   the content is floating in an oversized box (#134/#137 responsive audit). */
+	[data-layout-panel='social'].bento-item {
+		justify-content: center;
 	}
 }
 
