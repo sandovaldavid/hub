@@ -47,7 +47,7 @@
 }
 
 .social-button__username {
-	@apply break-words text-xs transition-colors duration-200 md:text-sm lg:text-base;
+	@apply truncate text-xs transition-colors duration-200 md:text-sm lg:text-base;
 	color: var(--channel-content-muted);
 }
 
