@@ -1,24 +1,26 @@
 # David Sandoval — Professional Hub
 
-A compact, bilingual professional hub for David Sandoval. It helps recruiters, collaborators and potential clients quickly understand his Software Engineer positioning and reach the right public destination without duplicating the depth of the portfolio, résumé or project repositories.
+I built this compact, bilingual professional Hub as a focused entry point to my work as a Software Engineer. It helps recruiters, collaborators and potential clients understand what I do and reach the right public destination quickly, without duplicating the depth of my portfolio, résumé or project repositories.
 
 [View production](https://hub.sandovaldavid.com) · [Portfolio](https://sandovaldavid.com) · [Résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
 
 [![Current production preview](public/og/og_dark.png)](https://hub.sandovaldavid.com)
 
-## Why this project exists
+## Why I built this
 
-The Hub is intentionally small. Its job is recognition and routing:
+I intentionally keep the Hub small. Its job is recognition and routing:
 
-- establish who David is and what he does;
+- establish who I am and what I do;
 - surface a small set of relevant professional destinations;
 - preserve factual parity between English and Spanish;
 - provide a fast, accessible experience across mobile and desktop;
 - keep public metadata, structured data and social previews aligned with the visible content.
 
-It is **not** a second portfolio, a generic link-in-bio template or an independent brand. David remains the primary identity; the visual system supports that identity rather than replacing it.
+I do **not** treat it as a second portfolio, a generic link-in-bio template or an independent brand. My name, work and professional evidence remain primary; the visual system supports that identity rather than replacing it.
 
-## What this repository demonstrates
+## What I wanted this project to demonstrate
+
+Beyond serving as my professional Hub, I use this repository as public evidence of how I approach a small production web application:
 
 - Static generation with Astro for two localized routes: `/` and `/es/`.
 - Typed content, destination and metadata ownership instead of scattering copy and URLs through components.
@@ -28,6 +30,12 @@ It is **not** a second portfolio, a generic link-in-bio template or an independe
 - `ProfilePage` structured data around one canonical `Person`.
 - Automated quality checks for architecture, formatting, linting, links, unit tests, browser behavior, accessibility and Lighthouse.
 - Versioned GitHub ruleset intent, Dependabot maintenance and automated release preparation.
+
+## Why Astro
+
+I chose Astro because this product has two content-focused routes and a deliberately small client-side interaction boundary. Most of the experience can be delivered as static HTML, so I avoid introducing framework hydration where the product does not need it.
+
+The browser JavaScript is limited to behavior that genuinely requires it, including theme management, sharing, navigation analytics and the scroll-to-top control.
 
 ## Stack
 
@@ -140,11 +148,11 @@ Key documents:
 - [`SECURITY.md`](SECURITY.md) — private vulnerability reporting;
 - [`AGENTS.md`](AGENTS.md) — repository-specific guidance for coding agents and maintainer automation.
 
-The repository is designed to remain understandable, buildable and testable without access to David's private strategy or planning systems.
+I keep the public repository self-contained: a developer should be able to understand, build and test it without access to my private strategy, notes or planning systems.
 
 ## Contributing
 
-Bug reports, accessibility findings, documentation improvements and focused maintainability fixes are welcome. Because this is a personal professional surface with intentionally narrow scope, please open an issue before starting a substantial feature or product-direction change.
+I welcome bug reports, accessibility findings, documentation improvements and focused maintainability fixes. Because this is a personal professional surface with intentionally narrow scope, please open an issue before starting a substantial feature or product-direction change.
 
 ## Security
 
@@ -152,4 +160,4 @@ Please do not disclose vulnerabilities, credentials or personal data in a public
 
 ## License
 
-This repository is public for transparency and technical review, but it currently does **not** include an open-source `LICENSE` file. No license is granted here for reuse, modification or redistribution of the source code or visual assets.
+I keep this repository public for transparency and technical review, but it currently does **not** include an open-source `LICENSE` file. No license is granted here for reuse, modification or redistribution of the source code or visual assets.
