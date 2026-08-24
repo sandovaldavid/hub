@@ -42,12 +42,12 @@
 }
 
 .social-button__label {
-	@apply text-sm font-bold leading-tight transition-colors duration-200 md:text-base lg:text-lg;
+	@apply break-words text-sm font-bold leading-tight transition-colors duration-200 md:text-base lg:text-lg;
 	color: var(--channel-content-strong);
 }
 
 .social-button__username {
-	@apply text-xs transition-colors duration-200 md:text-sm lg:text-base;
+	@apply break-words text-xs transition-colors duration-200 md:text-sm lg:text-base;
 	color: var(--channel-content-muted);
 }
 
