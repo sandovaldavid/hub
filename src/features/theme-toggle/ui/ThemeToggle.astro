@@ -26,7 +26,6 @@ const labelSystem = t('theme.system');
 	id="theme-toggle"
 	class="theme-toggle"
 	aria-label={initialLabel}
-	title={initialLabel}
 	data-label-light={labelLight}
 	data-label-dark={labelDark}
 	data-label-system={labelSystem}
@@ -79,9 +78,10 @@ const labelSystem = t('theme.system');
 				}
 			}
 
-			const currentLabel = labels[theme];
-			button.setAttribute('aria-label', currentLabel);
-			button.setAttribute('title', currentLabel);
+			// aria-label doubles as the visible tooltip content via
+			// ThemeToggle.css's `content: attr(aria-label)` — no separate
+			// title attribute (that gave an unstyled native tooltip).
+			button.setAttribute('aria-label', labels[theme]);
 		}
 
 		const initialState = themeManager.getThemeState();
