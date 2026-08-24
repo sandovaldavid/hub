@@ -1,3 +1,5 @@
+import packageJson from '../../package.json';
+
 const portfolioUrl = 'https://sandovaldavid.com';
 const githubUrl = 'https://github.com/sandovaldavid';
 const socialUrls = {
@@ -33,6 +35,8 @@ export const siteConfig = {
 	},
 	// Browser metadata uses the approved sRGB/HEX reference for color/primary/500-light.
 	themeColor: '#0a5cd6',
+	// Read from package.json so the footer stays current with every release-please bump.
+	version: packageJson.version,
 	// PUBLIC_ vars are embedded in the build (visible in HTML — not a secret)
 	fbAppId: import.meta.env.PUBLIC_FB_APP_ID ?? '',
 } as const;

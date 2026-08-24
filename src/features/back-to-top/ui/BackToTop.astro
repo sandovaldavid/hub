@@ -1,0 +1,25 @@
+---
+/**
+ * Back-to-top control rendered inline inside the site footer (see
+ * SiteFooter.astro). It only ever needs to be reachable once the visitor
+ * is already at the end of the page, so it lives in normal document flow
+ * there instead of as a viewport-fixed overlay — no JS, no visibility
+ * state, and no risk of floating over other fixed/footer content.
+ * Jumps to #main-content via the global scroll-behavior: smooth.
+ */
+import ArrowUpIcon from '@shared/assets/arrow-up.svg?raw';
+import { useTranslations, type Lang } from '@shared/i18n';
+import './BackToTop.css';
+
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const ariaLabel = t('footer.backToTop');
+---
+
+<a href="#main-content" class="back-to-top" aria-label={ariaLabel}>
+	<span class="back-to-top__icon" set:html={ArrowUpIcon} />
+</a>

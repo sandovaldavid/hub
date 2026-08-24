@@ -17,7 +17,7 @@ export const getCtaButtons = () => [
 	},
 	{
 		id: 'github',
-		icon: 'briefcase',
+		icon: 'github',
 		href: siteConfig.githubUrl,
 		variant: 'secondary' as const,
 		external: true,

@@ -168,10 +168,22 @@
 	--alpha-primary-500-25-dark: oklch(72.084% 0.16317 239.29 / 25%);
 	--alpha-primary-500-35-dark: oklch(72.084% 0.16317 239.29 / 35%);
 	--alpha-primary-500-40-dark: oklch(72.084% 0.16317 239.29 / 40%);
+	--alpha-primary-500-60-dark: oklch(72.084% 0.16317 239.29 / 60%);
 	--alpha-success-05-light: oklch(69.587% 0.14907 162.48 / 5%);
 	--alpha-success-10-dark: oklch(69.587% 0.14907 162.48 / 10%);
 	--alpha-success-40-light: oklch(69.587% 0.14907 162.48 / 40%);
 	--alpha-success-60-dark: oklch(69.587% 0.14907 162.48 / 60%);
+}
+
+/*
+ * Shared z-index layers for fixed chrome (#134/#137 audit follow-up).
+ * Keep the skip-link above every fixed control so keyboard focus is never
+ * hidden by corner UI; the three corner controls (share/theme/language)
+ * share one layer since they never need to stack above one another.
+ */
+:root {
+	--z-index-fixed-control: 1200;
+	--z-index-skip-link: 9999;
 }
 
 :root,
@@ -185,7 +197,9 @@
 	--channel-content-strong: var(--color-neutral-900);
 	--channel-content-default: var(--color-neutral-700);
 	--channel-content-muted: var(--color-neutral-600);
-	--channel-edge-default: var(--color-neutral-300);
+	/* neutral-500, not -300: a card/control boundary must clear the 3:1
+	   WCAG 1.4.11 non-text floor against its own surface (audit #134/#137). */
+	--channel-edge-default: var(--color-neutral-500);
 	--channel-edge-strong: var(--color-neutral-900);
 	--channel-accent-primary: var(--color-primary-500-light);
 	--channel-accent-secondary: var(--color-primary-400-light);
@@ -214,7 +228,9 @@
 	--button-danger-background: var(--color-error-900);
 	--button-danger-background-hover: var(--color-error-500);
 	--button-danger-content: var(--color-base-white);
-	--focus-ring: var(--color-primary-600-light);
+	/* Deliberately not primary-600 (== --button-primary-background): a ring
+	   drawn at 0 offset over a primary button must stay visible (#134/#137). */
+	--focus-ring: var(--color-primary-800);
 
 	--badge-brand-background: var(--alpha-primary-500-10-light);
 	--badge-brand-content: var(--color-primary-600-light);
@@ -239,7 +255,7 @@
 	--control-background: var(--channel-surface-default);
 	--control-background-hover: var(--channel-surface-highlight);
 	--control-content: var(--color-neutral-900);
-	--control-edge: var(--color-neutral-300);
+	--control-edge: var(--color-neutral-500);
 	--control-edge-hover: var(--color-primary-500-light);
 	--card-background: var(--channel-surface-default);
 	--card-background-muted: var(--channel-surface-highlight);
@@ -271,7 +287,8 @@
 	--channel-content-strong: var(--color-base-content-strong-dark);
 	--channel-content-default: var(--color-neutral-300);
 	--channel-content-muted: var(--color-neutral-400);
-	--channel-edge-default: var(--color-neutral-800);
+	/* neutral-500, not -800: matches the light-mode fix above (audit #134/#137). */
+	--channel-edge-default: var(--color-neutral-500);
 	--channel-edge-strong: var(--color-neutral-300);
 	--channel-accent-primary: var(--color-primary-500-dark);
 	--channel-accent-secondary: var(--color-primary-400-dark);
@@ -319,12 +336,14 @@
 	--control-background: var(--channel-surface-default);
 	--control-background-hover: var(--channel-surface-highlight);
 	--control-content: var(--color-base-content-strong-dark);
-	--control-edge: var(--color-neutral-700);
+	--control-edge: var(--color-neutral-500);
 	--control-edge-hover: var(--color-primary-500-dark);
 	--card-background: var(--channel-surface-default);
 	--card-background-muted: var(--channel-surface-highlight);
 	--card-edge: var(--channel-edge-default);
-	--card-edge-accent: var(--alpha-primary-500-40-dark);
+	/* 60%, not 40%: brings dark parity to ~3.5:1, matching light's 3.68:1
+	   instead of trailing it at 2.17:1 (audit #134/#137). */
+	--card-edge-accent: var(--alpha-primary-500-60-dark);
 	--avatar-background: var(--color-neutral-800);
 	--avatar-content: var(--color-neutral-300);
 	--status-online-background: var(--alpha-success-10-dark);
@@ -344,6 +363,7 @@
 html {
 	background-color: var(--channel-background-canvas);
 	font-family: var(--channel-font-body);
+	scroll-behavior: smooth;
 }
 
 body {
@@ -359,7 +379,7 @@ body {
 	position: absolute;
 	top: -100%;
 	left: 0;
-	z-index: 9999;
+	z-index: var(--z-index-skip-link);
 	padding: 1rem 1.5rem;
 	background-color: var(--button-primary-background);
 	color: var(--button-primary-content);

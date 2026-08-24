@@ -25,7 +25,6 @@ const clipboardLabel = lang === 'es' ? 'Copiar link al portapapeles' : 'Copy lin
 	id="share-button"
 	class="share-button"
 	aria-label={initialLabel}
-	title={initialLabel}
 	data-share-label-webshare={webshareLabel}
 	data-share-label-clipboard={clipboardLabel}
 	type="button">
@@ -45,15 +44,10 @@ const clipboardLabel = lang === 'es' ? 'Copiar link al portapapeles' : 'Copy lin
 		const webshareLabel = button.getAttribute('data-share-label-webshare') || 'Share site';
 		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || 'Copy link';
 
-		// Update aria-label based on Web Share API support
+		// Update aria-label based on Web Share API support. It also doubles as
+		// the visible hover tooltip via ShareButton.css's `content: attr(aria-label)`.
 		const updateAriaLabel = () => {
-			if (isWebShareSupported()) {
-				button.setAttribute('aria-label', webshareLabel);
-				button.setAttribute('title', webshareLabel);
-			} else {
-				button.setAttribute('aria-label', clipboardLabel);
-				button.setAttribute('title', clipboardLabel);
-			}
+			button.setAttribute('aria-label', isWebShareSupported() ? webshareLabel : clipboardLabel);
 		};
 
 		updateAriaLabel();
@@ -75,9 +69,6 @@ const clipboardLabel = lang === 'es' ? 'Copiar link al portapapeles' : 'Copy lin
 						feedback.classList.remove('share-button__feedback--visible');
 					}, 2000);
 				}
-
-				// Log result for debugging
-				console.log('Share result:', result);
 			} catch (error) {
 				console.error('Error during share:', error);
 			} finally {
