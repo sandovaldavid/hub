@@ -3,6 +3,11 @@ node_modules/
 dist/
 .astro/
 
+# Salidas de test generadas (gitignoradas, no deben auditarse con Prettier)
+playwright-report/
+test-results/
+.lighthouseci/
+
 # Archivos generados
 *.min.js
 *.min.css
