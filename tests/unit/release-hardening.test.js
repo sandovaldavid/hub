@@ -59,6 +59,31 @@ describe('pre-v2 delivery hardening contracts', () => {
 		expect(workflow).not.toContain('vercel@latest');
 	});
 
+	// `release-as` forces the next release to a fixed version and keeps doing so
+	// until it is removed, so release-please would propose the same version
+	// forever and the footer — which reads siteConfig.version from package.json —
+	// would freeze with it. Upstream is explicit: "once the release PR is merged
+	// you should either remove this or update it to a higher version."
+	//
+	// This fails at exactly the moment the pin becomes stale: when the version it
+	// forces is the one already recorded as released.
+	test('does not keep release-please pinned to a version that already shipped', async () => {
+		const [config, manifest, packageJson] = await Promise.all([
+			readJson('release-please-config.json'),
+			readJson('.release-please-manifest.json'),
+			readJson('package.json'),
+		]);
+
+		const pinnedVersion = config.packages['.']['release-as'];
+		if (!pinnedVersion) return;
+
+		expect(
+			pinnedVersion,
+			`release-as is still pinned to ${pinnedVersion}, which has already been released. Remove it from release-please-config.json so conventional commits drive the next version.`
+		).not.toBe(manifest['.']);
+		expect(pinnedVersion).not.toBe(packageJson.version);
+	});
+
 	test('pins the workspace Chrome DevTools MCP instead of tracking latest', async () => {
 		const mcp = await readJson('.vscode/mcp.json');
 		const args = mcp.servers['chrome-devtools'].args;
