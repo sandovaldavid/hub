@@ -4,7 +4,7 @@ This is the public runbook for setting up, validating and maintaining the Hub. C
 
 ## Supported environment
 
-The recommended environment is the repository DevContainer, especially when Playwright and Lighthouse must run in a reproducible Linux browser environment.
+The recommended browser-validation environment is the repository DevContainer. Complete local Playwright and Lighthouse validation is intentionally delegated to it so contributors do not depend on host-distribution browser support.
 
 Current toolchain constraints are declared in `package.json`, `.devcontainer/`, `.vscode/mcp.json` and the delivery workflows:
 
@@ -14,6 +14,8 @@ Current toolchain constraints are declared in `package.json`, `.devcontainer/`, 
 - Playwright browser dependencies installed by the DevContainer image;
 - Vercel CLI explicitly versioned by `.github/workflows/cd.yml`;
 - workspace Chrome DevTools MCP pinned to an explicit package version rather than `latest`.
+
+When `bun run validate:local` is started outside the DevContainer, the host needs a working container runtime and the `devcontainer` CLI. The command brings up the repository DevContainer and executes the complete gate there. When already inside the DevContainer, it executes the gate directly without nesting another container.
 
 ## Local setup
 
@@ -36,7 +38,7 @@ A frozen install must fail when `package.json` and `bun.lock` differ. Regenerate
 bun run validate:quality
 ```
 
-This runs Astro type checking, architecture validation, Prettier, ESLint, link validation, unit/repository-contract tests and the production build.
+This runs Astro type checking, architecture validation, Prettier, ESLint, link validation, unit/repository-contract tests and the production build. It does not require browser execution and can run directly on the host.
 
 `check:architecture` validates the documented layer matrix for Astro/TypeScript/JavaScript imports and CSS `@import`/`@reference` dependencies, as well as circular imports.
 
@@ -46,7 +48,19 @@ This runs Astro type checking, architecture validation, Prettier, ESLint, link v
 bun run validate:local 2>&1 | tee validation-local.log
 ```
 
-This adds Playwright functional/SEO/accessibility coverage and Lighthouse mobile/desktop audits for `/` and `/es/`.
+From the host, this command uses the Dev Containers CLI to start/reuse the repository DevContainer and runs the complete validation there. From inside the DevContainer it runs directly. The browser-sensitive path therefore uses the pinned Playwright browsers and Linux dependencies from `.devcontainer/` instead of whatever happens to be installed on the host.
+
+The complete gate adds Playwright functional/SEO/accessibility coverage and Lighthouse mobile/desktop audits for `/` and `/es/`. Production-preview E2E uses port `4322`, leaving the normal Astro development server on `4321` available during validation.
+
+Local Playwright workers use Playwright's automatic default (half of the logical CPU cores visible to the container). Override the worker count for benchmarking or constrained machines with:
+
+```bash
+PLAYWRIGHT_WORKERS=4 bun run validate:local
+```
+
+The override must be a positive integer. More workers are not automatically faster: each Playwright worker launches its own browser process, so CPU and memory contention should be measured before raising the value.
+
+If `devcontainer` is unavailable, `validate:local` fails closed with an actionable message rather than silently running Playwright against an unsupported host environment. You can alternatively open the repository in its DevContainer first and rerun the same command there.
 
 Use [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md) for manual release-oriented checks. Some operating-system behavior, such as real Windows High Contrast Mode, cannot be fully proven by browser emulation; record those checks separately.
 
@@ -58,7 +72,11 @@ When documenting validation, classify relevant checks as `Passed`, `Failed`, `No
 
 The primary workflow lives in `.github/workflows/ci.yml` and exposes stable required contexts including `CI / Quality`, `CI / E2E` and `CI / Lighthouse`.
 
-Chromium is the hosted browser baseline. Additional browser projects run locally/inside the DevContainer when their binaries are available. Do not infer browser coverage that was not executed on the exact commit under review.
+Chromium is the hosted browser baseline. The E2E job currently runs with `PLAYWRIGHT_WORKERS=2` and two retries per failing test. The worker count is deliberately explicit in the workflow so CI parallelism can be benchmarked independently of local machines. Additional browser projects run locally inside the DevContainer, where Chromium, WebKit and Firefox are installed and verified.
+
+Playwright's `CI` flag still controls production-preview behavior and `forbidOnly`; GitHub-specific worker/retry policy is keyed from `GITHUB_ACTIONS` instead. This prevents `validate:local` from being serialized merely because it sets `CI=1` to test the production preview.
+
+Do not infer browser coverage that was not executed on the exact commit under review. If two workers introduce resource contention or flakiness on the hosted runner, reduce the explicit workflow value and record the observed evidence rather than masking failures with additional retries.
 
 ## Branch and delivery flow
 

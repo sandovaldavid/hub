@@ -1,14 +1,32 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCi = Boolean(process.env.CI);
+const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';
+
+function getWorkerOverride(value: string | undefined): number | undefined {
+	if (!value) return undefined;
+
+	const workers = Number(value);
+	if (!Number.isInteger(workers) || workers < 1) {
+		throw new Error(`PLAYWRIGHT_WORKERS must be a positive integer, received: ${value}`);
+	}
+
+	return workers;
+}
+
+const workerOverride = getWorkerOverride(process.env.PLAYWRIGHT_WORKERS);
+const workers = workerOverride ?? (isGitHubActions ? 2 : undefined);
+const testServerUrl = isCi ? 'http://localhost:4322' : 'http://localhost:4321';
+
 export default defineConfig({
 	testDir: './tests/e2e',
 	fullyParallel: true,
-	forbidOnly: !!process.env.CI,
-	retries: process.env.CI ? 2 : 0,
-	workers: process.env.CI ? 1 : undefined,
+	forbidOnly: isCi,
+	retries: isGitHubActions ? 2 : 0,
+	workers,
 	reporter: 'html',
 	use: {
-		baseURL: 'http://localhost:4321',
+		baseURL: testServerUrl,
 		trace: 'on-first-retry',
 	},
 	projects: [
@@ -16,13 +34,11 @@ export default defineConfig({
 			name: 'chromium',
 			use: { ...devices['Desktop Chrome'] },
 		},
-		// webkit and firefox are not installed on CI runners — local-only (#98).
-		// `GITHUB_ACTIONS` (set only by Actions itself) is the right gate here, not the
-		// generic `CI` — `validate:local` also sets `CI=1` (for the preview server and
-		// deterministic retries/workers below), and that script's whole point is to run
-		// every locally-capable browser, including inside a container with webkit/firefox
-		// installed. Only hosted Actions runners actually lack those binaries.
-		...(process.env.GITHUB_ACTIONS
+		// Hosted GitHub Actions installs Chromium only. The complete local gate runs
+		// inside the repository DevContainer, where Chromium, WebKit and Firefox are
+		// installed and verified. `GITHUB_ACTIONS` must remain the browser-project gate:
+		// `validate:local:inside` also sets `CI=1` to exercise the production preview.
+		...(isGitHubActions
 			? []
 			: [
 					{ name: 'Mobile Safari', use: { ...devices['iPhone 14'] } },
@@ -30,9 +46,9 @@ export default defineConfig({
 				]),
 	],
 	webServer: {
-		command: process.env.CI ? 'bun run preview' : 'bun run dev',
-		url: 'http://localhost:4321',
-		reuseExistingServer: !process.env.CI,
+		command: isCi ? 'bun run preview:test' : 'bun run dev',
+		url: testServerUrl,
+		reuseExistingServer: !isCi,
 		timeout: 60_000,
 	},
 });
