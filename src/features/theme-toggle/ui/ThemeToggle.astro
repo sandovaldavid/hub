@@ -88,26 +88,13 @@ const labelSystem = t('theme.system');
 		updateUI(initialState.current);
 
 		button.addEventListener('click', () => {
-			const newState = themeManager.cycleTheme();
-			updateUI(newState.current, true);
-
-			window.dispatchEvent(
-				new CustomEvent('theme-change', {
-					detail: { theme: newState.current, effective: newState.effective },
-				})
-			);
+			updateUI(themeManager.cycleTheme().current, true);
 		});
 
-		themeManager.watchSystemPreference(systemTheme => {
-			const currentTheme = themeManager.getThemeState().current;
-
-			if (currentTheme === 'system') {
-				window.dispatchEvent(
-					new CustomEvent('theme-change', {
-						detail: { theme: 'system', effective: systemTheme },
-					})
-				);
-			}
-		});
+		// Subscribing is the point: ThemeManager.watchSystemPreference re-applies
+		// the 'system' theme (and its favicon) when the OS preference flips. The
+		// button itself shows the *selected* mode, which stays 'system' here, so
+		// there is no UI to update.
+		themeManager.watchSystemPreference();
 	}
 </script>

@@ -63,13 +63,14 @@ export class ThemeManager {
 		this.applyTheme(this.getStoredTheme() || 'system');
 	}
 
-	watchSystemPreference(callback: (theme: EffectiveTheme) => void): () => void {
+	/** Re-applies the resolved theme when the OS preference changes while in `system` mode. */
+	watchSystemPreference(callback?: (theme: EffectiveTheme) => void): () => void {
 		if (typeof window === 'undefined') return () => {};
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 		const handler = (event: MediaQueryListEvent) => {
 			const newPreference = event.matches ? 'dark' : 'light';
 			if ((this.getStoredTheme() || 'system') === 'system') this.applyTheme('system');
-			callback(newPreference);
+			callback?.(newPreference);
 		};
 		mediaQuery.addEventListener('change', handler);
 		return () => mediaQuery.removeEventListener('change', handler);
