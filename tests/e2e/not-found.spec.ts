@@ -24,5 +24,6 @@ test('serves missing routes as a branded noindex 404', async ({ page }) => {
 
 	expect(footerBox).not.toBeNull();
 	expect(viewport).not.toBeNull();
-	expect(Math.abs((footerBox?.y ?? 0) + (footerBox?.height ?? 0) - (viewport?.height ?? 0))).toBeLessThanOrEqual(2);
+	const footerBottom = (footerBox?.y ?? 0) + (footerBox?.height ?? 0);
+	expect(Math.abs(footerBottom - (viewport?.height ?? 0))).toBeLessThanOrEqual(2);
 });
