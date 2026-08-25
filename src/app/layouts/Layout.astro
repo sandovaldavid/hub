@@ -10,6 +10,7 @@ import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
 import { getProfilePageStructuredData } from '@data/structured-data';
 import { useTranslations } from '@shared/i18n';
+import { Font } from 'astro:assets';
 
 interface Props extends SEOProps {
 	alternates?: { en: string; es: string };
@@ -77,6 +78,11 @@ const jsonLd = emitStructuredData
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="sitemap" href={sitemapUrl} />
+
+		<!-- Self-hosted from Fontsource at build time; both are above the fold
+		     (Inter carries the body copy, JetBrains Mono the h1 and headings). -->
+		<Font cssVariable="--font-inter" preload />
+		<Font cssVariable="--font-jetbrains-mono" preload />
 
 		<title>{title}</title>
 		<meta name="description" content={description} />

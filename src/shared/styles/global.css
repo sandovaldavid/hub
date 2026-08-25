@@ -140,11 +140,8 @@
 	--color-detail-step-marker-edge: var(--detail-step-marker-edge);
 
 	/* Link Hub Compact: JetBrains Mono display/headings, Inter reading. */
-	--font-sans:
-		'Inter Variable', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-	--font-mono:
-		'JetBrains Mono Variable', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Monaco,
-		'Courier New', monospace;
+	--font-sans: var(--font-inter);
+	--font-mono: var(--font-jetbrains-mono);
 	--font-display: var(--channel-font-display);
 	--font-heading: var(--channel-font-heading);
 	--font-body: var(--channel-font-body);
@@ -186,6 +183,19 @@
 	--z-index-skip-link: 9999;
 }
 
+/*
+ * Channel typography does not vary by theme, so it is declared once here
+ * rather than repeated in the Light and Dark blocks. The families resolve to
+ * `astro:assets` font variables (see astro.config.mjs), which carry the
+ * self-hosted face, a metric-matched fallback and the generic family.
+ */
+:root {
+	--channel-font-display: var(--font-jetbrains-mono);
+	--channel-font-heading: var(--font-jetbrains-mono);
+	--channel-font-body: var(--font-inter);
+	--channel-font-technical: var(--font-jetbrains-mono);
+}
+
 :root,
 [data-theme='light'] {
 	color-scheme: light;
@@ -209,10 +219,6 @@
 	 * Online state uses the approved semantic success text primitive.
 	 */
 	--channel-status-online: var(--color-base-status-success-text-light);
-	--channel-font-display: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
-	--channel-font-heading: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
-	--channel-font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
-	--channel-font-technical: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
 
 	--button-primary-background: var(--color-primary-600-light);
 	--button-primary-background-hover: var(--color-primary-700);
@@ -293,10 +299,6 @@
 	--channel-accent-primary: var(--color-primary-500-dark);
 	--channel-accent-secondary: var(--color-primary-400-dark);
 	--channel-status-online: var(--color-base-status-success-text-dark);
-	--channel-font-display: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
-	--channel-font-heading: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
-	--channel-font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
-	--channel-font-technical: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
 
 	--button-primary-background: var(--color-primary-500-dark);
 	--button-primary-background-hover: var(--color-primary-400-dark);
