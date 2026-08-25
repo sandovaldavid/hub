@@ -6,6 +6,9 @@
 		"location": "Lima, Perú · UTC-5",
 		"workMode": "Remoto · con base en Perú",
 		"languages": "Inglés · Español",
+		"locationLabel": "Ubicación",
+		"languagesLabel": "Idiomas",
+		"workModeLabel": "Modalidad",
 		"resumeAction": "Descargar CV",
 		"snapshotHeading": "Resumen profesional",
 		"avatarAlt": "Retrato de David Sandoval"
@@ -18,7 +21,8 @@
 		"sectionsLabel": "Secciones del perfil profesional"
 	},
 	"social": {
-		"heading": "Enlaces profesionales y redes sociales"
+		"heading": "Enlaces profesionales y redes sociales",
+		"profileLinkAria": "Visita el perfil de {platform}"
 	},
 	"cta": {
 		"heading": "Explora mi trabajo",
@@ -48,7 +52,21 @@
 		"title": "Conversemos",
 		"message": "Para oportunidades de ingeniería de software, colaboraciones o conversaciones sobre proyectos relevantes, escríbeme directamente.",
 		"buttonText": "Enviar correo",
-		"heading": "Contacto"
+		"heading": "Contacto",
+		"emailSubject": "Oportunidad de ingeniería de software"
+	},
+	"projects": {
+		"title": "Proyectos destacados",
+		"description": "Casos seleccionados que muestran el problema, las decisiones técnicas y el resultado de mi trabajo.",
+		"caseStudy": "Caso destacado",
+		"problem": "Problema",
+		"contribution": "Mi contribución",
+		"outcome": "Resultado",
+		"repository": "Repositorio",
+		"demo": "Demo",
+		"private": "Repo privado",
+		"demoUnavailable": "Sin demo público",
+		"technologyStack": "Tecnologías utilizadas"
 	},
 	"skills": {
 		"title": "Stack principal de ingeniería",
@@ -80,7 +98,10 @@
 	},
 	"share": {
 		"ariaLabel": "Compartir esta página",
-		"copied": "¡Enlace copiado!"
+		"copied": "¡Enlace copiado!",
+		"webShareLabel": "Compartir sitio usando el menú del sistema",
+		"clipboardLabel": "Copiar enlace al portapapeles",
+		"text": "Revisa el trabajo de ingeniería de software, la evidencia pública y los enlaces profesionales de David Sandoval."
 	},
 	"theme": {
 		"light": "Cambiar a modo claro",

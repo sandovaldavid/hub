@@ -1,4 +1,4 @@
-@import '../../../app/styles/global.css';
+@reference '../../../shared/styles/global.css';
 
 .social-button {
 	@apply flex w-full cursor-pointer items-center gap-3 rounded-xl border-2 px-4 py-3 no-underline shadow-xs transition-all duration-300 ease-out md:px-5 md:py-4 lg:px-6 lg:py-4;
@@ -19,17 +19,14 @@
 .social-button__icon--website {
 	color: var(--channel-accent-primary);
 }
-
 .social-button__icon--linkedin {
 	@apply h-full w-full;
 }
 
-/* Sticky-hover fix: see ThemeToggle.css for why this is gated. */
 @media (hover: hover) {
 	.social-button:hover {
 		@apply -translate-y-0.5 shadow-retro-xs;
 	}
-
 	.social-button:hover .social-button__icon,
 	.social-button:hover .social-button__label,
 	.social-button:hover .social-button__username {
@@ -40,12 +37,10 @@
 .social-button__content {
 	@apply flex min-w-0 flex-1 flex-col gap-0.5;
 }
-
 .social-button__label {
 	@apply break-words text-sm font-bold leading-tight transition-colors duration-200 md:text-base lg:text-lg;
 	color: var(--channel-content-strong);
 }
-
 .social-button__username {
 	@apply truncate text-xs transition-colors duration-200 md:text-sm lg:text-base;
 	color: var(--channel-content-muted);
@@ -56,26 +51,22 @@
 	--platform-gradient-end: var(--color-neutral-900);
 	--platform-edge: var(--color-neutral-700);
 }
-
 .social-button--x {
 	--platform-gradient-start: var(--color-neutral-900);
 	--platform-gradient-end: var(--color-neutral-950);
 	--platform-edge: var(--color-neutral-800);
 }
-
 .social-button--instagram {
 	--platform-gradient-start: #833ab4;
 	--platform-gradient-middle: #fd1d1d;
 	--platform-gradient-end: #f77737;
 	--platform-edge: #833ab4;
 }
-
 .social-button--linkedin {
 	--platform-gradient-start: #0077b5;
 	--platform-gradient-end: #00a0dc;
 	--platform-edge: #0077b5;
 }
-
 .social-button--github,
 .social-button--x,
 .social-button--linkedin {
@@ -93,7 +84,6 @@
 			var(--platform-gradient-end)
 		);
 	}
-
 	.social-button--instagram:hover {
 		--platform-on-brand: #ffffff;
 		border-color: var(--platform-edge);
@@ -104,7 +94,6 @@
 			var(--platform-gradient-end) 100%
 		);
 	}
-
 	.social-button--website:hover {
 		--platform-on-brand: var(--button-primary-content);
 		border-color: var(--channel-accent-primary);
@@ -119,15 +108,12 @@
 .social-button--compact {
 	@apply min-h-14 gap-2.5 rounded-lg border px-3.5 py-2.5 md:px-4;
 }
-
 .social-button--compact .social-button__icon {
 	@apply h-5 w-5;
 }
-
 .social-button--compact .social-button__label {
 	@apply text-sm;
 }
-
 .social-button--compact .social-button__username {
 	@apply block text-xs;
 }

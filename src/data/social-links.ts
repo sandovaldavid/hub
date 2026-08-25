@@ -13,20 +13,18 @@ export const socialLinks: SocialLink[] = [
 		priority: 'primary',
 		audience: ['recruiter', 'client'],
 		analyticsId: 'social_portfolio_opened',
-		classBrand: 'social-button--website',
-		classIcon: 'social-button__icon--website',
+		conversionEvent: 'portfolio_opened',
 	},
 	{
 		id: 'linkedin',
 		platform: 'linkedin',
 		label: 'LinkedIn',
 		url: siteConfig.socialUrls.linkedin,
-		username: '@jdsandovals',
+		username: siteConfig.socialUsernames.linkedin,
 		priority: 'primary',
 		audience: ['recruiter', 'client'],
 		analyticsId: 'social_linkedin_opened',
-		classBrand: 'social-button--linkedin',
-		classIcon: 'social-button__icon--linkedin',
+		conversionEvent: 'linkedin_opened',
 	},
 	{
 		id: 'github',
@@ -37,42 +35,33 @@ export const socialLinks: SocialLink[] = [
 		priority: 'primary',
 		audience: ['recruiter', 'community'],
 		analyticsId: 'social_github_opened',
-		classBrand: 'social-button--github',
-		classIcon: 'social-button__icon--github',
+		conversionEvent: 'github_opened',
 	},
 	{
 		id: 'twitter',
 		platform: 'twitter',
 		label: 'X',
 		url: siteConfig.socialUrls.twitter,
-		username: '@jdsandoval_',
+		username: siteConfig.socialUsernames.twitter,
 		priority: 'secondary',
 		audience: ['community'],
 		analyticsId: 'social_x_opened',
-		classBrand: 'social-button--x',
-		classIcon: 'social-button__icon--x',
 	},
 	{
 		id: 'instagram',
 		platform: 'instagram',
 		label: 'Instagram',
 		url: siteConfig.socialUrls.instagram,
-		username: '@jdsandovals',
+		username: siteConfig.socialUsernames.instagram,
 		priority: 'footer',
 		audience: ['community'],
 		analyticsId: 'social_instagram_opened',
-		classBrand: 'social-button--instagram',
-		classIcon: 'social-button__icon--instagram',
 	},
 ];
 
 export const getRequiredSocialLink = (id: SocialLink['id']): SocialLink => {
 	const link = socialLinks.find(item => item.id === id);
-
-	if (!link) {
-		throw new Error(`Required social link "${id}" is not configured.`);
-	}
-
+	if (!link) throw new Error(`Required social link "${id}" is not configured.`);
 	return link;
 };
 

@@ -1,20 +1,18 @@
 ---
-import Layout from '@app/layouts/Layout.astro';
 import { HeroCard, ProfileSnapshot } from '@widgets/hero-section';
 import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
 import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
 import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
 import { SkillsSection } from '@widgets/skills-section';
-import WeeklyProjectSection from '@widgets/weekly-project-section/ui/WeeklyProjectSection.astro';
+import FeaturedProjectSection from '@widgets/featured-project-section/ui/FeaturedProjectSection.astro';
 
 import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
 import { getCtaButtons } from '@data/cta';
 import { coreSkills, toolingSkills } from '@data/skills';
-import { getFeaturedProjects } from '@data/weekly-project';
-import { getSEO } from '@data/seo';
+import { getFeaturedProjects } from '@data/featured-projects';
 import { siteConfig } from '@data/site.config';
-import { getAlternateUrls, useTranslations, type Lang } from '@shared/i18n';
+import { useTranslations, type Lang } from '@shared/i18n';
 
 interface Props {
 	lang: Lang;
@@ -22,140 +20,135 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const SEO = getSEO(lang);
-const alternates = getAlternateUrls(Astro.url);
 const projects = getFeaturedProjects(lang);
 const professionalSocialLinks = socialLinks.filter(link => link.priority !== 'footer');
 
 const localizedProfile = {
 	...profile,
-	avatar: {
-		...profile.avatar,
-		alt: t('profile.avatarAlt'),
-	},
+	avatar: { ...profile.avatar, alt: t('profile.avatarAlt') },
 	tagline: t('profile.tagline'),
 	bio: t('profile.bio'),
 };
 
-const localizedCtaButtons = getCtaButtons().map(btn => ({
-	...btn,
-	title: t(`cta.${btn.id}.title`),
-	description: t(`cta.${btn.id}.description`),
+const localizedCtaButtons = getCtaButtons(t('contact.emailSubject')).map(button => ({
+	...button,
+	title: t(`cta.${button.id}.title`),
+	description: t(`cta.${button.id}.description`),
 }));
 
 const heroMetadata = [
-	{ label: lang === 'es' ? 'Ubicación' : 'Location', value: t('profile.location') },
-	{ label: lang === 'es' ? 'Idiomas' : 'Languages', value: t('profile.languages') },
-	{ label: lang === 'es' ? 'Modalidad' : 'Work mode', value: t('profile.workMode') },
+	{ label: t('profile.locationLabel'), value: t('profile.location') },
+	{ label: t('profile.languagesLabel'), value: t('profile.languages') },
+	{ label: t('profile.workModeLabel'), value: t('profile.workMode') },
 ];
 ---
 
-<Layout {...SEO} {alternates}>
-	<main
-		id="main-content"
-		tabindex="-1"
-		class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
-		role="main"
-		aria-label={t('page.mainLabel')}>
+<main
+	id="main-content"
+	tabindex="-1"
+	class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
+	role="main"
+	aria-label={t('page.mainLabel')}>
+	<div
+		class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-center md:gap-6 lg:grid-cols-10 lg:gap-7 xl:gap-8"
+		data-layout-section="hero"
+		role="region"
+		aria-label={t('hero.sectionsLabel')}>
+		<section
+			class="bento-item bento-item--hero min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-6 lg:col-start-1 lg:p-5"
+			data-layout-column="profile"
+			data-layout-panel="profile"
+			aria-labelledby="hero-heading">
+			<HeroCard
+				profile={localizedProfile}
+				variant="compact"
+				availability={t('profile.availability')}
+				primaryAction={{
+					label: t('profile.resumeAction'),
+					href: siteConfig.resume[lang],
+					external: true,
+					conversionEvent: 'resume_downloaded',
+					conversionItem: 'resume',
+				}}
+			/>
+		</section>
+
 		<div
-			class="bento-grid flex flex-col gap-4 md:grid md:grid-cols-4 md:items-center md:gap-6 lg:grid-cols-10 lg:gap-7 xl:gap-8"
-			data-layout-section="hero"
-			role="region"
-			aria-label={t('hero.sectionsLabel')}>
-			<section
-				class="bento-item bento-item--hero min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-6 lg:col-start-1 lg:p-5"
-				data-layout-column="profile"
-				data-layout-panel="profile"
-				aria-labelledby="hero-heading">
-				<HeroCard
-					profile={localizedProfile}
-					variant="compact"
-					availability={t('profile.availability')}
-					primaryAction={{
-						label: t('profile.resumeAction'),
-						href: siteConfig.resume[lang],
-						external: true,
-					}}
-				/>
-			</section>
-
-			<div
-				class="bento-item bento-item--profile-snapshot order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
-				data-layout-section="profile-snapshot">
-				<ProfileSnapshot
-					heading={t('profile.snapshotHeading')}
-					bio={localizedProfile.bio}
-					metadata={heroMetadata}
-				/>
-			</div>
-
-			<section
-				class="bento-item bento-item--social order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-4 lg:col-start-7 lg:p-5"
-				data-layout-column="social"
-				data-layout-panel="social"
-				aria-labelledby="social-heading">
-				<h2
-					id="social-heading"
-					class="mb-2 block text-center text-xs font-semibold uppercase tracking-[0.12em] text-channel-accent-primary md:text-left">
-					{t('social.heading')}
-				</h2>
-				<SocialGrid
-					links={professionalSocialLinks}
-					priorities={['primary', 'secondary']}
-					variant="compact"
-					{lang}
-				/>
-			</section>
+			class="bento-item bento-item--profile-snapshot order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
+			data-layout-section="profile-snapshot">
+			<ProfileSnapshot
+				heading={t('profile.snapshotHeading')}
+				bio={localizedProfile.bio}
+				metadata={heroMetadata}
+			/>
 		</div>
 
 		<section
-			class="flex flex-col gap-4 md:gap-6"
-			data-layout-section="actions"
-			aria-labelledby="cta-heading">
-			<header class="bento-item bento-item--cta-heading mx-auto max-w-3xl text-center">
-				<h2
-					id="cta-heading"
-					class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
-					{t('cta.heading')}
-				</h2>
-				<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-muted md:text-base">
-					{t('cta.description')}
-				</p>
-			</header>
-
-			<div class="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:items-stretch">
-				<div
-					class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
-					data-layout-column="primary-actions">
-					<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
-				</div>
-				<section
-					class="bento-item bento-item--contact flex min-w-0"
-					data-layout-column="contact"
-					aria-labelledby="contact-heading">
-					<ContactCTA email={profile.contact.email} {lang} />
-				</section>
-			</div>
-		</section>
-
-		<section class="bento-item bento-item--weekly-project" data-layout-section="projects">
-			<WeeklyProjectSection {projects} {lang} />
-		</section>
-
-		<section
-			class="bento-item bento-item--skills"
-			data-layout-section="skills"
-			aria-labelledby="skills-heading">
-			<SkillsSection
-				{coreSkills}
-				{toolingSkills}
-				title={t('skills.title')}
-				coreTitle={t('skills.coreTitle')}
-				toolsTitle={t('skills.toolsTitle')}
+			class="bento-item bento-item--social order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-4 lg:col-start-7 lg:p-5"
+			data-layout-column="social"
+			data-layout-panel="social"
+			aria-labelledby="social-heading">
+			<h2
+				id="social-heading"
+				class="mb-2 block text-center text-xs font-semibold uppercase tracking-[0.12em] text-channel-accent-primary md:text-left">
+				{t('social.heading')}
+			</h2>
+			<SocialGrid
+				links={professionalSocialLinks}
+				priorities={['primary', 'secondary']}
+				variant="compact"
+				{lang}
 			/>
 		</section>
-	</main>
-</Layout>
+	</div>
+
+	<section
+		class="flex flex-col gap-4 md:gap-6"
+		data-layout-section="actions"
+		aria-labelledby="cta-heading">
+		<header class="bento-item bento-item--cta-heading mx-auto max-w-3xl text-center">
+			<h2
+				id="cta-heading"
+				class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
+				{t('cta.heading')}
+			</h2>
+			<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-muted md:text-base">
+				{t('cta.description')}
+			</p>
+		</header>
+
+		<div class="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:items-stretch">
+			<div
+				class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
+				data-layout-column="primary-actions">
+				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
+			</div>
+			<section
+				class="bento-item bento-item--contact flex min-w-0"
+				data-layout-column="contact"
+				aria-labelledby="contact-heading">
+				<ContactCTA email={profile.contact.email} {lang} />
+			</section>
+		</div>
+	</section>
+
+	<section class="bento-item bento-item--featured-project" data-layout-section="projects">
+		<FeaturedProjectSection {projects} {lang} />
+	</section>
+
+	<section
+		class="bento-item bento-item--skills"
+		data-layout-section="skills"
+		aria-labelledby="skills-heading">
+		<SkillsSection
+			{coreSkills}
+			{toolingSkills}
+			title={t('skills.title')}
+			coreTitle={t('skills.coreTitle')}
+			toolsTitle={t('skills.toolsTitle')}
+		/>
+	</section>
+</main>
 
 <style>
 	.bento-item {
@@ -163,7 +156,6 @@ const heroMetadata = [
 		opacity: 0;
 	}
 
-	/* Stagger follows reading order top-to-bottom in 0.05s steps. */
 	.bento-item--hero {
 		animation-delay: 0.1s;
 	}
@@ -182,7 +174,7 @@ const heroMetadata = [
 	.bento-item--contact {
 		animation-delay: 0.35s;
 	}
-	.bento-item--weekly-project {
+	.bento-item--featured-project {
 		animation-delay: 0.4s;
 	}
 	.bento-item--skills {

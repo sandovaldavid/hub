@@ -75,26 +75,21 @@ English and Spanish must preserve the same facts, claim status, lifecycle state,
 
 Public URLs and contact values are implemented through `src/data/site.config.ts`.
 
-Never add:
-
-- personal phone numbers or private WhatsApp endpoints;
-- unapproved social profiles;
-- credentials, secrets or internal endpoints;
-- confidential employer, client or financial information;
-- private strategy/planning content;
-- reconstructible private product details.
+Never add personal phone numbers or private WhatsApp endpoints, unapproved social profiles, credentials, secrets or internal endpoints, confidential employer/client/financial information, private strategy content or reconstructible private product details.
 
 ## Architecture and design
 
 Follow [`docs/architecture.md`](docs/architecture.md).
 
-- Keep route composition in `src/pages`.
+- Keep route composition in `src/pages` and the global document shell in `src/app`.
 - Keep typed content, URLs and metadata in `src/data` or localized catalogs.
+- Keep shared design-system primitives, Link Hub aliases and component roles in `src/shared/styles/global.css`; `Layout.astro` loads that stylesheet once.
+- Keep lower-layer component CSS pointed at shared styles through `@reference`, never through `src/app`.
 - Import concrete modules directly when a barrel adds no useful boundary.
 - Preserve the shallow architecture; do not impose full Feature-Sliced Design ceremony.
-- Keep shared Identity Core primitives, Link Hub aliases and component roles in `src/app/styles/global.css`.
 - Keep structured data in `src/data/structured-data.ts`.
 - Preserve mobile-first layout, keyboard operation, contrast, Light/Dark/System themes, reduced motion and social metadata.
+- Keep the dependency matrix executable through `bun run check:architecture`, including CSS dependencies.
 
 When a visual request references an external design source that is not available, preserve the implemented public contract and ask the task owner to provide the relevant requirement in the issue/PR rather than guessing.
 
@@ -115,32 +110,14 @@ bun run validate:local
 
 Record exact commands, the commit SHA and one of `Passed`, `Failed`, `Not run`, `Blocked` or `Not applicable` for each relevant check. Missing, skipped, disabled, quota-blocked or interrupted GitHub Actions are not successful validation.
 
-Identity or content work also requires manual review of:
-
-- English and Spanish meaning parity;
-- Light, Dark and System themes;
-- desktop and mobile hierarchy;
-- keyboard, focus, contrast and reduced motion;
-- portrait and social-preview composition;
-- canonical URLs and public destinations;
-- claims against their evidence source;
-- the final live output after promotion to `main`.
+Identity or content work also requires manual review of English/Spanish meaning parity, Light/Dark/System themes, desktop/mobile hierarchy, keyboard/focus/contrast/reduced motion, portrait/social-preview composition, canonical URLs/public destinations, claims against evidence and final live output after promotion to `main`.
 
 See [`docs/operations.md`](docs/operations.md) for setup, CI, branch, deployment and maintenance procedures.
 
 ## Documentation placement
 
-Keep in this repository the current public information required to understand, build, test and maintain the source:
+Keep in this repository the current public information required to understand, build, test and maintain the source: setup/commands, architecture/ownership, tests/validation, delivery/maintenance, security/privacy boundaries, contributor guidance and troubleshooting.
 
-- setup and commands;
-- architecture and ownership;
-- tests and validation;
-- delivery and maintenance;
-- security and privacy boundaries;
-- contributor guidance and troubleshooting.
-
-Do not add documents containing private strategy, personal career planning, confidential evidence, unpublished business context or session handoffs.
-
-If a durable maintainer decision is stored elsewhere, ensure any implementation constraint it creates is also represented publicly through code, tests, repository documentation or the associated change request.
+Do not add documents containing private strategy, personal career planning, confidential evidence, unpublished business context or session handoffs. If a durable maintainer decision is stored elsewhere, ensure any implementation constraint it creates is also represented publicly through code, tests, repository documentation or the associated change request.
 
 Do not duplicate an authoritative repository contract in multiple documents when a link is sufficient.

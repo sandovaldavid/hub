@@ -19,7 +19,7 @@ describe('Navigation and i18n control contracts (#90, #91)', () => {
 		expect(shareContent).toContain('useTranslations');
 		expect(shareContent).toContain('data-share-label-webshare');
 		expect(shareContent).toContain('data-share-label-clipboard');
-
+		expect(shareContent).toContain('data-share-text');
 		expect(themeContent).toContain('useTranslations');
 		expect(themeContent).toContain('data-label-light');
 		expect(themeContent).toContain('data-label-dark');
@@ -34,7 +34,8 @@ describe('Navigation and i18n control contracts (#90, #91)', () => {
 
 		expect(content).toContain('useTranslations');
 		expect(content).toContain("t('nav.switchLanguage')");
-		expect(content).toContain('data-conversion-event="language_switched"');
+		expect(content).toContain('data-conversion-event="language_changed"');
+		expect(content).toContain('data-conversion-position="navigation"');
 		expect(content).toContain('targetLang.toUpperCase()');
 	});
 

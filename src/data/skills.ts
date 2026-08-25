@@ -1,6 +1,5 @@
-import type { Skill } from '@widgets/skills-section';
+import type { Skill } from '@entities/skill/model/types';
 
-// Import SVG icons
 import DotnetIcon from '@shared/assets/tech-icons/dotnet.svg?raw';
 import CSharpIcon from '@shared/assets/tech-icons/csharp.svg?raw';
 import AngularIcon from '@shared/assets/tech-icons/angular.svg?raw';
@@ -16,28 +15,9 @@ import TailwindIcon from '@shared/assets/tech-icons/tailwindcss.svg?raw';
 import FigmaIcon from '@shared/assets/tech-icons/figma.svg?raw';
 
 export const coreSkills: Skill[] = [
-	// Verified core engineering stack (#93, #112)
-	{
-		id: 'dotnet',
-		name: '.NET',
-		icon: DotnetIcon,
-		category: 'backend',
-		tier: 'core',
-	},
-	{
-		id: 'csharp',
-		name: 'C#',
-		icon: CSharpIcon,
-		category: 'backend',
-		tier: 'core',
-	},
-	{
-		id: 'angular',
-		name: 'Angular',
-		icon: AngularIcon,
-		category: 'frontend',
-		tier: 'core',
-	},
+	{ id: 'dotnet', name: '.NET', icon: DotnetIcon, category: 'backend', tier: 'core' },
+	{ id: 'csharp', name: 'C#', icon: CSharpIcon, category: 'backend', tier: 'core' },
+	{ id: 'angular', name: 'Angular', icon: AngularIcon, category: 'frontend', tier: 'core' },
 	{
 		id: 'typescript',
 		name: 'TypeScript',
@@ -45,38 +25,13 @@ export const coreSkills: Skill[] = [
 		category: 'frontend',
 		tier: 'core',
 	},
-	{
-		id: 'postgresql',
-		name: 'PostgreSQL',
-		icon: PostgresIcon,
-		category: 'backend',
-		tier: 'core',
-	},
-	{
-		id: 'sqlserver',
-		name: 'SQL Server',
-		icon: SqlServerIcon,
-		category: 'backend',
-		tier: 'core',
-	},
-	{
-		id: 'mongodb',
-		name: 'MongoDB',
-		icon: MongoIcon,
-		category: 'backend',
-		tier: 'core',
-	},
+	{ id: 'postgresql', name: 'PostgreSQL', icon: PostgresIcon, category: 'backend', tier: 'core' },
+	{ id: 'sqlserver', name: 'SQL Server', icon: SqlServerIcon, category: 'backend', tier: 'core' },
+	{ id: 'mongodb', name: 'MongoDB', icon: MongoIcon, category: 'backend', tier: 'core' },
 ];
 
 export const toolingSkills: Skill[] = [
-	// Delivery and product tooling (#112 Option A)
-	{
-		id: 'astro',
-		name: 'Astro',
-		icon: AstroIcon,
-		category: 'frontend',
-		tier: 'tooling',
-	},
+	{ id: 'astro', name: 'Astro', icon: AstroIcon, category: 'frontend', tier: 'tooling' },
 	{
 		id: 'githubactions',
 		name: 'GitHub Actions',
@@ -84,20 +39,8 @@ export const toolingSkills: Skill[] = [
 		category: 'tools',
 		tier: 'tooling',
 	},
-	{
-		id: 'docker',
-		name: 'Docker',
-		icon: DockerIcon,
-		category: 'tools',
-		tier: 'tooling',
-	},
-	{
-		id: 'nodejs',
-		name: 'Node.js',
-		icon: NodeIcon,
-		category: 'backend',
-		tier: 'tooling',
-	},
+	{ id: 'docker', name: 'Docker', icon: DockerIcon, category: 'tools', tier: 'tooling' },
+	{ id: 'nodejs', name: 'Node.js', icon: NodeIcon, category: 'backend', tier: 'tooling' },
 	{
 		id: 'tailwindcss',
 		name: 'Tailwind CSS',
@@ -105,13 +48,7 @@ export const toolingSkills: Skill[] = [
 		category: 'frontend',
 		tier: 'tooling',
 	},
-	{
-		id: 'figma',
-		name: 'Figma',
-		icon: FigmaIcon,
-		category: 'tools',
-		tier: 'tooling',
-	},
+	{ id: 'figma', name: 'Figma', icon: FigmaIcon, category: 'tools', tier: 'tooling' },
 ];
 
 export const skills: Skill[] = [...coreSkills, ...toolingSkills];

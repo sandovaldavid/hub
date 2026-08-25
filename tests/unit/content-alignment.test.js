@@ -5,14 +5,14 @@ import { fileURLToPath } from 'node:url';
 import { getCtaButtons } from '../../src/data/cta.ts';
 import { profile } from '../../src/data/profile.ts';
 import { siteConfig } from '../../src/data/site.config.ts';
-import { getFeaturedProjects } from '../../src/data/weekly-project.ts';
+import { getFeaturedProjects } from '../../src/data/featured-projects.ts';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const readJson = async path => JSON.parse(await readFile(join(repositoryRoot, path), 'utf8'));
 
 describe('Hub messaging alignment contract', () => {
 	test('keeps David as the public identity instead of branding the Hub as a separate entity', () => {
-		expect(profile.name).toBe('David Sandoval');
+		expect(profile.name).toBe(siteConfig.name);
 		expect(siteConfig.name).toBe('David Sandoval');
 		expect(siteConfig.shortName).toBe('David Sandoval');
 	});
@@ -38,11 +38,12 @@ describe('Hub messaging alignment contract', () => {
 	});
 
 	test('keeps CTA route metadata separate from localized public copy', () => {
-		for (const button of getCtaButtons()) {
+		for (const button of getCtaButtons('Software engineering opportunity')) {
 			expect(button).not.toHaveProperty('title');
 			expect(button).not.toHaveProperty('description');
 			expect(button.id).toBeTruthy();
 			expect(button.href).toBeTruthy();
+			expect(button.conversionEvent).toBeTruthy();
 		}
 	});
 

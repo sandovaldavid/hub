@@ -1,5 +1,14 @@
 ---
+import Layout from '@app/layouts/Layout.astro';
 import HubPage from '@widgets/hub-page/HubPage.astro';
+import { getSEO } from '@data/seo';
+import { getAlternateUrls, type Lang } from '@shared/i18n';
+
+const lang: Lang = 'es';
+const SEO = getSEO(lang);
+const alternates = getAlternateUrls(Astro.url);
 ---
 
-<HubPage lang="es" />
+<Layout {...SEO} {alternates}>
+	<HubPage {lang} />
+</Layout>

@@ -17,9 +17,9 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const currentYear = new Date().getFullYear();
-
 const portfolio = getRequiredSocialLink('website');
 const github = getRequiredSocialLink('github');
+const contactSubject = t('contact.emailSubject');
 
 const footerLinks: Array<{
 	id: string;
@@ -47,7 +47,7 @@ const footerLinks: Array<{
 	},
 	{
 		id: 'email',
-		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(siteConfig.recruiterEmailSubject)}`,
+		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(contactSubject)}`,
 		icon: EmailIcon,
 		label: t('contact.buttonText'),
 		external: false,

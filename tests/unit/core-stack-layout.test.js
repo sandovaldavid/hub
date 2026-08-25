@@ -29,9 +29,9 @@ describe('Core engineering stack and layout hierarchy (#93, #95, #112)', () => {
 		expect(toolingSkills.every(s => s.tier === 'tooling')).toBe(true);
 	});
 
-	test('WeeklyProjectSection centers 2-card project layout at wide viewports (#95)', async () => {
+	test('FeaturedProjectSection centers 2-card project layout at wide viewports (#95)', async () => {
 		const css = await readFile(
-			join(repositoryRoot, 'src/widgets/weekly-project-section/ui/WeeklyProjectSection.css'),
+			join(repositoryRoot, 'src/widgets/featured-project-section/ui/FeaturedProjectSection.css'),
 			'utf8'
 		);
 

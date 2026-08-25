@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const sourceRoot = join(repositoryRoot, 'src');
-const globalStylesPath = join(sourceRoot, 'app/styles/global.css');
+const globalStylesPath = join(sourceRoot, 'shared/styles/global.css');
 const siteConfigPath = join(sourceRoot, 'data/site.config.ts');
 const socialStylesPath = 'src/entities/social-link/ui/SocialButton.css';
 

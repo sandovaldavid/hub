@@ -1,4 +1,4 @@
-@import '../../../app/styles/global.css';
+@reference '../../../shared/styles/global.css';
 
 .language-toggle {
 	@apply fixed top-4 right-16 z-[var(--z-index-fixed-control)] inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center rounded-lg border px-2.5 py-2 text-xs font-bold uppercase tracking-wider shadow-sm no-underline transition-all duration-150;
@@ -6,8 +6,6 @@
 	color: var(--control-content);
 	border-color: var(--control-edge);
 }
-
-/* Sticky-hover fix: see ThemeToggle.css for why this is gated. */
 @media (hover: hover) {
 	.language-toggle:hover {
 		@apply -translate-y-0.5 shadow-retro-xs;
@@ -16,32 +14,23 @@
 		color: var(--channel-accent-primary);
 	}
 }
-
 .language-toggle:active {
 	@apply translate-y-0 scale-95 shadow-none;
 }
-
-/* Custom tooltip replacing the native title attribute — see ThemeToggle.css. */
 .language-toggle::after {
 	content: attr(aria-label);
-	/* normal-case/tracking-normal: .language-toggle itself is uppercase with
-	   wide tracking for its "EN"/"ES" label — both are inherited properties
-	   that would otherwise leak into this full-sentence tooltip. */
 	@apply pointer-events-none absolute top-full right-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold normal-case tracking-normal whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
 	background-color: var(--channel-content-strong);
 	color: var(--channel-background-canvas);
 }
-
 @media (hover: hover) {
 	.language-toggle:hover::after {
 		@apply translate-y-0 opacity-100;
 	}
 }
-
 .language-toggle:focus-visible::after {
 	@apply translate-y-0 opacity-100;
 }
-
 @media (max-width: 640px) {
 	.language-toggle {
 		@apply top-3 right-15;

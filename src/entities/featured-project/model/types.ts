@@ -1,6 +1,6 @@
 export type ProjectAvailability = 'public' | 'private' | 'unavailable';
 
-export interface WeeklyProject {
+export interface FeaturedProject {
 	readonly id: string;
 	title: string;
 	problem: string;

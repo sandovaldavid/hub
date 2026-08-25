@@ -5,7 +5,7 @@
 		"SECURITY.md",
 		"src/data/site.config.ts",
 		"src/data/social-links.ts",
-		"src/data/weekly-project.ts"
+		"src/data/featured-projects.ts"
 	],
 	"extensions": [".md", ".ts", ".json"],
 	"transientStatusCodes": [401, 403, 408, 425, 429],

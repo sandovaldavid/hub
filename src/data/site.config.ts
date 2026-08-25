@@ -8,19 +8,30 @@ const socialUrls = {
 	instagram: 'https://www.instagram.com/jdsandovals',
 } as const;
 
+const usernameFromUrl = (url: string): string => {
+	const slug = new URL(url).pathname.split('/').filter(Boolean).at(-1);
+	return slug ? `@${slug}` : '';
+};
+
+const socialUsernames = {
+	linkedin: usernameFromUrl(socialUrls.linkedin),
+	twitter: usernameFromUrl(socialUrls.twitter),
+	instagram: usernameFromUrl(socialUrls.instagram),
+} as const;
+
 export const siteConfig = {
 	// Public identity registry — approved values shared by SEO, content and contact surfaces.
 	handle: 'sandovaldavid',
 	name: 'David Sandoval',
 	shortName: 'David Sandoval',
 	email: 'hello@sandovaldavid.com',
-	recruiterEmailSubject: 'Software engineering opportunity',
-	twitterHandle: '@jdsandoval_',
+	twitterHandle: socialUsernames.twitter,
 
 	url: 'https://hub.sandovaldavid.com',
 	portfolioUrl,
 	githubUrl,
-	socialUrls: socialUrls,
+	socialUrls,
+	socialUsernames,
 	// `portfolioUrl` identifies David's canonical website; `sameAs` lists approved profiles.
 	sameAs: [socialUrls.linkedin, githubUrl, socialUrls.twitter, socialUrls.instagram],
 	resume: {
