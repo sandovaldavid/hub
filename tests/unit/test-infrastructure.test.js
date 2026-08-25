@@ -30,7 +30,7 @@ describe('browser test infrastructure contract', () => {
 			read('.devcontainer/Dockerfile'),
 		]);
 
-		expect(packageJson.scripts['validate:local']).toBe('node scripts/run-local-validation.mjs');
+		expect(packageJson.scripts['validate:local']).toBe('bun scripts/run-local-validation.mjs');
 		expect(packageJson.scripts['validate:local:inside']).toContain('CI=1 bun run test:e2e');
 		expect(runner).toContain("process.env.DEVCONTAINER === 'true'");
 		expect(runner).toContain("['up', '--workspace-folder', repositoryRoot]");

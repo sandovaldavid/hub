@@ -32,7 +32,7 @@
 		"test:lighthouse:desktop": "LHCI_PROFILE=desktop lhci autorun",
 		"test:lighthouse": "bun run test:lighthouse:mobile && bun run test:lighthouse:desktop",
 		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run check:links && bun run test:unit && bun run build",
-		"validate:local": "node scripts/run-local-validation.mjs",
+		"validate:local": "bun scripts/run-local-validation.mjs",
 		"validate:local:inside": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
 		"prepare": "husky"
 	},
