@@ -62,7 +62,9 @@ describe('human-first SEO contract', () => {
 		expect(structuredData).toContain("'@type': 'ImageObject'");
 		expect(structuredData).toContain("mainEntity: { '@id': personId }");
 		expect(structuredData).toContain("mainEntityOfPage: { '@id': pageId }");
-		expect(structuredData).toContain('const profileImageUrl = new URL(profile.avatar.url, siteConfig.url).href;');
+		expect(structuredData).toContain(
+			'const profileImageUrl = new URL(profile.avatar.url, siteConfig.url).href;'
+		);
 		expect(structuredData).toContain('image: profileImageUrl');
 		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
 		expect(siteConfig).toContain(
@@ -126,7 +128,9 @@ describe('human-first SEO contract', () => {
 		expect(notFound).toContain('showShare={false}');
 		expect(layout).toContain('emitCanonical?: boolean');
 		expect(layout).toContain('emitStructuredData?: boolean');
-		expect(layout).toContain('{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}');
+		expect(layout).toContain(
+			'{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}'
+		);
 		expect(layout).toContain('{jsonLd && <script is:inline type="application/ld+json"');
 	});
 

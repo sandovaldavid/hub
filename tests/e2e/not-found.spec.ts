@@ -9,7 +9,12 @@ test('serves missing routes as a branded noindex 404', async ({ page }) => {
 	await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
 	await expect(page.locator('link[rel="alternate"]')).toHaveCount(0);
 	await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
-	await expect(page.getByRole('heading', { level: 1, name: "This page isn't here." })).toBeVisible();
+	await expect(
+		page.getByRole('heading', { level: 1, name: "This page isn't here." })
+	).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Return to Hub' })).toHaveAttribute('href', '/');
-	await expect(page.getByRole('link', { name: 'Ir al Hub en español' })).toHaveAttribute('href', '/es/');
+	await expect(page.getByRole('link', { name: 'Ir al Hub en español' })).toHaveAttribute(
+		'href',
+		'/es/'
+	);
 });
