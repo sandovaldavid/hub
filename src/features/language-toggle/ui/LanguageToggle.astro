@@ -18,6 +18,7 @@ const displayLabel = targetLang.toUpperCase();
 <a
 	href={targetUrl}
 	class="language-toggle"
+	data-tooltip={switchDescription}
 	data-conversion-event="language_changed"
 	data-conversion-position="navigation"
 	data-conversion-item={targetLang}>
@@ -26,7 +27,7 @@ const displayLabel = targetLang.toUpperCase();
 		visible "ES"/"EN" breaks WCAG 2.5.3 Label in Name. Composing the name
 		from the visible code plus a visually hidden description keeps the
 		visible text inside the accessible name and still says which language
-		the link leads to.
+		the link leads to. The visual tooltip uses data-tooltip independently.
 	-->
 	<span>{displayLabel}</span>
 	<span class="sr-only">{switchDescription}</span>
