@@ -97,7 +97,6 @@ const heroMetadata = [
 				links={professionalSocialLinks}
 				priorities={['primary', 'secondary']}
 				variant="compact"
-				{lang}
 			/>
 		</section>
 	</div>
@@ -147,19 +146,21 @@ const heroMetadata = [
 
 <style>
 	/*
-	 * Scroll-driven reveal: sections fade and lift in as they enter the
-	 * scrollport and settle back out as they leave. `view()` is driven by
+	 * Scroll-driven reveal: sections lift into place as they enter the
+	 * scrollport and drift back out as they leave. `view()` is driven by
 	 * scroll position rather than a pointer state, so nothing can be left
 	 * stuck mid-animation after a tap on a touch screen.
 	 *
-	 * No fixed `opacity: 0` base: an element already in view at load sits
-	 * past `entry 100%`, so above-the-fold content paints opaque on the
-	 * first frame and does not hold back the LCP.
-	 */
-	/*
-	 * Longhands, deliberately: the CSS minifier folds `animation` +
-	 * `animation-timeline` into the shorthand, and Chrome does not accept
-	 * `view()` there — the timeline is silently dropped and nothing animates.
+	 * Only `transform` animates. Fading text through partial opacity puts it
+	 * below the WCAG AA contrast threshold for the whole transition, which
+	 * axe reports as a colour-contrast violation on every element caught
+	 * mid-reveal — and the accessibility suite cannot catch that, because it
+	 * scans with reduced motion emulated, where this animation is disabled.
+	 * Keeping the content fully opaque removes the failure rather than
+	 * hiding it.
+	 *
+	 * No `opacity` in the base rule either: an element already in view at
+	 * load paints normally on the first frame and does not hold back the LCP.
 	 */
 	.bento-item {
 		animation-name: bento-reveal;
@@ -171,20 +172,16 @@ const heroMetadata = [
 
 	@keyframes bento-reveal {
 		entry 0% {
-			opacity: 0;
-			transform: translateY(1.25rem);
+			transform: translateY(1.5rem);
 		}
 		entry 100% {
-			opacity: 1;
 			transform: none;
 		}
 		exit 0% {
-			opacity: 1;
 			transform: none;
 		}
 		exit 100% {
-			opacity: 0;
-			transform: translateY(-1.25rem);
+			transform: translateY(-1.5rem);
 		}
 	}
 
@@ -192,7 +189,6 @@ const heroMetadata = [
 	@supports not (animation-timeline: view()) {
 		.bento-item {
 			animation: none;
-			opacity: 1;
 			transform: none;
 		}
 	}
@@ -200,7 +196,6 @@ const heroMetadata = [
 	@media (prefers-reduced-motion: reduce) {
 		.bento-item {
 			animation: none;
-			opacity: 1;
 			transform: none;
 		}
 	}
