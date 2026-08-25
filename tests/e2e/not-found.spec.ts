@@ -18,4 +18,11 @@ test('serves missing routes as a branded noindex 404', async ({ page }) => {
 		'href',
 		'/es/'
 	);
+
+	const footerBox = await page.locator('#site-footer').boundingBox();
+	const viewport = page.viewportSize();
+
+	expect(footerBox).not.toBeNull();
+	expect(viewport).not.toBeNull();
+	expect(Math.abs((footerBox?.y ?? 0) + (footerBox?.height ?? 0) - (viewport?.height ?? 0))).toBeLessThanOrEqual(2);
 });
