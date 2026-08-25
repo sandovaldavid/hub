@@ -60,45 +60,47 @@ const { coreSkills, toolingSkills, title, coreTitle, toolsTitle } = Astro.props;
 		</div>
 	</div>
 
-	{toolingSkills.length > 0 && (
-		<div class="flex flex-col gap-3 border-t border-card-edge pt-4">
-			<h3 class="text-xs font-medium uppercase tracking-[0.12em] text-channel-content-muted">
-				{toolsTitle}
-			</h3>
-			<div class="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 md:grid-cols-6 md:gap-4">
-				{toolingSkills.map(skill => (
-					<div
-						class={cn(
-							'group flex min-w-0 flex-col items-center gap-1.5 md:gap-2',
-							'transition-all duration-300 ease-out hover:-translate-y-0.5'
-						)}
-						data-skill-item
-						data-skill-tier="tooling"
-						title={skill.name}>
+	{
+		toolingSkills.length > 0 && (
+			<div class="flex flex-col gap-3 border-t border-card-edge pt-4">
+				<h3 class="text-xs font-medium uppercase tracking-[0.12em] text-channel-content-muted">
+					{toolsTitle}
+				</h3>
+				<div class="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 md:grid-cols-6 md:gap-4">
+					{toolingSkills.map(skill => (
 						<div
 							class={cn(
-								'flex items-center justify-center overflow-hidden',
-								'h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11',
-								'rounded-lg border shadow-xs transition-all duration-300 md:rounded-xl',
-								'bg-channel-surface-default border-channel-edge-default',
-								'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
-							)}>
+								'group flex min-w-0 flex-col items-center gap-1.5 md:gap-2',
+								'transition-all duration-300 ease-out hover:-translate-y-0.5'
+							)}
+							data-skill-item
+							data-skill-tier="tooling"
+							title={skill.name}>
+							<div
+								class={cn(
+									'flex items-center justify-center overflow-hidden',
+									'h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11',
+									'rounded-lg border shadow-xs transition-all duration-300 md:rounded-xl',
+									'bg-channel-surface-default border-channel-edge-default',
+									'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
+								)}>
+								<span
+									class="flex size-5 items-center justify-center text-channel-content-muted transition-colors duration-300 group-hover:text-channel-content-strong md:size-6 lg:size-7 [&_svg]:h-full [&_svg]:max-h-full [&_svg]:w-full [&_svg]:max-w-full [&_svg]:object-contain"
+									set:html={skill.icon}
+								/>
+							</div>
 							<span
-								class="flex size-5 items-center justify-center text-channel-content-muted transition-colors duration-300 group-hover:text-channel-content-strong md:size-6 lg:size-7 [&_svg]:h-full [&_svg]:max-h-full [&_svg]:w-full [&_svg]:max-w-full [&_svg]:object-contain"
-								set:html={skill.icon}
-							/>
+								class={cn(
+									'w-full break-words text-center text-xs font-normal leading-[1.125rem] tracking-[0.0125rem]',
+									'text-channel-content-muted group-hover:text-channel-content-strong',
+									'transition-colors duration-300'
+								)}>
+								{skill.name}
+							</span>
 						</div>
-						<span
-							class={cn(
-								'w-full break-words text-center text-xs font-normal leading-[1.125rem] tracking-[0.0125rem]',
-								'text-channel-content-muted group-hover:text-channel-content-strong',
-								'transition-colors duration-300'
-							)}>
-							{skill.name}
-						</span>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
-		</div>
-	)}
+		)
+	}
 </div>

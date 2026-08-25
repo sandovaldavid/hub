@@ -57,11 +57,21 @@ const platformClasses: Partial<Record<SocialPlatform, { brand?: string; icon?: s
 						{variant}
 						{lang}>
 						<span slot="icon">
-							{link.platform === 'linkedin' && <LinkedInIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
-							{link.platform === 'github' && <GitHubIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
-							{link.platform === 'instagram' && <InstagramIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
-							{link.platform === 'twitter' && <XIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
-							{link.platform === 'website' && <WebSiteIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
+							{link.platform === 'linkedin' && (
+								<LinkedInIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
+							{link.platform === 'github' && (
+								<GitHubIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
+							{link.platform === 'instagram' && (
+								<InstagramIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
+							{link.platform === 'twitter' && (
+								<XIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
+							{link.platform === 'website' && (
+								<WebSiteIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
 						</span>
 					</SocialButton>
 				</div>

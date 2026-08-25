@@ -28,9 +28,7 @@ export function useTranslations(lang: Lang) {
 	return function t(key: string, params: TranslationParams = {}): string {
 		const localized = resolvePath(translations[lang] as Record<string, unknown>, key);
 		const value =
-			localized === key
-				? resolvePath(translations.en as Record<string, unknown>, key)
-				: localized;
+			localized === key ? resolvePath(translations.en as Record<string, unknown>, key) : localized;
 		return interpolate(value, params);
 	};
 }

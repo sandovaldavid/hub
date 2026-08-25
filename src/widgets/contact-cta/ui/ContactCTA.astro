@@ -41,10 +41,18 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 			<span class="inline-block size-5 text-channel-content-muted" set:html={ChatIcon} />
 		</div>
 		<div class="flex min-w-0 max-w-xl flex-col gap-1.5">
-			<h3 id="contact-heading" class="m-0 break-words text-base font-bold leading-tight text-channel-content-strong">
+			<h3
+				id="contact-heading"
+				class="m-0 break-words text-base font-bold leading-tight text-channel-content-strong">
 				{title}
 			</h3>
-			{message && <p class="m-0 break-words text-xs leading-relaxed text-channel-content-default md:text-sm">{message}</p>}
+			{
+				message && (
+					<p class="m-0 break-words text-xs leading-relaxed text-channel-content-default md:text-sm">
+						{message}
+					</p>
+				)
+			}
 		</div>
 		<a
 			href={mailtoLink}
@@ -53,7 +61,8 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 			data-conversion-position="contact"
 			data-conversion-item="email"
 			aria-label={`${buttonText}: ${email}`}>
-			<span class="button-secondary flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-button-secondary-edge bg-button-secondary-background px-4 py-2 text-sm font-semibold text-button-secondary-content transition-colors duration-200 hover:bg-button-secondary-background-hover">
+			<span
+				class="button-secondary flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-button-secondary-edge bg-button-secondary-background px-4 py-2 text-sm font-semibold text-button-secondary-content transition-colors duration-200 hover:bg-button-secondary-background-hover">
 				<span>{buttonText}</span>
 				<SentIcon class="h-4 w-4" aria-hidden="true" />
 			</span>

@@ -90,11 +90,7 @@ for (const file of files) {
 
 		graph.get(normalize(file)).push(normalize(target));
 		const targetLayer = getLayer(target);
-		if (
-			sourceLayer &&
-			targetLayer &&
-			!layerDependencies[sourceLayer].has(targetLayer)
-		) {
+		if (sourceLayer && targetLayer && !layerDependencies[sourceLayer].has(targetLayer)) {
 			violations.push(
 				`${relative(root, file)} (${sourceLayer}) must not depend on ${relative(root, target)} (${targetLayer})`
 			);

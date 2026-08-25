@@ -1,32 +1,133 @@
 @reference '../../../shared/styles/global.css';
 
-.hero-card { @apply relative overflow-hidden; }
-.hero-card__content { @apply flex h-full w-full flex-col items-center gap-3 text-center md:items-stretch md:gap-3.5 lg:items-start lg:text-left; }
-.hero-card__content--compact { @apply gap-0 md:justify-center; }
-.hero-card__header { @apply flex flex-col items-center lg:items-start; }
-.hero-card__avatar-wrapper { @apply flex items-center justify-center; }
-.hero-card__body { @apply flex w-full min-w-0 flex-col items-center gap-1.5 lg:items-start; }
-.hero-card__identity--compact .hero-card__body { @apply gap-1.5; }
-.hero-card__tagline { @apply m-0 max-w-full text-base font-medium leading-normal sm:text-lg lg:text-xl; color: var(--channel-accent-primary); }
-.hero-card__identity--compact .hero-card__tagline { @apply text-sm font-semibold leading-snug sm:text-base lg:text-base; }
-.hero-card__bio { @apply m-0 max-w-full text-sm leading-relaxed md:text-base; color: var(--channel-content-default); }
-.hero-card__availability { @apply m-0 inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-2; background-color: var(--status-online-background); color: var(--status-online-content); border-color: var(--status-online-edge); }
-.hero-card__identity--compact .hero-card__availability { @apply w-full justify-center px-2.5 py-1.5 text-center md:w-auto md:justify-start md:text-left; }
-.hero-card__availability-indicator { @apply block h-2 w-2 shrink-0 rounded-full; background-color: var(--channel-status-online); animation: pulse-status 2s ease-in-out infinite; }
-.hero-card__availability-text { @apply min-w-0 text-center text-xs font-semibold leading-snug md:text-left; color: var(--status-online-content); }
-.hero-card__identity-actions { @apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:flex-row md:items-center md:justify-between; }
-.hero-card__metadata { @apply m-0 grid w-full grid-cols-2 gap-2; }
-.hero-card__metadata-item { @apply min-w-0 rounded-lg border px-3 py-2; background-color: var(--card-background-muted); border-color: var(--card-edge); }
-.hero-card__metadata-item:last-child { @apply col-span-2; }
-.hero-card__metadata-item dt { @apply text-xs uppercase tracking-wide; color: var(--channel-content-muted); }
-.hero-card__metadata-item dd { @apply m-0 wrap-break-word text-xs font-semibold leading-snug sm:text-sm; color: var(--channel-content-strong); }
-.hero-card__primary-action { @apply inline-flex w-full items-center justify-center rounded-lg px-5 py-3 font-semibold transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto md:mt-auto; background-color: var(--button-primary-background); color: var(--button-primary-content); }
-@media (hover: hover) { .hero-card__primary-action:hover { background-color: var(--button-primary-background-hover); } }
-.hero-card__primary-action:active { @apply scale-[0.98]; background-color: var(--button-primary-background-active); }
-.hero-card__identity-actions .hero-card__primary-action { @apply px-4 py-2.5 text-sm md:mt-0; }
-.hero-card__logo-wrapper { @apply mt-2 opacity-60 md:ml-auto md:mt-0; }
-@media (max-width: 767px) { [data-layout-panel='profile'].bento-item { @apply w-full rounded-2xl border p-4 shadow-sm backdrop-blur-xl; background-color: var(--card-background); border-color: var(--card-edge-accent); } }
-@media (min-width: 640px) { .hero-card__metadata { grid-template-columns: repeat(3, minmax(0, 1fr)); } .hero-card__metadata-item:last-child { grid-column: auto; } }
-@media (min-width: 768px) { [data-layout-section='hero'].bento-grid { align-items: stretch; } [data-layout-panel='profile'].bento-item, [data-layout-panel='social'].bento-item { align-self: stretch; height: 100%; } }
-@media (min-width: 1024px) { [data-layout-panel='social'].bento-item { justify-content: center; } }
-@keyframes pulse-status { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+.hero-card {
+	@apply relative overflow-hidden;
+}
+.hero-card__content {
+	@apply flex h-full w-full flex-col items-center gap-3 text-center md:items-stretch md:gap-3.5 lg:items-start lg:text-left;
+}
+.hero-card__content--compact {
+	@apply gap-0 md:justify-center;
+}
+.hero-card__header {
+	@apply flex flex-col items-center lg:items-start;
+}
+.hero-card__avatar-wrapper {
+	@apply flex items-center justify-center;
+}
+.hero-card__body {
+	@apply flex w-full min-w-0 flex-col items-center gap-1.5 lg:items-start;
+}
+.hero-card__identity--compact .hero-card__body {
+	@apply gap-1.5;
+}
+.hero-card__tagline {
+	@apply m-0 max-w-full text-base font-medium leading-normal sm:text-lg lg:text-xl;
+	color: var(--channel-accent-primary);
+}
+.hero-card__identity--compact .hero-card__tagline {
+	@apply text-sm font-semibold leading-snug sm:text-base lg:text-base;
+}
+.hero-card__bio {
+	@apply m-0 max-w-full text-sm leading-relaxed md:text-base;
+	color: var(--channel-content-default);
+}
+.hero-card__availability {
+	@apply m-0 inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-2;
+	background-color: var(--status-online-background);
+	color: var(--status-online-content);
+	border-color: var(--status-online-edge);
+}
+.hero-card__identity--compact .hero-card__availability {
+	@apply w-full justify-center px-2.5 py-1.5 text-center md:w-auto md:justify-start md:text-left;
+}
+.hero-card__availability-indicator {
+	@apply block h-2 w-2 shrink-0 rounded-full;
+	background-color: var(--channel-status-online);
+	animation: pulse-status 2s ease-in-out infinite;
+}
+.hero-card__availability-text {
+	@apply min-w-0 text-center text-xs font-semibold leading-snug md:text-left;
+	color: var(--status-online-content);
+}
+.hero-card__identity-actions {
+	@apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:flex-row md:items-center md:justify-between;
+}
+.hero-card__metadata {
+	@apply m-0 grid w-full grid-cols-2 gap-2;
+}
+.hero-card__metadata-item {
+	@apply min-w-0 rounded-lg border px-3 py-2;
+	background-color: var(--card-background-muted);
+	border-color: var(--card-edge);
+}
+.hero-card__metadata-item:last-child {
+	@apply col-span-2;
+}
+.hero-card__metadata-item dt {
+	@apply text-xs uppercase tracking-wide;
+	color: var(--channel-content-muted);
+}
+.hero-card__metadata-item dd {
+	@apply m-0 wrap-break-word text-xs font-semibold leading-snug sm:text-sm;
+	color: var(--channel-content-strong);
+}
+.hero-card__primary-action {
+	@apply inline-flex w-full items-center justify-center rounded-lg px-5 py-3 font-semibold transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto md:mt-auto;
+	background-color: var(--button-primary-background);
+	color: var(--button-primary-content);
+}
+@media (hover: hover) {
+	.hero-card__primary-action:hover {
+		background-color: var(--button-primary-background-hover);
+	}
+}
+.hero-card__primary-action:active {
+	@apply scale-[0.98];
+	background-color: var(--button-primary-background-active);
+}
+.hero-card__identity-actions .hero-card__primary-action {
+	@apply px-4 py-2.5 text-sm md:mt-0;
+}
+.hero-card__logo-wrapper {
+	@apply mt-2 opacity-60 md:ml-auto md:mt-0;
+}
+@media (max-width: 767px) {
+	[data-layout-panel='profile'].bento-item {
+		@apply w-full rounded-2xl border p-4 shadow-sm backdrop-blur-xl;
+		background-color: var(--card-background);
+		border-color: var(--card-edge-accent);
+	}
+}
+@media (min-width: 640px) {
+	.hero-card__metadata {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.hero-card__metadata-item:last-child {
+		grid-column: auto;
+	}
+}
+@media (min-width: 768px) {
+	[data-layout-section='hero'].bento-grid {
+		align-items: stretch;
+	}
+	[data-layout-panel='profile'].bento-item,
+	[data-layout-panel='social'].bento-item {
+		align-self: stretch;
+		height: 100%;
+	}
+}
+@media (min-width: 1024px) {
+	[data-layout-panel='social'].bento-item {
+		justify-content: center;
+	}
+}
+@keyframes pulse-status {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.55;
+	}
+}

@@ -7,18 +7,66 @@
 	border-color: var(--control-edge);
 	border-style: solid;
 }
-@media (hover: hover) { .share-button:hover { @apply -translate-y-0.5 shadow-retro-xs; background-color: var(--control-background-hover); border-color: var(--control-edge-hover); } }
-.share-button:active { @apply translate-y-0 scale-95 shadow-none; }
+@media (hover: hover) {
+	.share-button:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+		background-color: var(--control-background-hover);
+		border-color: var(--control-edge-hover);
+	}
+}
+.share-button:active {
+	@apply translate-y-0 scale-95 shadow-none;
+}
 .share-button:disabled,
-.share-button--loading { @apply cursor-not-allowed opacity-60; transform: none; }
-.share-button__icon { @apply flex h-5 w-5 shrink-0 items-center justify-center text-current; }
-.share-button__icon svg { @apply h-full w-full stroke-current; }
-.share-button__feedback { @apply pointer-events-none absolute top-1/2 left-full ml-2 -translate-x-1 -translate-y-1/2 rounded-lg px-4 py-2 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-300 ease-in-out; background-color: var(--channel-content-strong); color: var(--channel-background-canvas); }
-.share-button__feedback--visible { @apply translate-x-0 opacity-100; }
-.share-button::after { content: attr(aria-label); @apply pointer-events-none absolute top-full left-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150; background-color: var(--channel-content-strong); color: var(--channel-background-canvas); }
-@media (hover: hover) { .share-button:hover::after { @apply translate-y-0 opacity-100; } }
-.share-button:focus-visible::after { @apply translate-y-0 opacity-100; }
-.share-button:has(.share-button__feedback--visible)::after { @apply opacity-0; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-.share-button--loading .share-button__icon { animation: pulse 1.5s ease-in-out infinite; }
-@media (max-width: 640px) { .share-button { @apply top-3 left-3; } }
+.share-button--loading {
+	@apply cursor-not-allowed opacity-60;
+	transform: none;
+}
+.share-button__icon {
+	@apply flex h-5 w-5 shrink-0 items-center justify-center text-current;
+}
+.share-button__icon svg {
+	@apply h-full w-full stroke-current;
+}
+.share-button__feedback {
+	@apply pointer-events-none absolute top-1/2 left-full ml-2 -translate-x-1 -translate-y-1/2 rounded-lg px-4 py-2 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-300 ease-in-out;
+	background-color: var(--channel-content-strong);
+	color: var(--channel-background-canvas);
+}
+.share-button__feedback--visible {
+	@apply translate-x-0 opacity-100;
+}
+.share-button::after {
+	content: attr(aria-label);
+	@apply pointer-events-none absolute top-full left-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	background-color: var(--channel-content-strong);
+	color: var(--channel-background-canvas);
+}
+@media (hover: hover) {
+	.share-button:hover::after {
+		@apply translate-y-0 opacity-100;
+	}
+}
+.share-button:focus-visible::after {
+	@apply translate-y-0 opacity-100;
+}
+.share-button:has(.share-button__feedback--visible)::after {
+	@apply opacity-0;
+}
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+}
+.share-button--loading .share-button__icon {
+	animation: pulse 1.5s ease-in-out infinite;
+}
+@media (max-width: 640px) {
+	.share-button {
+		@apply top-3 left-3;
+	}
+}

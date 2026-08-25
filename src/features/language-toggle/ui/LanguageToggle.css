@@ -6,9 +6,33 @@
 	color: var(--control-content);
 	border-color: var(--control-edge);
 }
-@media (hover: hover) { .language-toggle:hover { @apply -translate-y-0.5 shadow-retro-xs; background-color: var(--control-background-hover); border-color: var(--control-edge-hover); color: var(--channel-accent-primary); } }
-.language-toggle:active { @apply translate-y-0 scale-95 shadow-none; }
-.language-toggle::after { content: attr(aria-label); @apply pointer-events-none absolute top-full right-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold normal-case tracking-normal whitespace-nowrap opacity-0 shadow-sm transition-all duration-150; background-color: var(--channel-content-strong); color: var(--channel-background-canvas); }
-@media (hover: hover) { .language-toggle:hover::after { @apply translate-y-0 opacity-100; } }
-.language-toggle:focus-visible::after { @apply translate-y-0 opacity-100; }
-@media (max-width: 640px) { .language-toggle { @apply top-3 right-15; } }
+@media (hover: hover) {
+	.language-toggle:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+		background-color: var(--control-background-hover);
+		border-color: var(--control-edge-hover);
+		color: var(--channel-accent-primary);
+	}
+}
+.language-toggle:active {
+	@apply translate-y-0 scale-95 shadow-none;
+}
+.language-toggle::after {
+	content: attr(aria-label);
+	@apply pointer-events-none absolute top-full right-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold normal-case tracking-normal whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	background-color: var(--channel-content-strong);
+	color: var(--channel-background-canvas);
+}
+@media (hover: hover) {
+	.language-toggle:hover::after {
+		@apply translate-y-0 opacity-100;
+	}
+}
+.language-toggle:focus-visible::after {
+	@apply translate-y-0 opacity-100;
+}
+@media (max-width: 640px) {
+	.language-toggle {
+		@apply top-3 right-15;
+	}
+}

@@ -18,7 +18,13 @@ export const coreSkills: Skill[] = [
 	{ id: 'dotnet', name: '.NET', icon: DotnetIcon, category: 'backend', tier: 'core' },
 	{ id: 'csharp', name: 'C#', icon: CSharpIcon, category: 'backend', tier: 'core' },
 	{ id: 'angular', name: 'Angular', icon: AngularIcon, category: 'frontend', tier: 'core' },
-	{ id: 'typescript', name: 'TypeScript', icon: TypeScriptIcon, category: 'frontend', tier: 'core' },
+	{
+		id: 'typescript',
+		name: 'TypeScript',
+		icon: TypeScriptIcon,
+		category: 'frontend',
+		tier: 'core',
+	},
 	{ id: 'postgresql', name: 'PostgreSQL', icon: PostgresIcon, category: 'backend', tier: 'core' },
 	{ id: 'sqlserver', name: 'SQL Server', icon: SqlServerIcon, category: 'backend', tier: 'core' },
 	{ id: 'mongodb', name: 'MongoDB', icon: MongoIcon, category: 'backend', tier: 'core' },
@@ -26,10 +32,22 @@ export const coreSkills: Skill[] = [
 
 export const toolingSkills: Skill[] = [
 	{ id: 'astro', name: 'Astro', icon: AstroIcon, category: 'frontend', tier: 'tooling' },
-	{ id: 'githubactions', name: 'GitHub Actions', icon: GitHubActionsIcon, category: 'tools', tier: 'tooling' },
+	{
+		id: 'githubactions',
+		name: 'GitHub Actions',
+		icon: GitHubActionsIcon,
+		category: 'tools',
+		tier: 'tooling',
+	},
 	{ id: 'docker', name: 'Docker', icon: DockerIcon, category: 'tools', tier: 'tooling' },
 	{ id: 'nodejs', name: 'Node.js', icon: NodeIcon, category: 'backend', tier: 'tooling' },
-	{ id: 'tailwindcss', name: 'Tailwind CSS', icon: TailwindIcon, category: 'frontend', tier: 'tooling' },
+	{
+		id: 'tailwindcss',
+		name: 'Tailwind CSS',
+		icon: TailwindIcon,
+		category: 'frontend',
+		tier: 'tooling',
+	},
 	{ id: 'figma', name: 'Figma', icon: FigmaIcon, category: 'tools', tier: 'tooling' },
 ];
 

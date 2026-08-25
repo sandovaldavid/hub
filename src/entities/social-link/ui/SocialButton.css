@@ -16,48 +16,104 @@
 	color: var(--channel-content-strong);
 }
 
-.social-button__icon--website { color: var(--channel-accent-primary); }
-.social-button__icon--linkedin { @apply h-full w-full; }
-
-@media (hover: hover) {
-	.social-button:hover { @apply -translate-y-0.5 shadow-retro-xs; }
-	.social-button:hover .social-button__icon,
-	.social-button:hover .social-button__label,
-	.social-button:hover .social-button__username { color: var(--platform-on-brand); }
+.social-button__icon--website {
+	color: var(--channel-accent-primary);
+}
+.social-button__icon--linkedin {
+	@apply h-full w-full;
 }
 
-.social-button__content { @apply flex min-w-0 flex-1 flex-col gap-0.5; }
-.social-button__label { @apply break-words text-sm font-bold leading-tight transition-colors duration-200 md:text-base lg:text-lg; color: var(--channel-content-strong); }
-.social-button__username { @apply truncate text-xs transition-colors duration-200 md:text-sm lg:text-base; color: var(--channel-content-muted); }
+@media (hover: hover) {
+	.social-button:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+	}
+	.social-button:hover .social-button__icon,
+	.social-button:hover .social-button__label,
+	.social-button:hover .social-button__username {
+		color: var(--platform-on-brand);
+	}
+}
 
-.social-button--github { --platform-gradient-start: var(--color-neutral-800); --platform-gradient-end: var(--color-neutral-900); --platform-edge: var(--color-neutral-700); }
-.social-button--x { --platform-gradient-start: var(--color-neutral-900); --platform-gradient-end: var(--color-neutral-950); --platform-edge: var(--color-neutral-800); }
-.social-button--instagram { --platform-gradient-start: #833ab4; --platform-gradient-middle: #fd1d1d; --platform-gradient-end: #f77737; --platform-edge: #833ab4; }
-.social-button--linkedin { --platform-gradient-start: #0077b5; --platform-gradient-end: #00a0dc; --platform-edge: #0077b5; }
+.social-button__content {
+	@apply flex min-w-0 flex-1 flex-col gap-0.5;
+}
+.social-button__label {
+	@apply break-words text-sm font-bold leading-tight transition-colors duration-200 md:text-base lg:text-lg;
+	color: var(--channel-content-strong);
+}
+.social-button__username {
+	@apply truncate text-xs transition-colors duration-200 md:text-sm lg:text-base;
+	color: var(--channel-content-muted);
+}
+
+.social-button--github {
+	--platform-gradient-start: var(--color-neutral-800);
+	--platform-gradient-end: var(--color-neutral-900);
+	--platform-edge: var(--color-neutral-700);
+}
+.social-button--x {
+	--platform-gradient-start: var(--color-neutral-900);
+	--platform-gradient-end: var(--color-neutral-950);
+	--platform-edge: var(--color-neutral-800);
+}
+.social-button--instagram {
+	--platform-gradient-start: #833ab4;
+	--platform-gradient-middle: #fd1d1d;
+	--platform-gradient-end: #f77737;
+	--platform-edge: #833ab4;
+}
+.social-button--linkedin {
+	--platform-gradient-start: #0077b5;
+	--platform-gradient-end: #00a0dc;
+	--platform-edge: #0077b5;
+}
 .social-button--github,
 .social-button--x,
-.social-button--linkedin { --platform-on-brand: #ffffff; }
+.social-button--linkedin {
+	--platform-on-brand: #ffffff;
+}
 
 @media (hover: hover) {
 	.social-button--github:hover,
 	.social-button--x:hover,
 	.social-button--linkedin:hover {
 		border-color: var(--platform-edge);
-		background: linear-gradient(90deg, var(--platform-gradient-start), var(--platform-gradient-end));
+		background: linear-gradient(
+			90deg,
+			var(--platform-gradient-start),
+			var(--platform-gradient-end)
+		);
 	}
 	.social-button--instagram:hover {
 		--platform-on-brand: #ffffff;
 		border-color: var(--platform-edge);
-		background: linear-gradient(135deg, var(--platform-gradient-start) 0%, var(--platform-gradient-middle) 50%, var(--platform-gradient-end) 100%);
+		background: linear-gradient(
+			135deg,
+			var(--platform-gradient-start) 0%,
+			var(--platform-gradient-middle) 50%,
+			var(--platform-gradient-end) 100%
+		);
 	}
 	.social-button--website:hover {
 		--platform-on-brand: var(--button-primary-content);
 		border-color: var(--channel-accent-primary);
-		background: linear-gradient(90deg, var(--channel-accent-primary), var(--channel-accent-secondary));
+		background: linear-gradient(
+			90deg,
+			var(--channel-accent-primary),
+			var(--channel-accent-secondary)
+		);
 	}
 }
 
-.social-button--compact { @apply min-h-14 gap-2.5 rounded-lg border px-3.5 py-2.5 md:px-4; }
-.social-button--compact .social-button__icon { @apply h-5 w-5; }
-.social-button--compact .social-button__label { @apply text-sm; }
-.social-button--compact .social-button__username { @apply block text-xs; }
+.social-button--compact {
+	@apply min-h-14 gap-2.5 rounded-lg border px-3.5 py-2.5 md:px-4;
+}
+.social-button--compact .social-button__icon {
+	@apply h-5 w-5;
+}
+.social-button--compact .social-button__label {
+	@apply text-sm;
+}
+.social-button--compact .social-button__username {
+	@apply block text-xs;
+}

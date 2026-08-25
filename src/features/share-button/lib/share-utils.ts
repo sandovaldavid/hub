@@ -17,7 +17,8 @@ export function isWebShareSupported(): boolean {
 
 export function getShareData(text: string): ShareData {
 	const pageTitle = typeof document !== 'undefined' ? document.title : '';
-	const pageUrl = typeof window !== 'undefined' ? window.location.href : 'https://hub.sandovaldavid.com';
+	const pageUrl =
+		typeof window !== 'undefined' ? window.location.href : 'https://hub.sandovaldavid.com';
 	return { title: pageTitle, text, url: pageUrl };
 }
 

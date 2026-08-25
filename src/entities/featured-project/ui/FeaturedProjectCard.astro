@@ -41,42 +41,74 @@ const caseNumber = String(position).padStart(2, '0');
 		<header class="featured-project-card__heading">
 			<div class="featured-project-card__meta">
 				<span class="featured-project-card__index">{t('projects.caseStudy')} {caseNumber}</span>
-				<span class="featured-project-card__status" data-status-tone={statusTone}>{project.status}</span>
+				<span class="featured-project-card__status" data-status-tone={statusTone}
+					>{project.status}</span
+				>
 			</div>
 			<h3 class="featured-project-card__title">{project.title}</h3>
 		</header>
 
 		<dl class="featured-project-card__evidence">
-			{evidence.map(item => (
-				<div
-					class={`featured-project-card__evidence-item featured-project-card__evidence-item--${item.kind}`}
-					data-project-evidence={item.kind}>
-					<dt>
-						<span class="featured-project-card__evidence-marker" aria-hidden="true">{item.marker}</span>
-						<span>{item.label}</span>
-					</dt>
-					<dd>{item.value}</dd>
-				</div>
-			))}
+			{
+				evidence.map(item => (
+					<div
+						class={`featured-project-card__evidence-item featured-project-card__evidence-item--${item.kind}`}
+						data-project-evidence={item.kind}>
+						<dt>
+							<span class="featured-project-card__evidence-marker" aria-hidden="true">
+								{item.marker}
+							</span>
+							<span>{item.label}</span>
+						</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))
+			}
 		</dl>
 
 		<div class="featured-project-card__technologies" aria-label={t('projects.technologyStack')}>
-			{project.technologies.map(tech => <span class="featured-project-card__tech-badge">{tech}</span>)}
+			{
+				project.technologies.map(tech => (
+					<span class="featured-project-card__tech-badge">{tech}</span>
+				))
+			}
 		</div>
 
 		<div class="featured-project-card__actions">
-			{project.demoAvailability === 'public' && project.demoUrl ? (
-				<a href={project.demoUrl} class="featured-project-card__button featured-project-card__button--primary" target="_blank" rel="noopener noreferrer" data-conversion-event="project_opened" data-conversion-position="project" data-conversion-item={project.id}>
-					<span>{t('projects.demo')}</span>
-					<LinkIcon class="featured-project-card__button-icon" />
-				</a>
-			) : <span class="featured-project-card__availability">{t('projects.demoUnavailable')}</span>}
-			{project.repositoryAvailability === 'public' && project.githubUrl ? (
-				<a href={project.githubUrl} class="featured-project-card__button featured-project-card__button--secondary" target="_blank" rel="noopener noreferrer" data-conversion-event="project_opened" data-conversion-position="project" data-conversion-item={project.id}>
-					<GitHubIcon class="featured-project-card__button-icon" />
-					<span>{t('projects.repository')}</span>
-				</a>
-			) : <span class="featured-project-card__availability">{t('projects.private')}</span>}
+			{
+				project.demoAvailability === 'public' && project.demoUrl ? (
+					<a
+						href={project.demoUrl}
+						class="featured-project-card__button featured-project-card__button--primary"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<span>{t('projects.demo')}</span>
+						<LinkIcon class="featured-project-card__button-icon" />
+					</a>
+				) : (
+					<span class="featured-project-card__availability">{t('projects.demoUnavailable')}</span>
+				)
+			}
+			{
+				project.repositoryAvailability === 'public' && project.githubUrl ? (
+					<a
+						href={project.githubUrl}
+						class="featured-project-card__button featured-project-card__button--secondary"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<GitHubIcon class="featured-project-card__button-icon" />
+						<span>{t('projects.repository')}</span>
+					</a>
+				) : (
+					<span class="featured-project-card__availability">{t('projects.private')}</span>
+				)
+			}
 		</div>
 	</div>
 </article>

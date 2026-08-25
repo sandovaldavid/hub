@@ -7,15 +7,54 @@
 	border-color: var(--control-edge);
 }
 @media (hover: hover) {
-	.theme-toggle:hover { @apply -translate-y-0.5 shadow-retro-xs; background-color: var(--control-background-hover); border-color: var(--control-edge-hover); }
-	.theme-toggle:hover .theme-toggle__icon { @apply scale-110 rotate-[10deg]; }
+	.theme-toggle:hover {
+		@apply -translate-y-0.5 shadow-retro-xs;
+		background-color: var(--control-background-hover);
+		border-color: var(--control-edge-hover);
+	}
+	.theme-toggle:hover .theme-toggle__icon {
+		@apply scale-110 rotate-[10deg];
+	}
 }
-.theme-toggle:active { @apply translate-y-0 scale-95 shadow-none; }
-.theme-toggle::after { content: attr(aria-label); @apply pointer-events-none absolute top-full right-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150; background-color: var(--channel-content-strong); color: var(--channel-background-canvas); }
-@media (hover: hover) { .theme-toggle:hover::after { @apply translate-y-0 opacity-100; } }
-.theme-toggle:focus-visible::after { @apply translate-y-0 opacity-100; }
-.theme-toggle__icon { @apply hidden h-5 w-5 text-xl leading-none transition-transform duration-150; }
-.theme-toggle__icon svg { @apply block h-full w-full; }
-@media (max-width: 640px) { .theme-toggle { @apply top-3 right-3; } }
-@keyframes theme-switch { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.2); } 100% { transform: rotate(360deg) scale(1); } }
-.theme-toggle__icon--spin { animation: theme-switch 0.5s ease-in-out; }
+.theme-toggle:active {
+	@apply translate-y-0 scale-95 shadow-none;
+}
+.theme-toggle::after {
+	content: attr(aria-label);
+	@apply pointer-events-none absolute top-full right-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	background-color: var(--channel-content-strong);
+	color: var(--channel-background-canvas);
+}
+@media (hover: hover) {
+	.theme-toggle:hover::after {
+		@apply translate-y-0 opacity-100;
+	}
+}
+.theme-toggle:focus-visible::after {
+	@apply translate-y-0 opacity-100;
+}
+.theme-toggle__icon {
+	@apply hidden h-5 w-5 text-xl leading-none transition-transform duration-150;
+}
+.theme-toggle__icon svg {
+	@apply block h-full w-full;
+}
+@media (max-width: 640px) {
+	.theme-toggle {
+		@apply top-3 right-3;
+	}
+}
+@keyframes theme-switch {
+	0% {
+		transform: rotate(0deg) scale(1);
+	}
+	50% {
+		transform: rotate(180deg) scale(1.2);
+	}
+	100% {
+		transform: rotate(360deg) scale(1);
+	}
+}
+.theme-toggle__icon--spin {
+	animation: theme-switch 0.5s ease-in-out;
+}
