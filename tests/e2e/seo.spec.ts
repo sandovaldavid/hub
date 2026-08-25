@@ -25,6 +25,7 @@ const routes = [
 			'Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.',
 		twitterLabel: 'Professional focus',
 		twitterData: 'Systems · Products · Evidence',
+		portraitAlt: 'Portrait of David Sandoval',
 	},
 	{
 		path: '/es/',
@@ -38,6 +39,7 @@ const routes = [
 		imageAlt:
 			'Retrato de David Sandoval con su nombre, rol de Ingeniero de Software y enfoque en sistemas mantenibles, decisiones documentadas y evidencia de ingeniería.',
 		twitterLabel: 'Enfoque profesional',
+		portraitAlt: 'Retrato de David Sandoval',
 		twitterData: 'Sistemas · Productos · Evidencia',
 	},
 ] as const;
@@ -177,6 +179,7 @@ for (const route of routes) {
 			const canonical = route.path === '/' ? `${siteUrl}/` : `${siteUrl}/es/`;
 			const pageId = `${canonical}#profile-page`;
 			const imageId = `${canonical}#primary-image`;
+			const portraitId = `${canonical}#person-image`;
 			const personId = `${portfolioUrl}/#person`;
 			const structuredData = await page
 				.locator('script[type="application/ld+json"]')
@@ -184,7 +187,8 @@ for (const route of routes) {
 			const graph = structuredData['@graph'] as Array<Record<string, unknown>>;
 			const profilePage = graph.find(node => node['@type'] === 'ProfilePage');
 			const person = graph.find(node => node['@type'] === 'Person');
-			const image = graph.find(node => node['@type'] === 'ImageObject');
+			const image = graph.find(node => node['@id'] === imageId);
+			const portrait = graph.find(node => node['@id'] === portraitId);
 
 			expect(structuredData['@context']).toBe('https://schema.org');
 			expect(profilePage).toMatchObject({
@@ -201,7 +205,7 @@ for (const route of routes) {
 				name: 'David Sandoval',
 				url: portfolioUrl,
 				mainEntityOfPage: { '@id': pageId },
-				image: profileImageUrl,
+				image: { '@id': portraitId },
 				email: 'mailto:hello@sandovaldavid.com',
 				jobTitle: 'Software Engineer',
 				sameAs: expectedSameAs,
@@ -215,6 +219,17 @@ for (const route of routes) {
 				width: 1200,
 				height: 630,
 			});
+			// Person.image is a separate node: the portrait of David, not the
+			// 1200x630 social card the page uses as primaryImageOfPage.
+			expect(portrait).toMatchObject({
+				'@id': portraitId,
+				url: profileImageUrl,
+				contentUrl: profileImageUrl,
+				caption: route.portraitAlt,
+				width: 1254,
+				height: 1254,
+			});
+			expect(portrait?.['@id']).not.toBe(image?.['@id']);
 		});
 
 		test('renders one visible descriptive h1', async ({ page }) => {

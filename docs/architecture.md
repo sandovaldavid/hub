@@ -81,11 +81,11 @@ bun run check:architecture
 | Concern | Canonical implementation |
 | --- | --- |
 | Public identity, canonical origin and approved destinations | `src/data/site.config.ts` |
-| Profile and primary portrait reference | `src/data/profile.ts` |
+| Portrait, brand logo references and contact email | `src/data/profile.ts` |
 | Calls to action | `src/data/cta.ts` |
 | Featured project summaries | `src/data/featured-projects.ts` |
 | Technology presentation | `src/data/skills.ts` |
-| English and Spanish copy | `src/shared/i18n/locales/*.json` |
+| English and Spanish copy, including localized profile facts (location, languages, work mode) | `src/shared/i18n/locales/*.json` |
 | Localized metadata assembly | `src/data/seo.ts` |
 | Schema.org graph | `src/data/structured-data.ts` |
 | Identity Core, semantic roles and Link Hub tokens | `src/shared/styles/global.css` |

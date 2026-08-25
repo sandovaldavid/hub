@@ -2,6 +2,8 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { getSEO } from '../../src/data/seo.ts';
+import { getProfilePageStructuredData } from '../../src/data/structured-data.ts';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');
@@ -62,10 +64,6 @@ describe('human-first SEO contract', () => {
 		expect(structuredData).toContain("'@type': 'ImageObject'");
 		expect(structuredData).toContain("mainEntity: { '@id': personId }");
 		expect(structuredData).toContain("mainEntityOfPage: { '@id': pageId }");
-		expect(structuredData).toContain(
-			'const profileImageUrl = new URL(profile.avatar.url, siteConfig.url).href;'
-		);
-		expect(structuredData).toContain('image: profileImageUrl');
 		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
 		expect(siteConfig).toContain(
 			'sameAs: [socialUrls.linkedin, githubUrl, socialUrls.twitter, socialUrls.instagram]'
@@ -132,6 +130,43 @@ describe('human-first SEO contract', () => {
 			'{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}'
 		);
 		expect(layout).toContain('{jsonLd && <script is:inline type="application/ld+json"');
+	});
+
+	test('points Person.image at the portrait, not at the page social preview', () => {
+		const graph = getProfilePageStructuredData({
+			title: 'Title',
+			description: 'Description',
+			lang: 'en',
+			canonicalUrl: 'https://hub.sandovaldavid.com/',
+			imageUrl: 'https://hub.sandovaldavid.com/og/og_dark.png',
+			imageAlt: 'social preview alt',
+			portraitAlt: 'portrait alt',
+		})['@graph'];
+
+		const nodeById = Object.fromEntries(graph.map(node => [node['@id'], node]));
+		const page = graph.find(node => node['@type'] === 'ProfilePage');
+		const person = graph.find(node => node['@type'] === 'Person');
+
+		// The two images are deliberately different nodes: the page's primary
+		// image is the 1200x630 social card, the person's is David's portrait.
+		expect(person.image['@id']).not.toBe(page.primaryImageOfPage['@id']);
+
+		const portrait = nodeById[person.image['@id']];
+		expect(portrait.url).toBe('https://hub.sandovaldavid.com/profile/perfil.webp');
+		expect(portrait.contentUrl).toBe(portrait.url);
+		expect(portrait.caption).toBe('portrait alt');
+		expect(portrait.width).toBe(portrait.height);
+
+		const socialPreview = nodeById[page.primaryImageOfPage['@id']];
+		expect(socialPreview.url).toBe('https://hub.sandovaldavid.com/og/og_dark.png');
+		expect(socialPreview.width).not.toBe(socialPreview.height);
+	});
+
+	// The layout markup is already covered above; this asserts the value side,
+	// so getSEO cannot quietly start returning keywords again.
+	test('drops keywords from the metadata getSEO returns', () => {
+		expect(getSEO('en')).not.toHaveProperty('keywords');
+		expect(getSEO('es')).not.toHaveProperty('keywords');
 	});
 
 	test('keeps SEO implementation ownership discoverable without a historical audit document', async () => {
