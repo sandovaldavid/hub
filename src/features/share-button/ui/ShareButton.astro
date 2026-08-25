@@ -20,7 +20,9 @@ const t = useTranslations(lang);
 	data-share-text={t('share.text')}
 	type="button">
 	<span class="share-button__icon" aria-hidden="true" set:html={ShareIcon} />
-	<span class="share-button__feedback" id="share-feedback">{t('share.copied')}</span>
+	<span class="share-button__feedback" id="share-feedback" aria-hidden="true">
+		{t('share.copied')}
+	</span>
 </button>
 
 <script>

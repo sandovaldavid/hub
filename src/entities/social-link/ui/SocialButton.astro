@@ -2,7 +2,6 @@
 import { cn } from '@shared/lib/utils';
 import './SocialButton.css';
 import type { ConversionEvent } from '@shared/analytics/conversion';
-import { useTranslations, type Lang } from '@shared/i18n';
 
 export interface Props {
 	url: string;
@@ -11,7 +10,6 @@ export interface Props {
 	analyticsId: string;
 	conversionEvent?: ConversionEvent;
 	variant?: 'default' | 'compact';
-	lang?: Lang;
 	class?: string;
 }
 
@@ -22,12 +20,8 @@ const {
 	analyticsId,
 	conversionEvent,
 	variant = 'default',
-	lang = 'en',
 	class: className,
 } = Astro.props;
-
-const t = useTranslations(lang);
-const ariaLabel = t('social.profileLinkAria', { platform: label });
 ---
 
 <a
@@ -38,8 +32,7 @@ const ariaLabel = t('social.profileLinkAria', { platform: label });
 	data-analytics-id={analyticsId}
 	data-conversion-event={conversionEvent}
 	data-conversion-position={conversionEvent ? 'social' : undefined}
-	data-conversion-item={conversionEvent ? analyticsId.toLowerCase() : undefined}
-	aria-label={ariaLabel}>
+	data-conversion-item={conversionEvent ? analyticsId.toLowerCase() : undefined}>
 	<span class="social-button__icon" aria-hidden="true">
 		<slot name="icon" />
 	</span>
