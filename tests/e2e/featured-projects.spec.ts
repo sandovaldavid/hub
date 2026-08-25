@@ -32,7 +32,7 @@ for (const route of [
 			await expect(sectionHeading).toBeVisible();
 			await expect(sectionHeading).toHaveText(route.heading);
 
-			const cards = page.locator('.weekly-project-card');
+			const cards = page.locator('.featured-project-card');
 			await expect(cards).toHaveCount(2);
 			await expect(cards.first()).toContainText(route.problem);
 			await expect(cards.first()).toContainText(route.contribution);
@@ -41,7 +41,7 @@ for (const route of [
 
 		test('exposes valid links and explicit unavailable states', async ({ page }) => {
 			const cardFor = (title: string) =>
-				page.locator('.weekly-project-card').filter({
+				page.locator('.featured-project-card').filter({
 					has: page.getByRole('heading', { name: title, exact: true }),
 				});
 
