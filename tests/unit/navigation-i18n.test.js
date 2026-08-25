@@ -25,18 +25,27 @@ describe('Navigation and i18n control contracts (#90, #91)', () => {
 		expect(themeContent).toContain('data-label-dark');
 	});
 
-	test('LanguageToggle component provides discoverable EN/ES switching', async () => {
-		const langTogglePath = join(
-			repositoryRoot,
-			'src/features/language-toggle/ui/LanguageToggle.astro'
-		);
-		const content = await readFile(langTogglePath, 'utf8');
+	test('LanguageToggle keeps accessible naming and visual tooltip text independent', async () => {
+		const [component, styles] = await Promise.all([
+			readFile(
+				join(repositoryRoot, 'src/features/language-toggle/ui/LanguageToggle.astro'),
+				'utf8'
+			),
+			readFile(
+				join(repositoryRoot, 'src/features/language-toggle/ui/LanguageToggle.css'),
+				'utf8'
+			),
+		]);
 
-		expect(content).toContain('useTranslations');
-		expect(content).toContain("t('nav.switchLanguage')");
-		expect(content).toContain('data-conversion-event="language_changed"');
-		expect(content).toContain('data-conversion-position="navigation"');
-		expect(content).toContain('targetLang.toUpperCase()');
+		expect(component).toContain('useTranslations');
+		expect(component).toContain("t('nav.switchLanguage')");
+		expect(component).toContain('data-tooltip={switchDescription}');
+		expect(component).toContain('data-conversion-event="language_changed"');
+		expect(component).toContain('data-conversion-position="navigation"');
+		expect(component).toContain('targetLang.toUpperCase()');
+		expect(component).not.toContain('aria-label={switchDescription}');
+		expect(styles).toContain('content: attr(data-tooltip)');
+		expect(styles).not.toContain('content: attr(aria-label)');
 	});
 
 	test('HeroCard exposes primary resume CTA across all viewports', async () => {
