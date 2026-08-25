@@ -6,13 +6,14 @@ This is the public runbook for setting up, validating and maintaining the Hub. C
 
 The recommended environment is the repository DevContainer, especially when Playwright and Lighthouse must run in a reproducible Linux browser environment.
 
-Current toolchain constraints are declared in `package.json`, `.devcontainer/` and the delivery workflows:
+Current toolchain constraints are declared in `package.json`, `.devcontainer/`, `.vscode/mcp.json` and the delivery workflows:
 
 - Bun `1.3.14`;
 - Node.js `>=22.19.0` for the native Lighthouse and Vercel toolchains;
 - Astro static generation;
 - Playwright browser dependencies installed by the DevContainer image;
-- Vercel CLI explicitly versioned by `.github/workflows/cd.yml`.
+- Vercel CLI explicitly versioned by `.github/workflows/cd.yml`;
+- workspace Chrome DevTools MCP pinned to an explicit package version rather than `latest`.
 
 ## Local setup
 
@@ -83,7 +84,13 @@ CI and CD must use the same declared Bun and Node versions. The Vercel CLI must 
 
 Third-party GitHub Actions in delivery, release and DevContainer workflows are pinned to full commit SHAs. The adjacent version comment documents the human-readable release. Dependabot remains responsible for proposing Action updates.
 
-`cd.yml` runs the repository quality gate before producing the Vercel build so the deployed source is validated with the same executable contracts as normal development.
+`cd.yml` runs the repository quality gate before producing the Vercel build so the deployed source is validated with the same executable contracts as normal development. GitHub Deployment and commit-status evidence is published through authenticated GitHub API calls that fail the workflow when the API call or returned deployment identifier is invalid.
+
+## Cache policy
+
+Long-lived `immutable` browser caching is reserved for fingerprinted Astro build assets under `/_astro/`, where a content change produces a new URL. Public identity assets with stable URLs, including the profile portrait, social preview, logo and favicons, must remain revalidatable so a same-path replacement cannot leave stale brand evidence in browser caches.
+
+When changing cache rules, keep that URL-versioning boundary explicit and validate the deployed response headers instead of inferring them from `vercel.json` alone.
 
 ## Release automation
 
@@ -122,7 +129,7 @@ The repository currently has no open-source `LICENSE` file. Public visibility al
 
 ## Updating the environment
 
-When changing Bun, Playwright, Lighthouse, Node, Vercel CLI, Dev Container Features or workflow Actions:
+When changing Bun, Playwright, Lighthouse, Node, Vercel CLI, Chrome DevTools MCP, Dev Container Features or workflow Actions:
 
 1. update every affected version declaration and lockfile/configuration;
 2. rebuild the DevContainer without cache when relevant;
