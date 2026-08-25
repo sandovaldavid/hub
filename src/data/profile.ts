@@ -5,17 +5,12 @@ import { siteConfig } from './site.config';
 // Locale-specific strings are applied via useTranslations() from @shared/i18n.
 export const profile: Profile = {
 	name: siteConfig.name,
-	displayName: siteConfig.handle,
-	location: 'Peru',
-	timezone: 'America/Lima',
-	languages: ['Español', 'English'],
 	avatar: {
 		url: '/profile/perfil.webp',
 		alt: siteConfig.name,
 	},
 	logo: {
 		url: `/logo/${siteConfig.handle}.svg`,
-		alt: `${siteConfig.handle} brand logo`,
 	},
 	contact: {
 		email: siteConfig.email,
