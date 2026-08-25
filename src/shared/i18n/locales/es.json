@@ -1,6 +1,6 @@
 {
 	"profile": {
-		"tagline": "Ingeniero de Software orientado a backend · .NET, C# y Angular",
+		"tagline": "Ingeniero de Software · Orientado a backend",
 		"bio": "Descompongo problemas complejos, conecto decisiones técnicas con el contexto de negocio y construyo sistemas mantenibles mediante validación y documentación clara.",
 		"availability": "Disponible para roles remotos de ingeniería",
 		"location": "Lima, Perú · UTC-5",
@@ -68,8 +68,8 @@
 		"technologyStack": "Tecnologías utilizadas"
 	},
 	"skills": {
-		"title": "Stack principal de ingeniería",
-		"coreTitle": "Stack principal de ingeniería",
+		"title": "Stack y herramientas de ingeniería",
+		"coreTitle": "Stack actual de ingeniería",
 		"toolsTitle": "Herramientas de entrega y producto",
 		"heading": "Tecnologías y habilidades"
 	},
@@ -79,21 +79,13 @@
 	},
 	"seo": {
 		"title": "David Sandoval | Ingeniero de Software",
-		"description": "David Sandoval es Ingeniero de Software: aprende continuamente, construye sistemas y productos mantenibles, documenta decisiones y comparte evidencia mediante su trabajo.",
+		"description": "David Sandoval es Ingeniero de Software: descompone problemas complejos, conecta decisiones técnicas con el contexto de negocio y construye sistemas mantenibles mediante validación.",
+		"socialDescription": "Soy David Sandoval, Ingeniero de Software. Descompongo problemas complejos, conecto decisiones técnicas con el contexto de negocio y construyo sistemas mantenibles mediante validación y documentación clara.",
 		"ogImageAlt": "Retrato de David Sandoval con su nombre, rol de Ingeniero de Software y enfoque en sistemas mantenibles, decisiones documentadas y evidencia de ingeniería.",
 		"twitterImageAlt": "Retrato de David Sandoval con su nombre, rol de Ingeniero de Software y enfoque en sistemas mantenibles, decisiones documentadas y evidencia de ingeniería.",
 		"twitterLabel1": "Enfoque profesional",
 		"twitterData1": "Sistemas · Productos · Evidencia",
-		"ogLocale": "es_PE",
-		"keywords": [
-			"David Sandoval",
-			"Ingeniero de Software",
-			"Ingeniería de Software",
-			"Ingeniería de Sistemas y Productos",
-			"Portafolio de Ingeniería",
-			"Ingeniero de Software Remoto",
-			"Perú"
-		]
+		"ogLocale": "es_PE"
 	},
 	"share": {
 		"ariaLabel": "Compartir esta página",
