@@ -39,6 +39,15 @@ describe('browser test infrastructure contract', () => {
 		expect(dockerfile).toContain('install --with-deps chromium webkit firefox');
 	});
 
+	test('preserves Lighthouse build context when validation starts from a Git worktree', async () => {
+		const runner = await read('scripts/run-local-validation.mjs');
+
+		expect(runner).toContain("spawnSync('git', ['rev-parse', 'HEAD']");
+		expect(runner).toContain('LHCI_BUILD_CONTEXT__CURRENT_HASH');
+		expect(runner).toContain('remoteEnvironment.push(`LHCI_BUILD_CONTEXT__CURRENT_HASH=${currentHash}`)');
+		expect(runner).toContain("['env', ...remoteEnvironment, 'bun', 'run', 'validate:local:inside']");
+	});
+
 	test('isolates production-preview browser validation from the development port', async () => {
 		const [packageJson, config, lighthouse] = await Promise.all([
 			readJson('package.json'),

@@ -23,7 +23,26 @@ function run(command, args) {
 	}
 }
 
+function getCurrentGitHash() {
+	const result = spawnSync('git', ['rev-parse', 'HEAD'], {
+		cwd: repositoryRoot,
+		env: process.env,
+		encoding: 'utf8',
+		stdio: ['ignore', 'pipe', 'ignore'],
+	});
+
+	if (result.error || result.status !== 0) return undefined;
+
+	const hash = result.stdout.trim();
+	return /^[0-9a-f]{40}$/i.test(hash) ? hash : undefined;
+}
+
 if (isDevContainer) {
+	const currentHash = process.env.LHCI_BUILD_CONTEXT__CURRENT_HASH ?? getCurrentGitHash();
+	if (currentHash) {
+		process.env.LHCI_BUILD_CONTEXT__CURRENT_HASH = currentHash;
+	}
+
 	console.log('[info] Running complete validation inside the repository DevContainer.');
 	run('bun', ['run', 'validate:local:inside']);
 	process.exit(0);
@@ -47,14 +66,27 @@ if (devcontainerProbe.error || devcontainerProbe.status !== 0) {
 	process.exit(1);
 }
 
+const currentHash = process.env.LHCI_BUILD_CONTEXT__CURRENT_HASH ?? getCurrentGitHash();
+if (!currentHash) {
+	console.warn(
+		'[warning] Could not resolve the current Git SHA on the host; Lighthouse may omit local build-context metadata.'
+	);
+}
+
 console.log('[info] Preparing the repository DevContainer for complete local validation.');
 run(devcontainerExecutable, ['up', '--workspace-folder', repositoryRoot]);
 
-const remoteCommand = [];
+const remoteEnvironment = [];
 if (process.env.PLAYWRIGHT_WORKERS) {
-	remoteCommand.push('env', `PLAYWRIGHT_WORKERS=${process.env.PLAYWRIGHT_WORKERS}`);
+	remoteEnvironment.push(`PLAYWRIGHT_WORKERS=${process.env.PLAYWRIGHT_WORKERS}`);
 }
-remoteCommand.push('bun', 'run', 'validate:local:inside');
+if (currentHash) {
+	remoteEnvironment.push(`LHCI_BUILD_CONTEXT__CURRENT_HASH=${currentHash}`);
+}
+
+const remoteCommand = remoteEnvironment.length
+	? ['env', ...remoteEnvironment, 'bun', 'run', 'validate:local:inside']
+	: ['bun', 'run', 'validate:local:inside'];
 
 console.log('[info] Running browser and Lighthouse validation inside the repository DevContainer.');
 run(devcontainerExecutable, ['exec', '--workspace-folder', repositoryRoot, ...remoteCommand]);
