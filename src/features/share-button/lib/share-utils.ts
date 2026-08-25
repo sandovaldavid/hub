@@ -12,7 +12,7 @@ interface ShareResult {
 
 export function isWebShareSupported(): boolean {
 	if (typeof navigator === 'undefined') return false;
-	return 'share' in navigator && 'canShare' in navigator;
+	return typeof navigator.share === 'function';
 }
 
 export function getShareData(text: string): ShareData {
@@ -28,7 +28,7 @@ export async function shareViaWebAPI(data: ShareData): Promise<ShareResult> {
 	}
 
 	try {
-		if (navigator.canShare && !navigator.canShare(data)) {
+		if (typeof navigator.canShare === 'function' && !navigator.canShare(data)) {
 			return { success: false, method: 'none', error: 'Cannot share this data' };
 		}
 		await navigator.share(data);
