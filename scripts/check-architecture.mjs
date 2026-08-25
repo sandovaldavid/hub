@@ -32,6 +32,7 @@ const layerDependencies = {
 };
 const moduleImportPattern =
 	/(?:import|export)\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
+const dynamicImportPattern = /\bimport\s*\(\s*['"]([^'"]+)['"]/g;
 const cssDependencyPattern = /@(?:import|reference)\s+(?:url\()?['"]([^'"]+)['"]/g;
 
 function walk(directory) {
@@ -68,8 +69,22 @@ function getLayer(file) {
 }
 
 function getSpecifiers(file, source) {
-	const pattern = extname(file) === '.css' ? cssDependencyPattern : moduleImportPattern;
-	return [...source.matchAll(pattern)].map(match => match[1]);
+	if (extname(file) === '.css') {
+		return [...source.matchAll(cssDependencyPattern)].map(match => match[1]);
+	}
+
+	const specifiers = [
+		...[...source.matchAll(moduleImportPattern)].map(match => match[1]),
+		...[...source.matchAll(dynamicImportPattern)].map(match => match[1]),
+	];
+
+	// .astro files can carry a <style> block that uses CSS @import/@reference;
+	// scan for both dependency shapes so those edges aren't invisible to the graph.
+	if (extname(file) === '.astro') {
+		specifiers.push(...[...source.matchAll(cssDependencyPattern)].map(match => match[1]));
+	}
+
+	return specifiers;
 }
 
 const files = walk(root).filter(path => supportedExtensions.has(extname(path)));

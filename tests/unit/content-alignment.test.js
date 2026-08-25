@@ -47,6 +47,15 @@ describe('Hub messaging alignment contract', () => {
 		}
 	});
 
+	test('keeps localized profile facts owned solely by the i18n catalog, not duplicated in profile.ts', () => {
+		// Asserted on the exported object, not the source text: the contract is
+		// "profile.ts does not carry these facts", which the value proves directly.
+		for (const field of ['displayName', 'location', 'timezone', 'languages']) {
+			expect(profile).not.toHaveProperty(field);
+		}
+		expect(profile.logo).not.toHaveProperty('alt');
+	});
+
 	test('bounds Yukidoke wording to architecture intent rather than demonstrated scale', () => {
 		const english = getFeaturedProjects('en').find(project => project.id === 'yukidoke');
 		const spanish = getFeaturedProjects('es').find(project => project.id === 'yukidoke');

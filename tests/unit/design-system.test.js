@@ -251,13 +251,26 @@ describe('Link Hub design-system contract', () => {
 	});
 
 	test('keeps Link Hub Compact within its typography and effect permissions', async () => {
-		const css = await readFile(globalStylesPath, 'utf8');
+		const [css, astroConfig] = await Promise.all([
+			readFile(globalStylesPath, 'utf8'),
+			readFile(join(repositoryRoot, 'astro.config.mjs'), 'utf8'),
+		]);
 
-		expect(css).toMatch(/--channel-font-display:\s*'JetBrains Mono Variable'/);
-		expect(css).toMatch(/--channel-font-heading:\s*'JetBrains Mono Variable'/);
-		expect(css).toMatch(/--channel-font-body:\s*'Inter Variable'/);
-		expect(css).toMatch(/--channel-font-technical:\s*'JetBrains Mono Variable'/);
-		expect(css).not.toMatch(/Press Start 2P|VT323|Share Tech Mono|Silkscreen|Google Sans Code/);
+		// The families are declared once in astro.config.mjs, which self-hosts
+		// them at build time; the channel tokens resolve to the CSS variables
+		// astro:assets generates for those families.
+		expect(astroConfig).toMatch(/name:\s*'JetBrains Mono'/);
+		expect(astroConfig).toMatch(/name:\s*'Inter'/);
+		expect(astroConfig).toMatch(/cssVariable:\s*'--font-jetbrains-mono'/);
+		expect(astroConfig).toMatch(/cssVariable:\s*'--font-inter'/);
+		expect(css).toMatch(/--channel-font-display:\s*var\(--font-jetbrains-mono\)/);
+		expect(css).toMatch(/--channel-font-heading:\s*var\(--font-jetbrains-mono\)/);
+		expect(css).toMatch(/--channel-font-body:\s*var\(--font-inter\)/);
+		expect(css).toMatch(/--channel-font-technical:\s*var\(--font-jetbrains-mono\)/);
+
+		const forbiddenFaces = /Press Start 2P|VT323|Share Tech Mono|Silkscreen|Google Sans Code/;
+		expect(css).not.toMatch(forbiddenFaces);
+		expect(astroConfig).not.toMatch(forbiddenFaces);
 		expect(css).toContain('--shadow-retro-xs');
 		expect(css).toContain('--shadow-retro-sm');
 		expect(css).not.toMatch(/--shadow-retro-(?:md|lg|xl|2xl|3xl)|shadow-glow|glitch|scanline/i);

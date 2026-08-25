@@ -10,6 +10,7 @@ import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
 import { getProfilePageStructuredData } from '@data/structured-data';
 import { useTranslations } from '@shared/i18n';
+import { Font } from 'astro:assets';
 
 interface Props extends SEOProps {
 	alternates?: { en: string; es: string };
@@ -25,38 +26,37 @@ const {
 	author,
 	ogImage,
 	themeColor,
-	applicationName = siteConfig.name,
-	appleMobileWebAppTitle = siteConfig.shortName,
-	ogType = 'profile',
-	ogImageAlt = '',
+	applicationName,
+	appleMobileWebAppTitle,
+	ogType,
+	ogImageAlt,
 	ogImageSecureUrl,
-	ogImageType = 'image/png',
+	ogImageType,
 	ogImageWidth,
 	ogImageHeight,
-	ogSiteName = siteConfig.name,
-	fbAppId = siteConfig.fbAppId,
-	ogLocale = 'en_US',
-	twitterCard = 'summary_large_image',
-	twitterSite = siteConfig.twitterHandle,
+	ogSiteName,
+	fbAppId,
+	ogLocale,
+	twitterCard,
+	twitterSite,
 	twitterCreator,
-	twitterImageAlt = '',
-	twitterLabel1 = '',
-	twitterData1 = '',
-	robots = 'index, follow',
-	lang = 'en',
+	twitterImageAlt,
+	twitterLabel1,
+	twitterData1,
+	robots,
+	lang,
 	alternates,
 	emitCanonical = true,
 	emitStructuredData = true,
 	showShare = true,
 	showLanguageToggle = true,
-} = Astro.props as Props;
+} = Astro.props;
 
 const t = useTranslations(lang);
 const themeScript = getThemeInitScript();
 const finalCanonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
 const sitemapUrl = new URL('/sitemap-index.xml', siteConfig.url).href;
 const absoluteOgImage = new URL(ogImageSecureUrl ?? ogImage, siteConfig.url).href;
-const profileImageAlt = ogImageAlt || twitterImageAlt || `${author} professional profile`;
 const alternateLocale = ogLocale.startsWith('es_') ? 'en_US' : 'es_PE';
 const jsonLd = emitStructuredData
 	? getProfilePageStructuredData({
@@ -65,7 +65,8 @@ const jsonLd = emitStructuredData
 			lang,
 			canonicalUrl: finalCanonicalUrl,
 			imageUrl: absoluteOgImage,
-			imageAlt: profileImageAlt,
+			imageAlt: ogImageAlt,
+			portraitAlt: t('profile.avatarAlt'),
 		})
 	: undefined;
 ---
@@ -77,6 +78,11 @@ const jsonLd = emitStructuredData
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="sitemap" href={sitemapUrl} />
+
+		<!-- Self-hosted from Fontsource at build time; both are above the fold
+		     (Inter carries the body copy, JetBrains Mono the h1 and headings). -->
+		<Font cssVariable="--font-inter" preload />
+		<Font cssVariable="--font-jetbrains-mono" preload />
 
 		<title>{title}</title>
 		<meta name="description" content={description} />
@@ -95,10 +101,10 @@ const jsonLd = emitStructuredData
 		<meta property="og:image:secure_url" content={absoluteOgImage} />
 		<meta property="og:site_name" content={ogSiteName} />
 		<meta property="og:author" content={author} />
-		{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
-		{ogImageType && <meta property="og:image:type" content={ogImageType} />}
-		{ogImageWidth && <meta property="og:image:width" content={String(ogImageWidth)} />}
-		{ogImageHeight && <meta property="og:image:height" content={String(ogImageHeight)} />}
+		<meta property="og:image:alt" content={ogImageAlt} />
+		<meta property="og:image:type" content={ogImageType} />
+		<meta property="og:image:width" content={String(ogImageWidth)} />
+		<meta property="og:image:height" content={String(ogImageHeight)} />
 		{fbAppId && <meta property="fb:app_id" content={fbAppId} />}
 		<meta property="og:locale" content={ogLocale} />
 		<meta property="og:locale:alternate" content={alternateLocale} />
@@ -109,10 +115,10 @@ const jsonLd = emitStructuredData
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={absoluteOgImage} />
 		<meta name="twitter:site" content={twitterSite} />
-		{twitterCreator && <meta name="twitter:creator" content={twitterCreator} />}
-		{twitterImageAlt && <meta name="twitter:image:alt" content={twitterImageAlt} />}
-		{twitterLabel1 && <meta name="twitter:label1" content={twitterLabel1} />}
-		{twitterData1 && <meta name="twitter:data1" content={twitterData1} />}
+		<meta name="twitter:creator" content={twitterCreator} />
+		<meta name="twitter:image:alt" content={twitterImageAlt} />
+		<meta name="twitter:label1" content={twitterLabel1} />
+		<meta name="twitter:data1" content={twitterData1} />
 
 		{
 			alternates && (
@@ -135,19 +141,6 @@ const jsonLd = emitStructuredData
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 		<script is:inline set:html={themeScript} />
-		<script>
-			import { ThemeManager } from '@entities/theme/lib/theme-manager';
-			import { updateFavicon } from '@entities/theme/lib/theme-assets';
-
-			window.addEventListener('theme-change', event => {
-				const effectiveTheme = (event as CustomEvent<{ effective?: string }>).detail?.effective;
-				if (effectiveTheme === 'light' || effectiveTheme === 'dark') updateFavicon(effectiveTheme);
-			});
-
-			document.addEventListener('astro:after-swap', () => {
-				updateFavicon(new ThemeManager().getThemeState().effective);
-			});
-		</script>
 		{jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 	</head>
 	<body
