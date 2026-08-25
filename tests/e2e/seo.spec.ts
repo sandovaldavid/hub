@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 const siteUrl = 'https://hub.sandovaldavid.com';
 const portfolioUrl = 'https://sandovaldavid.com';
 const socialPreviewUrl = `${siteUrl}/og/og_dark.png`;
+const profileImageUrl = `${siteUrl}/profile/perfil.webp`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
@@ -50,7 +51,7 @@ for (const route of routes) {
 		test('uses exact localized human-first metadata', async ({ page }) => {
 			await expect(page.locator('html')).toHaveAttribute('lang', route.lang);
 			await expect(page).toHaveTitle(route.title);
-			await expect(page.locator('meta[name="title"]')).toHaveAttribute('content', route.title);
+			await expect(page.locator('meta[name="title"]')).toHaveCount(0);
 			await expect(page.locator('meta[name="description"]')).toHaveAttribute(
 				'content',
 				route.description
@@ -68,14 +69,8 @@ for (const route of routes) {
 				'David Sandoval'
 			);
 			await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
-			await expect(page.locator('meta[name="googlebot"]')).toHaveAttribute(
-				'content',
-				'index, follow'
-			);
-
-			const keywordContent = await page.locator('meta[name="keywords"]').getAttribute('content');
-			expect(keywordContent).not.toBeNull();
-			expect(keywordContent ?? '').not.toMatch(/Angular|\.NET|TypeScript/i);
+			await expect(page.locator('meta[name="googlebot"]')).toHaveCount(0);
+			await expect(page.locator('meta[name="keywords"]')).toHaveCount(0);
 		});
 
 		test('publishes canonical, reciprocal hreflang and sitemap URLs', async ({ page }) => {
@@ -206,7 +201,7 @@ for (const route of routes) {
 				name: 'David Sandoval',
 				url: portfolioUrl,
 				mainEntityOfPage: { '@id': pageId },
-				image: { '@id': imageId },
+				image: profileImageUrl,
 				email: 'mailto:hello@sandovaldavid.com',
 				jobTitle: 'Software Engineer',
 				sameAs: expectedSameAs,
@@ -244,4 +239,22 @@ test('serves robots.txt with the canonical sitemap', async ({ request }) => {
 	expect(await response.text()).toBe(
 		`User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap-index.xml\n`
 	);
+});
+
+test('publishes localized sitemap alternates and excludes the 404 page', async ({ request }) => {
+	const sitemapIndex = await request.get('/sitemap-index.xml');
+	expect(sitemapIndex.ok()).toBe(true);
+
+	const indexText = await sitemapIndex.text();
+	const sitemapUrl = indexText.match(/<loc>([^<]+)<\/loc>/)?.[1];
+	expect(sitemapUrl).toBeTruthy();
+
+	const sitemapPath = new URL(sitemapUrl ?? `${siteUrl}/sitemap-0.xml`).pathname;
+	const sitemapResponse = await request.get(sitemapPath);
+	expect(sitemapResponse.ok()).toBe(true);
+
+	const sitemap = await sitemapResponse.text();
+	expect(sitemap).toContain(`hreflang="en-US" href="${siteUrl}/"`);
+	expect(sitemap).toContain(`hreflang="es-PE" href="${siteUrl}/es/"`);
+	expect(sitemap).not.toMatch(/\/404\/?</);
 });

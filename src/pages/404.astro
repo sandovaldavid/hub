@@ -1,0 +1,55 @@
+---
+import Layout from '@app/layouts/Layout.astro';
+import { getSEO } from '@data/seo';
+
+const SEO = {
+	...getSEO('en'),
+	title: 'Page not found | David Sandoval',
+	description: "The requested page could not be found on David Sandoval's professional Hub.",
+	robots: 'noindex, follow',
+};
+---
+
+<Layout
+	{...SEO}
+	emitCanonical={false}
+	emitStructuredData={false}
+	showShare={false}
+	showLanguageToggle={false}>
+	<main
+		id="main-content"
+		tabindex="-1"
+		class="mx-auto flex min-h-[70vh] w-full max-w-3xl items-center px-4 py-16 md:px-6 md:py-24">
+		<section
+			class="w-full rounded-2xl border border-card-edge bg-card-background p-6 shadow-sm md:p-10"
+			aria-labelledby="not-found-heading">
+			<p
+				class="font-technical m-0 text-sm font-semibold uppercase tracking-[0.14em] text-channel-accent-primary">
+				404
+			</p>
+			<h1
+				id="not-found-heading"
+				class="font-display mt-3 text-3xl font-extrabold leading-tight text-channel-content-strong md:text-4xl">
+				This page isn't here.
+			</h1>
+			<p class="mt-4 max-w-2xl text-base leading-relaxed text-channel-content-muted">
+				The link may be outdated or the page may have moved. You can return to David's professional
+				Hub and continue from a verified destination.
+			</p>
+
+			<nav class="mt-7 flex flex-col gap-3 sm:flex-row" aria-label="404 recovery links">
+				<a
+					class="inline-flex min-h-11 items-center justify-center rounded-xl bg-button-primary-background px-5 py-2.5 font-semibold text-button-primary-content transition-colors hover:bg-button-primary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+					href="/">
+					Return to Hub
+				</a>
+				<a
+					class="inline-flex min-h-11 items-center justify-center rounded-xl border border-button-secondary-edge bg-button-secondary-background px-5 py-2.5 font-semibold text-button-secondary-content transition-colors hover:bg-button-secondary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+					href="/es/"
+					lang="es">
+					Ir al Hub en español
+				</a>
+			</nav>
+		</section>
+	</main>
+</Layout>

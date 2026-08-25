@@ -13,6 +13,10 @@ import { useTranslations } from '@shared/i18n';
 
 interface Props extends SEOProps {
 	alternates?: { en: string; es: string };
+	emitCanonical?: boolean;
+	emitStructuredData?: boolean;
+	showShare?: boolean;
+	showLanguageToggle?: boolean;
 }
 
 const {
@@ -39,28 +43,31 @@ const {
 	twitterLabel1 = '',
 	twitterData1 = '',
 	robots = 'index, follow',
-	googlebot = 'index, follow',
-	keywords = [],
 	lang = 'en',
 	alternates,
+	emitCanonical = true,
+	emitStructuredData = true,
+	showShare = true,
+	showLanguageToggle = true,
 } = Astro.props as Props;
 
 const t = useTranslations(lang);
 const themeScript = getThemeInitScript();
-const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
 const finalCanonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
 const sitemapUrl = new URL('/sitemap-index.xml', siteConfig.url).href;
 const absoluteOgImage = new URL(ogImageSecureUrl ?? ogImage, siteConfig.url).href;
 const profileImageAlt = ogImageAlt || twitterImageAlt || `${author} professional profile`;
 const alternateLocale = ogLocale.startsWith('es_') ? 'en_US' : 'es_PE';
-const jsonLd = getProfilePageStructuredData({
-	title,
-	description,
-	lang,
-	canonicalUrl: finalCanonicalUrl,
-	imageUrl: absoluteOgImage,
-	imageAlt: profileImageAlt,
-});
+const jsonLd = emitStructuredData
+	? getProfilePageStructuredData({
+			title,
+			description,
+			lang,
+			canonicalUrl: finalCanonicalUrl,
+			imageUrl: absoluteOgImage,
+			imageAlt: profileImageAlt,
+		})
+	: undefined;
 ---
 
 <!doctype html>
@@ -72,10 +79,8 @@ const jsonLd = getProfilePageStructuredData({
 		<link rel="sitemap" href={sitemapUrl} />
 
 		<title>{title}</title>
-		<meta name="title" content={title} />
 		<meta name="description" content={description} />
 		<meta name="author" content={author} />
-		{keywordsContent && <meta name="keywords" content={keywordsContent} />}
 		<meta name="application-name" content={applicationName} />
 		<meta name="apple-mobile-web-app-title" content={appleMobileWebAppTitle} />
 		<meta name="theme-color" content={themeColor} />
@@ -123,9 +128,8 @@ const jsonLd = getProfilePageStructuredData({
 			)
 		}
 
-		<link rel="canonical" href={finalCanonicalUrl} />
+		{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}
 		<meta name="robots" content={robots} />
-		<meta name="googlebot" content={googlebot} />
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -144,12 +148,12 @@ const jsonLd = getProfilePageStructuredData({
 				updateFavicon(new ThemeManager().getThemeState().effective);
 			});
 		</script>
-		<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+		{jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 	</head>
 	<body class="min-h-screen bg-channel-background-canvas text-channel-content-default">
 		<a href="#main-content" class="skip-link">{t('nav.skipToContent')}</a>
-		<ShareButton {lang} />
-		<LanguageToggle {lang} {alternates} />
+		{showShare && <ShareButton {lang} />}
+		{showLanguageToggle && <LanguageToggle {lang} {alternates} />}
 		<ThemeToggle {lang} />
 		<slot />
 		<SiteFooter {lang} />

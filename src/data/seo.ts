@@ -43,10 +43,6 @@ export function getSEO(lang: Lang = 'en') {
 
 		// SEO & Indexing
 		robots: 'index, follow',
-		googlebot: 'index, follow',
-
-		// Keywords
-		keywords: t.keywords as string[],
 
 		// Language
 		lang,
