@@ -10,9 +10,12 @@ interface ShareResult {
 	error?: string;
 }
 
-export function isWebShareSupported(): boolean {
-	if (typeof navigator === 'undefined') return false;
-	return typeof navigator.share === 'function';
+type WebShareCapability = Pick<Navigator, 'share'>;
+
+export function isWebShareSupported(
+	capability: WebShareCapability | null = typeof navigator === 'undefined' ? null : navigator
+): boolean {
+	return typeof capability?.share === 'function';
 }
 
 export function getShareData(text: string): ShareData {
