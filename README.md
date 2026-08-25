@@ -28,14 +28,15 @@ Beyond serving as my professional Hub, I use this repository as public evidence 
 - Responsive and keyboard-first interaction patterns, including reduced-motion and high-contrast behavior.
 - SEO and social metadata assembled from the same public identity sources as the rendered page.
 - `ProfilePage` structured data around one canonical `Person`.
+- Executable dependency boundaries across Astro/TypeScript and component CSS.
 - Automated quality checks for architecture, formatting, linting, links, unit tests, browser behavior, accessibility and Lighthouse.
-- Versioned GitHub ruleset intent, Dependabot maintenance and automated release preparation.
+- Reproducible delivery tooling with immutable third-party GitHub Action references.
 
 ## Why Astro
 
 I chose Astro because this product has two content-focused routes and a deliberately small client-side interaction boundary. Most of the experience can be delivered as static HTML, so I avoid introducing framework hydration where the product does not need it.
 
-The browser JavaScript is limited to behavior that genuinely requires it, including theme management, sharing, navigation analytics and the scroll-to-top control.
+The browser JavaScript is limited to behavior that genuinely requires it, including theme management, sharing and navigation analytics.
 
 ## Stack
 
@@ -56,16 +57,16 @@ The browser JavaScript is limited to behavior that genuinely requires it, includ
 
 ```text
 src/
-├── app/       # layout, global styles and page-level models
-├── data/      # typed content, URLs, SEO and structured data
-├── entities/  # reusable product concepts
+├── pages/     # route entry points and route composition
+├── app/       # global document shell and app composition
+├── widgets/   # composed page sections
 ├── features/  # interactive user actions
-├── pages/     # English and Spanish route composition
-├── shared/    # reusable UI, assets, utilities, i18n and analytics
-└── widgets/   # composed page sections
+├── data/      # typed content, URLs, SEO and structured data
+├── entities/  # reusable product concepts and models
+└── shared/    # UI, assets, utilities, styles, i18n, analytics and shared models
 ```
 
-The structure is deliberately shallow. The project borrows useful separation ideas from feature-oriented architectures without imposing ceremony that the application does not need.
+The structure is deliberately shallow. The project borrows useful separation ideas from feature-oriented architectures without imposing ceremony that the application does not need. The dependency matrix and CSS ownership rules are enforced by `bun run check:architecture`.
 
 See [`docs/architecture.md`](docs/architecture.md) for placement rules, dependency direction and runtime ownership.
 
@@ -74,7 +75,7 @@ See [`docs/architecture.md`](docs/architecture.md) for placement rules, dependen
 ### Prerequisites
 
 - Bun `1.3.14`;
-- Node.js `22.19` or newer only when running the native Lighthouse toolchain.
+- Node.js `22.19` or newer when running the native Lighthouse/Vercel toolchain.
 
 ```bash
 git clone https://github.com/sandovaldavid/hub.git
@@ -113,7 +114,7 @@ The accessibility implementation targets WCAG 2.1 AA practices and is regression
 | --- | --- |
 | `bun run dev` | Start Astro on port `4321` |
 | `bun run build` | Validate architecture and build the static site |
-| `bun run check:architecture` | Detect circular dependencies and forbidden barrels |
+| `bun run check:architecture` | Detect forbidden layer dependencies and circular imports across source and component styles |
 | `bun run check:links` | Validate repository and public destinations |
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
@@ -133,20 +134,13 @@ feature/*, fix/*, refactor/*, docs/* -> develop -> main
 
 External contributors should branch from `develop` and open pull requests back to `develop`. Production deployment is associated with `main`.
 
+Delivery uses the same declared Bun/Node toolchain as validation, a versioned Vercel CLI and third-party Actions pinned to immutable commit SHAs.
+
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution scope and validation expectations.
 
 ## Documentation
 
-Start with [`docs/README.md`](docs/README.md) for the contributor-facing documentation map.
-
-Key documents:
-
-- [`docs/architecture.md`](docs/architecture.md) — source boundaries, dependency direction and runtime ownership;
-- [`docs/operations.md`](docs/operations.md) — setup, validation, CI, delivery and maintenance;
-- [`docs/accessibility/manual-checklist.md`](docs/accessibility/manual-checklist.md) — manual accessibility and release checks;
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow and project constraints;
-- [`SECURITY.md`](SECURITY.md) — private vulnerability reporting;
-- [`AGENTS.md`](AGENTS.md) — repository-specific guidance for coding agents and maintainer automation.
+Start with [`docs/README.md`](docs/README.md) for the contributor-facing documentation map. Key contracts are [`docs/architecture.md`](docs/architecture.md), [`docs/operations.md`](docs/operations.md), [`docs/accessibility/manual-checklist.md`](docs/accessibility/manual-checklist.md), [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) and [`AGENTS.md`](AGENTS.md).
 
 I keep the public repository self-contained: a developer should be able to understand, build and test it without access to my private strategy, notes or planning systems.
 

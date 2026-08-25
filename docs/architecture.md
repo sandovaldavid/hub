@@ -11,36 +11,28 @@ The Hub is a statically generated Astro application with two localized routes:
 - `/` — English;
 - `/es/` — Spanish.
 
-Astro renders the page shell as static HTML. Browser JavaScript is intentionally limited to behavior that requires a client runtime:
-
-- theme management;
-- native sharing/copy behavior;
-- privacy-safe navigation analytics;
-- Vercel Analytics;
-- small progressive-enhancement interactions such as scroll-to-top behavior.
-
-There is no hydrated SPA shell.
+Astro renders the page shell as static HTML. Browser JavaScript is intentionally limited to theme management, native sharing/copy behavior, privacy-safe navigation analytics, Vercel Analytics and small progressive-enhancement interactions. There is no hydrated SPA shell.
 
 ## Architectural principles
 
-1. **Keep the product small.** Add abstraction only when an implemented responsibility has multiple real consumers.
+1. **Keep the product small.** Add abstraction only when an implemented responsibility has real consumers.
 2. **Keep content out of visual components.** Public destinations, profile data, metadata and localized copy have typed owners.
-3. **Prefer static output.** Client JavaScript must justify its runtime cost and remain progressively enhanced where practical.
+3. **Prefer static output.** Client JavaScript must justify its runtime cost.
 4. **Preserve one public identity model.** Visible content, metadata and structured data must not maintain conflicting identity catalogs.
-5. **Keep boundaries executable.** Architecture rules should be represented by imports, scripts, tests or clearly named source ownership.
-6. **Do not require private context.** Public contributors must be able to understand implementation constraints from the repository and the associated issue or pull request.
+5. **Keep boundaries executable.** Architecture rules are represented by imports, scripts and tests.
+6. **Do not require private context.** Public contributors must be able to understand implementation constraints from this repository.
 
 ## Source directories
 
 | Directory | Current responsibility |
 | --- | --- |
-| `src/app` | Global layout, shared styles, channel tokens and page-level models. |
-| `src/pages` | Route entry points and route-specific composition. |
+| `src/pages` | Route entry points and route-level composition. |
+| `src/app` | Global document layout and application composition. |
+| `src/widgets` | Page sections composed from features, entities and typed data. |
+| `src/features` | Interactive user actions such as sharing and theme/language selection. |
 | `src/data` | Typed profile, destinations, calls to action, projects, skills, SEO and structured-data configuration. |
-| `src/shared` | Reusable UI, assets, utilities, localization and analytics infrastructure. |
-| `src/entities` | Reusable product concepts with multiple consumers. |
-| `src/features` | Interactive user actions such as sharing and theme selection. |
-| `src/widgets` | Page sections composed from data and reusable modules. |
+| `src/entities` | Reusable product concepts and domain-shaped UI/models. |
+| `src/shared` | Reusable UI, assets, utilities, localization, analytics, cross-cutting models and shared design-system styles. |
 | `scripts` | Architecture, link and repository-governance automation. |
 | `tests` | Unit, browser, accessibility, SEO and performance contracts. |
 
@@ -48,24 +40,37 @@ The directory names communicate useful boundaries; the repository does not imple
 
 ## Placement rules
 
-1. Keep route composition in `src/pages`.
-2. Keep public URLs, metadata and typed content in `src/data` or the localized catalogs.
-3. Keep reusable low-level UI and utilities in `src/shared`.
-4. Use `entities`, `features` and `widgets` only when the name represents a real reusable product concept or page section.
-5. Import concrete modules directly when an `index.ts` file would only add indirection.
-6. Do not place content constants or external destinations inside visual components.
-7. Add a top-level source directory only when it has a distinct responsibility and clear consumers.
+1. Keep route composition in `src/pages`; route entry points own `Layout` + page-widget composition.
+2. Keep the global document shell in `src/app`.
+3. Keep public URLs, metadata and typed content in `src/data` or localized catalogs.
+4. Keep reusable low-level UI, utilities, cross-cutting models and design-system CSS in `src/shared`.
+5. Keep reusable product models/UI in `src/entities`.
+6. Use `features` and `widgets` only when the name represents a real user action or page section.
+7. Import concrete modules directly when an `index.ts` file would only add indirection.
+8. Do not place content constants or external destinations inside visual components.
 
 ## Dependency direction
 
+Dependencies may point only to the same layer or a lower layer in this matrix:
+
 ```text
-pages/layouts
-  -> widgets
-  -> features/entities
-  -> shared/data
+pages  -> app, widgets, features, data, entities, shared
+app    -> widgets, features, data, entities, shared
+widgets -> features, data, entities, shared
+features -> data, entities, shared
+data   -> entities, shared
+entities -> shared
+shared -> shared
 ```
 
-Lower-level modules must not depend on higher-level page composition. Circular imports and single-module re-export barrels are rejected by:
+In particular:
+
+- `widgets` must not import `app` or `pages`;
+- `data` must not import `widgets`, `features`, `app` or `pages`;
+- `entities`, `features` and `widgets` must not import application-owned styles;
+- circular imports are forbidden.
+
+These rules apply to TypeScript/JavaScript/Astro imports **and** CSS `@import`/`@reference` dependencies. They are enforced by:
 
 ```bash
 bun run check:architecture
@@ -78,12 +83,12 @@ bun run check:architecture
 | Public identity, canonical origin and approved destinations | `src/data/site.config.ts` |
 | Profile and primary portrait reference | `src/data/profile.ts` |
 | Calls to action | `src/data/cta.ts` |
-| Featured project summaries | `src/data/weekly-project.ts` |
+| Featured project summaries | `src/data/featured-projects.ts` |
 | Technology presentation | `src/data/skills.ts` |
 | English and Spanish copy | `src/shared/i18n/locales/*.json` |
 | Localized metadata assembly | `src/data/seo.ts` |
 | Schema.org graph | `src/data/structured-data.ts` |
-| Global Identity Core and Link Hub token implementation | `src/app/styles/global.css` |
+| Identity Core, semantic roles and Link Hub tokens | `src/shared/styles/global.css` |
 | Theme behavior | `src/entities/theme` and `src/features/theme-toggle` |
 | Conversion event catalog and privacy-safe properties | `src/shared/analytics/conversion.ts` |
 
@@ -103,17 +108,17 @@ Identity Core primitive
   -> component
 ```
 
-`src/app/styles/global.css` owns shared primitives, Light/Dark aliases and reusable component roles. Components consume aliases or component roles and must not introduce a second brand palette. The scoped external-platform color exception remains in `src/entities/social-link/ui/SocialButton.css`.
+`src/shared/styles/global.css` owns shared primitives, Light/Dark aliases and reusable component roles. `Layout.astro` loads that stylesheet once. Component styles that require Tailwind utilities use `@reference` so they can consume the shared design-system context without creating a runtime stylesheet dependency or duplicating the global CSS.
 
-Maintainers may use external design references to approve visual intent, but contributors should not need unpublished files to understand the implemented contract. If a visual requirement is not represented by existing tokens, source, tests or the change request, it must be clarified before implementation rather than inferred.
+The scoped external-platform color exception remains in `src/entities/social-link/ui/SocialButton.css`.
 
 Changes must preserve keyboard operation, visible focus, Light/Dark/System themes, reduced motion, high-contrast behavior, bilingual parity and responsive layout.
 
 ## Content and localization
 
-English and Spanish should express the same facts, claim status, lifecycle state, privacy boundary and CTA intent. Natural phrasing is preferred over literal translation, but one locale must not introduce stronger claims than the other.
+English and Spanish should express the same facts, claim status, lifecycle state, privacy boundary and CTA intent. Natural phrasing is preferred over literal translation.
 
-Public professional claims must be supported by the visible project/repository state or another approved public source. Private evidence should not be copied into this repository merely to justify copy.
+Localized interface copy belongs in `src/shared/i18n/locales/*.json`. Typed data can contain locale-specific evidence records when the entire record is domain content, as with featured project summaries, but visual components must not maintain ad hoc EN/ES ternaries for shared interface labels.
 
 ## SEO and structured data
 
@@ -125,23 +130,9 @@ Canonical URLs, alternate locale URLs, Open Graph data and visible identity cont
 
 ## Analytics boundary
 
-Analytics events measure navigation interactions only. They must use the allow-listed properties implemented in `src/shared/analytics/conversion.ts` and must not contain personal data, complete URLs, query strings or free-form input.
+Analytics events measure navigation interactions only. Event names and positions are allow-listed by `src/shared/analytics/conversion.ts`; DOM instrumentation must use those canonical values and must not contain personal data, complete URLs, query strings or free-form input.
 
-Adding broader analytics collection requires an explicit privacy review rather than silently expanding the current event payload.
-
-## Agent instruction ownership
-
-Repository-specific coding instructions are intentionally limited to:
-
-| File | Scope |
-| --- | --- |
-| `AGENTS.md` | Repository-wide agent behavior, privacy and validation rules. |
-| `.github/copilot-instructions.md` | GitHub Copilot project guidance. |
-| `.github/instructions/source.instructions.md` | Source placement, real consumers and dependency direction. |
-| `.github/instructions/app.instructions.md` | Application shell, layout, global styles and app-level ownership. |
-| `.github/instructions/design-system.instructions.md` | Implemented tokens, channel expression, accessibility and visual tests. |
-
-Do not add generic per-layer or per-segment templates. A new instruction file must reference actual paths, describe implemented behavior, have a clear consumer and align with executable checks.
+Adding broader analytics collection requires an explicit privacy review.
 
 ## Verification
 
