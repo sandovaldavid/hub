@@ -7,10 +7,10 @@ module.exports = {
 	ci: {
 		collect: {
 			chromePath,
-			startServerCommand: 'bun run preview',
+			startServerCommand: 'bun run preview:test',
 			startServerReadyPattern: 'Local',
 			startServerReadyTimeout: 30000,
-			url: ['http://localhost:4321', 'http://localhost:4321/es/'],
+			url: ['http://localhost:4322', 'http://localhost:4322/es/'],
 			numberOfRuns: 3,
 			settings: {
 				...(isDesktop ? { preset: 'desktop' } : {}),

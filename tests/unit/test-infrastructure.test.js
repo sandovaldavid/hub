@@ -39,10 +39,11 @@ describe('browser test infrastructure contract', () => {
 		expect(dockerfile).toContain('install --with-deps chromium webkit firefox');
 	});
 
-	test('isolates production-preview tests from the normal development port', async () => {
-		const [packageJson, config] = await Promise.all([
+	test('isolates production-preview browser validation from the development port', async () => {
+		const [packageJson, config, lighthouse] = await Promise.all([
 			readJson('package.json'),
 			read('playwright.config.ts'),
+			read('.lighthouserc.cjs'),
 		]);
 
 		expect(packageJson.scripts['preview:test']).toContain('--port 4322');
@@ -50,5 +51,7 @@ describe('browser test infrastructure contract', () => {
 			"const testServerUrl = isCi ? 'http://localhost:4322' : 'http://localhost:4321';"
 		);
 		expect(config).toContain("command: isCi ? 'bun run preview:test' : 'bun run dev'");
+		expect(lighthouse).toContain("startServerCommand: 'bun run preview:test'");
+		expect(lighthouse).toContain("url: ['http://localhost:4322', 'http://localhost:4322/es/']");
 	});
 });
