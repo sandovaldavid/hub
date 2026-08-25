@@ -42,6 +42,14 @@ describe('pre-v2 delivery hardening contracts', () => {
 		expect(workflow).not.toContain('| jq');
 	});
 
+	test('registers the validated deployment ref without reconciling branch history', async () => {
+		const workflow = await read('.github/workflows/cd.yml');
+
+		expect(workflow).toMatch(
+			/github\.rest\.repos\.createDeployment\(\{[\s\S]*?required_contexts: \[\],[\s\S]*?auto_merge: false,/
+		);
+	});
+
 	test('keeps the deploy toolchain explicitly versioned', async () => {
 		const workflow = await read('.github/workflows/cd.yml');
 
