@@ -67,8 +67,7 @@ const footerLinks: Array<{
 		)}>
 		<p class="m-0 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-2">
 			<span class="font-display text-sm font-bold text-channel-content-strong">
-				&copy; {currentYear}
-				{siteConfig.name}
+				&copy; {`${currentYear} ${siteConfig.name}`}
 			</span>
 			<span class="font-mono text-xs text-channel-content-muted">
 				{t('footer.builtWith')} · v{siteConfig.version}
