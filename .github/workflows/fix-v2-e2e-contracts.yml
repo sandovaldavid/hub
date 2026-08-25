@@ -1,0 +1,55 @@
+name: Fix v2 E2E contracts
+
+on:
+  push:
+    branches:
+      - refactor/v2-release-hardening
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refactor/v2-release-hardening
+          fetch-depth: 0
+
+      - name: Align E2E expectations with current contracts
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              Path('tests/e2e/accessible-navigation.spec.ts'): {
+                  'Copiar link al portapapeles': 'Copiar enlace al portapapeles',
+              },
+              Path('tests/e2e/desktop-layout.spec.ts'): {
+                  '.weekly-project-section__icon': '.featured-project-section__icon',
+                  '.weekly-project-card__index': '.featured-project-card__index',
+                  '.weekly-project-card__actions': '.featured-project-card__actions',
+              },
+          }
+
+          for path, mapping in replacements.items():
+              content = path.read_text()
+              for old, new in mapping.items():
+                  if old not in content:
+                      raise SystemExit(f'Missing expected stale contract {old!r} in {path}')
+                  content = content.replace(old, new)
+              path.write_text(content)
+          PY
+
+      - name: Commit fixes
+        run: |
+          if git diff --quiet; then
+            echo 'No contract changes required.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tests/e2e/accessible-navigation.spec.ts tests/e2e/desktop-layout.spec.ts
+          git commit -m 'test(v2): align e2e contracts with featured projects'
+          git push origin HEAD:refactor/v2-release-hardening
