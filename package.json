@@ -11,6 +11,7 @@
 		"prebuild": "node scripts/check-architecture.mjs",
 		"build": "astro build",
 		"preview": "astro preview --host 0.0.0.0",
+		"preview:test": "astro preview --host 0.0.0.0 --port 4322",
 		"astro": "astro",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
@@ -31,7 +32,8 @@
 		"test:lighthouse:desktop": "LHCI_PROFILE=desktop lhci autorun",
 		"test:lighthouse": "bun run test:lighthouse:mobile && bun run test:lighthouse:desktop",
 		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run check:links && bun run test:unit && bun run build",
-		"validate:local": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
+		"validate:local": "node scripts/run-local-validation.mjs",
+		"validate:local:inside": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
 		"prepare": "husky"
 	},
 	"dependencies": {

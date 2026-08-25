@@ -75,7 +75,8 @@ See [`docs/architecture.md`](docs/architecture.md) for placement rules, dependen
 ### Prerequisites
 
 - Bun `1.3.14`;
-- Node.js `22.19` or newer when running the native Lighthouse/Vercel toolchain.
+- Node.js `22.19` or newer when running the native Lighthouse/Vercel toolchain;
+- a container runtime plus the Dev Containers CLI when invoking the complete local validation gate from the host.
 
 ```bash
 git clone https://github.com/sandovaldavid/hub.git
@@ -88,7 +89,7 @@ Open `http://localhost:4321`.
 
 Basic development does not require private credentials. [`.env.example`](.env.example) documents the optional public Facebook App ID metadata field.
 
-For a reproducible Linux browser environment, especially for Playwright and Lighthouse, use the repository DevContainer. Detailed setup and recovery instructions live in [`docs/operations.md`](docs/operations.md).
+Browser-sensitive local validation is intentionally executed inside the repository DevContainer so the Playwright browser binaries and Linux system dependencies are reproducible across host distributions. `bun run validate:local` delegates to that container automatically when invoked from the host. Detailed setup and recovery instructions live in [`docs/operations.md`](docs/operations.md).
 
 ## Validation
 
@@ -104,7 +105,7 @@ For the complete local gate used before release-oriented changes:
 bun run validate:local
 ```
 
-The complete gate covers type checking, architecture rules, formatting, linting, link health, unit tests, production build, Playwright browser coverage, Axe checks and Lighthouse mobile/desktop audits.
+The complete gate covers type checking, architecture rules, formatting, linting, link health, unit tests, production build, Playwright browser coverage, Axe checks and Lighthouse mobile/desktop audits. When started from the host, the browser-sensitive gate runs inside the DevContainer rather than relying on host Playwright support.
 
 The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with automated and manual checks; this repository does **not** claim formal accessibility certification.
 
@@ -119,10 +120,10 @@ The accessibility implementation targets WCAG 2.1 AA practices and is regression
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
-| `bun run test:e2e` | Run Playwright functional, SEO and accessibility coverage |
+| `bun run test:e2e` | Run Playwright directly in a supported environment such as CI or the DevContainer |
 | `bun run test:lighthouse` | Run mobile and desktop Lighthouse profiles |
 | `bun run validate:quality` | Run the fast quality gate |
-| `bun run validate:local` | Run the complete local validation gate |
+| `bun run validate:local` | Run the complete local gate inside the repository DevContainer |
 
 ## Development and delivery
 
