@@ -120,7 +120,9 @@ Release Please configuration lives in:
 - `.release-please-manifest.json`;
 - `.github/workflows/release-please.yml`.
 
-The pre-v2 configuration currently contains the one-time `release-as: 2.0.0` override required to prepare the major release. Remove that exceptional override after `v2.0.0` is actually published so future releases return to normal semantic version calculation.
+The pre-v2 configuration currently contains the one-time `release-as: 2.0.0` override required to prepare the major release. Remove that exceptional override after `v2.0.0` is actually published so future releases return to normal semantic version calculation. Left in place it is not inert: Release Please keeps proposing the same version indefinitely, and the footer version — read from `package.json` through `siteConfig.version` — freezes with it.
+
+`tests/unit/release-hardening.test.js` fails as soon as `release-as` names a version the manifest already records as released, so the removal is enforced rather than remembered.
 
 Do not manually describe a release as published until the tag/release exists and the production deployment has been verified.
 
