@@ -17,9 +17,9 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const currentYear = new Date().getFullYear();
-
 const portfolio = getRequiredSocialLink('website');
 const github = getRequiredSocialLink('github');
+const contactSubject = t('contact.emailSubject');
 
 const footerLinks: Array<{
 	id: string;
@@ -47,7 +47,7 @@ const footerLinks: Array<{
 	},
 	{
 		id: 'email',
-		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(siteConfig.recruiterEmailSubject)}`,
+		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(contactSubject)}`,
 		icon: EmailIcon,
 		label: t('contact.buttonText'),
 		external: false,
@@ -65,8 +65,7 @@ const footerLinks: Array<{
 		)}>
 		<p class="m-0 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-2">
 			<span class="font-display text-sm font-bold text-channel-content-strong">
-				&copy; {currentYear}
-				{siteConfig.name}
+				&copy; {currentYear} {siteConfig.name}
 			</span>
 			<span class="font-mono text-xs text-channel-content-muted">
 				{t('footer.builtWith')} · v{siteConfig.version}
@@ -74,21 +73,19 @@ const footerLinks: Array<{
 		</p>
 
 		<div class="flex items-center gap-4">
-			{
-				footerLinks.map(link => (
-					<a
-						href={link.href}
-						target={link.external ? '_blank' : undefined}
-						rel={link.external ? 'noopener noreferrer' : undefined}
-						class="inline-flex items-center gap-1.5 text-sm font-medium text-channel-content-muted no-underline transition-colors duration-200 hover:text-channel-accent-primary"
-						data-conversion-event={link.conversionEvent}
-						data-conversion-position="navigation"
-						data-conversion-item={link.id}>
-						<span class="h-4 w-4 shrink-0 [&_svg]:h-full [&_svg]:w-full" set:html={link.icon} />
-						{link.label}
-					</a>
-				))
-			}
+			{footerLinks.map(link => (
+				<a
+					href={link.href}
+					target={link.external ? '_blank' : undefined}
+					rel={link.external ? 'noopener noreferrer' : undefined}
+					class="inline-flex items-center gap-1.5 text-sm font-medium text-channel-content-muted no-underline transition-colors duration-200 hover:text-channel-accent-primary"
+					data-conversion-event={link.conversionEvent}
+					data-conversion-position="navigation"
+					data-conversion-item={link.id}>
+					<span class="h-4 w-4 shrink-0 [&_svg]:h-full [&_svg]:w-full" set:html={link.icon} />
+					{link.label}
+				</a>
+			))}
 			<BackToTop {lang} />
 		</div>
 	</div>

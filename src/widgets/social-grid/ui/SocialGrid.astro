@@ -1,6 +1,10 @@
 ---
 import SocialButton from '@entities/social-link/ui/SocialButton.astro';
-import type { SocialLink, SocialLinkPriority } from '@entities/social-link/model/types';
+import type {
+	SocialLink,
+	SocialLinkPriority,
+	SocialPlatform,
+} from '@entities/social-link/model/types';
 import { cn } from '@shared/lib/utils';
 import './SocialGrid.css';
 
@@ -20,12 +24,21 @@ interface Props {
 const { links, priorities = ['primary'], variant = 'default', lang = 'en' } = Astro.props as Props;
 const displayLinks = links.filter(link => priorities.includes(link.priority));
 const hasOddLinkCount = displayLinks.length % 2 === 1;
+
+const platformClasses: Partial<Record<SocialPlatform, { brand?: string; icon?: string }>> = {
+	website: { brand: 'social-button--website', icon: 'social-button__icon--website' },
+	linkedin: { brand: 'social-button--linkedin', icon: 'social-button__icon--linkedin' },
+	github: { brand: 'social-button--github', icon: 'social-button__icon--github' },
+	twitter: { brand: 'social-button--x', icon: 'social-button__icon--x' },
+	instagram: { brand: 'social-button--instagram', icon: 'social-button__icon--instagram' },
+};
 ---
 
 <div class="social-grid" data-social-count={displayLinks.length}>
 	{
 		displayLinks.map((link, index) => {
 			const isWideItem = hasOddLinkCount && index === displayLinks.length - 1;
+			const classes = platformClasses[link.platform];
 
 			return (
 				<div
@@ -35,29 +48,20 @@ const hasOddLinkCount = displayLinks.length % 2 === 1;
 					data-social-index={index}
 					data-social-wide={isWideItem ? 'true' : undefined}>
 					<SocialButton
-						class={link.classBrand}
+						class={classes?.brand}
 						label={link.label}
 						url={link.url}
 						username={link.username}
 						analyticsId={link.analyticsId}
+						conversionEvent={link.conversionEvent}
 						{variant}
 						{lang}>
 						<span slot="icon">
-							{link.platform === 'linkedin' && (
-								<LinkedInIcon class={`social-button__icon ${link.classIcon}`} />
-							)}
-							{link.platform === 'github' && (
-								<GitHubIcon class={`social-button__icon ${link.classIcon}`} />
-							)}
-							{link.platform === 'instagram' && (
-								<InstagramIcon class={`social-button__icon ${link.classIcon}`} />
-							)}
-							{link.platform === 'twitter' && (
-								<XIcon class={`social-button__icon ${link.classIcon}`} />
-							)}
-							{link.platform === 'website' && (
-								<WebSiteIcon class={`social-button__icon ${link.classIcon}`} />
-							)}
+							{link.platform === 'linkedin' && <LinkedInIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
+							{link.platform === 'github' && <GitHubIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
+							{link.platform === 'instagram' && <InstagramIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
+							{link.platform === 'twitter' && <XIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
+							{link.platform === 'website' && <WebSiteIcon class={`social-button__icon ${classes?.icon ?? ''}`} />}
 						</span>
 					</SocialButton>
 				</div>

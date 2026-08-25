@@ -2,7 +2,7 @@
 import ProfileAvatar from '@entities/profile/ui/ProfileAvatar.astro';
 import type { HeroCardProps } from '../model/types';
 import './HeroCard.css';
-import { cn } from '@shared/lib';
+import { cn } from '@shared/lib/utils';
 
 type Props = HeroCardProps;
 
@@ -11,97 +11,36 @@ const isCompact = variant === 'compact';
 ---
 
 <div class={cn('hero-card__content', isCompact && 'hero-card__content--compact')}>
-	<div
-		class={cn(
-			'grid w-full grid-cols-1 items-center gap-3 md:gap-4 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-5',
-			isCompact && 'hero-card__identity--compact'
-		)}>
+	<div class={cn('grid w-full grid-cols-1 items-center gap-3 md:gap-4 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-5', isCompact && 'hero-card__identity--compact')}>
 		<div class="hero-card__header">
 			<div class="hero-card__avatar-wrapper">
-				<ProfileAvatar
-					src={profile.avatar.url}
-					alt={profile.avatar.alt}
-					brandLogoSrc={profile.logo.url}
-					size={isCompact ? '3xl' : '4xl'}
-				/>
+				<ProfileAvatar src={profile.avatar.url} alt={profile.avatar.alt} brandLogoSrc={profile.logo.url} size={isCompact ? '3xl' : '4xl'} />
 			</div>
 		</div>
 
 		<div class="hero-card__body">
-			<h1
-				id="hero-heading"
-				class={cn(
-					'font-display m-0 font-extrabold leading-tight text-center text-channel-content-strong lg:text-left',
-					isCompact
-						? 'text-[1.625rem] sm:text-[1.75rem] lg:text-[2rem] xl:text-[2.125rem]'
-						: 'text-2xl md:text-3xl lg:text-[2.1rem] xl:text-[2.25rem] 2xl:text-[2.5rem]'
-				)}>
+			<h1 id="hero-heading" class={cn('font-display m-0 text-center font-extrabold leading-tight text-channel-content-strong lg:text-left', isCompact ? 'text-[1.625rem] sm:text-[1.75rem] lg:text-[2rem] xl:text-[2.125rem]' : 'text-2xl md:text-3xl lg:text-[2.1rem] xl:text-[2.25rem] 2xl:text-[2.5rem]')}>
 				{profile.name}
 			</h1>
-
 			{profile.tagline && <p class="hero-card__tagline">{profile.tagline}</p>}
-
-			{
-				isCompact ? (
-					<div class="hero-card__identity-actions">
-						{availability && (
-							<p class="hero-card__availability">
-								<span class="hero-card__availability-indicator" aria-hidden="true" />
-								<span class="hero-card__availability-text">{availability}</span>
-							</p>
-						)}
-						{primaryAction && (
-							<a
-								class="hero-card__primary-action"
-								href={primaryAction.href}
-								target={primaryAction.external ? '_blank' : undefined}
-								rel={primaryAction.external ? 'noopener noreferrer' : undefined}
-								data-conversion-event="resume_downloaded"
-								data-conversion-position="hero"
-								data-conversion-item="resume">
-								{primaryAction.label}
-							</a>
-						)}
-					</div>
-				) : (
-					availability && (
-						<p class="hero-card__availability">
-							<span class="hero-card__availability-indicator" aria-hidden="true" />
-							<span class="hero-card__availability-text">{availability}</span>
-						</p>
-					)
-				)
-			}
+			{isCompact ? (
+				<div class="hero-card__identity-actions">
+					{availability && <p class="hero-card__availability"><span class="hero-card__availability-indicator" aria-hidden="true" /><span class="hero-card__availability-text">{availability}</span></p>}
+					{primaryAction && (
+						<a class="hero-card__primary-action" href={primaryAction.href} target={primaryAction.external ? '_blank' : undefined} rel={primaryAction.external ? 'noopener noreferrer' : undefined} data-conversion-event={primaryAction.conversionEvent} data-conversion-position="hero" data-conversion-item={primaryAction.conversionItem}>
+							{primaryAction.label}
+						</a>
+					)}
+				</div>
+			) : availability && <p class="hero-card__availability"><span class="hero-card__availability-indicator" aria-hidden="true" /><span class="hero-card__availability-text">{availability}</span></p>}
 		</div>
 	</div>
 
 	{variant === 'default' && profile.bio && <p class="hero-card__bio">{profile.bio}</p>}
-
-	{
-		metadata.length > 0 && (
-			<dl class="hero-card__metadata">
-				{metadata.map(item => (
-					<div class="hero-card__metadata-item">
-						<dt>{item.label}</dt>
-						<dd>{item.value}</dd>
-					</div>
-				))}
-			</dl>
-		)
-	}
-
-	{
-		!isCompact && primaryAction && (
-			<a
-				class="button-primary hero-card__primary-action"
-				href={primaryAction.href}
-				target={primaryAction.external ? '_blank' : undefined}
-				rel={primaryAction.external ? 'noopener noreferrer' : undefined}
-				data-conversion-event="resume_downloaded"
-				data-conversion-position="hero"
-				data-conversion-item="resume">
-				{primaryAction.label}
-			</a>
-		)
-	}
+	{metadata.length > 0 && <dl class="hero-card__metadata">{metadata.map(item => <div class="hero-card__metadata-item"><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
+	{!isCompact && primaryAction && (
+		<a class="button-primary hero-card__primary-action" href={primaryAction.href} target={primaryAction.external ? '_blank' : undefined} rel={primaryAction.external ? 'noopener noreferrer' : undefined} data-conversion-event={primaryAction.conversionEvent} data-conversion-position="hero" data-conversion-item={primaryAction.conversionItem}>
+			{primaryAction.label}
+		</a>
+	)}
 </div>

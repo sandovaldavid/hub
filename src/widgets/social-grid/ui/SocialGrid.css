@@ -1,29 +1,8 @@
-@import '../../../app/styles/global.css';
+@reference '../../../shared/styles/global.css';
 
-.social-grid-card {
-	@apply flex w-full min-w-0 flex-col;
-}
-
-.social-grid {
-	@apply grid w-full min-w-0 grid-cols-1 gap-2.5;
-}
-
-.social-grid__item {
-	@apply min-w-0;
-}
-
-.social-grid__item .social-button {
-	@apply min-h-14;
-}
-
-@media (min-width: 360px) {
-	.social-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-}
-
-@media (min-width: 768px) {
-	.social-grid__item--wide {
-		grid-column: 1 / -1;
-	}
-}
+.social-grid-card { @apply flex w-full min-w-0 flex-col; }
+.social-grid { @apply grid w-full min-w-0 grid-cols-1 gap-2.5; }
+.social-grid__item { @apply min-w-0; }
+.social-grid__item .social-button { @apply min-h-14; }
+@media (min-width: 360px) { .social-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 768px) { .social-grid__item--wide { grid-column: 1 / -1; } }

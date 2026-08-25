@@ -4,17 +4,7 @@ import { cn } from '@shared/lib/utils';
 
 type Props = SkillsSectionProps;
 
-const {
-	coreSkills,
-	toolingSkills,
-	skills,
-	title = 'Tecnologías y habilidades',
-	coreTitle = 'Stack principal de ingeniería',
-	toolsTitle = 'Herramientas de entrega y producto',
-} = Astro.props;
-
-const effectiveCore = coreSkills ?? (skills ? skills.slice(0, 7) : []);
-const effectiveTooling = toolingSkills ?? (skills ? skills.slice(7) : []);
+const { coreSkills, toolingSkills, title, coreTitle, toolsTitle } = Astro.props;
 ---
 
 <div
@@ -28,14 +18,13 @@ const effectiveTooling = toolingSkills ?? (skills ? skills.slice(7) : []);
 		{title}
 	</h2>
 
-	<!-- Primary Core Engineering Stack -->
 	<div class="flex flex-col gap-3">
 		<h3 class="text-xs font-semibold uppercase tracking-[0.12em] text-channel-accent-primary">
 			{coreTitle}
 		</h3>
 		<div class="grid grid-cols-4 gap-x-2 gap-y-4 sm:grid-cols-5 sm:gap-x-3 md:grid-cols-7 md:gap-4">
 			{
-				effectiveCore.map(skill => (
+				coreSkills.map(skill => (
 					<div
 						class={cn(
 							'group flex min-w-0 flex-col items-center gap-1.5 md:gap-2',
@@ -53,7 +42,7 @@ const effectiveTooling = toolingSkills ?? (skills ? skills.slice(7) : []);
 								'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
 							)}>
 							<span
-								class="flex size-6 items-center justify-center text-channel-content-strong transition-colors duration-300 md:size-8 lg:size-10 [&_svg]:max-h-full [&_svg]:max-w-full [&_svg]:h-full [&_svg]:w-full [&_svg]:object-contain"
+								class="flex size-6 items-center justify-center text-channel-content-strong transition-colors duration-300 md:size-8 lg:size-10 [&_svg]:h-full [&_svg]:max-h-full [&_svg]:w-full [&_svg]:max-w-full [&_svg]:object-contain"
 								set:html={skill.icon}
 							/>
 						</div>
@@ -71,48 +60,45 @@ const effectiveTooling = toolingSkills ?? (skills ? skills.slice(7) : []);
 		</div>
 	</div>
 
-	<!-- Secondary Delivery & Product Tooling -->
-	{
-		effectiveTooling.length > 0 && (
-			<div class="flex flex-col gap-3 border-t border-card-edge pt-4">
-				<h3 class="text-xs font-medium uppercase tracking-[0.12em] text-channel-content-muted">
-					{toolsTitle}
-				</h3>
-				<div class="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 md:grid-cols-6 md:gap-4">
-					{effectiveTooling.map(skill => (
+	{toolingSkills.length > 0 && (
+		<div class="flex flex-col gap-3 border-t border-card-edge pt-4">
+			<h3 class="text-xs font-medium uppercase tracking-[0.12em] text-channel-content-muted">
+				{toolsTitle}
+			</h3>
+			<div class="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 md:grid-cols-6 md:gap-4">
+				{toolingSkills.map(skill => (
+					<div
+						class={cn(
+							'group flex min-w-0 flex-col items-center gap-1.5 md:gap-2',
+							'transition-all duration-300 ease-out hover:-translate-y-0.5'
+						)}
+						data-skill-item
+						data-skill-tier="tooling"
+						title={skill.name}>
 						<div
 							class={cn(
-								'group flex min-w-0 flex-col items-center gap-1.5 md:gap-2',
-								'transition-all duration-300 ease-out hover:-translate-y-0.5'
-							)}
-							data-skill-item
-							data-skill-tier="tooling"
-							title={skill.name}>
-							<div
-								class={cn(
-									'flex items-center justify-center overflow-hidden',
-									'h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11',
-									'rounded-lg border shadow-xs transition-all duration-300 md:rounded-xl',
-									'bg-channel-surface-default border-channel-edge-default',
-									'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
-								)}>
-								<span
-									class="flex size-5 items-center justify-center text-channel-content-muted transition-colors duration-300 group-hover:text-channel-content-strong md:size-6 lg:size-7 [&_svg]:max-h-full [&_svg]:max-w-full [&_svg]:h-full [&_svg]:w-full [&_svg]:object-contain"
-									set:html={skill.icon}
-								/>
-							</div>
+								'flex items-center justify-center overflow-hidden',
+								'h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11',
+								'rounded-lg border shadow-xs transition-all duration-300 md:rounded-xl',
+								'bg-channel-surface-default border-channel-edge-default',
+								'group-hover:border-channel-accent-primary group-hover:shadow-retro-xs'
+							)}>
 							<span
-								class={cn(
-									'w-full break-words text-center text-xs font-normal leading-[1.125rem] tracking-[0.0125rem]',
-									'text-channel-content-muted group-hover:text-channel-content-strong',
-									'transition-colors duration-300'
-								)}>
-								{skill.name}
-							</span>
+								class="flex size-5 items-center justify-center text-channel-content-muted transition-colors duration-300 group-hover:text-channel-content-strong md:size-6 lg:size-7 [&_svg]:h-full [&_svg]:max-h-full [&_svg]:w-full [&_svg]:max-w-full [&_svg]:object-contain"
+								set:html={skill.icon}
+							/>
 						</div>
-					))}
-				</div>
+						<span
+							class={cn(
+								'w-full break-words text-center text-xs font-normal leading-[1.125rem] tracking-[0.0125rem]',
+								'text-channel-content-muted group-hover:text-channel-content-strong',
+								'transition-colors duration-300'
+							)}>
+							{skill.name}
+						</span>
+					</div>
+				))}
 			</div>
-		)
-	}
+		</div>
+	)}
 </div>

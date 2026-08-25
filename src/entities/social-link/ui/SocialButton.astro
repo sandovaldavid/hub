@@ -1,5 +1,5 @@
 ---
-import { cn } from '@shared/lib';
+import { cn } from '@shared/lib/utils';
 import './SocialButton.css';
 import type { ConversionEvent } from '@shared/analytics/conversion';
 
@@ -8,6 +8,7 @@ export interface Props {
 	label: string;
 	username?: string;
 	analyticsId: string;
+	conversionEvent?: ConversionEvent;
 	variant?: 'default' | 'compact';
 	lang?: 'en' | 'es';
 	class?: string;
@@ -18,18 +19,13 @@ const {
 	label,
 	username,
 	analyticsId,
+	conversionEvent,
 	variant = 'default',
 	lang = 'en',
 	class: className,
 } = Astro.props;
 
-const normalizedId = analyticsId.toLowerCase();
 const ariaLabel = lang === 'es' ? `Visita el perfil de ${label}` : `Visit ${label} profile`;
-const conversionEvent: ConversionEvent | undefined = normalizedId.includes('linkedin')
-	? 'linkedin_opened'
-	: normalizedId.includes('github')
-		? 'github_opened'
-		: undefined;
 ---
 
 <a
@@ -39,8 +35,8 @@ const conversionEvent: ConversionEvent | undefined = normalizedId.includes('link
 	class={cn('social-button group', variant === 'compact' && 'social-button--compact', className)}
 	data-analytics-id={analyticsId}
 	data-conversion-event={conversionEvent}
-	data-conversion-position="social"
-	data-conversion-item={normalizedId}
+	data-conversion-position={conversionEvent ? 'social' : undefined}
+	data-conversion-item={conversionEvent ? analyticsId.toLowerCase() : undefined}
 	aria-label={ariaLabel}>
 	<span class="social-button__icon" aria-hidden="true">
 		<slot name="icon" />

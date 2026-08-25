@@ -2,81 +2,53 @@
 import { cn } from '@shared/lib/utils';
 import './CTAButtons.css';
 import ArrowIcon from '@shared/assets/arrow-right-filled.svg';
-import type { ConversionEvent } from '@shared/analytics/conversion';
+import type { CtaIcon, LocalizedCtaButton } from '@shared/model/cta';
 
-// Import CTA icons
 import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
 import BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw';
 import RocketIcon from '@shared/assets/cta-icons/rocket.svg?raw';
-import ChatIcon from '@shared/assets/cta-icons/chat.svg?raw';
 import GitHubIcon from '@shared/assets/social-platform/github.svg?raw';
 
-interface CTAButton {
-	id: string;
-	icon: string;
-	title: string;
-	description?: string;
-	href: string;
-	variant: 'primary' | 'secondary';
-	external?: boolean;
-}
-
 interface Props {
-	buttons: CTAButton[];
+	buttons: LocalizedCtaButton[];
 	layout?: 'horizontal' | 'vertical';
 }
 
 const { buttons, layout = 'horizontal' } = Astro.props;
-
-const iconMap: Record<string, string> = {
+const iconMap: Record<CtaIcon, string> = {
 	email: EmailIcon,
 	briefcase: BriefcaseIcon,
 	rocket: RocketIcon,
-	chat: ChatIcon,
 	github: GitHubIcon,
-};
-
-const eventMap: Partial<Record<string, ConversionEvent>> = {
-	portfolio: 'portfolio_opened',
-	projects: 'featured_projects_viewed',
-	github: 'github_opened',
-	contact: 'contact_clicked',
 };
 ---
 
 <div class={cn('cta-buttons', layout === 'vertical' && 'cta-buttons--vertical')}>
 	{
-		buttons.map(button => {
-			const iconContent = iconMap[button.icon] || '';
-			const conversionEvent = eventMap[button.id];
-
-			return (
-				<a
-					href={button.href}
-					class="cta-buttons__link group"
-					target={button.external ? '_blank' : undefined}
-					rel={button.external ? 'noopener noreferrer' : undefined}
-					data-conversion-event={conversionEvent}
-					data-conversion-position="primary-cta"
-					data-conversion-item={button.id}
-					aria-label={`${button.title}${button.description ? ': ' + button.description : ''}`}>
-					<div
-						class={cn(
-							'cta-button-card',
-							button.variant === 'primary' && 'cta-button-card--primary button-primary',
-							button.variant === 'secondary' && 'cta-button-card--secondary'
-						)}>
-						<div class="cta-button-card__icon" aria-hidden="true" set:html={iconContent} />
-						<div class="cta-button-card__content">
-							<h3 class="cta-button-card__title">{button.title}</h3>
-							{button.description && (
-								<p class="cta-button-card__description">{button.description}</p>
-							)}
-						</div>
-						<ArrowIcon class="cta-button-card__arrow size-8" aria-hidden="true" />
+		buttons.map(button => (
+			<a
+				href={button.href}
+				class="cta-buttons__link group"
+				target={button.external ? '_blank' : undefined}
+				rel={button.external ? 'noopener noreferrer' : undefined}
+				data-conversion-event={button.conversionEvent}
+				data-conversion-position="primary-cta"
+				data-conversion-item={button.id}
+				aria-label={`${button.title}${button.description ? ': ' + button.description : ''}`}>
+				<div
+					class={cn(
+						'cta-button-card',
+						button.variant === 'primary' && 'cta-button-card--primary button-primary',
+						button.variant === 'secondary' && 'cta-button-card--secondary'
+					)}>
+					<div class="cta-button-card__icon" aria-hidden="true" set:html={iconMap[button.icon]} />
+					<div class="cta-button-card__content">
+						<h3 class="cta-button-card__title">{button.title}</h3>
+						{button.description && <p class="cta-button-card__description">{button.description}</p>}
 					</div>
-				</a>
-			);
-		})
+					<ArrowIcon class="cta-button-card__arrow size-8" aria-hidden="true" />
+				</div>
+			</a>
+		))
 	}
 </div>

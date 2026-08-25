@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import '@shared/styles/global.css';
 import { getThemeInitScript } from '@entities/theme/lib/theme-manager';
 import ShareButton from '@features/share-button/ui/ShareButton.astro';
 import ThemeToggle from '@features/theme-toggle/ui/ThemeToggle.astro';
@@ -9,6 +9,7 @@ import type { SEOProps } from '@data/seo';
 import Analytics from '@vercel/analytics/astro';
 import { siteConfig } from '@data/site.config';
 import { getProfilePageStructuredData } from '@data/structured-data';
+import { useTranslations } from '@shared/i18n';
 
 interface Props extends SEOProps {
 	alternates?: { en: string; es: string };
@@ -44,6 +45,7 @@ const {
 	alternates,
 } = Astro.props as Props;
 
+const t = useTranslations(lang);
 const themeScript = getThemeInitScript();
 const keywordsContent = keywords.length > 0 ? keywords.join(', ') : undefined;
 const finalCanonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
@@ -69,7 +71,6 @@ const jsonLd = getProfilePageStructuredData({
 		<meta name="generator" content={Astro.generator} />
 		<link rel="sitemap" href={sitemapUrl} />
 
-		<!-- Primary Meta Tags -->
 		<title>{title}</title>
 		<meta name="title" content={title} />
 		<meta name="description" content={description} />
@@ -77,15 +78,10 @@ const jsonLd = getProfilePageStructuredData({
 		{keywordsContent && <meta name="keywords" content={keywordsContent} />}
 		<meta name="application-name" content={applicationName} />
 		<meta name="apple-mobile-web-app-title" content={appleMobileWebAppTitle} />
-
-		<!-- Theme Color -->
 		<meta name="theme-color" content={themeColor} />
 		<meta name="color-scheme" content="light dark" />
-
-		<!-- Favicon -->
 		<link id="site-favicon" rel="icon" type="image/svg+xml" href="/favicon.dark.svg" />
 
-		<!-- Open Graph -->
 		<meta property="og:type" content={ogType} />
 		<meta property="og:url" content={finalCanonicalUrl} />
 		<meta property="og:title" content={title} />
@@ -102,7 +98,6 @@ const jsonLd = getProfilePageStructuredData({
 		<meta property="og:locale" content={ogLocale} />
 		<meta property="og:locale:alternate" content={alternateLocale} />
 
-		<!-- Twitter -->
 		<meta name="twitter:card" content={twitterCard} />
 		<meta name="twitter:url" content={finalCanonicalUrl} />
 		<meta name="twitter:title" content={title} />
@@ -114,27 +109,17 @@ const jsonLd = getProfilePageStructuredData({
 		{twitterLabel1 && <meta name="twitter:label1" content={twitterLabel1} />}
 		{twitterData1 && <meta name="twitter:data1" content={twitterData1} />}
 
-		<!-- Hreflang for multilingual -->
-		{
-			alternates && (
-				<>
-					<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
-					<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
-					<link
-						rel="alternate"
-						hreflang="x-default"
-						href={new URL(alternates.en, siteConfig.url)}
-					/>
-				</>
-			)
-		}
+		{alternates && (
+			<>
+				<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
+				<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
+				<link rel="alternate" hreflang="x-default" href={new URL(alternates.en, siteConfig.url)} />
+			</>
+		)}
 
-		<!-- SEO & Performance -->
 		<link rel="canonical" href={finalCanonicalUrl} />
 		<meta name="robots" content={robots} />
 		<meta name="googlebot" content={googlebot} />
-
-		<!-- PWA Tags -->
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -146,10 +131,7 @@ const jsonLd = getProfilePageStructuredData({
 
 			window.addEventListener('theme-change', event => {
 				const effectiveTheme = (event as CustomEvent<{ effective?: string }>).detail?.effective;
-
-				if (effectiveTheme === 'light' || effectiveTheme === 'dark') {
-					updateFavicon(effectiveTheme);
-				}
+				if (effectiveTheme === 'light' || effectiveTheme === 'dark') updateFavicon(effectiveTheme);
 			});
 
 			document.addEventListener('astro:after-swap', () => {
@@ -159,14 +141,10 @@ const jsonLd = getProfilePageStructuredData({
 		<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	</head>
 	<body class="min-h-screen bg-channel-background-canvas text-channel-content-default">
-		<a href="#main-content" class="skip-link">
-			{lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
-		</a>
-
+		<a href="#main-content" class="skip-link">{t('nav.skipToContent')}</a>
 		<ShareButton {lang} />
 		<LanguageToggle {lang} {alternates} />
 		<ThemeToggle {lang} />
-
 		<slot />
 		<SiteFooter {lang} />
 		<Analytics />
