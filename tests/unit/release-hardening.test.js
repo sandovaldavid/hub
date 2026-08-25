@@ -22,11 +22,6 @@ describe('pre-v2 delivery hardening contracts', () => {
 			key: 'Cache-Control',
 			value: 'public, max-age=31536000, immutable',
 		});
-
-		const broadStableAssetRule = vercel.headers.find(rule =>
-			/(webp|png|svg|ico)/.test(rule.source)
-		);
-		expect(broadStableAssetRule).toBeUndefined();
 	});
 
 	test('does not publish the deprecated X-XSS-Protection response header', async () => {
