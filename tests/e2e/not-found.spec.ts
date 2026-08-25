@@ -19,11 +19,22 @@ test('serves missing routes as a branded noindex 404', async ({ page }) => {
 		'/es/'
 	);
 
+	const mainBox = await page.locator('#main-content').boundingBox();
+	const contentBox = await page.locator('[data-not-found-content]').boundingBox();
 	const footerBox = await page.locator('#site-footer').boundingBox();
 	const viewport = page.viewportSize();
 
+	expect(mainBox).not.toBeNull();
+	expect(contentBox).not.toBeNull();
 	expect(footerBox).not.toBeNull();
 	expect(viewport).not.toBeNull();
+
 	const footerBottom = (footerBox?.y ?? 0) + (footerBox?.height ?? 0);
 	expect(Math.abs(footerBottom - (viewport?.height ?? 0))).toBeLessThanOrEqual(2);
+
+	if (mainBox && contentBox && contentBox.height <= mainBox.height) {
+		const mainCenter = mainBox.y + mainBox.height / 2;
+		const contentCenter = contentBox.y + contentBox.height / 2;
+		expect(Math.abs(contentCenter - mainCenter)).toBeLessThanOrEqual(2);
+	}
 });
