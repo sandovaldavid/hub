@@ -2,6 +2,7 @@
 import { cn } from '@shared/lib/utils';
 import './SocialButton.css';
 import type { ConversionEvent } from '@shared/analytics/conversion';
+import { useTranslations, type Lang } from '@shared/i18n';
 
 export interface Props {
 	url: string;
@@ -10,7 +11,7 @@ export interface Props {
 	analyticsId: string;
 	conversionEvent?: ConversionEvent;
 	variant?: 'default' | 'compact';
-	lang?: 'en' | 'es';
+	lang?: Lang;
 	class?: string;
 }
 
@@ -25,7 +26,8 @@ const {
 	class: className,
 } = Astro.props;
 
-const ariaLabel = lang === 'es' ? `Visita el perfil de ${label}` : `Visit ${label} profile`;
+const t = useTranslations(lang);
+const ariaLabel = t('social.profileLinkAria', { platform: label });
 ---
 
 <a

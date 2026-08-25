@@ -30,8 +30,9 @@ const t = useTranslations(lang);
 	const feedback = document.getElementById('share-feedback');
 
 	if (button) {
-		const webshareLabel = button.getAttribute('data-share-label-webshare') || 'Share site';
-		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || 'Copy link';
+		const fallbackLabel = button.getAttribute('aria-label') || '';
+		const webshareLabel = button.getAttribute('data-share-label-webshare') || fallbackLabel;
+		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || fallbackLabel;
 		const shareText = button.getAttribute('data-share-text') || '';
 		const updateAriaLabel = () => {
 			button.setAttribute('aria-label', isWebShareSupported() ? webshareLabel : clipboardLabel);

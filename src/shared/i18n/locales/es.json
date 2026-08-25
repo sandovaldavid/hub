@@ -21,7 +21,8 @@
 		"sectionsLabel": "Secciones del perfil profesional"
 	},
 	"social": {
-		"heading": "Enlaces profesionales y redes sociales"
+		"heading": "Enlaces profesionales y redes sociales",
+		"profileLinkAria": "Visita el perfil de {platform}"
 	},
 	"cta": {
 		"heading": "Explora mi trabajo",
