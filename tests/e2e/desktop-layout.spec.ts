@@ -153,7 +153,7 @@ for (const route of routes) {
 					'#featured-projects-title'
 				);
 
-				const projectsIcon = page.locator('.weekly-project-section__icon');
+				const projectsIcon = page.locator('.featured-project-section__icon');
 				await expect(projectsIcon).toBeVisible();
 				const projectsIconColor = await projectsIcon.evaluate(
 					element => getComputedStyle(element).color
@@ -258,7 +258,7 @@ for (const route of routes) {
 			const projectCards = page.locator('[data-project-card]');
 			await expect(projectCards).toHaveCount(2);
 			await expect(page.locator('[data-project-evidence]')).toHaveCount(6);
-			const projectIndexes = await page.locator('.weekly-project-card__index').allTextContents();
+			const projectIndexes = await page.locator('.featured-project-card__index').allTextContents();
 			expect(projectIndexes.map(index => index.slice(-2))).toEqual(['01', '02']);
 
 			const mobileProjectRows = await projectCards.evaluateAll(elements => {
@@ -270,7 +270,7 @@ for (const route of routes) {
 			const projectActionRows = await projectCards.evaluateAll(cards =>
 				cards.map(card => {
 					const actions = Array.from(
-						card.querySelectorAll<HTMLElement>('.weekly-project-card__actions > *')
+						card.querySelectorAll<HTMLElement>('.featured-project-card__actions > *')
 					);
 					const rows = actions.map(action => Math.round(action.getBoundingClientRect().top));
 					return new Set(rows).size;
