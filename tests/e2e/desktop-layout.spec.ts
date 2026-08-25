@@ -153,13 +153,13 @@ for (const route of routes) {
 					'#featured-projects-title'
 				);
 
-				const projectsIcon = page.locator('.featured-project-section__icon');
-				await expect(projectsIcon).toBeVisible();
-				const projectsIconColor = await projectsIcon.evaluate(
-					element => getComputedStyle(element).color
-				);
-				expect(projectsIconColor).not.toBe('rgb(255, 255, 255)');
-				expect(projectsIconColor).not.toBe('rgba(0, 0, 0, 0)');
+				// Section headings carry no decorative icon. "Featured projects" used to
+				// sit beside a rocket while "Explore my work" had nothing, which read as
+				// an inconsistency rather than emphasis.
+				await expect(page.locator('.featured-project-section__icon')).toHaveCount(0);
+				await expect(
+					page.locator('#featured-projects-title, #cta-heading').locator('svg')
+				).toHaveCount(0);
 
 				const projectCards = page.locator('[data-project-card]');
 				await expect(projectCards).toHaveCount(2);
