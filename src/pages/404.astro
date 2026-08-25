@@ -19,37 +19,74 @@ const SEO = {
 	<main
 		id="main-content"
 		tabindex="-1"
-		class="mx-auto flex min-h-[70vh] w-full max-w-3xl items-center px-4 py-16 md:px-6 md:py-24">
-		<section
-			class="w-full rounded-2xl border border-card-edge bg-card-background p-6 shadow-sm md:p-10"
-			aria-labelledby="not-found-heading">
+		class="mx-auto flex min-h-[72vh] w-full max-w-5xl items-center justify-center px-4 py-16 md:px-6 md:py-24">
+		<section class="w-full text-center" aria-labelledby="not-found-heading">
 			<p
-				class="font-technical m-0 text-sm font-semibold uppercase tracking-[0.14em] text-channel-accent-primary">
+				aria-hidden="true"
+				class="font-technical m-0 text-[clamp(5.5rem,18vw,10rem)] font-bold leading-none tracking-[-0.05em] text-channel-accent-primary">
 				404
 			</p>
-			<h1
-				id="not-found-heading"
-				class="font-display mt-3 text-3xl font-extrabold leading-tight text-channel-content-strong md:text-4xl">
-				This page isn't here.
-			</h1>
-			<p class="mt-4 max-w-2xl text-base leading-relaxed text-channel-content-muted">
-				The link may be outdated or the page may have moved. You can return to David's professional
-				Hub and continue from a verified destination.
-			</p>
 
-			<nav class="mt-7 flex flex-col gap-3 sm:flex-row" aria-label="404 recovery links">
-				<a
-					class="inline-flex min-h-11 items-center justify-center rounded-xl bg-button-primary-background px-5 py-2.5 font-semibold text-button-primary-content transition-colors hover:bg-button-primary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
-					href="/">
-					Return to Hub
-				</a>
-				<a
-					class="inline-flex min-h-11 items-center justify-center rounded-xl border border-button-secondary-edge bg-button-secondary-background px-5 py-2.5 font-semibold text-button-secondary-content transition-colors hover:bg-button-secondary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
-					href="/es/"
-					lang="es">
-					Ir al Hub en español
-				</a>
-			</nav>
+			<div class="mx-auto mt-8 max-w-3xl">
+				<h1
+					id="not-found-heading"
+					class="font-display m-0 text-2xl font-extrabold uppercase leading-tight tracking-[0.12em] text-channel-content-strong md:text-4xl">
+					Page not found
+				</h1>
+				<p
+					lang="es"
+					class="font-technical mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-channel-content-muted md:text-base">
+					Página no encontrada
+				</p>
+
+				<div class="mx-auto mt-7 max-w-2xl border-y border-card-edge px-4 py-5">
+					<p class="m-0 text-base leading-relaxed text-channel-content-muted md:text-lg">
+						The requested destination is not available. The link may be outdated or the page may have
+						moved.
+					</p>
+					<p lang="es" class="mt-2 text-sm leading-relaxed text-channel-content-muted md:text-base">
+						El destino solicitado no está disponible. El enlace puede estar desactualizado o la página
+						puede haber cambiado.
+					</p>
+				</div>
+
+				<nav
+					class="mt-8 flex flex-col justify-center gap-3 sm:flex-row"
+					aria-label="404 recovery links">
+					<a
+						class="inline-flex min-h-11 items-center justify-center rounded-xl bg-button-primary-background px-6 py-2.5 font-semibold text-button-primary-content transition-colors hover:bg-button-primary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+						href="/">
+						Return to Hub
+					</a>
+					<a
+						class="inline-flex min-h-11 items-center justify-center rounded-xl border border-button-secondary-edge bg-button-secondary-background px-6 py-2.5 font-semibold text-button-secondary-content transition-colors hover:bg-button-secondary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+						href="/"
+						data-history-back>
+						Go back
+					</a>
+				</nav>
+
+				<p class="mt-6 text-sm text-channel-content-muted">
+					<span lang="es">¿Prefieres español?</span>
+					<a
+						class="ml-1 font-semibold text-channel-accent-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+						href="/es/"
+						lang="es">
+						Ir al Hub en español
+					</a>
+				</p>
+			</div>
 		</section>
 	</main>
+
+	<script>
+		const backLink = document.querySelector<HTMLAnchorElement>('[data-history-back]');
+
+		backLink?.addEventListener('click', event => {
+			if (window.history.length <= 1) return;
+
+			event.preventDefault();
+			window.history.back();
+		});
+	</script>
 </Layout>
