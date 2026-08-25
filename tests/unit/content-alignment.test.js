@@ -23,10 +23,10 @@ describe('Hub messaging alignment contract', () => {
 			readJson('src/shared/i18n/locales/es.json'),
 		]);
 
-		expect(english.profile.tagline).toBe('Backend-oriented Software Engineer · .NET, C# & Angular');
-		expect(spanish.profile.tagline).toBe(
-			'Ingeniero de Software orientado a backend · .NET, C# y Angular'
-		);
+		expect(english.profile.tagline).toBe('Software Engineer · Backend-oriented');
+		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Orientado a backend');
+		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
+		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 		expect(english.profile.bio).toMatch(/complex problems.*business context.*validation/i);
 		expect(spanish.profile.bio).toMatch(/problemas complejos.*contexto de negocio.*validación/i);
 		expect(english.cta.description).toMatch(/portfolio.*public engineering evidence.*GitHub/i);
@@ -35,6 +35,8 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanish.contact.heading).toBe('Contacto');
 		expect(english.contact.title).not.toMatch(/consult/i);
 		expect(spanish.contact.title).not.toMatch(/consult/i);
+		expect(english.skills.coreTitle).toBe('Current Engineering Stack');
+		expect(spanish.skills.coreTitle).toBe('Stack actual de ingeniería');
 	});
 
 	test('keeps CTA route metadata separate from localized public copy', () => {
@@ -56,15 +58,25 @@ describe('Hub messaging alignment contract', () => {
 		expect(profile.logo).not.toHaveProperty('alt');
 	});
 
-	test('bounds Yukidoke wording to architecture intent rather than demonstrated scale', () => {
-		const english = getFeaturedProjects('en').find(project => project.id === 'yukidoke');
-		const spanish = getFeaturedProjects('es').find(project => project.id === 'yukidoke');
+	test('keeps featured project wording evidence-bound and durable', () => {
+		const englishKioku = getFeaturedProjects('en').find(project => project.id === 'kioku');
+		const spanishKioku = getFeaturedProjects('es').find(project => project.id === 'kioku');
+		const englishYukidoke = getFeaturedProjects('en').find(project => project.id === 'yukidoke');
+		const spanishYukidoke = getFeaturedProjects('es').find(project => project.id === 'yukidoke');
 
-		expect(english).toBeDefined();
-		expect(spanish).toBeDefined();
-		expect(`${english?.contribution} ${english?.outcome}`).not.toMatch(/scalable|multi-user/i);
-		expect(`${spanish?.contribution} ${spanish?.outcome}`).not.toMatch(/escalable|multiusuario/i);
-		expect(english?.outcome).toMatch(/explicit domain boundaries/i);
-		expect(spanish?.outcome).toMatch(/límites de dominio explícitos/i);
+		expect(englishKioku?.status).toBe('Stable release · active development');
+		expect(spanishKioku?.status).toBe('Release estable · desarrollo activo');
+		expect(englishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
+		expect(spanishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
+		expect(englishYukidoke?.title).toBe('Yukidoke · Household personal-finance product');
+		expect(spanishYukidoke?.title).toBe('Yukidoke · Producto de finanzas personales para hogares');
+		expect(`${englishYukidoke?.contribution} ${englishYukidoke?.outcome}`).not.toMatch(
+			/scalable|multi-user/i
+		);
+		expect(`${spanishYukidoke?.contribution} ${spanishYukidoke?.outcome}`).not.toMatch(
+			/escalable|multiusuario/i
+		);
+		expect(englishYukidoke?.outcome).toMatch(/explicit domain boundaries/i);
+		expect(spanishYukidoke?.outcome).toMatch(/límites de dominio explícitos/i);
 	});
 });

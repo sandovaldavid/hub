@@ -12,7 +12,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			outcome:
 				'Established a reusable memory workflow for Claude Code, Codex and other MCP-compatible agents.',
 			technologies: ['.NET 10', 'C#', 'MCP', 'Obsidian'],
-			status: 'Stable v3.0.1 · active development',
+			status: 'Stable release · active development',
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			repositoryAvailability: 'public',
 			demoAvailability: 'unavailable',
@@ -20,7 +20,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 		},
 		{
 			id: 'yukidoke',
-			title: 'Yukidoke · Financial health platform',
+			title: 'Yukidoke · Household personal-finance product',
 			problem:
 				'Households need one place to understand debt cycles, income, expenses and repayment progress.',
 			contribution:
@@ -45,7 +45,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			outcome:
 				'Establecí un flujo de memoria reutilizable para Claude Code, Codex y otros agentes compatibles con MCP.',
 			technologies: ['.NET 10', 'C#', 'MCP', 'Obsidian'],
-			status: 'Estable v3.0.1 · desarrollo activo',
+			status: 'Release estable · desarrollo activo',
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			repositoryAvailability: 'public',
 			demoAvailability: 'unavailable',
@@ -53,7 +53,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 		},
 		{
 			id: 'yukidoke',
-			title: 'Yukidoke · Plataforma de salud financiera',
+			title: 'Yukidoke · Producto de finanzas personales para hogares',
 			problem:
 				'Los hogares necesitan comprender ciclos de deuda, ingresos, gastos y progreso de pago en un solo lugar.',
 			contribution:

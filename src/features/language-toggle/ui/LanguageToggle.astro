@@ -26,8 +26,10 @@ const displayLabel = targetLang.toUpperCase();
 		visible "ES"/"EN" breaks WCAG 2.5.3 Label in Name. Composing the name
 		from the visible code plus a visually hidden description keeps the
 		visible text inside the accessible name and still says which language
-		the link leads to.
+		the link leads to. The visual tooltip is aria-hidden so it cannot duplicate
+		the accessible name.
 	-->
 	<span>{displayLabel}</span>
 	<span class="sr-only">{switchDescription}</span>
+	<span class="language-toggle__tooltip" aria-hidden="true">{switchDescription}</span>
 </a>

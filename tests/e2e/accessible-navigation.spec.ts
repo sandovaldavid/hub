@@ -83,6 +83,20 @@ test.describe('Accessible motion and navigation', () => {
 		);
 	});
 
+	test('language toggle tooltip renders localized visual text instead of an empty shell', async ({
+		page,
+	}) => {
+		for (const { route, tooltip } of [
+			{ route: '/', tooltip: 'Switch language to Spanish' },
+			{ route: '/es/', tooltip: 'Cambiar idioma a inglés' },
+		]) {
+			await page.goto(route);
+			const tooltipElement = page.locator('.language-toggle__tooltip');
+			await expect(tooltipElement).toHaveText(tooltip);
+			await expect(tooltipElement).toHaveAttribute('aria-hidden', 'true');
+		}
+	});
+
 	for (const theme of ['light', 'dark']) {
 		test(`${theme} theme exposes visible focus`, async ({ page }) => {
 			await page.goto('/');

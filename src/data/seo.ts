@@ -14,6 +14,7 @@ export function getSEO(lang: Lang = 'en') {
 		// Primary Meta Tags
 		title: t.title,
 		description: t.description,
+		socialDescription: t.socialDescription,
 		author: profile.name,
 		applicationName: siteConfig.name,
 		appleMobileWebAppTitle: siteConfig.shortName,

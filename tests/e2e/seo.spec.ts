@@ -20,7 +20,9 @@ const routes = [
 		alternateLocale: 'es_PE',
 		title: 'David Sandoval | Software Engineer',
 		description:
-			'David Sandoval is a Software Engineer who learns continuously, builds maintainable systems and products, documents decisions, and shares evidence through his work.',
+			'David Sandoval is a Software Engineer who breaks down complex problems, connects technical decisions with business context, and builds maintainable systems through validation.',
+		socialDescription:
+			"I'm David Sandoval, a Software Engineer. I break down complex problems, connect technical decisions with business context, and build maintainable systems through validation and clear documentation.",
 		imageAlt:
 			'Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.',
 		twitterLabel: 'Professional focus',
@@ -35,7 +37,9 @@ const routes = [
 		alternateLocale: 'en_US',
 		title: 'David Sandoval | Ingeniero de Software',
 		description:
-			'David Sandoval es Ingeniero de Software: aprende continuamente, construye sistemas y productos mantenibles, documenta decisiones y comparte evidencia mediante su trabajo.',
+			'David Sandoval es Ingeniero de Software: descompone problemas complejos, conecta decisiones técnicas con el contexto de negocio y construye sistemas mantenibles mediante validación.',
+		socialDescription:
+			'Soy David Sandoval, Ingeniero de Software. Descompongo problemas complejos, conecto decisiones técnicas con el contexto de negocio y construyo sistemas mantenibles mediante validación y documentación clara.',
 		imageAlt:
 			'Retrato de David Sandoval con su nombre, rol de Ingeniero de Software y enfoque en sistemas mantenibles, decisiones documentadas y evidencia de ingeniería.',
 		twitterLabel: 'Enfoque profesional',
@@ -106,7 +110,7 @@ for (const route of routes) {
 			);
 			await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
 				'content',
-				route.description
+				route.socialDescription
 			);
 			await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
 				'content',
@@ -155,7 +159,7 @@ for (const route of routes) {
 			);
 			await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
 				'content',
-				route.description
+				route.socialDescription
 			);
 			await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
 				'content',

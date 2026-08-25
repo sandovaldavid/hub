@@ -26,6 +26,7 @@ describe('human-first SEO contract', () => {
 			const metadataCopy = [
 				seo.title,
 				seo.description,
+				seo.socialDescription,
 				seo.ogImageAlt,
 				seo.twitterImageAlt,
 				seo.twitterLabel1,
@@ -35,16 +36,27 @@ describe('human-first SEO contract', () => {
 			expect(metadataCopy).toContain('David Sandoval');
 			expect(metadataCopy).not.toMatch(/Angular|\.NET|TypeScript/i);
 			expect(metadataCopy).not.toMatch(/senior|lead|founder|certified|expert/i);
+			expect(seo).not.toHaveProperty('keywords');
 		}
 
-		expect(english.seo.description).toMatch(/learns continuously/i);
-		expect(spanish.seo.description).toMatch(/aprende continuamente/i);
-		expect(english.seo.description).toMatch(/systems and products/i);
-		expect(spanish.seo.description).toMatch(/sistemas y productos/i);
-		expect(english.seo.description).toMatch(/documents decisions/i);
-		expect(spanish.seo.description).toMatch(/documenta decisiones/i);
+		expect(english.seo.description).toMatch(
+			/David Sandoval.*Software Engineer.*complex problems.*business context.*validation/i
+		);
+		expect(spanish.seo.description).toMatch(
+			/David Sandoval.*Ingeniero de Software.*problemas complejos.*contexto de negocio.*validación/i
+		);
+		expect(english.seo.socialDescription).toMatch(
+			/^I'm David Sandoval, a Software Engineer\..*complex problems.*business context/i
+		);
+		expect(spanish.seo.socialDescription).toMatch(
+			/^Soy David Sandoval, Ingeniero de Software\..*problemas complejos.*contexto de negocio/i
+		);
+		expect(seoData).toContain('socialDescription: t.socialDescription');
 		expect(seoData).not.toContain('keywords:');
 		expect(seoData).not.toContain('googlebot:');
+		expect(layout).toContain('<meta name="description" content={description} />');
+		expect(layout).toContain('<meta property="og:description" content={socialDescription} />');
+		expect(layout).toContain('<meta name="twitter:description" content={socialDescription} />');
 		expect(layout).not.toContain('meta name="keywords"');
 		expect(layout).not.toContain('meta name="googlebot"');
 		expect(layout).not.toContain('meta name="title"');
@@ -124,6 +136,7 @@ describe('human-first SEO contract', () => {
 		expect(notFound).toContain('emitCanonical={false}');
 		expect(notFound).toContain('emitStructuredData={false}');
 		expect(notFound).toContain('showShare={false}');
+		expect(notFound).toContain('socialDescription:');
 		expect(layout).toContain('emitCanonical?: boolean');
 		expect(layout).toContain('emitStructuredData?: boolean');
 		expect(layout).toContain(
@@ -162,11 +175,13 @@ describe('human-first SEO contract', () => {
 		expect(socialPreview.width).not.toBe(socialPreview.height);
 	});
 
-	// The layout markup is already covered above; this asserts the value side,
-	// so getSEO cannot quietly start returning keywords again.
-	test('drops keywords from the metadata getSEO returns', () => {
-		expect(getSEO('en')).not.toHaveProperty('keywords');
-		expect(getSEO('es')).not.toHaveProperty('keywords');
+	test('returns social copy separately without restoring legacy keywords', () => {
+		for (const lang of ['en', 'es']) {
+			const seo = getSEO(lang);
+			expect(seo).toHaveProperty('socialDescription');
+			expect(seo.socialDescription).not.toBe(seo.description);
+			expect(seo).not.toHaveProperty('keywords');
+		}
 	});
 
 	test('keeps SEO implementation ownership discoverable without a historical audit document', async () => {

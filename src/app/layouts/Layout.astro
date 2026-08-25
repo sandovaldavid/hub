@@ -23,6 +23,7 @@ interface Props extends SEOProps {
 const {
 	title,
 	description,
+	socialDescription,
 	author,
 	ogImage,
 	themeColor,
@@ -96,7 +97,7 @@ const jsonLd = emitStructuredData
 		<meta property="og:type" content={ogType} />
 		<meta property="og:url" content={finalCanonicalUrl} />
 		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
+		<meta property="og:description" content={socialDescription} />
 		<meta property="og:image" content={absoluteOgImage} />
 		<meta property="og:image:secure_url" content={absoluteOgImage} />
 		<meta property="og:site_name" content={ogSiteName} />
@@ -112,7 +113,7 @@ const jsonLd = emitStructuredData
 		<meta name="twitter:card" content={twitterCard} />
 		<meta name="twitter:url" content={finalCanonicalUrl} />
 		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={description} />
+		<meta name="twitter:description" content={socialDescription} />
 		<meta name="twitter:image" content={absoluteOgImage} />
 		<meta name="twitter:site" content={twitterSite} />
 		<meta name="twitter:creator" content={twitterCreator} />
