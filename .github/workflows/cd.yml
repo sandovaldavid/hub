@@ -49,8 +49,23 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      # Branch protection already requires CI / Quality, E2E and Lighthouse on
+      # every pull request, with a strict up-to-date policy. What it cannot cover
+      # is this exact commit: the squash merge produces a new SHA, and CI's
+      # browser jobs run in a separate workflow that cannot block this one. A
+      # production deploy is release-sensitive, so it re-runs the complete gate
+      # on the commit actually being shipped. Preview deploys keep the fast gate.
+      - name: Install browsers for the release gate
+        if: ${{ github.ref_name == 'main' }}
+        run: bun x playwright install --with-deps chromium
+
       - name: Validate deploy source
+        if: ${{ github.ref_name != 'main' }}
         run: bun run validate:quality
+
+      - name: Validate release-sensitive deploy source
+        if: ${{ github.ref_name == 'main' }}
+        run: bun run validate:local:inside
 
       - name: Install Vercel CLI
         run: bun install --global vercel@${{ env.VERCEL_CLI_VERSION }}
