@@ -79,36 +79,69 @@ jobs:
 
       - name: Register GitHub Deployment
         id: create_deployment
-        run: |
-          DEPLOYMENT_ID=$(curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/deployments \
-            -d "{\"ref\":\"${{ github.sha }}\",\"environment\":\"${DEPLOYMENT_ENVIRONMENT}\",\"required_contexts\":[],\"transient_environment\":${TRANSIENT_ENVIRONMENT},\"production_environment\":${PRODUCTION_ENVIRONMENT}}" | jq '.id')
-          echo "deployment_id=$DEPLOYMENT_ID" >> "$GITHUB_OUTPUT"
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          DEPLOYMENT_ENVIRONMENT: ${{ env.DEPLOYMENT_ENVIRONMENT }}
+          TRANSIENT_ENVIRONMENT: ${{ env.TRANSIENT_ENVIRONMENT }}
+          PRODUCTION_ENVIRONMENT: ${{ env.PRODUCTION_ENVIRONMENT }}
+        with:
+          result-encoding: string
+          script: |
+            const { data: deployment } = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: process.env.DEPLOYMENT_ENVIRONMENT,
+              required_contexts: [],
+              transient_environment: process.env.TRANSIENT_ENVIRONMENT === 'true',
+              production_environment: process.env.PRODUCTION_ENVIRONMENT === 'true'
+            });
+
+            if (!deployment || typeof deployment === 'string' || !Number.isInteger(deployment.id)) {
+              throw new Error('GitHub did not return a valid deployment id');
+            }
+
+            return String(deployment.id);
 
       - name: Set Deployment Status
-        run: |
-          curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses \
-            -d "{\"state\":\"success\",\"environment_url\":\"${{ steps.deploy.outputs.url }}\",\"log_url\":\"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\",\"description\":\"Deployment ready\"}"
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          DEPLOYMENT_ID: ${{ steps.create_deployment.outputs.result }}
+          DEPLOYED_URL: ${{ steps.deploy.outputs.url }}
+          LOG_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const deploymentId = Number(process.env.DEPLOYMENT_ID);
+            if (!Number.isInteger(deploymentId)) {
+              throw new Error(`Invalid GitHub deployment id: ${process.env.DEPLOYMENT_ID}`);
+            }
+
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deploymentId,
+              state: 'success',
+              environment_url: process.env.DEPLOYED_URL,
+              log_url: process.env.LOG_URL,
+              description: 'Deployment ready'
+            });
 
       - name: Set Preview Commit Status
         if: ${{ github.ref_name == 'develop' }}
-        run: |
-          curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-            -d '{"state":"success","target_url":"${{ steps.deploy.outputs.url }}","description":"Preview deployment ready","context":"Vercel Preview"}'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          DEPLOYED_URL: ${{ steps.deploy.outputs.url }}
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              target_url: process.env.DEPLOYED_URL,
+              description: 'Preview deployment ready',
+              context: 'Vercel Preview'
+            });
 
   comment-preview:
     if: ${{ github.ref_name == 'develop' }}
