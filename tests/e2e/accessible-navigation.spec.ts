@@ -70,7 +70,9 @@ test.describe('Accessible motion and navigation', () => {
 		);
 
 		await page.goto('/es/');
-		await expect(page.locator('#share-button')).toHaveAccessibleName('Copiar enlace al portapapeles');
+		await expect(page.locator('#share-button')).toHaveAccessibleName(
+			'Copiar enlace al portapapeles'
+		);
 		await expect(page.locator('#theme-toggle')).toHaveAccessibleName(
 			'Usar preferencia del sistema'
 		);
