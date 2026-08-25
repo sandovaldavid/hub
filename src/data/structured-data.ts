@@ -27,6 +27,7 @@ export function getProfilePageStructuredData({
 	const pageId = `${canonicalUrl}#profile-page`;
 	const personId = new URL('#person', siteConfig.portfolioUrl).href;
 	const imageId = `${canonicalUrl}#primary-image`;
+	const profileImageUrl = new URL(profile.avatar.url, siteConfig.url).href;
 
 	return {
 		'@context': 'https://schema.org',
@@ -47,7 +48,7 @@ export function getProfilePageStructuredData({
 				name: profile.name,
 				url: siteConfig.portfolioUrl,
 				mainEntityOfPage: { '@id': pageId },
-				image: { '@id': imageId },
+				image: profileImageUrl,
 				email: `mailto:${siteConfig.email}`,
 				jobTitle: 'Software Engineer',
 				knowsLanguage: [

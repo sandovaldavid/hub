@@ -9,15 +9,16 @@ const readJson = async path => JSON.parse(await read(path));
 
 describe('human-first SEO contract', () => {
 	test('keeps localized metadata name-first, durable and semantically aligned', async () => {
-		const [english, spanish] = await Promise.all([
+		const [english, spanish, seoData, layout] = await Promise.all([
 			readJson('src/shared/i18n/locales/en.json'),
 			readJson('src/shared/i18n/locales/es.json'),
+			read('src/data/seo.ts'),
+			read('src/app/layouts/Layout.astro'),
 		]);
 
 		expect(english.seo.title).toBe('David Sandoval | Software Engineer');
 		expect(spanish.seo.title).toBe('David Sandoval | Ingeniero de Software');
 		expect(Object.keys(english.seo).sort()).toEqual(Object.keys(spanish.seo).sort());
-		expect(english.seo.keywords).toHaveLength(spanish.seo.keywords.length);
 
 		for (const seo of [english.seo, spanish.seo]) {
 			const metadataCopy = [
@@ -27,7 +28,6 @@ describe('human-first SEO contract', () => {
 				seo.twitterImageAlt,
 				seo.twitterLabel1,
 				seo.twitterData1,
-				...seo.keywords,
 			].join(' ');
 
 			expect(metadataCopy).toContain('David Sandoval');
@@ -41,9 +41,14 @@ describe('human-first SEO contract', () => {
 		expect(spanish.seo.description).toMatch(/sistemas y productos/i);
 		expect(english.seo.description).toMatch(/documents decisions/i);
 		expect(spanish.seo.description).toMatch(/documenta decisiones/i);
+		expect(seoData).not.toContain('keywords:');
+		expect(seoData).not.toContain('googlebot:');
+		expect(layout).not.toContain('meta name="keywords"');
+		expect(layout).not.toContain('meta name="googlebot"');
+		expect(layout).not.toContain('meta name="title"');
 	});
 
-	test('models a localized ProfilePage around one canonical Person', async () => {
+	test('models a localized ProfilePage around one canonical Person and portrait', async () => {
 		const [layout, structuredData, siteConfig] = await Promise.all([
 			read('src/app/layouts/Layout.astro'),
 			read('src/data/structured-data.ts'),
@@ -57,6 +62,10 @@ describe('human-first SEO contract', () => {
 		expect(structuredData).toContain("'@type': 'ImageObject'");
 		expect(structuredData).toContain("mainEntity: { '@id': personId }");
 		expect(structuredData).toContain("mainEntityOfPage: { '@id': pageId }");
+		expect(structuredData).toContain(
+			'const profileImageUrl = new URL(profile.avatar.url, siteConfig.url).href;'
+		);
+		expect(structuredData).toContain('image: profileImageUrl');
 		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
 		expect(siteConfig).toContain(
 			'sameAs: [socialUrls.linkedin, githubUrl, socialUrls.twitter, socialUrls.instagram]'
@@ -85,7 +94,7 @@ describe('human-first SEO contract', () => {
 		expect(layout).toContain('meta property="og:image:height"');
 	});
 
-	test('preserves canonical sitemap and robots infrastructure', async () => {
+	test('preserves canonical sitemap and robots infrastructure with localized alternates', async () => {
 		const [astroConfig, robotsRoute, layout] = await Promise.all([
 			read('astro.config.mjs'),
 			read('src/pages/robots.txt.ts'),
@@ -93,7 +102,10 @@ describe('human-first SEO contract', () => {
 		]);
 
 		expect(astroConfig).toContain("site: 'https://hub.sandovaldavid.com'");
-		expect(astroConfig).toContain('integrations: [sitemap()]');
+		expect(astroConfig).toContain("defaultLocale: 'en'");
+		expect(astroConfig).toContain("en: 'en-US'");
+		expect(astroConfig).toContain("es: 'es-PE'");
+		expect(astroConfig).toContain('/\\/404\\/?$/');
 		expect(robotsRoute).toContain("new URL('sitemap-index.xml', site)");
 		expect(robotsRoute).toContain('User-agent: *');
 		expect(robotsRoute).toContain('Allow: /');
@@ -102,6 +114,24 @@ describe('human-first SEO contract', () => {
 		);
 		expect(layout).toContain('<link rel="sitemap" href={sitemapUrl} />');
 		expect(layout).toContain('hreflang="x-default"');
+	});
+
+	test('keeps custom 404 pages out of the canonical identity graph', async () => {
+		const [notFound, layout] = await Promise.all([
+			read('src/pages/404.astro'),
+			read('src/app/layouts/Layout.astro'),
+		]);
+
+		expect(notFound).toContain("robots: 'noindex, follow'");
+		expect(notFound).toContain('emitCanonical={false}');
+		expect(notFound).toContain('emitStructuredData={false}');
+		expect(notFound).toContain('showShare={false}');
+		expect(layout).toContain('emitCanonical?: boolean');
+		expect(layout).toContain('emitStructuredData?: boolean');
+		expect(layout).toContain(
+			'{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}'
+		);
+		expect(layout).toContain('{jsonLd && <script is:inline type="application/ld+json"');
 	});
 
 	test('keeps SEO implementation ownership discoverable without a historical audit document', async () => {
