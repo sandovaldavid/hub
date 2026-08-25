@@ -36,13 +36,16 @@ describe('Navigation and i18n control contracts (#90, #91)', () => {
 
 		expect(component).toContain('useTranslations');
 		expect(component).toContain("t('nav.switchLanguage')");
-		expect(component).toContain('data-tooltip={switchDescription}');
+		expect(component).toContain('class="language-toggle__tooltip" aria-hidden="true"');
 		expect(component).toContain('data-conversion-event="language_changed"');
 		expect(component).toContain('data-conversion-position="navigation"');
 		expect(component).toContain('targetLang.toUpperCase()');
 		expect(component).not.toContain('aria-label={switchDescription}');
-		expect(styles).toContain('content: attr(data-tooltip)');
-		expect(styles).not.toContain('content: attr(aria-label)');
+		expect(component).not.toContain('data-tooltip={switchDescription}');
+		expect(styles).toContain('.language-toggle__tooltip');
+		expect(styles).toContain('.language-toggle:hover .language-toggle__tooltip');
+		expect(styles).toContain('.language-toggle:focus-visible .language-toggle__tooltip');
+		expect(styles).not.toContain('content: attr(');
 	});
 
 	test('HeroCard exposes primary resume CTA across all viewports', async () => {

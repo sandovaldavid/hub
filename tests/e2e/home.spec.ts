@@ -40,7 +40,7 @@ test.describe('Home page', () => {
 		await expect(page.getByRole('heading', { level: 2, name: 'Explore my work' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
 		await expect(
-			page.getByRole('heading', { level: 2, name: 'Core engineering stack' })
+			page.getByRole('heading', { level: 2, name: 'Engineering stack & tooling' })
 		).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: "Let's talk" })).toBeVisible();
 		await expect(page.locator('.cta-button-card__title')).toHaveCount(4);
@@ -53,9 +53,7 @@ test.describe('Home page', () => {
 		await page.setViewportSize({ width: 1280, height: 720 });
 		await page.goto('/');
 		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toBeVisible();
-		await expect(
-			page.getByText('Backend-oriented Software Engineer · .NET, C# & Angular')
-		).toBeVisible();
+		await expect(page.getByText('Software Engineer · Backend-oriented')).toBeVisible();
 		await expect(page.getByText('Open to remote software engineering roles')).toBeVisible();
 		await expect(page.getByText('Remote · based in Peru')).toBeVisible();
 		await expect(page.locator('.hero-card__username')).toHaveCount(0);
@@ -138,9 +136,7 @@ test.describe('Spanish version (/es/)', () => {
 	test('loads the Spanish professional page', async ({ page }) => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
-		await expect(
-			page.getByText('Ingeniero de Software orientado a backend · .NET, C# y Angular')
-		).toBeVisible();
+		await expect(page.getByText('Ingeniero de Software · Orientado a backend')).toBeVisible();
 		await expect(page.getByText('Disponible para roles remotos de ingeniería')).toBeVisible();
 	});
 
@@ -154,7 +150,7 @@ test.describe('Spanish version (/es/)', () => {
 			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })
 		).toBeVisible();
 		await expect(
-			page.getByRole('heading', { level: 2, name: 'Stack principal de ingeniería' })
+			page.getByRole('heading', { level: 2, name: 'Stack y herramientas de ingeniería' })
 		).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: 'Conversemos' })).toBeVisible();
 	});

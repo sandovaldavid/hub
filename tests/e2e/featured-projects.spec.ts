@@ -8,7 +8,7 @@ for (const route of [
 		contribution: 'My contribution',
 		outcome: 'Outcome',
 		kiokuTitle: 'Kioku · Persistent memory for AI agents',
-		yukidokeTitle: 'Yukidoke · Financial health platform',
+		yukidokeTitle: 'Yukidoke · Household personal-finance product',
 		privateRepository: 'Private repo',
 	},
 	{
@@ -18,7 +18,7 @@ for (const route of [
 		contribution: 'Mi contribución',
 		outcome: 'Resultado',
 		kiokuTitle: 'Kioku · Memoria persistente para agentes de IA',
-		yukidokeTitle: 'Yukidoke · Plataforma de salud financiera',
+		yukidokeTitle: 'Yukidoke · Producto de finanzas personales para hogares',
 		privateRepository: 'Repo privado',
 	},
 ]) {

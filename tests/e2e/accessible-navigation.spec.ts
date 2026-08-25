@@ -91,13 +91,9 @@ test.describe('Accessible motion and navigation', () => {
 			{ route: '/es/', tooltip: 'Cambiar idioma a inglés' },
 		]) {
 			await page.goto(route);
-			const toggle = page.locator('.language-toggle');
-			await expect(toggle).toHaveAttribute('data-tooltip', tooltip);
-
-			const renderedTooltip = await toggle.evaluate(
-				node => window.getComputedStyle(node, '::after').content
-			);
-			expect(renderedTooltip).toContain(tooltip);
+			const tooltipElement = page.locator('.language-toggle__tooltip');
+			await expect(tooltipElement).toHaveText(tooltip);
+			await expect(tooltipElement).toHaveAttribute('aria-hidden', 'true');
 		}
 	});
 
