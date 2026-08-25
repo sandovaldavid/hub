@@ -86,6 +86,8 @@ Third-party GitHub Actions in delivery, release and DevContainer workflows are p
 
 `cd.yml` runs the repository quality gate before producing the Vercel build so the deployed source is validated with the same executable contracts as normal development. GitHub Deployment and commit-status evidence is published through authenticated GitHub API calls that fail the workflow when the API call or returned deployment identifier is invalid.
 
+GitHub Deployment registration must use `auto_merge: false`. Deployment evidence records the exact commit already validated and deployed; it must not merge or otherwise reconcile `main` with `develop`. Branch integration remains an explicit repository workflow concern, separate from deployment registration.
+
 ## Cache policy
 
 Long-lived `immutable` browser caching is reserved for fingerprinted Astro build assets under `/_astro/`, where a content change produces a new URL. Public identity assets with stable URLs, including the profile portrait, social preview, logo and favicons, must remain revalidatable so a same-path replacement cannot leave stale brand evidence in browser caches.
