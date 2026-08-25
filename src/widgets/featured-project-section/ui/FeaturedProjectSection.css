@@ -10,9 +10,6 @@
 	@apply text-2xl font-bold md:text-3xl;
 	color: var(--channel-content-strong);
 }
-.featured-project-section__icon {
-	color: var(--channel-accent-primary);
-}
 .featured-project-section__subtitle {
 	@apply mx-auto mt-2 max-w-3xl text-sm leading-relaxed md:mt-3 md:text-base;
 	color: var(--channel-content-muted);

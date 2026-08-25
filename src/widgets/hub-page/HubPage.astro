@@ -55,7 +55,7 @@ const heroMetadata = [
 		role="region"
 		aria-label={t('hero.sectionsLabel')}>
 		<section
-			class="bento-item bento-item--hero min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-6 lg:col-start-1 lg:p-5"
+			class="bento-item min-w-0 md:col-span-2 md:col-start-1 md:row-start-1 md:flex md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-6 lg:col-start-1 lg:p-5"
 			data-layout-column="profile"
 			data-layout-panel="profile"
 			aria-labelledby="hero-heading">
@@ -74,7 +74,7 @@ const heroMetadata = [
 		</section>
 
 		<div
-			class="bento-item bento-item--profile-snapshot order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
+			class="bento-item order-2 min-w-0 md:col-span-4 md:row-start-2 lg:col-span-10 lg:row-start-2"
 			data-layout-section="profile-snapshot">
 			<ProfileSnapshot
 				heading={t('profile.snapshotHeading')}
@@ -84,7 +84,7 @@ const heroMetadata = [
 		</div>
 
 		<section
-			class="bento-item bento-item--social order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-4 lg:col-start-7 lg:p-5"
+			class="bento-item order-3 min-w-0 md:col-span-2 md:col-start-3 md:row-start-1 md:flex md:self-center md:flex-col md:rounded-2xl md:border md:border-card-edge md:bg-card-background md:p-4 md:shadow-sm lg:col-span-4 lg:col-start-7 lg:p-5"
 			data-layout-column="social"
 			data-layout-panel="social"
 			aria-labelledby="social-heading">
@@ -106,7 +106,7 @@ const heroMetadata = [
 		class="flex flex-col gap-4 md:gap-6"
 		data-layout-section="actions"
 		aria-labelledby="cta-heading">
-		<header class="bento-item bento-item--cta-heading mx-auto max-w-3xl text-center">
+		<header class="bento-item mx-auto max-w-3xl text-center">
 			<h2
 				id="cta-heading"
 				class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
@@ -118,13 +118,11 @@ const heroMetadata = [
 		</header>
 
 		<div class="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:items-stretch">
-			<div
-				class="bento-item bento-item--cta flex min-w-0 lg:col-span-2"
-				data-layout-column="primary-actions">
+			<div class="bento-item flex min-w-0 lg:col-span-2" data-layout-column="primary-actions">
 				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
 			</div>
 			<section
-				class="bento-item bento-item--contact flex min-w-0"
+				class="bento-item flex min-w-0"
 				data-layout-column="contact"
 				aria-labelledby="contact-heading">
 				<ContactCTA email={profile.contact.email} {lang} />
@@ -132,14 +130,11 @@ const heroMetadata = [
 		</div>
 	</section>
 
-	<section class="bento-item bento-item--featured-project" data-layout-section="projects">
+	<section class="bento-item" data-layout-section="projects">
 		<FeaturedProjectSection {projects} {lang} />
 	</section>
 
-	<section
-		class="bento-item bento-item--skills"
-		data-layout-section="skills"
-		aria-labelledby="skills-heading">
+	<section class="bento-item" data-layout-section="skills" aria-labelledby="skills-heading">
 		<SkillsSection
 			{coreSkills}
 			{toolingSkills}
@@ -151,42 +146,52 @@ const heroMetadata = [
 </main>
 
 <style>
+	/*
+	 * Scroll-driven reveal: sections fade and lift in as they enter the
+	 * scrollport and settle back out as they leave. `view()` is driven by
+	 * scroll position rather than a pointer state, so nothing can be left
+	 * stuck mid-animation after a tap on a touch screen.
+	 *
+	 * No fixed `opacity: 0` base: an element already in view at load sits
+	 * past `entry 100%`, so above-the-fold content paints opaque on the
+	 * first frame and does not hold back the LCP.
+	 */
+	/*
+	 * Longhands, deliberately: the CSS minifier folds `animation` +
+	 * `animation-timeline` into the shorthand, and Chrome does not accept
+	 * `view()` there — the timeline is silently dropped and nothing animates.
+	 */
 	.bento-item {
-		animation: fade-in 0.6s ease-out forwards;
-		opacity: 0;
+		animation-name: bento-reveal;
+		animation-duration: 1ms;
+		animation-timing-function: linear;
+		animation-fill-mode: both;
+		animation-timeline: view();
 	}
 
-	.bento-item--hero {
-		animation-delay: 0.1s;
-	}
-	.bento-item--profile-snapshot {
-		animation-delay: 0.15s;
-	}
-	.bento-item--social {
-		animation-delay: 0.2s;
-	}
-	.bento-item--cta-heading {
-		animation-delay: 0.25s;
-	}
-	.bento-item--cta {
-		animation-delay: 0.3s;
-	}
-	.bento-item--contact {
-		animation-delay: 0.35s;
-	}
-	.bento-item--featured-project {
-		animation-delay: 0.4s;
-	}
-	.bento-item--skills {
-		animation-delay: 0.45s;
-	}
-
-	@keyframes fade-in {
-		from {
+	@keyframes bento-reveal {
+		entry 0% {
 			opacity: 0;
-			transform: translateY(20px);
+			transform: translateY(1.25rem);
 		}
-		to {
+		entry 100% {
+			opacity: 1;
+			transform: none;
+		}
+		exit 0% {
+			opacity: 1;
+			transform: none;
+		}
+		exit 100% {
+			opacity: 0;
+			transform: translateY(-1.25rem);
+		}
+	}
+
+	/* Browsers without scroll-driven animations render the content plainly. */
+	@supports not (animation-timeline: view()) {
+		.bento-item {
+			animation: none;
 			opacity: 1;
 			transform: none;
 		}
