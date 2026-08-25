@@ -93,6 +93,7 @@ jobs:
               ref: context.sha,
               environment: process.env.DEPLOYMENT_ENVIRONMENT,
               required_contexts: [],
+              auto_merge: false,
               transient_environment: process.env.TRANSIENT_ENVIRONMENT === 'true',
               production_environment: process.env.PRODUCTION_ENVIRONMENT === 'true'
             });
