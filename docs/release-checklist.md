@@ -13,19 +13,22 @@ Use these result states when recording evidence: `Passed`, `Failed`, `Not run`, 
 
 ## 2. Validate the exact `develop` candidate
 
-Run from the exact candidate commit:
+Run the complete local gate from the exact candidate commit:
 
 ```bash
 bun install --frozen-lockfile
-bun run audit:deps
 bun run validate:local
 ```
 
-`audit:deps` is deliberately separate from `validate:quality`: dependency-advisory data comes from an external registry and changes over time, while the normal quality gate is intended to remain deterministic. A dependency audit therefore needs explicit release evidence rather than being silently folded into the hermetic validation path.
+Dependency advisories are intentionally evaluated outside `validate:quality`: advisory data comes from an external registry and changes over time, while the normal quality gate is intended to remain deterministic. Use the `Security Audit / Dependency audit` workflow result for the exact candidate SHA when available. If hosted audit evidence is unavailable, run the equivalent local command and record its output:
+
+```bash
+bun run audit:deps
+```
 
 Record:
 
-- [ ] dependency audit result and any accepted exception with rationale;
+- [ ] exact-SHA dependency audit result and any accepted exception with rationale;
 - [ ] Chromium result;
 - [ ] WebKit / Mobile Safari result;
 - [ ] Firefox result;
@@ -42,6 +45,7 @@ Do not infer cross-browser coverage from hosted Chromium CI. The complete local 
 - [ ] Merge only the validated `develop -> main` candidate.
 - [ ] Record the exact resulting `main` commit SHA.
 - [ ] Require the production Deploy workflow to pass on that exact SHA.
+- [ ] Require an explicit dependency-audit result for that exact SHA or record why the hosted audit was blocked and provide equivalent evidence.
 - [ ] Do not describe the release as published merely because the promotion PR merged.
 
 The production deployment workflow re-runs the release-sensitive gate on the commit being shipped. Treat a failed or incomplete production Deploy run as a release blocker.
@@ -101,6 +105,7 @@ release-please-config.json      -> no release-as: 2.0.0 override
 This is intentional. `tests/unit/release-hardening.test.js` fails when a one-time override still matches the version already prepared by the release PR, preventing the pin from freezing future semantic releases.
 
 - [ ] All required release-PR checks pass after the override cleanup and any changelog curation.
+- [ ] The dependency-audit result for the exact release-PR head is explicit; a failed advisory check must be investigated rather than ignored because it is non-required.
 
 ## 6. Publish and verify the tagged release
 
@@ -110,6 +115,7 @@ After the Release Please PR merges:
 - [ ] confirm the GitHub Release exists and is not a draft/prerelease unless explicitly intended;
 - [ ] confirm the release tag points to the expected release commit;
 - [ ] confirm the production Deploy workflow is green for the release commit;
+- [ ] confirm the dependency-audit result for the release commit is explicit;
 - [ ] confirm the live footer/version surface reflects the published version where applicable;
 - [ ] re-check `/`, `/es/`, metadata and key public links after the release commit is deployed;
 - [ ] confirm the one-time `release-as` override is absent from `main`.
