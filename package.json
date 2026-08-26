@@ -50,15 +50,15 @@
 		"@commitlint/cli": "^21.2.2",
 		"@commitlint/config-conventional": "^21.2.2",
 		"@eslint/js": "^10.0.1",
-		"@playwright/test": "^1.61.0",
+		"@playwright/test": "^1.62.1",
 		"chrome-launcher": "^1.2.1",
-		"eslint": "^10.9.0",
+		"eslint": "^10.9.1",
 		"eslint-plugin-astro": "^3.1.0",
 		"husky": "^9.1.7",
 		"lighthouse": "13.4.1",
 		"prettier": "^3.9.6",
 		"prettier-plugin-astro": "^0.14.1",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.67.0"
+		"typescript-eslint": "^8.68.0"
 	}
 }
