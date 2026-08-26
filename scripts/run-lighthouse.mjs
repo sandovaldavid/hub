@@ -224,7 +224,7 @@ async function main() {
 
 		console.log(`\nLighthouse ${PROFILE} gate passed for ${URLS.length} routes.`);
 	} finally {
-		if (chrome) await chrome.kill();
+		if (chrome) chrome.kill();
 		await stopPreviewServer(previewServer);
 	}
 }
