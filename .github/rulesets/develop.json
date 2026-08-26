@@ -39,13 +39,13 @@
 				"do_not_enforce_on_create": false,
 				"required_status_checks": [
 					{
-						"context": "CI / Quality"
+						"context": "Quality"
 					},
 					{
-						"context": "CI / E2E"
+						"context": "E2E"
 					},
 					{
-						"context": "CI / Lighthouse"
+						"context": "Lighthouse"
 					}
 				],
 				"strict_required_status_checks_policy": true
