@@ -59,12 +59,20 @@ describe('release delivery hardening contracts', () => {
 		expect(workflow).not.toContain('vercel@latest');
 	});
 
-	test('keeps the dependency audit explicit and outside the deterministic quality gate', async () => {
-		const packageJson = await readJson('package.json');
+	test('keeps dependency advisory checks explicit but outside the deterministic quality gate', async () => {
+		const [packageJson, ci, securityAudit] = await Promise.all([
+			readJson('package.json'),
+			read('.github/workflows/ci.yml'),
+			read('.github/workflows/security-audit.yml'),
+		]);
 
 		expect(packageJson.scripts['audit:deps']).toBe('bun audit');
 		expect(packageJson.scripts['validate:quality']).not.toContain('audit:deps');
 		expect(packageJson.scripts['validate:quality']).not.toMatch(/\bbun audit\b/);
+		expect(ci).not.toContain('audit:deps');
+		expect(securityAudit).toContain('name: Security Audit');
+		expect(securityAudit).toContain('branches: [develop, main]');
+		expect(securityAudit).toContain('run: bun run audit:deps');
 	});
 
 	// `release-as` forces the next release to a fixed version and keeps doing so
