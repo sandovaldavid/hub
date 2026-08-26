@@ -62,9 +62,9 @@
 		"contribution": "Mi contribución",
 		"outcome": "Resultado",
 		"repository": "Repositorio",
-		"demo": "Demo",
+		"projectSite": "Sitio del proyecto",
 		"private": "Repo privado",
-		"demoUnavailable": "Sin demo público",
+		"projectUnavailable": "Sin sitio público del proyecto",
 		"technologyStack": "Tecnologías utilizadas"
 	},
 	"skills": {

@@ -37,6 +37,8 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanish.contact.title).not.toMatch(/consult/i);
 		expect(english.skills.coreTitle).toBe('Current Engineering Stack');
 		expect(spanish.skills.coreTitle).toBe('Stack actual de ingeniería');
+		expect(english.projects.projectSite).toBe('Project site');
+		expect(spanish.projects.projectSite).toBe('Sitio del proyecto');
 	});
 
 	test('keeps CTA route metadata separate from localized public copy', () => {
@@ -58,25 +60,62 @@ describe('Hub messaging alignment contract', () => {
 		expect(profile.logo).not.toHaveProperty('alt');
 	});
 
-	test('keeps featured project wording evidence-bound and durable', () => {
+	test('keeps the selected project set evidence-bound and complementary', () => {
+		const englishProjects = getFeaturedProjects('en');
+		const spanishProjects = getFeaturedProjects('es');
+		const expectedProjectIds = ['kioku', 'yukidoke', 'oci-arm-hunter'];
+
+		expect(englishProjects.map(project => project.id)).toEqual(expectedProjectIds);
+		expect(spanishProjects.map(project => project.id)).toEqual(expectedProjectIds);
+	});
+
+	test('keeps Kioku wording durable while routing to public evidence', () => {
 		const englishKioku = getFeaturedProjects('en').find(project => project.id === 'kioku');
 		const spanishKioku = getFeaturedProjects('es').find(project => project.id === 'kioku');
-		const englishYukidoke = getFeaturedProjects('en').find(project => project.id === 'yukidoke');
-		const spanishYukidoke = getFeaturedProjects('es').find(project => project.id === 'yukidoke');
 
 		expect(englishKioku?.status).toBe('Stable release · active development');
 		expect(spanishKioku?.status).toBe('Release estable · desarrollo activo');
 		expect(englishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
 		expect(spanishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
+		expect(englishKioku?.projectUrl).toBe('https://kioku.sandovaldavid.com');
+		expect(englishKioku?.githubUrl).toBe('https://github.com/sandovaldavid/kioku');
+		expect(englishKioku?.projectAvailability).toBe('public');
+		expect(englishKioku?.repositoryAvailability).toBe('public');
+	});
+
+	test('keeps Yukidoke current without claiming release or production readiness', () => {
+		const englishYukidoke = getFeaturedProjects('en').find(project => project.id === 'yukidoke');
+		const spanishYukidoke = getFeaturedProjects('es').find(project => project.id === 'yukidoke');
+
 		expect(englishYukidoke?.title).toBe('Yukidoke · Household personal-finance product');
 		expect(spanishYukidoke?.title).toBe('Yukidoke · Producto de finanzas personales para hogares');
 		expect(`${englishYukidoke?.contribution} ${englishYukidoke?.outcome}`).not.toMatch(
-			/scalable|multi-user/i
+			/v1 complete|release-ready|production-ready|scalable|multi-user/i
 		);
 		expect(`${spanishYukidoke?.contribution} ${spanishYukidoke?.outcome}`).not.toMatch(
-			/escalable|multiusuario/i
+			/v1 completa|lista para release|lista para producción|escalable|multiusuario/i
 		);
-		expect(englishYukidoke?.outcome).toMatch(/explicit domain boundaries/i);
-		expect(spanishYukidoke?.outcome).toMatch(/límites de dominio explícitos/i);
+		expect(englishYukidoke?.status).toMatch(/production unconfirmed/i);
+		expect(spanishYukidoke?.status).toMatch(/producción no confirmada/i);
+		expect(englishYukidoke?.projectAvailability).toBe('unavailable');
+		expect(englishYukidoke?.repositoryAvailability).toBe('private');
+	});
+
+	test('keeps OCI ARM Hunter bounded to public automation evidence', () => {
+		const englishOci = getFeaturedProjects('en').find(project => project.id === 'oci-arm-hunter');
+		const spanishOci = getFeaturedProjects('es').find(project => project.id === 'oci-arm-hunter');
+
+		expect(englishOci?.title).toBe('OCI ARM Hunter · Oracle Cloud capacity automation');
+		expect(spanishOci?.title).toBe('OCI ARM Hunter · Automatización de capacidad en Oracle Cloud');
+		expect(`${englishOci?.contribution} ${englishOci?.outcome}`).not.toMatch(
+			/guaranteed capacity|guaranteed provisioning|SLA|fleet|adoption/i
+		);
+		expect(`${spanishOci?.contribution} ${spanishOci?.outcome}`).not.toMatch(
+			/capacidad garantizada|aprovisionamiento garantizado|SLA|flota|adopción/i
+		);
+		expect(englishOci?.projectUrl).toBe('https://oci.sandovaldavid.com');
+		expect(englishOci?.githubUrl).toBe('https://github.com/sandovaldavid/oci-arm-hunter');
+		expect(englishOci?.projectAvailability).toBe('public');
+		expect(englishOci?.repositoryAvailability).toBe('public');
 	});
 });

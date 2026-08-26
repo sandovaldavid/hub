@@ -24,7 +24,7 @@ const evidence = [
 	{ label: t('projects.outcome'), value: project.outcome, kind: 'outcome', marker: '03' },
 ] as const;
 const statusTone =
-	project.demoAvailability === 'public'
+	project.projectAvailability === 'public'
 		? 'live'
 		: project.repositoryAvailability === 'public'
 			? 'active'
@@ -76,20 +76,22 @@ const caseNumber = String(position).padStart(2, '0');
 
 		<div class="featured-project-card__actions">
 			{
-				project.demoAvailability === 'public' && project.demoUrl ? (
+				project.projectAvailability === 'public' && project.projectUrl ? (
 					<a
-						href={project.demoUrl}
+						href={project.projectUrl}
 						class="featured-project-card__button featured-project-card__button--primary"
 						target="_blank"
 						rel="noopener noreferrer"
 						data-conversion-event="project_opened"
 						data-conversion-position="project"
 						data-conversion-item={project.id}>
-						<span>{t('projects.demo')}</span>
+						<span>{t('projects.projectSite')}</span>
 						<LinkIcon class="featured-project-card__button-icon" />
 					</a>
 				) : (
-					<span class="featured-project-card__availability">{t('projects.demoUnavailable')}</span>
+					<span class="featured-project-card__availability">
+						{t('projects.projectUnavailable')}
+					</span>
 				)
 			}
 			{
