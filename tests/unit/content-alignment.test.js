@@ -63,17 +63,10 @@ describe('Hub messaging alignment contract', () => {
 	test('keeps the selected project set evidence-bound and complementary', () => {
 		const englishProjects = getFeaturedProjects('en');
 		const spanishProjects = getFeaturedProjects('es');
+		const expectedProjectIds = ['kioku', 'yukidoke', 'oci-arm-hunter'];
 
-		expect(englishProjects.map(project => project.id)).toEqual([
-			'kioku',
-			'yukidoke',
-			'oci-arm-hunter',
-		]);
-		expect(spanishProjects.map(project => project.id)).toEqual([
-			'kioku',
-			'yukidoke',
-			'oci-arm-hunter',
-		]);
+		expect(englishProjects.map(project => project.id)).toEqual(expectedProjectIds);
+		expect(spanishProjects.map(project => project.id)).toEqual(expectedProjectIds);
 	});
 
 	test('keeps Kioku wording durable while routing to public evidence', () => {
