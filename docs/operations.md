@@ -80,6 +80,8 @@ Playwright's `CI` flag still controls production-preview behavior and `forbidOnl
 
 Do not infer browser coverage that was not executed on the exact commit under review. If two workers introduce resource contention or flakiness on the hosted runner, reduce the explicit workflow value and record the observed evidence rather than masking failures with additional retries.
 
+Dependency advisory checking is intentionally isolated in `.github/workflows/security-audit.yml`. That workflow runs on pull requests, pushes to `develop`/`main`, a weekly schedule and manual dispatch. It is not folded into the deterministic `validate:quality` chain because registry advisory data is mutable external state. A failed or unavailable dependency audit still requires an explicit release decision; being non-required by branch protection does not make it ignorable.
+
 ## Branch and delivery flow
 
 ```text
@@ -138,6 +140,7 @@ Do not manually describe a release as published until the tag/release exists and
 - `.github/dependabot.yml` targets `develop` and groups routine dependency updates.
 - `scripts/check-links.mjs` validates local targets and public destinations.
 - `.github/workflows/maintenance.yml` schedules recurring link checks.
+- `.github/workflows/security-audit.yml` records dependency advisory results on PRs, integration/production pushes and a weekly schedule.
 - `config/link-check.json` contains link-check inputs and retry settings.
 
 Run:
@@ -148,13 +151,13 @@ bun run check:links
 
 Persistent definitive failures such as HTTP `404` or `410` fail the check. Access controls, rate limits, anti-bot responses, timeouts and upstream incidents remain visible warnings after retries and require manual review.
 
-Before a tagged/major release, also run:
+For release evidence, prefer the `Security Audit / Dependency audit` result associated with the exact candidate SHA. If hosted audit evidence is unavailable, run the equivalent command locally:
 
 ```bash
 bun run audit:deps
 ```
 
-The dependency audit is intentionally not part of `validate:quality`. Advisory data is fetched from an external registry and can change independently of the repository, so folding it into the deterministic quality gate would make normal validation depend on mutable network state. Record the audit result explicitly in release evidence; investigate findings rather than treating the absence of an automated gate as proof that no advisories exist.
+The dependency audit is intentionally not part of `validate:quality`. Advisory data is fetched from an external registry and can change independently of the repository, so folding it into the deterministic quality gate would make normal validation depend on mutable network state. Investigate findings rather than treating the absence of a required status context as proof that no advisories exist.
 
 ## Security
 
