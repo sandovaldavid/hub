@@ -47,7 +47,9 @@ describe('browser test infrastructure contract', () => {
 		const runner = await read('scripts/run-local-validation.mjs');
 
 		expect(runner).toContain('process.env.PLAYWRIGHT_WORKERS');
-		expect(runner).toContain('remoteEnvironment.push(`PLAYWRIGHT_WORKERS=${process.env.PLAYWRIGHT_WORKERS}`)');
+		expect(runner).toContain(
+			'remoteEnvironment.push(`PLAYWRIGHT_WORKERS=${process.env.PLAYWRIGHT_WORKERS}`)'
+		);
 		expect(runner).toContain(
 			"['env', ...remoteEnvironment, 'bun', 'run', 'validate:local:inside']"
 		);
@@ -68,7 +70,9 @@ describe('browser test infrastructure contract', () => {
 		);
 		expect(config).toContain("command: isCi ? 'bun run preview:test' : 'bun run dev'");
 		expect(lighthouse).toContain("const PREVIEW_ORIGIN = 'http://localhost:4322';");
-		expect(lighthouse).toContain('const URLS = [PREVIEW_ORIGIN, `${PREVIEW_ORIGIN}/es/`];');
+		expect(lighthouse).toContain(
+			'const URLS = [PREVIEW_ORIGIN, `${PREVIEW_ORIGIN}/es/`];'
+		);
 		expect(lighthouse).toContain("spawn('bun', ['run', 'preview:test'], {");
 	});
 });
