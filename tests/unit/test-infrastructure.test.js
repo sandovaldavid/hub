@@ -71,6 +71,12 @@ describe('browser test infrastructure contract', () => {
 		expect(config).toContain("command: isCi ? 'bun run preview:test' : 'bun run dev'");
 		expect(lighthouse).toContain("const PREVIEW_ORIGIN = 'http://localhost:4322';");
 		expect(lighthouse).toContain('const URLS = [PREVIEW_ORIGIN, `${PREVIEW_ORIGIN}/es/`];');
-		expect(lighthouse).toContain("spawn('bun', ['run', 'preview:test'], {");
+		expect(lighthouse).toContain(
+			"const ASTRO_CLI_PATH = fileURLToPath(new URL('../node_modules/.bin/astro', import.meta.url));"
+		);
+		expect(lighthouse).toContain(
+			"spawn(ASTRO_CLI_PATH, ['preview', '--host', '0.0.0.0', '--port', '4322'], {"
+		);
+		expect(lighthouse).not.toContain("spawn('bun', ['run', 'preview:test'], {");
 	});
 });
