@@ -48,7 +48,7 @@ The browser JavaScript is limited to behavior that genuinely requires it, includ
 | Package manager | Bun 1.3.14 |
 | Browser testing | Playwright |
 | Accessibility | Axe + manual accessibility checks |
-| Performance | Lighthouse CI |
+| Performance | Lighthouse |
 | Analytics | Vercel Analytics + privacy-safe navigation events |
 | Deployment | Vercel |
 | Release automation | release-please |
