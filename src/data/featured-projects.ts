@@ -42,7 +42,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			contribution:
 				'Built a Bash automation around OCI CLI that retries requests, rotates Availability Domains, applies cooldown jitter, supports unattended systemd execution and sends success notifications.',
 			outcome:
-				'Published a stable, documented operational workflow for repeatable setup and unattended capacity hunting without claiming guaranteed provisioning.',
+				'Published a stable, documented operational workflow for repeatable setup and unattended capacity hunting.',
 			technologies: ['Bash', 'OCI CLI', 'systemd', 'Oracle Cloud'],
 			status: 'Stable release',
 			projectUrl: 'https://oci.sandovaldavid.com',
@@ -93,7 +93,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			contribution:
 				'Construí una automatización en Bash sobre OCI CLI que reintenta solicitudes, rota Availability Domains, aplica cooldown con jitter, soporta ejecución desatendida con systemd y envía notificaciones de éxito.',
 			outcome:
-				'Publiqué un flujo operativo estable y documentado para configuración repetible y búsqueda desatendida de capacidad, sin afirmar aprovisionamiento garantizado.',
+				'Publiqué un flujo operativo estable y documentado para configuración repetible y búsqueda desatendida de capacidad.',
 			technologies: ['Bash', 'OCI CLI', 'systemd', 'Oracle Cloud'],
 			status: 'Release estable',
 			projectUrl: 'https://oci.sandovaldavid.com',
