@@ -29,10 +29,10 @@ describe('GitHub ruleset synchronization contract', () => {
 			'check-source-branch',
 		]);
 
-		expect(ciWorkflow).toMatch(/\n  quality:\n    name: Quality\n/);
-		expect(ciWorkflow).toMatch(/\n  e2e:\n    name: E2E\n/);
-		expect(ciWorkflow).toMatch(/\n  lighthouse:\n    name: Lighthouse\n/);
-		expect(branchWorkflow).toMatch(/\n  check-source-branch:\n    name: check-source-branch\n/);
+		expect(ciWorkflow).toMatch(/\n {2}quality:\n {4}name: Quality\n/);
+		expect(ciWorkflow).toMatch(/\n {2}e2e:\n {4}name: E2E\n/);
+		expect(ciWorkflow).toMatch(/\n {2}lighthouse:\n {4}name: Lighthouse\n/);
+		expect(branchWorkflow).toMatch(/\n {2}check-source-branch:\n {4}name: check-source-branch\n/);
 
 		for (const context of [...requiredContexts(developRuleset), ...requiredContexts(mainRuleset)]) {
 			expect(context).not.toMatch(/^CI \/ /);
