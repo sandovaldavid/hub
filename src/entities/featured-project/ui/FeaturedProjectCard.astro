@@ -89,7 +89,9 @@ const caseNumber = String(position).padStart(2, '0');
 						<LinkIcon class="featured-project-card__button-icon" />
 					</a>
 				) : (
-					<span class="featured-project-card__availability">{t('projects.projectUnavailable')}</span>
+					<span class="featured-project-card__availability">
+						{t('projects.projectUnavailable')}
+					</span>
 				)
 			}
 			{

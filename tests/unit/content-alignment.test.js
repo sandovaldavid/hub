@@ -113,9 +113,7 @@ describe('Hub messaging alignment contract', () => {
 		const spanishOci = getFeaturedProjects('es').find(project => project.id === 'oci-arm-hunter');
 
 		expect(englishOci?.title).toBe('OCI ARM Hunter · Oracle Cloud capacity automation');
-		expect(spanishOci?.title).toBe(
-			'OCI ARM Hunter · Automatización de capacidad en Oracle Cloud'
-		);
+		expect(spanishOci?.title).toBe('OCI ARM Hunter · Automatización de capacidad en Oracle Cloud');
 		expect(`${englishOci?.contribution} ${englishOci?.outcome}`).not.toMatch(
 			/guaranteed capacity|guaranteed provisioning|SLA|fleet|adoption/i
 		);
