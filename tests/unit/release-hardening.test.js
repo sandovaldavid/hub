@@ -106,6 +106,7 @@ describe('release delivery hardening contracts', () => {
 			svgo: '4.0.2',
 		});
 		expect(packageJson.overrides.picomatch).toBeUndefined();
+		expect(packageJson.devDependencies.picomatch).toBe('2.3.2');
 	});
 
 	test('keeps dependency advisory checks explicit but outside the deterministic quality gate', async () => {
