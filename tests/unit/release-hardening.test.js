@@ -68,7 +68,7 @@ describe('release delivery hardening contracts', () => {
 		expect(packageJson.devDependencies['@lhci/cli']).toBeUndefined();
 		expect(packageJson.devDependencies.lighthouse).toBe('13.4.1');
 		expect(packageJson.devDependencies['chrome-launcher']).toBe('^1.2.1');
-		expect(packageJson.overrides).toBeUndefined();
+		expect(packageJson.devDependencies['@playwright/test']).toBe('^1.61.0');
 		expect(packageJson.scripts['test:lighthouse:mobile']).toBe(
 			'node scripts/run-lighthouse.mjs mobile'
 		);
@@ -89,6 +89,23 @@ describe('release delivery hardening contracts', () => {
 		expect(runner).toContain("{ id: 'total-byte-weight', maxNumericValue: 500_000");
 		expect(runner).toContain('const actual = Math.max(...values);');
 		expect(runner).toContain('const actual = Math.min(...values);');
+	});
+
+	test('keeps security overrides narrow, explicit and major-compatible', async () => {
+		const packageJson = await readJson('package.json');
+
+		expect(packageJson.overrides).toEqual({
+			'@astrojs/language-server': '2.16.14',
+			'brace-expansion': '5.0.9',
+			'fast-uri': '3.1.6',
+			'ip-address': '10.5.0',
+			'js-yaml': '4.3.1',
+			'mdast-util-to-hast': '13.2.1',
+			nanoid: '3.3.18',
+			sharp: '0.35.3',
+			svgo: '4.0.2',
+		});
+		expect(packageJson.overrides.picomatch).toBeUndefined();
 	});
 
 	test('keeps dependency advisory checks explicit but outside the deterministic quality gate', async () => {
