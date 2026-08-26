@@ -109,6 +109,16 @@ describe('release delivery hardening contracts', () => {
 		expect(packageJson.devDependencies.picomatch).toBe('2.3.2');
 	});
 
+	test('keeps anymatch on patched picomatch v2 without collapsing the v4 graph', async () => {
+		const lock = await read('bun.lock');
+
+		expect(lock).toContain('"picomatch": ["picomatch@2.3.2"');
+		expect(lock).not.toContain('"anymatch/picomatch":');
+		expect(lock).not.toContain('picomatch@2.3.1');
+		expect(lock).toContain('picomatch@4.0.4');
+		expect(lock).toContain('picomatch@4.0.5');
+	});
+
 	test('keeps dependency advisory checks explicit but outside the deterministic quality gate', async () => {
 		const [packageJson, ci, securityAudit] = await Promise.all([
 			readJson('package.json'),
