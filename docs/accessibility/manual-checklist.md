@@ -9,7 +9,7 @@ Automated tests are necessary but do not replace manual review of reading order,
 - [ ] Load `/` and `/es/` without using a mouse.
 - [ ] Press `Tab` and confirm the skip link is the first focusable element.
 - [ ] Activate the skip link and confirm focus moves to `#main-content`.
-- [ ] Continue tabbing through share, theme, language, résumé, CTA, social, project, repository, demo, email, consultation, footer and scroll-to-top controls that are present on the route.
+- [ ] Continue tabbing through share, theme, language, résumé, CTA, social, project-site, repository, email/contact, footer and scroll-to-top controls that are present on the route.
 - [ ] Confirm the tab order follows the visual and semantic reading order.
 - [ ] Confirm every interactive element can be activated with `Enter` or `Space` as appropriate.
 - [ ] Confirm there are no keyboard traps.
@@ -40,7 +40,7 @@ Automated tests are necessary but do not replace manual review of reading order,
 - [ ] Confirm share, theme, language and scroll-to-top controls announce their purpose and state where applicable.
 - [ ] Confirm custom visual tooltips do not replace programmatic accessible names.
 - [ ] Confirm external links communicate their destination from link text or accessible name.
-- [ ] Confirm unavailable repository and demo states are announced as text, not only by color.
+- [ ] Confirm unavailable repository and project-site states are announced as text, not only by color.
 - [ ] Confirm images expose useful alternative text or are intentionally decorative.
 - [ ] Confirm footer content has an appropriate landmark/semantic structure and does not duplicate the primary page heading hierarchy.
 
@@ -56,7 +56,7 @@ Automated tests are necessary but do not replace manual review of reading order,
 ## Responsive and zoom
 
 - [ ] Check the page at a narrow mobile viewport without horizontal scrolling caused by content.
-- [ ] Check tablet widths where hero, availability actions, social panels and footer layout may reflow.
+- [ ] Check tablet widths where hero, availability actions, social panels, three-card project layout and footer layout may reflow.
 - [ ] Verify 200% browser zoom and 200% text scaling do not hide controls or truncate essential content.
 - [ ] Confirm fixed corner controls do not overlap primary content, footer links or each other.
 - [ ] Confirm the scroll-to-top control appears only in the intended state and does not create an unreachable or obscured target.
@@ -76,6 +76,7 @@ Automated coverage emulates `prefers-contrast: more` and `forced-colors: active`
 - [ ] Confirm the `develop -> main` pull request shows no unresolved conflicts and every required hosted check has an explicit result.
 - [ ] Record local browser results explicitly as `Passed`, `Failed`, `Blocked` or `Not run`; never assume one engine proves another.
 - [ ] After merge, verify the change on the deployed `main` result (GitHub + Vercel), not only the merged pull request.
+- [ ] Complete the broader production sequence in [`../release-checklist.md`](../release-checklist.md) before publishing a tagged release.
 
 ## Automated validation
 
