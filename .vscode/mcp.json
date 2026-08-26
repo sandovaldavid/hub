@@ -2,7 +2,7 @@
 	"servers": {
 		"chrome-devtools": {
 			"command": "npx",
-			"args": ["chrome-devtools-mcp@latest"]
+			"args": ["-y", "chrome-devtools-mcp@1.7.0"]
 		},
 		"Astro docs": {
 			"type": "http",

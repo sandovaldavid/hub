@@ -4,18 +4,13 @@ import { siteConfig } from './site.config';
 // tagline, bio and the route-specific avatar label are intentionally absent here.
 // Locale-specific strings are applied via useTranslations() from @shared/i18n.
 export const profile: Profile = {
-	name: 'David Sandoval',
-	displayName: siteConfig.handle,
-	location: 'Peru',
-	timezone: 'America/Lima',
-	languages: ['Español', 'English'],
+	name: siteConfig.name,
 	avatar: {
 		url: '/profile/perfil.webp',
-		alt: 'David Sandoval',
+		alt: siteConfig.name,
 	},
 	logo: {
 		url: `/logo/${siteConfig.handle}.svg`,
-		alt: `${siteConfig.handle} brand logo`,
 	},
 	contact: {
 		email: siteConfig.email,

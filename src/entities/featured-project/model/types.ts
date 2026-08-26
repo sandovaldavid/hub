@@ -1,6 +1,6 @@
 export type ProjectAvailability = 'public' | 'private' | 'unavailable';
 
-export interface WeeklyProject {
+export interface FeaturedProject {
 	readonly id: string;
 	title: string;
 	problem: string;
@@ -8,9 +8,9 @@ export interface WeeklyProject {
 	outcome: string;
 	technologies: string[];
 	status: string;
-	demoUrl?: string;
+	projectUrl?: string;
 	githubUrl?: string;
+	projectAvailability: ProjectAvailability;
 	repositoryAvailability: ProjectAvailability;
-	demoAvailability: ProjectAvailability;
 	featured: boolean;
 }

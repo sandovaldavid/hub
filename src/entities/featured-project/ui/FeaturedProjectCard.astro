@@ -1,0 +1,116 @@
+---
+import type { FeaturedProject } from '../model/types';
+import LinkIcon from '@shared/assets/link.svg';
+import GitHubIcon from '@shared/assets/social-platform/github.svg';
+import { useTranslations, type Lang } from '@shared/i18n';
+import './FeaturedProjectCard.css';
+
+interface Props {
+	project: FeaturedProject;
+	lang: Lang;
+	position: number;
+}
+
+const { project, lang, position } = Astro.props;
+const t = useTranslations(lang);
+const evidence = [
+	{ label: t('projects.problem'), value: project.problem, kind: 'problem', marker: '01' },
+	{
+		label: t('projects.contribution'),
+		value: project.contribution,
+		kind: 'contribution',
+		marker: '02',
+	},
+	{ label: t('projects.outcome'), value: project.outcome, kind: 'outcome', marker: '03' },
+] as const;
+const statusTone =
+	project.projectAvailability === 'public'
+		? 'live'
+		: project.repositoryAvailability === 'public'
+			? 'active'
+			: 'private';
+const caseNumber = String(position).padStart(2, '0');
+---
+
+<article
+	class="featured-project-card"
+	data-project-card
+	data-project-id={project.id}
+	data-project-position={position}>
+	<div class="featured-project-card__content">
+		<header class="featured-project-card__heading">
+			<div class="featured-project-card__meta">
+				<span class="featured-project-card__index">{t('projects.caseStudy')} {caseNumber}</span>
+				<span class="featured-project-card__status" data-status-tone={statusTone}
+					>{project.status}</span
+				>
+			</div>
+			<h3 class="featured-project-card__title">{project.title}</h3>
+		</header>
+
+		<dl class="featured-project-card__evidence">
+			{
+				evidence.map(item => (
+					<div
+						class={`featured-project-card__evidence-item featured-project-card__evidence-item--${item.kind}`}
+						data-project-evidence={item.kind}>
+						<dt>
+							<span class="featured-project-card__evidence-marker" aria-hidden="true">
+								{item.marker}
+							</span>
+							<span>{item.label}</span>
+						</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))
+			}
+		</dl>
+
+		<div class="featured-project-card__technologies" aria-label={t('projects.technologyStack')}>
+			{
+				project.technologies.map(tech => (
+					<span class="featured-project-card__tech-badge">{tech}</span>
+				))
+			}
+		</div>
+
+		<div class="featured-project-card__actions">
+			{
+				project.projectAvailability === 'public' && project.projectUrl ? (
+					<a
+						href={project.projectUrl}
+						class="featured-project-card__button featured-project-card__button--primary"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<span>{t('projects.projectSite')}</span>
+						<LinkIcon class="featured-project-card__button-icon" />
+					</a>
+				) : (
+					<span class="featured-project-card__availability">
+						{t('projects.projectUnavailable')}
+					</span>
+				)
+			}
+			{
+				project.repositoryAvailability === 'public' && project.githubUrl ? (
+					<a
+						href={project.githubUrl}
+						class="featured-project-card__button featured-project-card__button--secondary"
+						target="_blank"
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="project"
+						data-conversion-item={project.id}>
+						<GitHubIcon class="featured-project-card__button-icon" />
+						<span>{t('projects.repository')}</span>
+					</a>
+				) : (
+					<span class="featured-project-card__availability">{t('projects.private')}</span>
+				)
+			}
+		</div>
+	</div>
+</article>

@@ -184,13 +184,17 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 		await page.goto('/');
 		const toggleToEs = page.locator('.language-toggle');
 		await expect(toggleToEs).toBeVisible();
-		await expect(toggleToEs).toHaveText('ES');
+		// The visible code sits in its own span; a visually hidden sibling carries
+		// the description so the accessible name contains it (WCAG 2.5.3).
+		await expect(toggleToEs.locator('span').first()).toHaveText('ES');
+		await expect(toggleToEs).toHaveAccessibleName(/^ES\b/);
 		await toggleToEs.click();
 		await page.waitForURL('**/es/**');
 
 		const toggleToEn = page.locator('.language-toggle');
 		await expect(toggleToEn).toBeVisible();
-		await expect(toggleToEn).toHaveText('EN');
+		await expect(toggleToEn.locator('span').first()).toHaveText('EN');
+		await expect(toggleToEn).toHaveAccessibleName(/^EN\b/);
 		await toggleToEn.click();
 		await page.waitForURL('**/');
 	});
@@ -227,4 +231,34 @@ test.describe('Accessibility — WCAG 2.1 AA', () => {
 		expect(outline.width).not.toBe('0px');
 		expect(outline.color).not.toBe('');
 	});
+
+	// prepareAccessibilityScan emulates reduced motion and zeroes every animation
+	// duration, which is right for the scans above but makes them structurally
+	// blind to anything an animation causes: the scroll-driven section reveal is
+	// disabled under reduced motion, so a violation it introduced could never
+	// surface. This scans the page as a visitor without that preference sees it,
+	// at several scroll positions, because a view() timeline puts each section in
+	// a different state depending on where the page is scrolled.
+	for (const route of ['/', '/es/']) {
+		test(`motion states introduce no violations on ${route}`, async ({ page, browserName }) => {
+			await page.setViewportSize({ width: 1280, height: 800 });
+			await page.goto(route);
+			await page.evaluate(() => document.fonts.ready);
+			await page.waitForLoadState('networkidle');
+
+			const documentHeight = await page.evaluate(() => document.body.scrollHeight);
+
+			for (const fraction of [0, 0.25, 0.5, 0.75]) {
+				await page.evaluate(y => window.scrollTo(0, y), Math.round(documentHeight * fraction));
+				// Let the scroll-driven timeline settle before sampling computed colours.
+				await page.waitForTimeout(250);
+
+				const results = await analyzeAccessibility(page, browserName);
+				expect(
+					results.violations,
+					`${route} must have no violations mid-motion at scroll ${fraction * 100}%`
+				).toEqual([]);
+			}
+		});
+	}
 });

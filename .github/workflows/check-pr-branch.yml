@@ -3,14 +3,21 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   check-source-branch:
     name: check-source-branch
     runs-on: ubuntu-latest
     steps:
       - name: Verify source branch is allowed to merge into main
+        # SOURCE is a PR-controlled branch name. It is passed through `env:` and
+        # dereferenced as "$SOURCE" so it is never interpolated into the shell
+        # script itself — the same pattern used in ci.yml's change detection.
+        env:
+          SOURCE: ${{ github.head_ref }}
         run: |
-          SOURCE="${{ github.head_ref }}"
           if [[ "$SOURCE" == "develop" ]] || \
              [[ "$SOURCE" == hotfix/* ]] || \
              [[ "$SOURCE" == release/* ]] || \

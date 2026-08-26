@@ -1,4 +1,4 @@
-@import '../../../app/styles/global.css';
+@reference '../../../shared/styles/global.css';
 
 .theme-toggle {
 	@apply fixed top-4 right-4 z-[var(--z-index-fixed-control)] inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-lg border px-2 py-2 font-medium shadow-sm transition-all duration-150;
@@ -6,61 +6,44 @@
 	color: var(--control-content);
 	border-color: var(--control-edge);
 }
-
-/* Sticky-hover fix: touch devices report a phantom `:hover` after tap
-   with no way to clear it, so the lift/shadow looked stuck ("se queda pegado").
-   Gate it to devices that actually have a hover-capable pointer, matching the
-   guard Tailwind's own `hover:` utilities already apply by default in v4. */
 @media (hover: hover) {
 	.theme-toggle:hover {
 		@apply -translate-y-0.5 shadow-retro-xs;
 		background-color: var(--control-background-hover);
 		border-color: var(--control-edge-hover);
 	}
-
 	.theme-toggle:hover .theme-toggle__icon {
 		@apply scale-110 rotate-[10deg];
 	}
 }
-
 .theme-toggle:active {
 	@apply translate-y-0 scale-95 shadow-none;
 }
-
-/* Custom tooltip replacing the native title attribute: reads the live
-   aria-label (kept in sync by ThemeToggle.astro's updateUI()) so the text
-   can never drift out of sync with the accessible name. */
 .theme-toggle::after {
 	content: attr(aria-label);
 	@apply pointer-events-none absolute top-full right-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
 	background-color: var(--channel-content-strong);
 	color: var(--channel-background-canvas);
 }
-
 @media (hover: hover) {
 	.theme-toggle:hover::after {
 		@apply translate-y-0 opacity-100;
 	}
 }
-
 .theme-toggle:focus-visible::after {
 	@apply translate-y-0 opacity-100;
 }
-
 .theme-toggle__icon {
 	@apply hidden h-5 w-5 text-xl leading-none transition-transform duration-150;
 }
-
 .theme-toggle__icon svg {
 	@apply block h-full w-full;
 }
-
 @media (max-width: 640px) {
 	.theme-toggle {
 		@apply top-3 right-3;
 	}
 }
-
 @keyframes theme-switch {
 	0% {
 		transform: rotate(0deg) scale(1);
@@ -72,10 +55,6 @@
 		transform: rotate(360deg) scale(1);
 	}
 }
-
-/* Only spins when JS adds this on click (see ThemeToggle.astro) — the bare
-   class used to carry the animation unconditionally, so it also auto-played
-   once on every page load instead of only on an actual theme switch. */
 .theme-toggle__icon--spin {
 	animation: theme-switch 0.5s ease-in-out;
 }

@@ -1,185 +1,103 @@
-/**
- * Theme Entity - FSD Layer: entities/theme
- * Theme management business logic
- */
-
+/** Theme management business logic. */
 import type { EffectiveTheme, Theme, ThemeState } from '../model/types';
 import { THEME_FAVICON_PATHS, updateFavicon } from './theme-assets';
 
-// Single source of truth: also interpolated into the inline FOUC-prevention
-// script in getThemeInitScript() below, which runs before this module loads.
 export const THEME_STORAGE_KEY = 'sandovaldavid-theme';
 
 export class ThemeManager {
-	/**
-	 * Get system color scheme preference
-	 */
 	getSystemPreference(): 'light' | 'dark' {
 		if (typeof window === 'undefined') return 'light';
-
 		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 	}
 
-	/**
-	 * Get stored theme from localStorage
-	 */
 	getStoredTheme(): Theme | null {
 		if (typeof window === 'undefined') return null;
-
-		const stored = localStorage.getItem(THEME_STORAGE_KEY);
-
-		if (stored === 'light' || stored === 'dark' || stored === 'system') {
-			return stored;
+		try {
+			const stored = localStorage.getItem(THEME_STORAGE_KEY);
+			return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : null;
+		} catch {
+			return null;
 		}
-
-		return null;
 	}
 
-	/**
-	 * Store theme in localStorage
-	 */
 	setStoredTheme(theme: Theme): void {
 		if (typeof window === 'undefined') return;
-
-		localStorage.setItem(THEME_STORAGE_KEY, theme);
-	}
-
-	/**
-	 * Resolve effective theme (convert 'system' to 'light' or 'dark')
-	 */
-	resolveEffectiveTheme(theme: Theme): 'light' | 'dark' {
-		if (theme === 'system') {
-			return this.getSystemPreference();
+		try {
+			localStorage.setItem(THEME_STORAGE_KEY, theme);
+		} catch {
+			// Persistence is an enhancement; applying the selected theme must still work.
 		}
-		return theme;
 	}
 
-	/**
-	 * Apply theme to document
-	 */
+	resolveEffectiveTheme(theme: Theme): 'light' | 'dark' {
+		return theme === 'system' ? this.getSystemPreference() : theme;
+	}
+
 	applyTheme(theme: Theme): void {
 		if (typeof document === 'undefined') return;
-
 		const effectiveTheme = this.resolveEffectiveTheme(theme);
 		document.documentElement.setAttribute('data-theme', effectiveTheme);
 		updateFavicon(effectiveTheme);
 	}
 
-	/**
-	 * Get current theme state
-	 */
 	getThemeState(): ThemeState {
 		const stored = this.getStoredTheme();
 		const current = stored || 'system';
 		const systemPreference = this.getSystemPreference();
-		const effective = this.resolveEffectiveTheme(current);
-
-		return {
-			current,
-			effective,
-			systemPreference,
-		};
+		return { current, effective: this.resolveEffectiveTheme(current), systemPreference };
 	}
 
-	/**
-	 * Set and apply new theme
-	 */
 	setTheme(theme: Theme): ThemeState {
 		this.setStoredTheme(theme);
 		this.applyTheme(theme);
 		return this.getThemeState();
 	}
 
-	/**
-	 * Cycle through themes: light → dark → system → light
-	 */
 	cycleTheme(): ThemeState {
 		const current = this.getThemeState().current;
-
-		let nextTheme: Theme;
-		switch (current) {
-			case 'light':
-				nextTheme = 'dark';
-				break;
-			case 'dark':
-				nextTheme = 'system';
-				break;
-			case 'system':
-				nextTheme = 'light';
-				break;
-		}
-
+		const nextTheme: Theme = current === 'light' ? 'dark' : current === 'dark' ? 'system' : 'light';
 		return this.setTheme(nextTheme);
 	}
 
-	/**
-	 * Initialize theme on page load (prevent flash)
-	 */
 	initialize(): void {
-		const stored = this.getStoredTheme();
-		const theme = stored || 'system';
-		this.applyTheme(theme);
+		this.applyTheme(this.getStoredTheme() || 'system');
 	}
 
-	/**
-	 * Listen to system preference changes
-	 */
-	watchSystemPreference(callback: (theme: EffectiveTheme) => void): () => void {
+	/** Re-applies the resolved theme when the OS preference changes while in `system` mode. */
+	watchSystemPreference(callback?: (theme: EffectiveTheme) => void): () => void {
 		if (typeof window === 'undefined') return () => {};
-
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-		const handler = (e: MediaQueryListEvent) => {
-			const newPreference = e.matches ? 'dark' : 'light';
-
-			// If current theme is 'system', update automatically
-			const currentTheme = this.getStoredTheme() || 'system';
-			if (currentTheme === 'system') {
-				this.applyTheme('system');
-			}
-
-			callback(newPreference);
+		const handler = (event: MediaQueryListEvent) => {
+			const newPreference = event.matches ? 'dark' : 'light';
+			if ((this.getStoredTheme() || 'system') === 'system') this.applyTheme('system');
+			callback?.(newPreference);
 		};
-
 		mediaQuery.addEventListener('change', handler);
-
-		// Return cleanup function
 		return () => mediaQuery.removeEventListener('change', handler);
 	}
 }
 
-/**
- * Get inline script to prevent flash of unstyled content (FOUC)
- * This should be inlined in <head> before any content renders
- */
 export function getThemeInitScript(): string {
 	const faviconPaths = JSON.stringify(THEME_FAVICON_PATHS);
-
 	return `
     (function() {
       const storageKey = ${JSON.stringify(THEME_STORAGE_KEY)};
       const attribute = 'data-theme';
       const defaultTheme = 'system';
       const faviconPaths = ${faviconPaths};
-      
       function getSystemPreference() {
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
-      
       function resolveTheme(theme) {
         return theme === 'system' ? getSystemPreference() : theme;
       }
-      
-      const stored = localStorage.getItem(storageKey);
-      const theme = stored || defaultTheme;
+      let stored = null;
+      try { stored = localStorage.getItem(storageKey); } catch {}
+      const theme = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : defaultTheme;
       const effective = resolveTheme(theme);
-      
       document.documentElement.setAttribute(attribute, effective);
-
       const favicon = document.getElementById('site-favicon');
-      if (favicon && faviconPaths[effective]) {
-        favicon.setAttribute('href', faviconPaths[effective]);
-      }
+      if (favicon && faviconPaths[effective]) favicon.setAttribute('href', faviconPaths[effective]);
     })();
   `;
 }

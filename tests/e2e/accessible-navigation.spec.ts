@@ -65,16 +65,36 @@ test.describe('Accessible motion and navigation', () => {
 		await page.goto('/');
 		await expect(page.locator('#share-button')).toHaveAccessibleName('Copy link to clipboard');
 		await expect(page.locator('#theme-toggle')).toHaveAccessibleName('Use system preference');
+		// WCAG 2.5.3 Label in Name: the visible "ES" must be part of the accessible
+		// name, so the name is the visible code plus the hidden description.
 		await expect(page.locator('.language-toggle')).toHaveAccessibleName(
-			'Switch language to Spanish'
+			'ES Switch language to Spanish'
 		);
 
 		await page.goto('/es/');
-		await expect(page.locator('#share-button')).toHaveAccessibleName('Copiar link al portapapeles');
+		await expect(page.locator('#share-button')).toHaveAccessibleName(
+			'Copiar enlace al portapapeles'
+		);
 		await expect(page.locator('#theme-toggle')).toHaveAccessibleName(
 			'Usar preferencia del sistema'
 		);
-		await expect(page.locator('.language-toggle')).toHaveAccessibleName('Cambiar idioma a inglés');
+		await expect(page.locator('.language-toggle')).toHaveAccessibleName(
+			'EN Cambiar idioma a inglés'
+		);
+	});
+
+	test('language toggle tooltip renders localized visual text instead of an empty shell', async ({
+		page,
+	}) => {
+		for (const { route, tooltip } of [
+			{ route: '/', tooltip: 'Switch language to Spanish' },
+			{ route: '/es/', tooltip: 'Cambiar idioma a inglés' },
+		]) {
+			await page.goto(route);
+			const tooltipElement = page.locator('.language-toggle__tooltip');
+			await expect(tooltipElement).toHaveText(tooltip);
+			await expect(tooltipElement).toHaveAttribute('aria-hidden', 'true');
+		}
 	});
 
 	for (const theme of ['light', 'dark']) {

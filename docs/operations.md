@@ -4,18 +4,22 @@ This is the public runbook for setting up, validating and maintaining the Hub. C
 
 ## Supported environment
 
-The recommended environment is the repository DevContainer, especially when Playwright and Lighthouse must run in a reproducible Linux browser environment.
+The recommended browser-validation environment is the repository DevContainer. Complete local Playwright and Lighthouse validation is intentionally delegated to it so contributors do not depend on host-distribution browser support.
 
-Current toolchain constraints are declared in `package.json` and `.devcontainer/`:
+Current toolchain constraints are declared in `package.json`, `.devcontainer/`, `.vscode/mcp.json` and the delivery workflows:
 
 - Bun `1.3.14`;
-- Node.js `>=22.19.0` for the native Lighthouse toolchain;
+- Node.js `>=22.19.0` as the declared compatibility floor for native Lighthouse/Vercel tooling;
 - Astro static generation;
-- Playwright browser dependencies installed by the DevContainer image.
+- Playwright browser dependencies installed by the DevContainer image;
+- Vercel CLI explicitly versioned by `.github/workflows/cd.yml`;
+- workspace Chrome DevTools MCP pinned to an explicit package version rather than `latest`.
+
+The open Node.js engine range is a compatibility declaration, not the release-runtime selection. CI/CD pins Node.js `22.19.0` explicitly so the validated and deployed toolchain does not silently move to a future Node major merely because `package.json` accepts it. Change the compatibility range and the exact CI/CD pin as separate, reviewed decisions.
+
+When `bun run validate:local` is started outside the DevContainer, the host needs a working container runtime and the `devcontainer` CLI. The command brings up the repository DevContainer and executes the complete gate there. When already inside the DevContainer, it executes the gate directly without nesting another container.
 
 ## Local setup
-
-For a read-only or exploratory local run, cloning the default branch is enough:
 
 ```bash
 git clone https://github.com/sandovaldavid/hub.git
@@ -24,36 +28,11 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-The development server is available at `http://localhost:4321`.
-
-For contribution work, branch from the latest `develop` as described in [`../CONTRIBUTING.md`](../CONTRIBUTING.md).
-
-Basic development does not require private credentials. The optional public metadata field is documented in [`.env.example`](../.env.example).
-
-## DevContainer setup
-
-1. Open the repository root in VS Code.
-2. Run **Dev Containers: Rebuild Container Without Cache** after changing `.devcontainer/**` or when testing a clean environment.
-3. Wait for the configured `postCreateCommand` to finish dependency setup.
-4. Confirm the terminal uses the non-root `node` user in `/workspace`.
-5. Run `bun run validate:quality` or the complete `bun run validate:local` gate as appropriate.
-
-The container forwards:
-
-- `4321` — Astro development/preview;
-- `9323` — Playwright HTML report.
-
-Serve an existing Playwright report with:
-
-```bash
-bun run test:e2e:show-report
-```
+The development server is available at `http://localhost:4321`. For contribution work, branch from the latest `develop` as described in [`../CONTRIBUTING.md`](../CONTRIBUTING.md).
 
 A frozen install must fail when `package.json` and `bun.lock` differ. Regenerate and review the lockfile intentionally; do not introduce a mutable fallback in lifecycle scripts.
 
 ## Validation model
-
-Validation is split into tiers so fast changes do not pay the cost of every browser and accessibility permutation while release-sensitive changes still receive deeper coverage.
 
 ### Fast quality gate
 
@@ -61,17 +40,9 @@ Validation is split into tiers so fast changes do not pay the cost of every brow
 bun run validate:quality
 ```
 
-This runs:
+This runs Astro type checking, architecture validation, Prettier, ESLint, link validation, unit/repository-contract tests and the production build. It does not require browser execution and can run directly on the host.
 
-1. Astro type checking;
-2. architecture validation;
-3. Prettier verification;
-4. ESLint;
-5. internal and external link validation;
-6. unit and repository-contract tests;
-7. the production build.
-
-Use this as the minimum local gate for normal source changes.
+`check:architecture` validates the documented layer matrix for Astro/TypeScript/JavaScript imports and CSS `@import`/`@reference` dependencies, as well as circular imports.
 
 ### Complete local gate
 
@@ -79,54 +50,39 @@ Use this as the minimum local gate for normal source changes.
 bun run validate:local 2>&1 | tee validation-local.log
 ```
 
-This adds to the fast gate:
+From the host, this command uses the Dev Containers CLI to start/reuse the repository DevContainer and runs the complete validation there. From inside the DevContainer it runs directly. The browser-sensitive path therefore uses the pinned Playwright browsers and Linux dependencies from `.devcontainer/` instead of whatever happens to be installed on the host.
 
-- Playwright functional, SEO and accessibility tests;
-- System-theme resolution;
-- additional contrast and forced-colors scenarios;
-- narrow-viewport/reflow and text-scaling checks;
-- local browser projects beyond the CI baseline when available;
-- Lighthouse mobile and desktop audits for `/` and `/es/`.
+The complete gate adds Playwright functional/SEO/accessibility coverage and Lighthouse mobile/desktop audits for `/` and `/es/`. Production-preview E2E uses port `4322`, leaving the normal Astro development server on `4321` available during validation.
 
-Use this for changes that affect browser behavior, themes, layout, accessibility, SEO, performance or release readiness.
+Local Playwright workers use Playwright's automatic default (half of the logical CPU cores visible to the container). Override the worker count for benchmarking or constrained machines with:
 
-### Manual release-oriented checks
+```bash
+PLAYWRIGHT_WORKERS=4 bun run validate:local
+```
 
-Before promoting UI- or accessibility-sensitive work to production, also use [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md).
+The override must be a positive integer. More workers are not automatically faster: each Playwright worker launches its own browser process, so CPU and memory contention should be measured before raising the value.
 
-Some operating-system behavior, such as real Windows High Contrast Mode, cannot be fully proven by browser emulation. Record those checks separately rather than treating automation as equivalent evidence.
+If `devcontainer` is unavailable, `validate:local` fails closed with an actionable message rather than silently running Playwright against an unsupported host environment. You can alternatively open the repository in its DevContainer first and rerun the same command there.
+
+Use [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md) for manual UI/accessibility review and [`release-checklist.md`](release-checklist.md) for the complete production-release gate. Some operating-system behavior, such as real Windows High Contrast Mode, cannot be fully proven by browser emulation; record those checks separately.
 
 ## Result classification
 
-When documenting validation in a pull request, classify relevant checks as:
-
-- `Passed`;
-- `Failed`;
-- `Not run`;
-- `Blocked`;
-- `Not applicable`.
-
-A disabled, skipped, interrupted, missing or quota-blocked GitHub Actions run is `Not run` or `Blocked`; it is never a passing result.
+When documenting validation, classify relevant checks as `Passed`, `Failed`, `Not run`, `Blocked` or `Not applicable`. A disabled, skipped, interrupted, missing or quota-blocked GitHub Actions run is never a pass.
 
 ## CI
 
-The primary workflow lives in `.github/workflows/ci.yml` and exposes stable functional check names including:
+The primary workflow lives in `.github/workflows/ci.yml` and emits required check runs named `Quality`, `E2E` and `Lighthouse`. The source-branch workflow emits `check-source-branch` for pull requests targeting `main`. GitHub may display these checks with their workflow name in the UI, but repository rulesets must store the actual check-run context names returned by the Rulesets API.
 
-- `CI / Quality`;
-- `CI / E2E`;
-- `CI / Lighthouse`.
+The versioned desired state therefore requires `Quality`, `E2E` and `Lighthouse` on `develop`, and those same checks plus `check-source-branch` on `main`. Keep `.github/rulesets/*.json`, workflow job names and the active GitHub rulesets synchronized; `bun run rulesets:verify` must fail on drift rather than treating repository intent as remote enforcement.
 
-The exact job matrix, artifacts and commands are defined by the workflow itself. Lighthouse thresholds and profiles live in `.lighthouserc.cjs`.
+Chromium is the hosted browser baseline. The E2E job currently runs with `PLAYWRIGHT_WORKERS=2` and two retries per failing test. The worker count is deliberately explicit in the workflow so CI parallelism can be benchmarked independently of local machines. Additional browser projects run locally inside the DevContainer, where Chromium, WebKit and Firefox are installed and verified.
 
-Do not infer that a local pass guarantees the hosted workflow will pass, or vice versa. Record both when they are relevant.
+Playwright's `CI` flag still controls production-preview behavior and `forbidOnly`; GitHub-specific worker/retry policy is keyed from `GITHUB_ACTIONS` instead. This prevents `validate:local` from being serialized merely because it sets `CI=1` to test the production preview.
 
-## Browser coverage
+Do not infer browser coverage that was not executed on the exact commit under review. If two workers introduce resource contention or flakiness on the hosted runner, reduce the explicit workflow value and record the observed evidence rather than masking failures with additional retries.
 
-Chromium is the primary hosted browser baseline. Additional browser projects may be available in the DevContainer/local toolchain even when they are not installed on a particular CI runner.
-
-When a browser was not executed on the exact commit under review, mark it `Not run` rather than assuming coverage from another engine.
-
-Axe's browser-engine limitations are supplemented by project-specific computed-style assertions where required; see `tests/e2e/accessibility.spec.ts` for the executable contract.
+Dependency advisory checking is intentionally isolated in `.github/workflows/security-audit.yml`. That workflow runs on pull requests, pushes to `develop`/`main`, a weekly schedule and manual dispatch. It is not folded into the deterministic `validate:quality` chain because registry advisory data is mutable external state. A failed or unavailable dependency audit still requires an explicit release decision; being non-required by branch protection does not make it ignorable.
 
 ## Branch and delivery flow
 
@@ -135,37 +91,58 @@ feature/*, fix/*, refactor/*, docs/* -> develop -> main
 ```
 
 - `develop` is the integration branch.
-- Normal feature/fix/documentation pull requests target `develop`.
 - `main` is the stable production branch.
-- A change present only on `develop` is not yet a verified production outcome.
 - Production behavior must be confirmed from the deployed result, not inferred solely from a merge.
+- Major/tagged releases follow [`release-checklist.md`](release-checklist.md).
+- The repository versions desired branch/ruleset intent under `.github/rulesets/`.
 
-The repository versions desired branch/ruleset intent under `.github/rulesets/`.
-
-Read-only verification commands include:
+Read-only ruleset verification:
 
 ```bash
 bun run rulesets:plan
 bun run rulesets:verify
 ```
 
-Administrative ruleset writes are maintainer operations and require the explicit safeguards implemented by `scripts/manage-rulesets.mjs`.
+## Reproducible delivery and supply-chain policy
+
+CI and CD must use the same declared Bun and Node versions. The Vercel CLI must be pinned to an explicit version instead of `latest`.
+
+Third-party GitHub Actions in delivery, release and DevContainer workflows are pinned to full commit SHAs. The adjacent version comment documents the human-readable release. Dependabot remains responsible for proposing Action updates.
+
+`cd.yml` runs the repository quality gate before producing the Vercel build so the deployed source is validated with the same executable contracts as normal development. GitHub Deployment and commit-status evidence is published through authenticated GitHub API calls that fail the workflow when the API call or returned deployment identifier is invalid.
+
+GitHub Deployment registration must use `auto_merge: false`. Deployment evidence records the exact commit already validated and deployed; it must not merge or otherwise reconcile `main` with `develop`. Branch integration remains an explicit repository workflow concern, separate from deployment registration.
+
+## Cache policy
+
+Long-lived `immutable` browser caching is reserved for fingerprinted Astro build assets under `/_astro/`, where a content change produces a new URL. Public identity assets with stable URLs, including the profile portrait, social preview, logo and favicons, must remain revalidatable so a same-path replacement cannot leave stale brand evidence in browser caches.
+
+When changing cache rules, keep that URL-versioning boundary explicit and validate the deployed response headers instead of inferring them from `vercel.json` alone.
 
 ## Release automation
 
-release-please configuration lives in:
+Release Please configuration lives in:
 
 - `release-please-config.json`;
 - `.release-please-manifest.json`;
 - `.github/workflows/release-please.yml`.
 
-Do not manually describe a release as published until the tag/release exists and the production deployment has been verified.
+The pre-v2 configuration contains the one-time `release-as: 2.0.0` override required to force the major version while `main` still records v1 as the latest release. Keep that override only until the refreshed v2 Release Please PR has prepared `package.json` and `.release-please-manifest.json` as `2.0.0`.
+
+At that point, remove `release-as: 2.0.0` **inside the same release PR before merging it**. The release commit must therefore contain the version/manifest bump and the one-time override cleanup atomically. Do not defer the cleanup to a post-release PR: `tests/unit/release-hardening.test.js` intentionally rejects a release PR whose prepared package/manifest version still matches the one-time pin.
+
+After the release PR merges, Release Please can create the tag/release while `main` already contains configuration that has returned to normal semantic version calculation. This prevents future release PRs and the footer version from being frozen on the major-release override.
+
+Review the generated `CHANGELOG.md` before merging a major release. Preserve factual traceability, but remove accidental duplicate/noisy entries when necessary and keep the release summary focused on meaningful public changes rather than implementation churn.
+
+Do not manually describe a release as published until the tag/release exists and the production deployment has been verified. The full sequence is defined in [`release-checklist.md`](release-checklist.md).
 
 ## Link and dependency maintenance
 
 - `.github/dependabot.yml` targets `develop` and groups routine dependency updates.
 - `scripts/check-links.mjs` validates local targets and public destinations.
 - `.github/workflows/maintenance.yml` schedules recurring link checks.
+- `.github/workflows/security-audit.yml` records dependency advisory results on PRs, integration/production pushes and a weekly schedule.
 - `config/link-check.json` contains link-check inputs and retry settings.
 
 Run:
@@ -176,34 +153,35 @@ bun run check:links
 
 Persistent definitive failures such as HTTP `404` or `410` fail the check. Access controls, rate limits, anti-bot responses, timeouts and upstream incidents remain visible warnings after retries and require manual review.
 
-Periodically review the production Hub in English and Spanish on mobile and desktop, including role copy, project lifecycle states, résumé/portfolio/contact destinations, themes and social previews.
+For release evidence, prefer the `Security Audit / Dependency audit` result associated with the exact candidate SHA. If hosted audit evidence is unavailable, run the equivalent command locally:
+
+```bash
+bun run audit:deps
+```
+
+The dependency audit is intentionally not part of `validate:quality`. Advisory data is fetched from an external registry and can change independently of the repository, so folding it into the deterministic quality gate would make normal validation depend on mutable network state. Investigate findings rather than treating the absence of a required status context as proof that no advisories exist.
 
 ## Security
 
-Security reports use the private channel documented in [`../SECURITY.md`](../SECURITY.md). Do not open a public issue containing vulnerability details, credentials, tokens or personal data.
-
-CodeQL is not currently part of the project checks. Re-evaluate the static-site threat model before adding server endpoints, authentication, storage, uploads, user-generated content, untrusted build processing or another runtime that handles user-controlled input.
+Security reports use the private channel documented in [`../SECURITY.md`](../SECURITY.md). CodeQL is not currently part of the project checks. Re-evaluate the static-site threat model before adding server endpoints, authentication, storage, uploads, user-generated content or another runtime handling user-controlled input.
 
 ## Licensing
 
 The repository currently has no open-source `LICENSE` file. Public visibility allows inspection but does not itself grant reuse, modification or redistribution rights.
 
-Adding or changing a license is an explicit maintainer decision and should not be bundled into unrelated implementation work.
-
 ## Updating the environment
 
-When changing Bun, Playwright, Lighthouse, Node, Dev Container Features or shell tooling:
+When changing Bun, Playwright, Lighthouse, Node, Vercel CLI, Chrome DevTools MCP, Dev Container Features or workflow Actions:
 
-1. update every affected version declaration and lockfile;
-2. rebuild the DevContainer without cache;
+1. update every affected version declaration and lockfile/configuration;
+2. rebuild the DevContainer without cache when relevant;
 3. verify the non-root environment and browser installation;
-4. run the relevant complete validation on the exact head;
-5. record unavailable hosted or browser checks explicitly.
+4. run the complete validation on the exact head;
+5. record unavailable hosted or browser checks explicitly;
+6. preserve immutable Action pinning and the CI/CD toolchain alignment.
 
 Commit `.devcontainer/devcontainer-lock.json` after upgrading Features; it is generated state and must not be edited manually.
 
 ## Documentation ownership
 
-Keep repository documentation focused on current public behavior: setup, architecture, commands, tests, delivery, security, maintenance and troubleshooting.
-
-Private strategy, unpublished evidence, personal planning and historical session handoffs are not prerequisites for contributing. Any requirement that affects a public change must be represented in repository documentation, code/tests, or the associated issue/pull request.
+Keep repository documentation focused on current public behavior: setup, architecture, commands, tests, delivery, security, maintenance and troubleshooting. Private strategy, unpublished evidence, personal planning and historical session handoffs are not prerequisites for contributing.

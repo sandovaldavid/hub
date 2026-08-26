@@ -153,22 +153,22 @@ for (const route of routes) {
 					'#featured-projects-title'
 				);
 
-				const projectsIcon = page.locator('.weekly-project-section__icon');
-				await expect(projectsIcon).toBeVisible();
-				const projectsIconColor = await projectsIcon.evaluate(
-					element => getComputedStyle(element).color
-				);
-				expect(projectsIconColor).not.toBe('rgb(255, 255, 255)');
-				expect(projectsIconColor).not.toBe('rgba(0, 0, 0, 0)');
+				// Section headings carry no decorative icon. "Featured projects" used to
+				// sit beside a rocket while "Explore my work" had nothing, which read as
+				// an inconsistency rather than emphasis.
+				await expect(page.locator('.featured-project-section__icon')).toHaveCount(0);
+				await expect(
+					page.locator('#featured-projects-title, #cta-heading').locator('svg')
+				).toHaveCount(0);
 
 				const projectCards = page.locator('[data-project-card]');
-				await expect(projectCards).toHaveCount(2);
-				await expect(page.locator('[data-project-evidence]')).toHaveCount(6);
+				await expect(projectCards).toHaveCount(3);
+				await expect(page.locator('[data-project-evidence]')).toHaveCount(9);
 				const projectRowCount = await projectCards.evaluateAll(elements => {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
 				});
-				expect(projectRowCount).toBe(1);
+				expect(projectRowCount).toBe(viewport.width >= 1280 ? 1 : 2);
 
 				const projectRadii = await projectCards.evaluateAll(elements =>
 					elements.map(element => Number.parseFloat(getComputedStyle(element).borderTopLeftRadius))
@@ -256,27 +256,27 @@ for (const route of routes) {
 			expect(mobileActionRows).toBe(4);
 
 			const projectCards = page.locator('[data-project-card]');
-			await expect(projectCards).toHaveCount(2);
-			await expect(page.locator('[data-project-evidence]')).toHaveCount(6);
-			const projectIndexes = await page.locator('.weekly-project-card__index').allTextContents();
-			expect(projectIndexes.map(index => index.slice(-2))).toEqual(['01', '02']);
+			await expect(projectCards).toHaveCount(3);
+			await expect(page.locator('[data-project-evidence]')).toHaveCount(9);
+			const projectIndexes = await page.locator('.featured-project-card__index').allTextContents();
+			expect(projectIndexes.map(index => index.slice(-2))).toEqual(['01', '02', '03']);
 
 			const mobileProjectRows = await projectCards.evaluateAll(elements => {
 				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 				return new Set(rows).size;
 			});
-			expect(mobileProjectRows).toBe(2);
+			expect(mobileProjectRows).toBe(3);
 
 			const projectActionRows = await projectCards.evaluateAll(cards =>
 				cards.map(card => {
 					const actions = Array.from(
-						card.querySelectorAll<HTMLElement>('.weekly-project-card__actions > *')
+						card.querySelectorAll<HTMLElement>('.featured-project-card__actions > *')
 					);
 					const rows = actions.map(action => Math.round(action.getBoundingClientRect().top));
 					return new Set(rows).size;
 				})
 			);
-			expect(projectActionRows).toEqual([1, 1]);
+			expect(projectActionRows).toEqual([1, 1, 1]);
 
 			const firstSkillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
 				const firstTop = Math.round(elements[0].getBoundingClientRect().top);

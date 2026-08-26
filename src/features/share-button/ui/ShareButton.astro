@@ -1,12 +1,6 @@
 ---
-/**
- * ShareButton Component - FSD Layer: features/share-button
- * Button that triggers native OS share dialog (Android, iOS, Windows, Mac)
- * Falls back to copy-to-clipboard if Web Share API is not available
- */
-
 import './ShareButton.css';
-import ShareIcon from '../../../shared/assets/share-icon.svg?raw';
+import ShareIcon from '@shared/assets/share-icon.svg?raw';
 import { useTranslations, type Lang } from '@shared/i18n';
 
 interface Props {
@@ -15,23 +9,20 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 const t = useTranslations(lang);
-const initialLabel = t('share.ariaLabel');
-const webshareLabel =
-	lang === 'es' ? 'Compartir sitio usando el menú del sistema' : 'Share site using system menu';
-const clipboardLabel = lang === 'es' ? 'Copiar link al portapapeles' : 'Copy link to clipboard';
 ---
 
 <button
 	id="share-button"
 	class="share-button"
-	aria-label={initialLabel}
-	data-share-label-webshare={webshareLabel}
-	data-share-label-clipboard={clipboardLabel}
+	aria-label={t('share.ariaLabel')}
+	data-share-label-webshare={t('share.webShareLabel')}
+	data-share-label-clipboard={t('share.clipboardLabel')}
+	data-share-text={t('share.text')}
 	type="button">
-	<span class="share-button__icon" set:html={ShareIcon} />
-
-	<!-- Feedback visual cuando se copia al clipboard -->
-	<span class="share-button__feedback" id="share-feedback"> {t('share.copied')} </span>
+	<span class="share-button__icon" aria-hidden="true" set:html={ShareIcon} />
+	<span class="share-button__feedback" id="share-feedback" aria-hidden="true">
+		{t('share.copied')}
+	</span>
 </button>
 
 <script>
@@ -41,38 +32,29 @@ const clipboardLabel = lang === 'es' ? 'Copiar link al portapapeles' : 'Copy lin
 	const feedback = document.getElementById('share-feedback');
 
 	if (button) {
-		const webshareLabel = button.getAttribute('data-share-label-webshare') || 'Share site';
-		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || 'Copy link';
-
-		// Update aria-label based on Web Share API support. It also doubles as
-		// the visible hover tooltip via ShareButton.css's `content: attr(aria-label)`.
+		const fallbackLabel = button.getAttribute('aria-label') || '';
+		const webshareLabel = button.getAttribute('data-share-label-webshare') || fallbackLabel;
+		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || fallbackLabel;
+		const shareText = button.getAttribute('data-share-text') || '';
 		const updateAriaLabel = () => {
 			button.setAttribute('aria-label', isWebShareSupported() ? webshareLabel : clipboardLabel);
 		};
 
 		updateAriaLabel();
 
-		// Handle click event
 		button.addEventListener('click', async () => {
-			// Disable button temporarily
 			(button as HTMLButtonElement).disabled = true;
 			button.classList.add('share-button--loading');
 
 			try {
-				const result = await share();
-
-				// Show feedback only if clipboard was used (not Web Share API)
+				const result = await share(shareText);
 				if (result.method === 'clipboard' && result.success && feedback) {
 					feedback.classList.add('share-button__feedback--visible');
-
-					setTimeout(() => {
-						feedback.classList.remove('share-button__feedback--visible');
-					}, 2000);
+					setTimeout(() => feedback.classList.remove('share-button__feedback--visible'), 2000);
 				}
 			} catch (error) {
 				console.error('Error during share:', error);
 			} finally {
-				// Re-enable button
 				(button as HTMLButtonElement).disabled = false;
 				button.classList.remove('share-button--loading');
 			}

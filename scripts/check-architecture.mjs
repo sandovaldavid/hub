@@ -4,7 +4,7 @@ import { dirname, extname, join, normalize, relative, resolve } from 'node:path'
 import process from 'node:process';
 
 const root = resolve(process.cwd(), 'src');
-const supportedExtensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.astro']);
+const supportedExtensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.astro', '.css']);
 const aliasRoots = {
 	'@': root,
 	'@app': join(root, 'app'),
@@ -19,8 +19,21 @@ const removedBarrels = new Set([
 	'@entities/theme',
 	'@features/share-button',
 	'@features/theme-toggle',
+	'@shared/lib',
 ]);
-const importPattern = /(?:import|export)\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
+const layerDependencies = {
+	shared: new Set(['shared']),
+	entities: new Set(['entities', 'shared']),
+	data: new Set(['data', 'entities', 'shared']),
+	features: new Set(['features', 'data', 'entities', 'shared']),
+	widgets: new Set(['widgets', 'features', 'data', 'entities', 'shared']),
+	app: new Set(['app', 'widgets', 'features', 'data', 'entities', 'shared']),
+	pages: new Set(['pages', 'app', 'widgets', 'features', 'data', 'entities', 'shared']),
+};
+const moduleImportPattern =
+	/(?:import|export)\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
+const dynamicImportPattern = /\bimport\s*\(\s*['"]([^'"]+)['"]/g;
+const cssDependencyPattern = /@(?:import|reference)\s+(?:url\()?['"]([^'"]+)['"]/g;
 
 function walk(directory) {
 	return readdirSync(directory).flatMap(entry => {
@@ -50,19 +63,53 @@ function resolveCandidate(candidate) {
 	return candidates.find(path => existsSync(path) && statSync(path).isFile());
 }
 
+function getLayer(file) {
+	const [layer] = relative(root, file).split(/[\\/]/u);
+	return Object.hasOwn(layerDependencies, layer) ? layer : undefined;
+}
+
+function getSpecifiers(file, source) {
+	if (extname(file) === '.css') {
+		return [...source.matchAll(cssDependencyPattern)].map(match => match[1]);
+	}
+
+	const specifiers = [
+		...[...source.matchAll(moduleImportPattern)].map(match => match[1]),
+		...[...source.matchAll(dynamicImportPattern)].map(match => match[1]),
+	];
+
+	// .astro files can carry a <style> block that uses CSS @import/@reference;
+	// scan for both dependency shapes so those edges aren't invisible to the graph.
+	if (extname(file) === '.astro') {
+		specifiers.push(...[...source.matchAll(cssDependencyPattern)].map(match => match[1]));
+	}
+
+	return specifiers;
+}
+
 const files = walk(root).filter(path => supportedExtensions.has(extname(path)));
 const graph = new Map(files.map(path => [normalize(path), []]));
 const violations = [];
 
 for (const file of files) {
 	const source = readFileSync(file, 'utf8');
-	for (const match of source.matchAll(importPattern)) {
-		const specifier = match[1];
+	const sourceLayer = getLayer(file);
+
+	for (const specifier of getSpecifiers(file, source)) {
 		if (removedBarrels.has(specifier)) {
 			violations.push(`${relative(root, file)} imports removed barrel ${specifier}`);
 		}
+
 		const target = resolveImport(file, specifier);
-		if (target && graph.has(normalize(target))) graph.get(normalize(file)).push(normalize(target));
+		if (!target || !graph.has(normalize(target))) continue;
+
+		graph.get(normalize(file)).push(normalize(target));
+		const targetLayer = getLayer(target);
+		if (sourceLayer && targetLayer && !layerDependencies[sourceLayer].has(targetLayer)) {
+			violations.push(
+				`${relative(root, file)} (${sourceLayer}) must not depend on ${relative(root, target)} (${targetLayer})`
+			);
+		}
 	}
 }
 
@@ -94,4 +141,4 @@ if (violations.length > 0) {
 	process.exit(1);
 }
 
-console.log(`Architecture validation passed for ${files.length} source files.`);
+console.log(`Architecture validation passed for ${files.length} source/style files.`);

@@ -8,19 +8,18 @@ Follow [`docs/architecture.md`](../../docs/architecture.md). The Hub uses a shal
 
 `src/app` owns application-wide composition only:
 
-- `layouts/` — the global document shell, metadata rendering and analytics integration;
-- `styles/` — shared Identity Core primitives, Link Hub aliases, component roles and global accessibility behavior;
+- `layouts/` — the global document shell, metadata rendering, controls and analytics integration;
 - page-level models only when they are genuinely shared by application composition.
 
 Rules:
 
-- Keep route entry points in `src/pages`.
+- Keep route entry points and `Layout` + page-widget composition in `src/pages`.
+- Keep shared Identity Core primitives, channel aliases and global accessibility styles in `src/shared/styles/global.css`.
 - Keep content, public URLs, localized metadata and structured data in `src/data` or localized catalogs.
 - Keep reusable UI and utilities in `src/shared`.
-- Do not add SPA routing, framework providers, Svelte stores, React/Vue islands or speculative application abstractions without a concrete product requirement.
+- Do not add SPA routing, framework providers, stores or speculative application abstractions without a concrete product requirement.
 - Do not create `index.ts` barrels that only re-export one implementation.
-- The layout may render SEO and structured data, but it must consume `src/data/seo.ts` and `src/data/structured-data.ts` rather than maintaining duplicate values.
-- `src/app/styles/global.css` remains the only owner of shared primitives and channel aliases.
+- The layout may render SEO and structured data, but it must consume the canonical builders rather than maintaining duplicate values.
 
 After changing app composition or imports, run:
 

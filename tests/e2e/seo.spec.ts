@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 const siteUrl = 'https://hub.sandovaldavid.com';
 const portfolioUrl = 'https://sandovaldavid.com';
 const socialPreviewUrl = `${siteUrl}/og/og_dark.png`;
+const profileImageUrl = `${siteUrl}/profile/perfil.webp`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
@@ -19,11 +20,14 @@ const routes = [
 		alternateLocale: 'es_PE',
 		title: 'David Sandoval | Software Engineer',
 		description:
-			'David Sandoval is a Software Engineer who learns continuously, builds maintainable systems and products, documents decisions, and shares evidence through his work.',
+			'David Sandoval is a Software Engineer who breaks down complex problems, connects technical decisions with business context, and builds maintainable systems through validation.',
+		socialDescription:
+			"I'm David Sandoval, a Software Engineer. I break down complex problems, connect technical decisions with business context, and build maintainable systems through validation and clear documentation.",
 		imageAlt:
 			'Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.',
 		twitterLabel: 'Professional focus',
 		twitterData: 'Systems · Products · Evidence',
+		portraitAlt: 'Portrait of David Sandoval',
 	},
 	{
 		path: '/es/',
@@ -33,10 +37,13 @@ const routes = [
 		alternateLocale: 'en_US',
 		title: 'David Sandoval | Ingeniero de Software',
 		description:
-			'David Sandoval es Ingeniero de Software: aprende continuamente, construye sistemas y productos mantenibles, documenta decisiones y comparte evidencia mediante su trabajo.',
+			'David Sandoval es Ingeniero de Software: descompone problemas complejos, conecta decisiones técnicas con el contexto de negocio y construye sistemas mantenibles mediante validación.',
+		socialDescription:
+			'Soy David Sandoval, Ingeniero de Software. Descompongo problemas complejos, conecto decisiones técnicas con el contexto de negocio y construyo sistemas mantenibles mediante validación y documentación clara.',
 		imageAlt:
 			'Retrato de David Sandoval con su nombre, rol de Ingeniero de Software y enfoque en sistemas mantenibles, decisiones documentadas y evidencia de ingeniería.',
 		twitterLabel: 'Enfoque profesional',
+		portraitAlt: 'Retrato de David Sandoval',
 		twitterData: 'Sistemas · Productos · Evidencia',
 	},
 ] as const;
@@ -50,7 +57,7 @@ for (const route of routes) {
 		test('uses exact localized human-first metadata', async ({ page }) => {
 			await expect(page.locator('html')).toHaveAttribute('lang', route.lang);
 			await expect(page).toHaveTitle(route.title);
-			await expect(page.locator('meta[name="title"]')).toHaveAttribute('content', route.title);
+			await expect(page.locator('meta[name="title"]')).toHaveCount(0);
 			await expect(page.locator('meta[name="description"]')).toHaveAttribute(
 				'content',
 				route.description
@@ -68,14 +75,8 @@ for (const route of routes) {
 				'David Sandoval'
 			);
 			await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
-			await expect(page.locator('meta[name="googlebot"]')).toHaveAttribute(
-				'content',
-				'index, follow'
-			);
-
-			const keywordContent = await page.locator('meta[name="keywords"]').getAttribute('content');
-			expect(keywordContent).not.toBeNull();
-			expect(keywordContent ?? '').not.toMatch(/Angular|\.NET|TypeScript/i);
+			await expect(page.locator('meta[name="googlebot"]')).toHaveCount(0);
+			await expect(page.locator('meta[name="keywords"]')).toHaveCount(0);
 		});
 
 		test('publishes canonical, reciprocal hreflang and sitemap URLs', async ({ page }) => {
@@ -109,7 +110,7 @@ for (const route of routes) {
 			);
 			await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
 				'content',
-				route.description
+				route.socialDescription
 			);
 			await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
 				'content',
@@ -158,7 +159,7 @@ for (const route of routes) {
 			);
 			await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
 				'content',
-				route.description
+				route.socialDescription
 			);
 			await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
 				'content',
@@ -182,6 +183,7 @@ for (const route of routes) {
 			const canonical = route.path === '/' ? `${siteUrl}/` : `${siteUrl}/es/`;
 			const pageId = `${canonical}#profile-page`;
 			const imageId = `${canonical}#primary-image`;
+			const portraitId = `${canonical}#person-image`;
 			const personId = `${portfolioUrl}/#person`;
 			const structuredData = await page
 				.locator('script[type="application/ld+json"]')
@@ -189,7 +191,8 @@ for (const route of routes) {
 			const graph = structuredData['@graph'] as Array<Record<string, unknown>>;
 			const profilePage = graph.find(node => node['@type'] === 'ProfilePage');
 			const person = graph.find(node => node['@type'] === 'Person');
-			const image = graph.find(node => node['@type'] === 'ImageObject');
+			const image = graph.find(node => node['@id'] === imageId);
+			const portrait = graph.find(node => node['@id'] === portraitId);
 
 			expect(structuredData['@context']).toBe('https://schema.org');
 			expect(profilePage).toMatchObject({
@@ -206,7 +209,7 @@ for (const route of routes) {
 				name: 'David Sandoval',
 				url: portfolioUrl,
 				mainEntityOfPage: { '@id': pageId },
-				image: { '@id': imageId },
+				image: { '@id': portraitId },
 				email: 'mailto:hello@sandovaldavid.com',
 				jobTitle: 'Software Engineer',
 				sameAs: expectedSameAs,
@@ -220,6 +223,17 @@ for (const route of routes) {
 				width: 1200,
 				height: 630,
 			});
+			// Person.image is a separate node: the portrait of David, not the
+			// 1200x630 social card the page uses as primaryImageOfPage.
+			expect(portrait).toMatchObject({
+				'@id': portraitId,
+				url: profileImageUrl,
+				contentUrl: profileImageUrl,
+				caption: route.portraitAlt,
+				width: 1254,
+				height: 1254,
+			});
+			expect(portrait?.['@id']).not.toBe(image?.['@id']);
 		});
 
 		test('renders one visible descriptive h1', async ({ page }) => {
@@ -244,4 +258,22 @@ test('serves robots.txt with the canonical sitemap', async ({ request }) => {
 	expect(await response.text()).toBe(
 		`User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap-index.xml\n`
 	);
+});
+
+test('publishes localized sitemap alternates and excludes the 404 page', async ({ request }) => {
+	const sitemapIndex = await request.get('/sitemap-index.xml');
+	expect(sitemapIndex.ok()).toBe(true);
+
+	const indexText = await sitemapIndex.text();
+	const sitemapUrl = indexText.match(/<loc>([^<]+)<\/loc>/)?.[1];
+	expect(sitemapUrl).toBeTruthy();
+
+	const sitemapPath = new URL(sitemapUrl ?? `${siteUrl}/sitemap-0.xml`).pathname;
+	const sitemapResponse = await request.get(sitemapPath);
+	expect(sitemapResponse.ok()).toBe(true);
+
+	const sitemap = await sitemapResponse.text();
+	expect(sitemap).toContain(`hreflang="en-US" href="${siteUrl}/"`);
+	expect(sitemap).toContain(`hreflang="es-PE" href="${siteUrl}/es/"`);
+	expect(sitemap).not.toMatch(/\/404\/?</);
 });

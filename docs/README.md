@@ -11,7 +11,8 @@ The code, configuration, tests and workflows remain the executable source of tru
 | [`../README.md`](../README.md) | What the Hub is, why it exists, the stack and the fastest way to run it locally. |
 | [`architecture.md`](architecture.md) | Source boundaries, dependency direction, content ownership and browser-runtime responsibilities. |
 | [`operations.md`](operations.md) | Local setup, DevContainer usage, validation tiers, CI, delivery and maintenance. |
-| [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md) | Manual keyboard, focus, theme, reduced-motion, high-contrast and release checks. |
+| [`release-checklist.md`](release-checklist.md) | Exact-SHA validation, production promotion, live verification and Release Please publication gates. |
+| [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md) | Manual keyboard, focus, theme, reduced-motion and high-contrast checks. |
 | [`../CONTRIBUTING.md`](../CONTRIBUTING.md) | How to propose and validate changes. |
 | [`../SECURITY.md`](../SECURITY.md) | How to report a vulnerability privately. |
 | [`../AGENTS.md`](../AGENTS.md) | Repository constraints for coding agents and maintainer automation. |

@@ -1,11 +1,14 @@
 {
 	"profile": {
-		"tagline": "Backend-oriented Software Engineer · .NET, C# & Angular",
+		"tagline": "Software Engineer · Backend-oriented",
 		"bio": "I break down complex problems, connect technical decisions with business context, and build maintainable systems through validation and clear documentation.",
 		"availability": "Open to remote software engineering roles",
 		"location": "Lima, Peru · UTC-5",
 		"workMode": "Remote · based in Peru",
 		"languages": "English · Spanish",
+		"locationLabel": "Location",
+		"languagesLabel": "Languages",
+		"workModeLabel": "Work mode",
 		"resumeAction": "Download resume",
 		"snapshotHeading": "Professional snapshot",
 		"avatarAlt": "Portrait of David Sandoval"
@@ -48,11 +51,25 @@
 		"title": "Let's talk",
 		"message": "For software engineering opportunities, collaborations, or relevant project conversations, email me directly.",
 		"buttonText": "Send email",
-		"heading": "Contact"
+		"heading": "Contact",
+		"emailSubject": "Software engineering opportunity"
+	},
+	"projects": {
+		"title": "Featured projects",
+		"description": "Selected cases showing the problem, technical decisions and outcome of my work.",
+		"caseStudy": "Selected case",
+		"problem": "Problem",
+		"contribution": "My contribution",
+		"outcome": "Outcome",
+		"repository": "Repository",
+		"projectSite": "Project site",
+		"private": "Private repo",
+		"projectUnavailable": "No public project site",
+		"technologyStack": "Technology stack"
 	},
 	"skills": {
-		"title": "Core engineering stack",
-		"coreTitle": "Core Engineering Stack",
+		"title": "Engineering stack & tooling",
+		"coreTitle": "Current Engineering Stack",
 		"toolsTitle": "Delivery & Product Tooling",
 		"heading": "Technologies and skills"
 	},
@@ -62,25 +79,20 @@
 	},
 	"seo": {
 		"title": "David Sandoval | Software Engineer",
-		"description": "David Sandoval is a Software Engineer who learns continuously, builds maintainable systems and products, documents decisions, and shares evidence through his work.",
+		"description": "David Sandoval is a Software Engineer who breaks down complex problems, connects technical decisions with business context, and builds maintainable systems through validation.",
+		"socialDescription": "I'm David Sandoval, a Software Engineer. I break down complex problems, connect technical decisions with business context, and build maintainable systems through validation and clear documentation.",
 		"ogImageAlt": "Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.",
 		"twitterImageAlt": "Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.",
 		"twitterLabel1": "Professional focus",
 		"twitterData1": "Systems · Products · Evidence",
-		"ogLocale": "en_US",
-		"keywords": [
-			"David Sandoval",
-			"Software Engineer",
-			"Software Engineering",
-			"Systems and Product Engineering",
-			"Engineering Portfolio",
-			"Remote Software Engineer",
-			"Peru"
-		]
+		"ogLocale": "en_US"
 	},
 	"share": {
 		"ariaLabel": "Share this page",
-		"copied": "Link copied!"
+		"copied": "Link copied!",
+		"webShareLabel": "Share site using system menu",
+		"clipboardLabel": "Copy link to clipboard",
+		"text": "See David Sandoval's software engineering work, public evidence, and professional links."
 	},
 	"theme": {
 		"light": "Switch to light mode",

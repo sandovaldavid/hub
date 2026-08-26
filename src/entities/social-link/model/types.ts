@@ -1,10 +1,6 @@
-/**
- * Social Link Entity - FSD Layer: entities/social-link
- * Social media platform links and profiles
- */
+import type { ConversionEvent } from '@shared/analytics/conversion';
 
 export type SocialPlatform = 'github' | 'linkedin' | 'twitter' | 'instagram' | 'website';
-
 export type SocialLinkPriority = 'primary' | 'secondary' | 'footer';
 export type SocialLinkAudience = 'recruiter' | 'client' | 'community';
 
@@ -17,6 +13,5 @@ export interface SocialLink {
 	priority: SocialLinkPriority;
 	audience: SocialLinkAudience[];
 	analyticsId: string;
-	classBrand?: string;
-	classIcon?: string;
+	conversionEvent?: ConversionEvent;
 }

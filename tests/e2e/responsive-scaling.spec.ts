@@ -69,11 +69,12 @@ for (const route of routes) {
 			).toBeLessThanOrEqual(box.clientWidth + SUBPIXEL_TOLERANCE);
 		});
 
-		// The site never fetches a web font over the network — 'Inter Variable' and
-		// 'JetBrains Mono Variable' are used only when already installed locally, so
-		// every visitor without them renders the declared fallback stack. There is no
-		// loading/FOIT state to simulate; what matters is that the fallback stack
-		// itself doesn't clip content (#98).
+		// Inter and JetBrains Mono are now self-hosted from this origin (see the
+		// `fonts` block in astro.config.mjs), so the declared typography is what
+		// visitors normally render. The fallback stack still has to hold: a font
+		// request can fail, be blocked, or lose the race on a slow connection, and
+		// astro:assets also inserts a metric-matched fallback ahead of the generic
+		// family. This forces the generic stack and checks nothing clips (#98).
 		test('fallback font stack does not clip heading or controls', async ({ page }) => {
 			await page.setViewportSize({ width: 1280, height: 720 });
 			await page.goto(route);

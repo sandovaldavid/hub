@@ -9,12 +9,18 @@ interface ProfilePageStructuredDataInput {
 	canonicalUrl: string;
 	imageUrl: string;
 	imageAlt: string;
+	portraitAlt: string;
 }
 
 const schemaLanguageByLocale = {
 	en: 'en-US',
 	es: 'es-PE',
 } as const;
+
+// ponytail: profile.avatar.url's pixel dimensions belong in a typed catalog
+// (site.config.ts already holds socialPreview's) but site.config.ts is out of
+// scope for this change — move it there when that file is next touched.
+const PORTRAIT_IMAGE_DIMENSIONS = { width: 1254, height: 1254 } as const;
 
 export function getProfilePageStructuredData({
 	title,
@@ -23,10 +29,13 @@ export function getProfilePageStructuredData({
 	canonicalUrl,
 	imageUrl,
 	imageAlt,
+	portraitAlt,
 }: ProfilePageStructuredDataInput) {
 	const pageId = `${canonicalUrl}#profile-page`;
 	const personId = new URL('#person', siteConfig.portfolioUrl).href;
 	const imageId = `${canonicalUrl}#primary-image`;
+	const portraitImageId = `${canonicalUrl}#person-image`;
+	const portraitUrl = new URL(profile.avatar.url, siteConfig.url).href;
 
 	return {
 		'@context': 'https://schema.org',
@@ -47,7 +56,7 @@ export function getProfilePageStructuredData({
 				name: profile.name,
 				url: siteConfig.portfolioUrl,
 				mainEntityOfPage: { '@id': pageId },
-				image: { '@id': imageId },
+				image: { '@id': portraitImageId },
 				email: `mailto:${siteConfig.email}`,
 				jobTitle: 'Software Engineer',
 				knowsLanguage: [
@@ -64,6 +73,15 @@ export function getProfilePageStructuredData({
 				caption: imageAlt,
 				width: siteConfig.socialPreview.width,
 				height: siteConfig.socialPreview.height,
+			},
+			{
+				'@type': 'ImageObject',
+				'@id': portraitImageId,
+				url: portraitUrl,
+				contentUrl: portraitUrl,
+				caption: portraitAlt,
+				width: PORTRAIT_IMAGE_DIMENSIONS.width,
+				height: PORTRAIT_IMAGE_DIMENSIONS.height,
 			},
 		],
 	};
