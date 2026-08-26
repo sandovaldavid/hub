@@ -74,7 +74,9 @@ describe('browser test infrastructure contract', () => {
 		expect(lighthouse).toContain(
 			"const ASTRO_CLI_PATH = fileURLToPath(new URL('../node_modules/astro/astro.js', import.meta.url));"
 		);
-		expect(lighthouse).toContain("[ASTRO_CLI_PATH, 'preview', '--host', '0.0.0.0', '--port', '4322']");
+		expect(lighthouse).toContain(
+			"[ASTRO_CLI_PATH, 'preview', '--host', '0.0.0.0', '--port', '4322']"
+		);
 		expect(lighthouse).not.toContain("spawn('bun', ['run', 'preview:test'], {");
 	});
 });
