@@ -107,6 +107,14 @@ bun run validate:local
 
 The complete gate covers type checking, architecture rules, formatting, linting, link health, unit tests, production build, Playwright browser coverage, Axe checks and Lighthouse mobile/desktop audits. When started from the host, the browser-sensitive gate runs inside the DevContainer rather than relying on host Playwright support.
 
+Before a tagged release, also run the explicit dependency advisory check:
+
+```bash
+bun run audit:deps
+```
+
+The audit is intentionally separate from the deterministic quality gate because advisory data is retrieved from an external registry and can change independently of the repository.
+
 The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with automated and manual checks; this repository does **not** claim formal accessibility certification.
 
 ### Useful commands
@@ -117,6 +125,7 @@ The accessibility implementation targets WCAG 2.1 AA practices and is regression
 | `bun run build` | Validate architecture and build the static site |
 | `bun run check:architecture` | Detect forbidden layer dependencies and circular imports across source and component styles |
 | `bun run check:links` | Validate repository and public destinations |
+| `bun run audit:deps` | Query current dependency advisories before a release |
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
@@ -137,11 +146,11 @@ External contributors should branch from `develop` and open pull requests back t
 
 Delivery uses the same declared Bun/Node toolchain as validation, a versioned Vercel CLI and third-party Actions pinned to immutable commit SHAs.
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution scope and validation expectations.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution scope and validation expectations. Tagged/major releases follow [`docs/release-checklist.md`](docs/release-checklist.md).
 
 ## Documentation
 
-Start with [`docs/README.md`](docs/README.md) for the contributor-facing documentation map. Key contracts are [`docs/architecture.md`](docs/architecture.md), [`docs/operations.md`](docs/operations.md), [`docs/accessibility/manual-checklist.md`](docs/accessibility/manual-checklist.md), [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) and [`AGENTS.md`](AGENTS.md).
+Start with [`docs/README.md`](docs/README.md) for the contributor-facing documentation map. Key contracts are [`docs/architecture.md`](docs/architecture.md), [`docs/operations.md`](docs/operations.md), [`docs/release-checklist.md`](docs/release-checklist.md), [`docs/accessibility/manual-checklist.md`](docs/accessibility/manual-checklist.md), [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) and [`AGENTS.md`](AGENTS.md).
 
 I keep the public repository self-contained: a developer should be able to understand, build and test it without access to my private strategy, notes or planning systems.
 
