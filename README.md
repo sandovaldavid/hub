@@ -107,13 +107,13 @@ bun run validate:local
 
 The complete gate covers type checking, architecture rules, formatting, linting, link health, unit tests, production build, Playwright browser coverage, Axe checks and Lighthouse mobile/desktop audits. When started from the host, the browser-sensitive gate runs inside the DevContainer rather than relying on host Playwright support.
 
-Before a tagged release, also run the explicit dependency advisory check:
+Dependency advisories are checked separately by the `Security Audit` workflow on pull requests and `develop`/`main` pushes. The equivalent local command is:
 
 ```bash
 bun run audit:deps
 ```
 
-The audit is intentionally separate from the deterministic quality gate because advisory data is retrieved from an external registry and can change independently of the repository.
+The audit remains separate from the deterministic quality gate because advisory data is retrieved from an external registry and can change independently of repository state.
 
 The accessibility implementation targets WCAG 2.1 AA practices and is regression-tested with automated and manual checks; this repository does **not** claim formal accessibility certification.
 
@@ -125,7 +125,7 @@ The accessibility implementation targets WCAG 2.1 AA practices and is regression
 | `bun run build` | Validate architecture and build the static site |
 | `bun run check:architecture` | Detect forbidden layer dependencies and circular imports across source and component styles |
 | `bun run check:links` | Validate repository and public destinations |
-| `bun run audit:deps` | Query current dependency advisories before a release |
+| `bun run audit:deps` | Query current dependency advisories outside the deterministic quality gate |
 | `bun run format:check` | Verify Prettier formatting |
 | `bun run lint` | Run ESLint |
 | `bun run test:unit` | Run unit and repository-contract tests |
