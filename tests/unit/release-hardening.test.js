@@ -7,7 +7,7 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');
 const readJson = async path => JSON.parse(await read(path));
 
-describe('pre-v2 delivery hardening contracts', () => {
+describe('release delivery hardening contracts', () => {
 	test('keeps immutable caching limited to fingerprinted Astro assets', async () => {
 		const vercel = await readJson('vercel.json');
 		const immutableRules = vercel.headers.filter(rule =>
@@ -59,15 +59,21 @@ describe('pre-v2 delivery hardening contracts', () => {
 		expect(workflow).not.toContain('vercel@latest');
 	});
 
+	test('keeps the dependency audit explicit and outside the deterministic quality gate', async () => {
+		const packageJson = await readJson('package.json');
+
+		expect(packageJson.scripts['audit:deps']).toBe('bun audit');
+		expect(packageJson.scripts['validate:quality']).not.toContain('audit:deps');
+		expect(packageJson.scripts['validate:quality']).not.toMatch(/\bbun audit\b/);
+	});
+
 	// `release-as` forces the next release to a fixed version and keeps doing so
-	// until it is removed, so release-please would propose the same version
-	// forever and the footer — which reads siteConfig.version from package.json —
-	// would freeze with it. Upstream is explicit: "once the release PR is merged
-	// you should either remove this or update it to a higher version."
-	//
-	// This fails at exactly the moment the pin becomes stale: when the version it
-	// forces is the one already recorded as released.
-	test('does not keep release-please pinned to a version that already shipped', async () => {
+	// until it is removed. It is valid while main still records an older release,
+	// but once a Release Please PR has prepared package.json and the manifest at
+	// the forced target, the pin has completed its job and must be removed in that
+	// same release PR before merge. Otherwise future release calculation and the
+	// footer version can remain frozen on the one-time override.
+	test('requires a one-time release-as override to be removed by the target release PR', async () => {
 		const [config, manifest, packageJson] = await Promise.all([
 			readJson('release-please-config.json'),
 			readJson('.release-please-manifest.json'),
@@ -79,7 +85,7 @@ describe('pre-v2 delivery hardening contracts', () => {
 
 		expect(
 			pinnedVersion,
-			`release-as is still pinned to ${pinnedVersion}, which has already been released. Remove it from release-please-config.json so conventional commits drive the next version.`
+			`release-as is still pinned to ${pinnedVersion}, which the release PR has already prepared. Remove the override inside the release PR before merge so conventional commits drive the next version.`
 		).not.toBe(manifest['.']);
 		expect(pinnedVersion).not.toBe(packageJson.version);
 	});
