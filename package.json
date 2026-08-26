@@ -19,6 +19,7 @@
 		"lint:fix": "eslint . --fix",
 		"check:architecture": "node scripts/check-architecture.mjs",
 		"check:links": "node scripts/check-links.mjs",
+		"audit:deps": "bun audit",
 		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
 		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
 		"rulesets:apply": "node scripts/manage-rulesets.mjs apply",
