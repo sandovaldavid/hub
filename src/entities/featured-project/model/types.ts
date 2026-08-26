@@ -8,9 +8,9 @@ export interface FeaturedProject {
 	outcome: string;
 	technologies: string[];
 	status: string;
-	demoUrl?: string;
+	projectUrl?: string;
 	githubUrl?: string;
+	projectAvailability: ProjectAvailability;
 	repositoryAvailability: ProjectAvailability;
-	demoAvailability: ProjectAvailability;
 	featured: boolean;
 }
