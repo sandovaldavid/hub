@@ -43,24 +43,23 @@ describe('browser test infrastructure contract', () => {
 		expect(dockerfile).toContain('install --with-deps chromium webkit firefox');
 	});
 
-	test('preserves Lighthouse build context when validation starts from a Git worktree', async () => {
+	test('forwards only explicit runtime knobs into DevContainer validation', async () => {
 		const runner = await read('scripts/run-local-validation.mjs');
 
-		expect(runner).toContain("spawnSync('git', ['rev-parse', 'HEAD']");
-		expect(runner).toContain('LHCI_BUILD_CONTEXT__CURRENT_HASH');
-		expect(runner).toContain(
-			'remoteEnvironment.push(`LHCI_BUILD_CONTEXT__CURRENT_HASH=${currentHash}`)'
-		);
+		expect(runner).toContain('process.env.PLAYWRIGHT_WORKERS');
+		expect(runner).toContain('remoteEnvironment.push(`PLAYWRIGHT_WORKERS=${process.env.PLAYWRIGHT_WORKERS}`)');
 		expect(runner).toContain(
 			"['env', ...remoteEnvironment, 'bun', 'run', 'validate:local:inside']"
 		);
+		expect(runner).not.toContain('LHCI_BUILD_CONTEXT__CURRENT_HASH');
+		expect(runner).not.toContain('getCurrentGitHash');
 	});
 
 	test('isolates production-preview browser validation from the development port', async () => {
 		const [packageJson, config, lighthouse] = await Promise.all([
 			readJson('package.json'),
 			read('playwright.config.ts'),
-			read('.lighthouserc.cjs'),
+			read('scripts/run-lighthouse.mjs'),
 		]);
 
 		expect(packageJson.scripts['preview:test']).toContain('--port 4322');
@@ -68,7 +67,8 @@ describe('browser test infrastructure contract', () => {
 			"const testServerUrl = isCi ? 'http://localhost:4322' : 'http://localhost:4321';"
 		);
 		expect(config).toContain("command: isCi ? 'bun run preview:test' : 'bun run dev'");
-		expect(lighthouse).toContain("startServerCommand: 'bun run preview:test'");
-		expect(lighthouse).toContain("url: ['http://localhost:4322', 'http://localhost:4322/es/']");
+		expect(lighthouse).toContain("const PREVIEW_ORIGIN = 'http://localhost:4322';");
+		expect(lighthouse).toContain('const URLS = [PREVIEW_ORIGIN, `${PREVIEW_ORIGIN}/es/`];');
+		expect(lighthouse).toContain("spawn('bun', ['run', 'preview:test'], {");
 	});
 });
