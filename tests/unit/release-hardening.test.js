@@ -7,7 +7,7 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');
 const readJson = async path => JSON.parse(await read(path));
 
-describe('pre-v2 delivery hardening contracts', () => {
+describe('release delivery hardening contracts', () => {
 	test('keeps immutable caching limited to fingerprinted Astro assets', async () => {
 		const vercel = await readJson('vercel.json');
 		const immutableRules = vercel.headers.filter(rule =>
@@ -59,15 +59,89 @@ describe('pre-v2 delivery hardening contracts', () => {
 		expect(workflow).not.toContain('vercel@latest');
 	});
 
+	test('runs lighthouse directly without the stale lighthouse-ci dependency tree', async () => {
+		const [packageJson, runner] = await Promise.all([
+			readJson('package.json'),
+			read('scripts/run-lighthouse.mjs'),
+		]);
+
+		expect(packageJson.devDependencies['@lhci/cli']).toBeUndefined();
+		expect(packageJson.devDependencies.lighthouse).toBe('13.4.1');
+		expect(packageJson.devDependencies['chrome-launcher']).toBe('^1.2.1');
+		expect(packageJson.devDependencies['@playwright/test']).toBe('1.61.0');
+		expect(packageJson.scripts['test:lighthouse:mobile']).toBe(
+			'node scripts/run-lighthouse.mjs mobile'
+		);
+		expect(packageJson.scripts['test:lighthouse:desktop']).toBe(
+			'node scripts/run-lighthouse.mjs desktop'
+		);
+
+		expect(runner).toContain('const RUNS_PER_URL = 3;');
+		expect(runner).toContain("{ id: 'performance', minScore: 0.9 }");
+		expect(runner).toContain("{ id: 'accessibility', minScore: 0.95 }");
+		expect(runner).toContain("{ id: 'best-practices', minScore: 0.95 }");
+		expect(runner).toContain("{ id: 'seo', minScore: 0.95 }");
+		expect(runner).toContain("{ id: 'first-contentful-paint', maxNumericValue: 3_000");
+		expect(runner).toContain("{ id: 'largest-contentful-paint', maxNumericValue: 4_000");
+		expect(runner).toContain("{ id: 'cumulative-layout-shift', maxNumericValue: 0.1");
+		expect(runner).toContain("{ id: 'total-blocking-time', maxNumericValue: 200");
+		expect(runner).toContain("{ id: 'speed-index', maxNumericValue: 3_000");
+		expect(runner).toContain("{ id: 'total-byte-weight', maxNumericValue: 500_000");
+		expect(runner).toContain('const actual = Math.max(...values);');
+		expect(runner).toContain('const actual = Math.min(...values);');
+	});
+
+	test('keeps security overrides narrow, explicit and major-compatible', async () => {
+		const packageJson = await readJson('package.json');
+
+		expect(packageJson.overrides).toEqual({
+			'@astrojs/language-server': '2.16.14',
+			'brace-expansion': '5.0.9',
+			'fast-uri': '3.1.6',
+			'ip-address': '10.5.0',
+			'js-yaml': '4.3.1',
+			'mdast-util-to-hast': '13.2.1',
+			nanoid: '3.3.18',
+			sharp: '0.35.3',
+			svgo: '4.0.2',
+		});
+		expect(packageJson.overrides.picomatch).toBeUndefined();
+		expect(packageJson.devDependencies.picomatch).toBe('2.3.2');
+	});
+
+	test('keeps anymatch on patched picomatch v2 without collapsing the v4 graph', async () => {
+		const lock = await read('bun.lock');
+
+		expect(lock).toContain('"picomatch": ["picomatch@2.3.2"');
+		expect(lock).not.toContain('"anymatch/picomatch":');
+		expect(lock).not.toContain('picomatch@2.3.1');
+		expect(lock).toContain('picomatch@4.0.4');
+		expect(lock).toContain('picomatch@4.0.5');
+	});
+
+	test('keeps dependency advisory checks explicit but outside the deterministic quality gate', async () => {
+		const [packageJson, ci, securityAudit] = await Promise.all([
+			readJson('package.json'),
+			read('.github/workflows/ci.yml'),
+			read('.github/workflows/security-audit.yml'),
+		]);
+
+		expect(packageJson.scripts['audit:deps']).toBe('bun audit');
+		expect(packageJson.scripts['validate:quality']).not.toContain('audit:deps');
+		expect(packageJson.scripts['validate:quality']).not.toMatch(/\bbun audit\b/);
+		expect(ci).not.toContain('audit:deps');
+		expect(securityAudit).toContain('name: Security Audit');
+		expect(securityAudit).toContain('branches: [develop, main]');
+		expect(securityAudit).toContain('run: bun run audit:deps');
+	});
+
 	// `release-as` forces the next release to a fixed version and keeps doing so
-	// until it is removed, so release-please would propose the same version
-	// forever and the footer — which reads siteConfig.version from package.json —
-	// would freeze with it. Upstream is explicit: "once the release PR is merged
-	// you should either remove this or update it to a higher version."
-	//
-	// This fails at exactly the moment the pin becomes stale: when the version it
-	// forces is the one already recorded as released.
-	test('does not keep release-please pinned to a version that already shipped', async () => {
+	// until it is removed. It is valid while main still records an older release,
+	// but once a Release Please PR has prepared package.json and the manifest at
+	// the forced target, the pin has completed its job and must be removed in that
+	// same release PR before merge. Otherwise future release calculation and the
+	// footer version can remain frozen on the one-time override.
+	test('requires a one-time release-as override to be removed by the target release PR', async () => {
 		const [config, manifest, packageJson] = await Promise.all([
 			readJson('release-please-config.json'),
 			readJson('.release-please-manifest.json'),
@@ -79,7 +153,7 @@ describe('pre-v2 delivery hardening contracts', () => {
 
 		expect(
 			pinnedVersion,
-			`release-as is still pinned to ${pinnedVersion}, which has already been released. Remove it from release-please-config.json so conventional commits drive the next version.`
+			`release-as is still pinned to ${pinnedVersion}, which the release PR has already prepared. Remove the override inside the release PR before merge so conventional commits drive the next version.`
 		).not.toBe(manifest['.']);
 		expect(pinnedVersion).not.toBe(packageJson.version);
 	});

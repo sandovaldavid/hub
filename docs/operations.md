@@ -9,11 +9,13 @@ The recommended browser-validation environment is the repository DevContainer. C
 Current toolchain constraints are declared in `package.json`, `.devcontainer/`, `.vscode/mcp.json` and the delivery workflows:
 
 - Bun `1.3.14`;
-- Node.js `>=22.19.0` for the native Lighthouse and Vercel toolchains;
+- Node.js `>=22.19.0` as the declared compatibility floor for native Lighthouse/Vercel tooling;
 - Astro static generation;
 - Playwright browser dependencies installed by the DevContainer image;
 - Vercel CLI explicitly versioned by `.github/workflows/cd.yml`;
 - workspace Chrome DevTools MCP pinned to an explicit package version rather than `latest`.
+
+The open Node.js engine range is a compatibility declaration, not the release-runtime selection. CI/CD pins Node.js `22.19.0` explicitly so the validated and deployed toolchain does not silently move to a future Node major merely because `package.json` accepts it. Change the compatibility range and the exact CI/CD pin as separate, reviewed decisions.
 
 When `bun run validate:local` is started outside the DevContainer, the host needs a working container runtime and the `devcontainer` CLI. The command brings up the repository DevContainer and executes the complete gate there. When already inside the DevContainer, it executes the gate directly without nesting another container.
 
@@ -62,7 +64,7 @@ The override must be a positive integer. More workers are not automatically fast
 
 If `devcontainer` is unavailable, `validate:local` fails closed with an actionable message rather than silently running Playwright against an unsupported host environment. You can alternatively open the repository in its DevContainer first and rerun the same command there.
 
-Use [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md) for manual release-oriented checks. Some operating-system behavior, such as real Windows High Contrast Mode, cannot be fully proven by browser emulation; record those checks separately.
+Use [`accessibility/manual-checklist.md`](accessibility/manual-checklist.md) for manual UI/accessibility review and [`release-checklist.md`](release-checklist.md) for the complete production-release gate. Some operating-system behavior, such as real Windows High Contrast Mode, cannot be fully proven by browser emulation; record those checks separately.
 
 ## Result classification
 
@@ -78,6 +80,8 @@ Playwright's `CI` flag still controls production-preview behavior and `forbidOnl
 
 Do not infer browser coverage that was not executed on the exact commit under review. If two workers introduce resource contention or flakiness on the hosted runner, reduce the explicit workflow value and record the observed evidence rather than masking failures with additional retries.
 
+Dependency advisory checking is intentionally isolated in `.github/workflows/security-audit.yml`. That workflow runs on pull requests, pushes to `develop`/`main`, a weekly schedule and manual dispatch. It is not folded into the deterministic `validate:quality` chain because registry advisory data is mutable external state. A failed or unavailable dependency audit still requires an explicit release decision; being non-required by branch protection does not make it ignorable.
+
 ## Branch and delivery flow
 
 ```text
@@ -87,6 +91,7 @@ feature/*, fix/*, refactor/*, docs/* -> develop -> main
 - `develop` is the integration branch.
 - `main` is the stable production branch.
 - Production behavior must be confirmed from the deployed result, not inferred solely from a merge.
+- Major/tagged releases follow [`release-checklist.md`](release-checklist.md).
 - The repository versions desired branch/ruleset intent under `.github/rulesets/`.
 
 Read-only ruleset verification:
@@ -120,17 +125,22 @@ Release Please configuration lives in:
 - `.release-please-manifest.json`;
 - `.github/workflows/release-please.yml`.
 
-The pre-v2 configuration currently contains the one-time `release-as: 2.0.0` override required to prepare the major release. Remove that exceptional override after `v2.0.0` is actually published so future releases return to normal semantic version calculation. Left in place it is not inert: Release Please keeps proposing the same version indefinitely, and the footer version — read from `package.json` through `siteConfig.version` — freezes with it.
+The pre-v2 configuration contains the one-time `release-as: 2.0.0` override required to force the major version while `main` still records v1 as the latest release. Keep that override only until the refreshed v2 Release Please PR has prepared `package.json` and `.release-please-manifest.json` as `2.0.0`.
 
-`tests/unit/release-hardening.test.js` fails as soon as `release-as` names a version the manifest already records as released, so the removal is enforced rather than remembered.
+At that point, remove `release-as: 2.0.0` **inside the same release PR before merging it**. The release commit must therefore contain the version/manifest bump and the one-time override cleanup atomically. Do not defer the cleanup to a post-release PR: `tests/unit/release-hardening.test.js` intentionally rejects a release PR whose prepared package/manifest version still matches the one-time pin.
 
-Do not manually describe a release as published until the tag/release exists and the production deployment has been verified.
+After the release PR merges, Release Please can create the tag/release while `main` already contains configuration that has returned to normal semantic version calculation. This prevents future release PRs and the footer version from being frozen on the major-release override.
+
+Review the generated `CHANGELOG.md` before merging a major release. Preserve factual traceability, but remove accidental duplicate/noisy entries when necessary and keep the release summary focused on meaningful public changes rather than implementation churn.
+
+Do not manually describe a release as published until the tag/release exists and the production deployment has been verified. The full sequence is defined in [`release-checklist.md`](release-checklist.md).
 
 ## Link and dependency maintenance
 
 - `.github/dependabot.yml` targets `develop` and groups routine dependency updates.
 - `scripts/check-links.mjs` validates local targets and public destinations.
 - `.github/workflows/maintenance.yml` schedules recurring link checks.
+- `.github/workflows/security-audit.yml` records dependency advisory results on PRs, integration/production pushes and a weekly schedule.
 - `config/link-check.json` contains link-check inputs and retry settings.
 
 Run:
@@ -140,6 +150,14 @@ bun run check:links
 ```
 
 Persistent definitive failures such as HTTP `404` or `410` fail the check. Access controls, rate limits, anti-bot responses, timeouts and upstream incidents remain visible warnings after retries and require manual review.
+
+For release evidence, prefer the `Security Audit / Dependency audit` result associated with the exact candidate SHA. If hosted audit evidence is unavailable, run the equivalent command locally:
+
+```bash
+bun run audit:deps
+```
+
+The dependency audit is intentionally not part of `validate:quality`. Advisory data is fetched from an external registry and can change independently of the repository, so folding it into the deterministic quality gate would make normal validation depend on mutable network state. Investigate findings rather than treating the absence of a required status context as proof that no advisories exist.
 
 ## Security
 
