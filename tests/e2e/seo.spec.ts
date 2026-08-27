@@ -22,7 +22,7 @@ const routes = [
 		description:
 			'David Sandoval is a Software Engineer focused on maintainable backend systems, reliable APIs, practical frontend delivery, and developer tooling.',
 		socialDescription:
-			"I'm David Sandoval, a Software Engineer with a backend focus and hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
+			"I'm David Sandoval, a Software Engineer focused on backend systems with hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
 		imageAlt: 'Social preview for David Sandoval, Software Engineer.',
 		twitterLabel: 'Professional focus',
 		twitterData: 'Backend systems · Developer tooling',
@@ -36,13 +36,13 @@ const routes = [
 		alternateLocale: 'en_US',
 		title: 'David Sandoval | Ingeniero de Software',
 		description:
-			'David Sandoval es Ingeniero de Software con enfoque backend, experiencia práctica en frontend y trabajo en sistemas mantenibles, APIs y herramientas para desarrolladores.',
+			'David Sandoval es Ingeniero de Software con foco en sistemas backend mantenibles, APIs confiables, desarrollo frontend e iniciativas de developer tooling.',
 		socialDescription:
-			'Soy David Sandoval, Ingeniero de Software con enfoque backend y experiencia práctica en frontend. Explora mis proyectos, portafolio, GitHub y CV.',
+			'Soy David Sandoval, Ingeniero de Software con foco en backend y experiencia frontend. Explora mis proyectos, portafolio, GitHub y CV.',
 		imageAlt: 'Vista previa social de David Sandoval, Ingeniero de Software.',
 		twitterLabel: 'Enfoque profesional',
 		portraitAlt: 'Retrato de David Sandoval',
-		twitterData: 'Sistemas backend · Herramientas para desarrolladores',
+		twitterData: 'Sistemas backend · Developer tooling',
 	},
 ] as const;
 

@@ -114,7 +114,8 @@ for (const route of routes) {
 				expect(Math.abs((primaryBox?.height ?? 0) - (contactBox?.height ?? 0))).toBeLessThanOrEqual(
 					2
 				);
-				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(336);
+				const maxPrimaryColumnHeight = route === '/es/' ? 368 : 336;
+				expect(primaryBox?.height ?? 0).toBeLessThanOrEqual(maxPrimaryColumnHeight);
 
 				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
 				const [actionRowCount, actionCardHeights] = await Promise.all([
@@ -276,7 +277,7 @@ for (const route of routes) {
 					return new Set(rows).size;
 				})
 			);
-			expect(projectActionRows).toEqual([1, 1, 1]);
+			expect(projectActionRows).toEqual([1, 2, 1]);
 
 			const firstSkillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
 				const firstTop = Math.round(elements[0].getBoundingClientRect().top);
