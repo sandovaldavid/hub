@@ -10,7 +10,15 @@ const allowedEvents = [
 	'contact_clicked',
 	'language_changed',
 ];
-const allowedPositions = ['hero', 'primary-cta', 'social', 'project', 'contact', 'navigation'];
+const allowedPositions = [
+	'hero',
+	'primary-cta',
+	'social',
+	'project',
+	'case-study',
+	'contact',
+	'navigation',
+];
 
 for (const route of ['/', '/es/']) {
 	test.describe(`conversion analytics for ${route}`, () => {

@@ -129,7 +129,7 @@
 	@apply size-4 shrink-0;
 }
 .featured-project-card__availability {
-	@apply flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-dashed px-2 py-2 text-center text-xs font-medium leading-tight;
+	@apply col-span-2 flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-dashed px-2 py-2 text-center text-xs font-medium leading-tight;
 	background-color: var(--card-background-muted);
 	color: var(--channel-content-muted);
 	border-color: var(--card-edge);

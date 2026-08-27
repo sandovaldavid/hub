@@ -10,6 +10,7 @@ export interface FeaturedProject {
 	status: string;
 	projectUrl?: string;
 	githubUrl?: string;
+	caseStudyUrl?: string;
 	projectAvailability: ProjectAvailability;
 	repositoryAvailability: ProjectAvailability;
 	featured: boolean;

@@ -6,11 +6,14 @@ allowed_signers="${config_dir}/allowed_signers"
 
 mkdir -p "$config_dir"
 
+# Resolve the effective repository identity after Git has applied its global,
+# conditional, and repository-local configuration. The Dev Container never
+# owns identity data; VS Code/user dotfiles provide the profile fragments.
 email="$(git config --get user.email || true)"
 signing_key="$(git config --get user.signingKey || true)"
 
 if [[ -z "$email" ]]; then
-  echo "Warning: Git user.email was not inherited from the host." >&2
+  echo "Warning: Git user.email is unavailable; configure host/user dotfiles before signing." >&2
   exit 0
 fi
 
@@ -43,11 +46,19 @@ agent_key="$(
 )"
 
 if [[ -z "$agent_key" ]]; then
-  echo "Warning: the configured Git signing key is not loaded in the SSH agent." >&2
+  echo "Warning: the effective Git signing key is not loaded in the forwarded SSH agent." >&2
   exit 0
 fi
 
-printf '%s namespaces="git" %s\n' "$email" "$agent_key" > "$allowed_signers"
+desired_entry="${email} namespaces=\"git\" ${agent_key}"
+current_entry=""
+if [[ -f "$allowed_signers" ]]; then
+  current_entry="$(cat "$allowed_signers")"
+fi
+
+if [[ "$current_entry" != "$desired_entry" ]]; then
+  printf '%s\n' "$desired_entry" > "$allowed_signers"
+fi
 chmod 600 "$allowed_signers"
 
 printf 'Git SSH signing configured for %s.\n' "$email"

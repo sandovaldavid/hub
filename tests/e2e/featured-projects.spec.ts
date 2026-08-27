@@ -8,11 +8,12 @@ for (const route of [
 		contribution: 'My contribution',
 		outcome: 'Outcome',
 		kiokuTitle: 'Kioku · Persistent memory for AI agents',
-		yukidokeTitle: 'Yukidoke · Household personal-finance product',
+		yukidokeTitle: 'Yukidoke · Household finance platform',
 		ociTitle: 'OCI ARM Hunter · Oracle Cloud capacity automation',
 		projectSite: 'Project site',
-		projectUnavailable: 'No public project site',
-		privateRepository: 'Private repo',
+		caseStudy: 'View case study',
+		caseStudyUrl: 'https://sandovaldavid.com/projects/yukidoke',
+		privateProject: 'Private project',
 	},
 	{
 		path: '/es/',
@@ -21,11 +22,12 @@ for (const route of [
 		contribution: 'Mi contribución',
 		outcome: 'Resultado',
 		kiokuTitle: 'Kioku · Memoria persistente para agentes de IA',
-		yukidokeTitle: 'Yukidoke · Producto de finanzas personales para hogares',
+		yukidokeTitle: 'Yukidoke · Plataforma financiera para hogares',
 		ociTitle: 'OCI ARM Hunter · Automatización de capacidad en Oracle Cloud',
 		projectSite: 'Sitio del proyecto',
-		projectUnavailable: 'Sin sitio público del proyecto',
-		privateRepository: 'Repo privado',
+		caseStudy: 'Ver caso de estudio',
+		caseStudyUrl: 'https://sandovaldavid.com/es/projects/yukidoke',
+		privateProject: 'Proyecto privado',
 	},
 ]) {
 	test.describe(`featured projects for ${route.path}`, () => {
@@ -33,7 +35,7 @@ for (const route of [
 			await page.goto(route.path);
 		});
 
-		test('shows the three selected evidence-based projects, without the Hub self-card', async ({
+		test('shows the three selected projects, without turning the Hub into a second portfolio', async ({
 			page,
 		}) => {
 			const sectionHeading = page.locator('#featured-projects-title');
@@ -47,7 +49,9 @@ for (const route of [
 			await expect(cards.first()).toContainText(route.outcome);
 		});
 
-		test('exposes public project evidence and explicit private states', async ({ page }) => {
+		test('routes public work to useful destinations while preserving private-project boundaries', async ({
+			page,
+		}) => {
 			const cardFor = (title: string) =>
 				page.locator('.featured-project-card').filter({
 					has: page.getByRole('heading', { name: title, exact: true }),
@@ -75,8 +79,15 @@ for (const route of [
 				'https://github.com/sandovaldavid/oci-arm-hunter'
 			);
 
-			await expect(yukidokeCard.getByText(route.projectUnavailable, { exact: true })).toBeVisible();
-			await expect(yukidokeCard.getByText(route.privateRepository, { exact: true })).toBeVisible();
+			await expect(yukidokeCard.getByText(route.privateProject, { exact: true })).toBeVisible();
+			await expect(yukidokeCard.getByRole('link', { name: route.caseStudy })).toHaveAttribute(
+				'href',
+				route.caseStudyUrl
+			);
+			await expect(yukidokeCard.getByRole('link', { name: /Repository|Repositorio/ })).toHaveCount(
+				0
+			);
+			await expect(yukidokeCard.getByRole('link', { name: route.projectSite })).toHaveCount(0);
 		});
 	});
 }
