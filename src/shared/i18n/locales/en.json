@@ -1,9 +1,9 @@
 {
 	"profile": {
-		"tagline": "Software Engineer · Backend-oriented",
-		"bio": "I break down complex problems, connect technical decisions with business context, and build maintainable systems through validation and clear documentation.",
+		"tagline": "Software Engineer · Backend-focused",
+		"bio": "I build maintainable software with a backend focus and hands-on frontend experience, turning product and engineering problems into clear, tested systems.",
 		"availability": "Open to remote software engineering roles",
-		"location": "Lima, Peru · UTC-5",
+		"location": "Piura, Peru · UTC-5",
 		"workMode": "Remote · based in Peru",
 		"languages": "English · Spanish",
 		"locationLabel": "Location",
@@ -25,20 +25,20 @@
 	},
 	"cta": {
 		"heading": "Explore my work",
-		"description": "Start with my portfolio, inspect public engineering evidence on GitHub, or contact me directly.",
+		"description": "Start with my portfolio, explore selected projects, review my GitHub, or contact me directly.",
 		"portfolio": {
 			"title": "View Portfolio",
-			"description": "See selected projects, professional experience, and engineering case studies.",
+			"description": "See selected projects, professional experience, and deeper engineering case studies.",
 			"label": "View portfolio"
 		},
 		"projects": {
 			"title": "View Featured Projects",
-			"description": "Review selected projects, technical decisions, and current status.",
+			"description": "Explore selected projects and the engineering decisions behind them.",
 			"label": "View featured projects"
 		},
 		"github": {
 			"title": "View GitHub",
-			"description": "Inspect public repositories, tests, releases, and technical documentation.",
+			"description": "Browse public repositories, tests, releases, and technical documentation.",
 			"label": "View GitHub repositories"
 		},
 		"contact": {
@@ -56,15 +56,14 @@
 	},
 	"projects": {
 		"title": "Featured projects",
-		"description": "Selected cases showing the problem, technical decisions and outcome of my work.",
-		"caseStudy": "Selected case",
+		"description": "Selected projects showing what I built, the problem each addresses, and the engineering decisions behind it.",
+		"caseStudy": "Project",
 		"problem": "Problem",
 		"contribution": "My contribution",
 		"outcome": "Outcome",
 		"repository": "Repository",
 		"projectSite": "Project site",
-		"private": "Private repo",
-		"projectUnavailable": "No public project site",
+		"private": "Private project",
 		"technologyStack": "Technology stack"
 	},
 	"skills": {
@@ -79,12 +78,12 @@
 	},
 	"seo": {
 		"title": "David Sandoval | Software Engineer",
-		"description": "David Sandoval is a Software Engineer who breaks down complex problems, connects technical decisions with business context, and builds maintainable systems through validation.",
-		"socialDescription": "I'm David Sandoval, a Software Engineer. I break down complex problems, connect technical decisions with business context, and build maintainable systems through validation and clear documentation.",
-		"ogImageAlt": "Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.",
-		"twitterImageAlt": "Portrait of David Sandoval with his name, Software Engineer role, and focus on maintainable systems, documented decisions, and engineering evidence.",
+		"description": "David Sandoval is a Software Engineer focused on maintainable backend systems, reliable APIs, practical frontend delivery, and developer tooling.",
+		"socialDescription": "I'm David Sandoval, a Software Engineer with a backend focus and hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
+		"ogImageAlt": "Social preview for David Sandoval, Software Engineer.",
+		"twitterImageAlt": "Social preview for David Sandoval, Software Engineer.",
 		"twitterLabel1": "Professional focus",
-		"twitterData1": "Systems · Products · Evidence",
+		"twitterData1": "Backend systems · Developer tooling",
 		"ogLocale": "en_US"
 	},
 	"share": {
@@ -92,7 +91,7 @@
 		"copied": "Link copied!",
 		"webShareLabel": "Share site using system menu",
 		"clipboardLabel": "Copy link to clipboard",
-		"text": "See David Sandoval's software engineering work, public evidence, and professional links."
+		"text": "Explore David Sandoval's software engineering work, selected projects, and professional links."
 	},
 	"theme": {
 		"light": "Switch to light mode",
