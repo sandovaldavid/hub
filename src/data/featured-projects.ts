@@ -30,6 +30,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 				'The current V1 baseline covers household identity, accounting, debt, planning, notifications, and financial-health workflows; development continues on privacy and cross-service reliability.',
 			technologies: ['.NET 10', 'Angular 22', 'PostgreSQL', 'Keycloak'],
 			status: 'Active development',
+			caseStudyUrl: 'https://sandovaldavid.com/projects/yukidoke',
 			projectAvailability: 'unavailable',
 			repositoryAvailability: 'private',
 			featured: true,
@@ -57,7 +58,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			id: 'kioku',
 			title: 'Kioku · Memoria persistente para agentes de IA',
 			problem:
-				'Los agentes de programación pierden contexto entre sesiones y repiten trabajo de descubrimiento.',
+				'Los agentes de programación pierden contexto entre sesiones y terminan repitiendo trabajo de descubrimiento.',
 			contribution:
 				'Diseñé y mantengo un servidor MCP local-first en .NET 10 que conserva conocimiento estructurado en Obsidian y lo recupera entre sesiones de agentes de IA.',
 			outcome:
@@ -74,13 +75,14 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			id: 'yukidoke',
 			title: 'Yukidoke · Plataforma financiera para hogares',
 			problem:
-				'Los hogares necesitan un solo lugar para gestionar dinero, deudas, planificación y salud financiera manteniendo coherente el acceso de cada miembro.',
+				'Una plataforma financiera compartida debe centralizar dinero, deudas y planificación sin perder el control de acceso de cada miembro del hogar.',
 			contribution:
-				'Diseño y mantengo el backend modular monolítico en .NET 10 y el cliente Angular 22, usando Keycloak y PostgreSQL para mantener autorización, cálculos y reglas financieras bajo autoridad del servidor.',
+				'Diseño y mantengo el backend .NET 10 como monolito modular y el cliente Angular 22; Keycloak y PostgreSQL sostienen la autorización, los cálculos y las reglas financieras del lado del servidor.',
 			outcome:
-				'La base V1 actual cubre identidad del hogar, contabilidad, deudas, planificación, notificaciones y salud financiera; el desarrollo continúa en privacidad y confiabilidad entre servicios.',
+				'La base V1 actual cubre identidad del hogar, contabilidad, deudas, planificación, notificaciones y salud financiera; el desarrollo continúa en privacidad y confiabilidad entre componentes.',
 			technologies: ['.NET 10', 'Angular 22', 'PostgreSQL', 'Keycloak'],
 			status: 'Desarrollo activo',
+			caseStudyUrl: 'https://sandovaldavid.com/es/projects/yukidoke',
 			projectAvailability: 'unavailable',
 			repositoryAvailability: 'private',
 			featured: true,
@@ -89,11 +91,11 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			id: 'oci-arm-hunter',
 			title: 'OCI ARM Hunter · Automatización de capacidad en Oracle Cloud',
 			problem:
-				'La capacidad ARM Always Free puede no estar disponible al solicitar una instancia, haciendo que los reintentos manuales sean repetitivos y sensibles al tiempo.',
+				'La capacidad ARM Always Free puede agotarse al solicitar una instancia, convirtiendo los reintentos manuales en una tarea repetitiva y sensible al tiempo.',
 			contribution:
-				'Construí una automatización en Bash sobre OCI CLI que reintenta solicitudes, rota Availability Domains, aplica cooldown con jitter, soporta ejecución desatendida con systemd y envía notificaciones de éxito.',
+				'Construí una automatización en Bash sobre OCI CLI que reintenta solicitudes, rota Availability Domains, aplica cooldown con jitter, ejecuta de forma desatendida con systemd y envía notificaciones de éxito.',
 			outcome:
-				'Publicado como herramienta MIT documentada con configuración guiada, ejecución desatendida mediante systemd y notificaciones de éxito.',
+				'Publicado como herramienta MIT documentada, con configuración guiada, ejecución desatendida mediante systemd y notificaciones de éxito.',
 			technologies: ['Bash', 'OCI CLI', 'systemd', 'Oracle Cloud'],
 			status: 'Publicado',
 			projectUrl: 'https://oci.sandovaldavid.com',
