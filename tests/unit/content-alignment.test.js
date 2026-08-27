@@ -17,20 +17,22 @@ describe('Hub messaging alignment contract', () => {
 		expect(siteConfig.shortName).toBe('David Sandoval');
 	});
 
-	test('keeps role, method and evidence-routing hierarchy equivalent in English and Spanish', async () => {
+	test('keeps role, method and routing hierarchy equivalent in English and Spanish', async () => {
 		const [english, spanish] = await Promise.all([
 			readJson('src/shared/i18n/locales/en.json'),
 			readJson('src/shared/i18n/locales/es.json'),
 		]);
 
-		expect(english.profile.tagline).toBe('Software Engineer · Backend-oriented');
-		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Orientado a backend');
+		expect(english.profile.tagline).toBe('Software Engineer · Backend-focused');
+		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Enfoque backend');
 		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
-		expect(english.profile.bio).toMatch(/complex problems.*business context.*validation/i);
-		expect(spanish.profile.bio).toMatch(/problemas complejos.*contexto de negocio.*validación/i);
-		expect(english.cta.description).toMatch(/portfolio.*public engineering evidence.*GitHub/i);
-		expect(spanish.cta.description).toMatch(/portafolio.*evidencia técnica pública.*GitHub/i);
+		expect(english.profile.bio).toMatch(/maintainable software.*backend focus.*frontend experience.*tested systems/i);
+		expect(spanish.profile.bio).toMatch(/software mantenible.*enfoque backend.*frontend.*sistemas claros y probados/i);
+		expect(english.profile.location).toBe('Piura, Peru · UTC-5');
+		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
+		expect(english.cta.description).toMatch(/portfolio.*selected projects.*GitHub/i);
+		expect(spanish.cta.description).toMatch(/portafolio.*proyectos seleccionados.*GitHub/i);
 		expect(english.contact.heading).toBe('Contact');
 		expect(spanish.contact.heading).toBe('Contacto');
 		expect(english.contact.title).not.toMatch(/consult/i);
@@ -39,6 +41,28 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanish.skills.coreTitle).toBe('Stack actual de ingeniería');
 		expect(english.projects.projectSite).toBe('Project site');
 		expect(spanish.projects.projectSite).toBe('Sitio del proyecto');
+		expect(english.projects.private).toBe('Private project');
+		expect(spanish.projects.private).toBe('Proyecto privado');
+
+		const publicMessaging = JSON.stringify({
+			english: {
+				profile: english.profile,
+				cta: english.cta,
+				projects: english.projects,
+				seo: english.seo,
+				share: english.share,
+			},
+			spanish: {
+				profile: spanish.profile,
+				cta: spanish.cta,
+				projects: spanish.projects,
+				seo: spanish.seo,
+				share: spanish.share,
+			},
+		});
+		expect(publicMessaging).not.toMatch(
+			/public engineering evidence|pending evidence|production unconfirmed|claim not verified|not visible to recruiter|evidencia técnica pública|evidencia pendiente|producción no confirmada/i
+		);
 	});
 
 	test('keeps CTA route metadata separate from localized public copy', () => {
@@ -60,7 +84,7 @@ describe('Hub messaging alignment contract', () => {
 		expect(profile.logo).not.toHaveProperty('alt');
 	});
 
-	test('keeps the selected project set evidence-bound and complementary', () => {
+	test('keeps the selected project set purposeful and complementary', () => {
 		const englishProjects = getFeaturedProjects('en');
 		const spanishProjects = getFeaturedProjects('es');
 		const expectedProjectIds = ['kioku', 'yukidoke', 'oci-arm-hunter'];
@@ -69,14 +93,33 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanishProjects.map(project => project.id)).toEqual(expectedProjectIds);
 	});
 
-	test('keeps Kioku wording durable while routing to public evidence', () => {
+	test('keeps recruiter-facing project copy free from internal audit language', () => {
+		for (const lang of ['en', 'es']) {
+			for (const project of getFeaturedProjects(lang)) {
+				const publicCopy = [
+					project.title,
+					project.problem,
+					project.contribution,
+					project.outcome,
+					project.status,
+				].join(' ');
+				expect(publicCopy).not.toMatch(
+					/production unconfirmed|pending evidence|real-stack release evidence|claim not verified|not visible to recruiter|producción no confirmada|evidencia pendiente|evidencia final real-stack/i
+				);
+			}
+		}
+	});
+
+	test('keeps Kioku wording durable while routing to its public project and repository', () => {
 		const englishKioku = getFeaturedProjects('en').find(project => project.id === 'kioku');
 		const spanishKioku = getFeaturedProjects('es').find(project => project.id === 'kioku');
 
-		expect(englishKioku?.status).toBe('Stable release · active development');
-		expect(spanishKioku?.status).toBe('Release estable · desarrollo activo');
+		expect(englishKioku?.status).toBe('Released · active development');
+		expect(spanishKioku?.status).toBe('Publicado · desarrollo activo');
 		expect(englishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
 		expect(spanishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
+		expect(englishKioku?.outcome).toMatch(/versioned packages.*public documentation/i);
+		expect(spanishKioku?.outcome).toMatch(/paquetes versionados.*documentación pública/i);
 		expect(englishKioku?.projectUrl).toBe('https://kioku.sandovaldavid.com');
 		expect(englishKioku?.githubUrl).toBe('https://github.com/sandovaldavid/kioku');
 		expect(englishKioku?.projectAvailability).toBe('public');
@@ -87,26 +130,28 @@ describe('Hub messaging alignment contract', () => {
 		const englishYukidoke = getFeaturedProjects('en').find(project => project.id === 'yukidoke');
 		const spanishYukidoke = getFeaturedProjects('es').find(project => project.id === 'yukidoke');
 
-		expect(englishYukidoke?.title).toBe('Yukidoke · Household personal-finance product');
-		expect(spanishYukidoke?.title).toBe('Yukidoke · Producto de finanzas personales para hogares');
+		expect(englishYukidoke?.title).toBe('Yukidoke · Household finance platform');
+		expect(spanishYukidoke?.title).toBe('Yukidoke · Plataforma financiera para hogares');
 		expect(`${englishYukidoke?.contribution} ${englishYukidoke?.outcome}`).not.toMatch(
 			/v1 complete|release-ready|production-ready|scalable|multi-user/i
 		);
 		expect(`${spanishYukidoke?.contribution} ${spanishYukidoke?.outcome}`).not.toMatch(
 			/v1 completa|lista para release|lista para producción|escalable|multiusuario/i
 		);
-		expect(englishYukidoke?.status).toMatch(/production unconfirmed/i);
-		expect(spanishYukidoke?.status).toMatch(/producción no confirmada/i);
+		expect(englishYukidoke?.status).toBe('Active development');
+		expect(spanishYukidoke?.status).toBe('Desarrollo activo');
 		expect(englishYukidoke?.projectAvailability).toBe('unavailable');
 		expect(englishYukidoke?.repositoryAvailability).toBe('private');
 	});
 
-	test('keeps OCI ARM Hunter bounded to public automation evidence', () => {
+	test('keeps OCI ARM Hunter bounded to its released public automation', () => {
 		const englishOci = getFeaturedProjects('en').find(project => project.id === 'oci-arm-hunter');
 		const spanishOci = getFeaturedProjects('es').find(project => project.id === 'oci-arm-hunter');
 
 		expect(englishOci?.title).toBe('OCI ARM Hunter · Oracle Cloud capacity automation');
 		expect(spanishOci?.title).toBe('OCI ARM Hunter · Automatización de capacidad en Oracle Cloud');
+		expect(englishOci?.status).toBe('Released');
+		expect(spanishOci?.status).toBe('Publicado');
 		expect(`${englishOci?.contribution} ${englishOci?.outcome}`).not.toMatch(
 			/guaranteed capacity|guaranteed provisioning|SLA|fleet|adoption/i
 		);
