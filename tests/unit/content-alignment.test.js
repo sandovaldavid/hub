@@ -27,8 +27,12 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Enfoque backend');
 		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
-		expect(english.profile.bio).toMatch(/maintainable software.*backend focus.*frontend experience.*tested systems/i);
-		expect(spanish.profile.bio).toMatch(/software mantenible.*enfoque backend.*frontend.*sistemas claros y probados/i);
+		expect(english.profile.bio).toMatch(
+			/maintainable software.*backend focus.*frontend experience.*tested systems/i
+		);
+		expect(spanish.profile.bio).toMatch(
+			/software mantenible.*enfoque backend.*frontend.*sistemas claros y probados/i
+		);
 		expect(english.profile.location).toBe('Piura, Peru · UTC-5');
 		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
 		expect(english.cta.description).toMatch(/portfolio.*selected projects.*GitHub/i);
