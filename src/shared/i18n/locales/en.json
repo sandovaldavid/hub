@@ -1,8 +1,8 @@
 {
 	"profile": {
 		"tagline": "Software Engineer · Backend-focused",
-		"bio": "I build maintainable software with a backend focus and hands-on frontend experience, turning product and engineering problems into clear, tested systems.",
-		"availability": "Open to remote software engineering roles",
+		"bio": "I build maintainable software with a backend focus and hands-on frontend experience, turning product needs into clear boundaries, typed contracts, and validated delivery.",
+		"availability": "Open to remote software engineering opportunities",
 		"location": "Piura, Peru · UTC-5",
 		"workMode": "Remote · based in Peru",
 		"languages": "English · Spanish",
@@ -25,15 +25,15 @@
 	},
 	"cta": {
 		"heading": "Explore my work",
-		"description": "Start with my portfolio, explore selected projects, review my GitHub, or contact me directly.",
+		"description": "Start with the portfolio for deeper engineering context, browse selected projects, review public repositories, or contact me directly.",
 		"portfolio": {
 			"title": "View Portfolio",
-			"description": "See selected projects, professional experience, and deeper engineering case studies.",
+			"description": "See professional experience, selected projects, research, and deeper engineering case studies.",
 			"label": "View portfolio"
 		},
 		"projects": {
 			"title": "View Featured Projects",
-			"description": "Explore selected projects and the engineering decisions behind them.",
+			"description": "See selected systems and tools through the problems, decisions, and outcomes behind them.",
 			"label": "View featured projects"
 		},
 		"github": {
@@ -43,26 +43,27 @@
 		},
 		"contact": {
 			"title": "Contact Me",
-			"description": "Get in touch about software engineering opportunities and collaborations.",
+			"description": "Get in touch about software engineering opportunities and relevant collaborations.",
 			"label": "Contact me"
 		}
 	},
 	"contact": {
 		"title": "Let's talk",
-		"message": "For software engineering opportunities, collaborations, or relevant project conversations, email me directly.",
+		"message": "For software engineering opportunities or relevant collaborations, email me directly.",
 		"buttonText": "Send email",
 		"heading": "Contact",
 		"emailSubject": "Software engineering opportunity"
 	},
 	"projects": {
 		"title": "Featured projects",
-		"description": "Selected projects showing what I built, the problem each addresses, and the engineering decisions behind it.",
+		"description": "Selected work showing the problem, my contribution, and the engineering outcome without duplicating the full portfolio case studies.",
 		"caseStudy": "Project",
 		"problem": "Problem",
 		"contribution": "My contribution",
 		"outcome": "Outcome",
 		"repository": "Repository",
 		"projectSite": "Project site",
+		"viewCaseStudy": "View case study",
 		"private": "Private project",
 		"technologyStack": "Technology stack"
 	},
@@ -79,7 +80,7 @@
 	"seo": {
 		"title": "David Sandoval | Software Engineer",
 		"description": "David Sandoval is a Software Engineer focused on maintainable backend systems, reliable APIs, practical frontend delivery, and developer tooling.",
-		"socialDescription": "I'm David Sandoval, a Software Engineer with a backend focus and hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
+		"socialDescription": "I'm David Sandoval, a Software Engineer focused on backend systems with hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
 		"ogImageAlt": "Social preview for David Sandoval, Software Engineer.",
 		"twitterImageAlt": "Social preview for David Sandoval, Software Engineer.",
 		"twitterLabel1": "Professional focus",
