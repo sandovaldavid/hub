@@ -17,59 +17,66 @@ describe('Hub messaging alignment contract', () => {
 		expect(siteConfig.shortName).toBe('David Sandoval');
 	});
 
-	test('keeps canonical positioning aligned while allowing market-specific EN and ES copy', async () => {
-		const [english, spanish] = await Promise.all([
-			readJson('src/shared/i18n/locales/en.json'),
-			readJson('src/shared/i18n/locales/es.json'),
-		]);
+	test(
+		'keeps canonical positioning aligned while allowing market-specific EN and ES copy',
+		async () => {
+			const [english, spanish] = await Promise.all([
+				readJson('src/shared/i18n/locales/en.json'),
+				readJson('src/shared/i18n/locales/es.json'),
+			]);
 
-		expect(english.profile.tagline).toBe('Software Engineer · Backend-focused');
-		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Enfoque backend');
-		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
-		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
-		expect(english.profile.bio).toMatch(
-			/maintainable software.*backend focus.*frontend experience.*clear boundaries.*typed contracts.*validated delivery/i
-		);
-		expect(spanish.profile.bio).toMatch(
-			/software mantenible.*backend.*frontend.*límites claros.*contratos tipados.*validación/i
-		);
-		expect(english.profile.location).toBe('Piura, Peru · UTC-5');
-		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
-		expect(english.cta.description).toMatch(/portfolio.*selected projects.*public repositories/i);
-		expect(spanish.cta.description).toMatch(/portafolio.*proyectos seleccionados.*repositorios públicos/i);
-		expect(english.contact.heading).toBe('Contact');
-		expect(spanish.contact.heading).toBe('Contacto');
-		expect(english.contact.title).not.toMatch(/consult/i);
-		expect(spanish.contact.title).not.toMatch(/consult/i);
-		expect(english.skills.coreTitle).toBe('Current Engineering Stack');
-		expect(spanish.skills.coreTitle).toBe('Stack actual de ingeniería');
-		expect(english.projects.projectSite).toBe('Project site');
-		expect(spanish.projects.projectSite).toBe('Sitio del proyecto');
-		expect(english.projects.viewCaseStudy).toBe('View case study');
-		expect(spanish.projects.viewCaseStudy).toBe('Ver caso de estudio');
-		expect(english.projects.private).toBe('Private project');
-		expect(spanish.projects.private).toBe('Proyecto privado');
+			expect(english.profile.tagline).toBe('Software Engineer · Backend-focused');
+			expect(spanish.profile.tagline).toBe('Ingeniero de Software · Enfoque backend');
+			expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
+			expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
+			expect(english.profile.bio).toMatch(
+				/maintainable software.*backend focus.*frontend experience.*clear boundaries.*typed contracts.*validated delivery/i
+			);
+			expect(spanish.profile.bio).toMatch(
+				/software mantenible.*backend.*frontend.*límites claros.*contratos tipados.*validación/i
+			);
+			expect(english.profile.location).toBe('Piura, Peru · UTC-5');
+			expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
+			expect(english.cta.description).toMatch(
+				/portfolio.*selected projects.*public repositories/i
+			);
+			expect(spanish.cta.description).toMatch(
+				/portafolio.*proyectos seleccionados.*repositorios públicos/i
+			);
+			expect(english.contact.heading).toBe('Contact');
+			expect(spanish.contact.heading).toBe('Contacto');
+			expect(english.contact.title).not.toMatch(/consult/i);
+			expect(spanish.contact.title).not.toMatch(/consult/i);
+			expect(english.skills.coreTitle).toBe('Current Engineering Stack');
+			expect(spanish.skills.coreTitle).toBe('Stack actual de ingeniería');
+			expect(english.projects.projectSite).toBe('Project site');
+			expect(spanish.projects.projectSite).toBe('Sitio del proyecto');
+			expect(english.projects.viewCaseStudy).toBe('View case study');
+			expect(spanish.projects.viewCaseStudy).toBe('Ver caso de estudio');
+			expect(english.projects.private).toBe('Private project');
+			expect(spanish.projects.private).toBe('Proyecto privado');
 
-		const publicMessaging = JSON.stringify({
-			english: {
-				profile: english.profile,
-				cta: english.cta,
-				projects: english.projects,
-				seo: english.seo,
-				share: english.share,
-			},
-			spanish: {
-				profile: spanish.profile,
-				cta: spanish.cta,
-				projects: spanish.projects,
-				seo: spanish.seo,
-				share: spanish.share,
-			},
-		});
-		expect(publicMessaging).not.toMatch(
-			/public engineering evidence|pending evidence|production unconfirmed|claim not verified|not visible to recruiter|evidencia técnica pública|evidencia pendiente|producción no confirmada/i
-		);
-	});
+			const publicMessaging = JSON.stringify({
+				english: {
+					profile: english.profile,
+					cta: english.cta,
+					projects: english.projects,
+					seo: english.seo,
+					share: english.share,
+				},
+				spanish: {
+					profile: spanish.profile,
+					cta: spanish.cta,
+					projects: spanish.projects,
+					seo: spanish.seo,
+					share: spanish.share,
+				},
+			});
+			expect(publicMessaging).not.toMatch(
+				/public engineering evidence|pending evidence|production unconfirmed|claim not verified|not visible to recruiter|evidencia técnica pública|evidencia pendiente|producción no confirmada/i
+			);
+		}
+	);
 
 	test('keeps CTA route metadata separate from localized public copy', () => {
 		for (const button of getCtaButtons('Software engineering opportunity')) {
@@ -130,31 +137,40 @@ describe('Hub messaging alignment contract', () => {
 		expect(englishKioku?.repositoryAvailability).toBe('public');
 	});
 
-	test('keeps Yukidoke private while routing readers to localized public case studies', () => {
-		const englishYukidoke = getFeaturedProjects('en').find(project => project.id === 'yukidoke');
-		const spanishYukidoke = getFeaturedProjects('es').find(project => project.id === 'yukidoke');
+	test(
+		'keeps Yukidoke private while routing readers to localized public case studies',
+		() => {
+			const englishYukidoke = getFeaturedProjects('en').find(
+				project => project.id === 'yukidoke'
+			);
+			const spanishYukidoke = getFeaturedProjects('es').find(
+				project => project.id === 'yukidoke'
+			);
 
-		expect(englishYukidoke?.title).toBe('Yukidoke · Household finance platform');
-		expect(spanishYukidoke?.title).toBe('Yukidoke · Plataforma financiera para hogares');
-		expect(`${englishYukidoke?.contribution} ${englishYukidoke?.outcome}`).not.toMatch(
-			/v1 complete|release-ready|production-ready|scalable|multi-user/i
-		);
-		expect(`${spanishYukidoke?.contribution} ${spanishYukidoke?.outcome}`).not.toMatch(
-			/v1 completa|lista para release|lista para producción|escalable|multiusuario/i
-		);
-		expect(englishYukidoke?.status).toBe('Active development');
-		expect(spanishYukidoke?.status).toBe('Desarrollo activo');
-		expect(englishYukidoke?.projectAvailability).toBe('unavailable');
-		expect(spanishYukidoke?.projectAvailability).toBe('unavailable');
-		expect(englishYukidoke?.repositoryAvailability).toBe('private');
-		expect(spanishYukidoke?.repositoryAvailability).toBe('private');
-		expect(englishYukidoke?.projectUrl).toBeUndefined();
-		expect(englishYukidoke?.githubUrl).toBeUndefined();
-		expect(englishYukidoke?.caseStudyUrl).toBe('https://sandovaldavid.com/projects/yukidoke');
-		expect(spanishYukidoke?.caseStudyUrl).toBe(
-			'https://sandovaldavid.com/es/projects/yukidoke'
-		);
-	});
+			expect(englishYukidoke?.title).toBe('Yukidoke · Household finance platform');
+			expect(spanishYukidoke?.title).toBe('Yukidoke · Plataforma financiera para hogares');
+			expect(`${englishYukidoke?.contribution} ${englishYukidoke?.outcome}`).not.toMatch(
+				/v1 complete|release-ready|production-ready|scalable|multi-user/i
+			);
+			expect(`${spanishYukidoke?.contribution} ${spanishYukidoke?.outcome}`).not.toMatch(
+				/v1 completa|lista para release|lista para producción|escalable|multiusuario/i
+			);
+			expect(englishYukidoke?.status).toBe('Active development');
+			expect(spanishYukidoke?.status).toBe('Desarrollo activo');
+			expect(englishYukidoke?.projectAvailability).toBe('unavailable');
+			expect(spanishYukidoke?.projectAvailability).toBe('unavailable');
+			expect(englishYukidoke?.repositoryAvailability).toBe('private');
+			expect(spanishYukidoke?.repositoryAvailability).toBe('private');
+			expect(englishYukidoke?.projectUrl).toBeUndefined();
+			expect(englishYukidoke?.githubUrl).toBeUndefined();
+			expect(englishYukidoke?.caseStudyUrl).toBe(
+				'https://sandovaldavid.com/projects/yukidoke'
+			);
+			expect(spanishYukidoke?.caseStudyUrl).toBe(
+				'https://sandovaldavid.com/es/projects/yukidoke'
+			);
+		}
+	);
 
 	test('keeps OCI ARM Hunter bounded to its released public automation', () => {
 		const englishOci = getFeaturedProjects('en').find(project => project.id === 'oci-arm-hunter');
