@@ -32,7 +32,8 @@ const statusTone =
 const hasPublicProject = project.projectAvailability === 'public' && Boolean(project.projectUrl);
 const hasPublicRepository =
 	project.repositoryAvailability === 'public' && Boolean(project.githubUrl);
-const hasPublicDestination = hasPublicProject || hasPublicRepository;
+const hasPublicCaseStudy = Boolean(project.caseStudyUrl);
+const hasPublicDestination = hasPublicProject || hasPublicRepository || hasPublicCaseStudy;
 const caseNumber = String(position).padStart(2, '0');
 ---
 
@@ -95,6 +96,21 @@ const caseNumber = String(position).padStart(2, '0');
 				)
 			}
 			{
+				hasPublicCaseStudy && project.caseStudyUrl && (
+					<a
+						href={project.caseStudyUrl}
+						class={`featured-project-card__button ${hasPublicProject ? 'featured-project-card__button--secondary' : 'featured-project-card__button--primary'}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						data-conversion-event="project_opened"
+						data-conversion-position="case-study"
+						data-conversion-item={project.id}>
+						<span>{t('projects.viewCaseStudy')}</span>
+						<LinkIcon class="featured-project-card__button-icon" />
+					</a>
+				)
+			}
+			{
 				hasPublicRepository && project.githubUrl && (
 					<a
 						href={project.githubUrl}
@@ -110,10 +126,11 @@ const caseNumber = String(position).padStart(2, '0');
 				)
 			}
 			{
-				!hasPublicDestination && (
+				!hasPublicProject && !hasPublicRepository && (
 					<span class="featured-project-card__availability">{t('projects.private')}</span>
 				)
 			}
+			{!hasPublicDestination && <span class="sr-only">{t('projects.private')}</span>}
 		</div>
 	</div>
 </article>

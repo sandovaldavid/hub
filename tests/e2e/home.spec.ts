@@ -54,7 +54,7 @@ test.describe('Home page', () => {
 		await page.goto('/');
 		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toBeVisible();
 		await expect(page.getByText('Software Engineer · Backend-focused')).toBeVisible();
-		await expect(page.getByText('Open to remote software engineering roles')).toBeVisible();
+		await expect(page.getByText('Open to remote software engineering opportunities')).toBeVisible();
 		await expect(page.getByText('Piura, Peru · UTC-5')).toBeVisible();
 		await expect(page.getByText('Remote · based in Peru')).toBeVisible();
 		await expect(page.locator('.hero-card__username')).toHaveCount(0);
@@ -138,15 +138,15 @@ test.describe('Spanish version (/es/)', () => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
 		await expect(page.getByText('Ingeniero de Software · Enfoque backend')).toBeVisible();
-		await expect(page.getByText('Disponible para roles remotos de ingeniería')).toBeVisible();
+		await expect(
+			page.getByText('Disponible para oportunidades remotas en ingeniería de software')
+		).toBeVisible();
 		await expect(page.getByText('Piura, Perú · UTC-5')).toBeVisible();
 	});
 
 	test('uses the localized heading hierarchy', async ({ page }) => {
 		await page.goto('/es/');
-		await expect(
-			page.getByRole('heading', { level: 2, name: 'Resumen profesional' })
-		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Perfil profesional' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Explora mi trabajo' })).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })

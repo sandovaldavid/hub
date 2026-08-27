@@ -11,6 +11,8 @@ for (const route of [
 		yukidokeTitle: 'Yukidoke · Household finance platform',
 		ociTitle: 'OCI ARM Hunter · Oracle Cloud capacity automation',
 		projectSite: 'Project site',
+		caseStudy: 'View case study',
+		caseStudyUrl: 'https://sandovaldavid.com/projects/yukidoke',
 		privateProject: 'Private project',
 	},
 	{
@@ -23,6 +25,8 @@ for (const route of [
 		yukidokeTitle: 'Yukidoke · Plataforma financiera para hogares',
 		ociTitle: 'OCI ARM Hunter · Automatización de capacidad en Oracle Cloud',
 		projectSite: 'Sitio del proyecto',
+		caseStudy: 'Ver caso de estudio',
+		caseStudyUrl: 'https://sandovaldavid.com/es/projects/yukidoke',
 		privateProject: 'Proyecto privado',
 	},
 ]) {
@@ -45,7 +49,7 @@ for (const route of [
 			await expect(cards.first()).toContainText(route.outcome);
 		});
 
-		test('routes public projects to useful destinations and keeps private projects concise', async ({
+		test('routes public work to useful destinations while preserving private-project boundaries', async ({
 			page,
 		}) => {
 			const cardFor = (title: string) =>
@@ -76,7 +80,14 @@ for (const route of [
 			);
 
 			await expect(yukidokeCard.getByText(route.privateProject, { exact: true })).toBeVisible();
-			await expect(yukidokeCard.getByRole('link')).toHaveCount(0);
+			await expect(yukidokeCard.getByRole('link', { name: route.caseStudy })).toHaveAttribute(
+				'href',
+				route.caseStudyUrl
+			);
+			await expect(yukidokeCard.getByRole('link', { name: /Repository|Repositorio/ })).toHaveCount(
+				0
+			);
+			await expect(yukidokeCard.getByRole('link', { name: route.projectSite })).toHaveCount(0);
 		});
 	});
 }
