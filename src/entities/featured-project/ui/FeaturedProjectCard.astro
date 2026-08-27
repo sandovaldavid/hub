@@ -29,6 +29,10 @@ const statusTone =
 		: project.repositoryAvailability === 'public'
 			? 'active'
 			: 'private';
+const hasPublicProject = project.projectAvailability === 'public' && Boolean(project.projectUrl);
+const hasPublicRepository =
+	project.repositoryAvailability === 'public' && Boolean(project.githubUrl);
+const hasPublicDestination = hasPublicProject || hasPublicRepository;
 const caseNumber = String(position).padStart(2, '0');
 ---
 
@@ -76,7 +80,7 @@ const caseNumber = String(position).padStart(2, '0');
 
 		<div class="featured-project-card__actions">
 			{
-				project.projectAvailability === 'public' && project.projectUrl ? (
+				hasPublicProject && project.projectUrl && (
 					<a
 						href={project.projectUrl}
 						class="featured-project-card__button featured-project-card__button--primary"
@@ -88,14 +92,10 @@ const caseNumber = String(position).padStart(2, '0');
 						<span>{t('projects.projectSite')}</span>
 						<LinkIcon class="featured-project-card__button-icon" />
 					</a>
-				) : (
-					<span class="featured-project-card__availability">
-						{t('projects.projectUnavailable')}
-					</span>
 				)
 			}
 			{
-				project.repositoryAvailability === 'public' && project.githubUrl ? (
+				hasPublicRepository && project.githubUrl && (
 					<a
 						href={project.githubUrl}
 						class="featured-project-card__button featured-project-card__button--secondary"
@@ -107,7 +107,10 @@ const caseNumber = String(position).padStart(2, '0');
 						<GitHubIcon class="featured-project-card__button-icon" />
 						<span>{t('projects.repository')}</span>
 					</a>
-				) : (
+				)
+			}
+			{
+				!hasPublicDestination && (
 					<span class="featured-project-card__availability">{t('projects.private')}</span>
 				)
 			}

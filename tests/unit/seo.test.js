@@ -36,20 +36,21 @@ describe('human-first SEO contract', () => {
 			expect(metadataCopy).toContain('David Sandoval');
 			expect(metadataCopy).not.toMatch(/Angular|\.NET|TypeScript/i);
 			expect(metadataCopy).not.toMatch(/senior|lead|founder|certified|expert/i);
+			expect(metadataCopy).not.toMatch(/evidence|evidencia|unconfirmed|no confirmada/i);
 			expect(seo).not.toHaveProperty('keywords');
 		}
 
 		expect(english.seo.description).toMatch(
-			/David Sandoval.*Software Engineer.*complex problems.*business context.*validation/i
+			/David Sandoval.*Software Engineer.*maintainable backend systems.*reliable APIs.*developer tooling/i
 		);
 		expect(spanish.seo.description).toMatch(
-			/David Sandoval.*Ingeniero de Software.*problemas complejos.*contexto de negocio.*validación/i
+			/David Sandoval.*Ingeniero de Software.*enfoque backend.*frontend.*sistemas mantenibles.*APIs.*herramientas para desarrolladores/i
 		);
 		expect(english.seo.socialDescription).toMatch(
-			/^I'm David Sandoval, a Software Engineer\..*complex problems.*business context/i
+			/^I'm David Sandoval, a Software Engineer.*backend focus.*frontend experience/i
 		);
 		expect(spanish.seo.socialDescription).toMatch(
-			/^Soy David Sandoval, Ingeniero de Software\..*problemas complejos.*contexto de negocio/i
+			/^Soy David Sandoval, Ingeniero de Software.*enfoque backend.*frontend/i
 		);
 		expect(seoData).toContain('socialDescription: t.socialDescription');
 		expect(seoData).not.toContain('keywords:');
