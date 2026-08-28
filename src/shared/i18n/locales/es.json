@@ -91,8 +91,7 @@
 		"ariaLabel": "Compartir esta página",
 		"copied": "¡Enlace copiado!",
 		"webShareLabel": "Compartir sitio usando el menú del sistema",
-		"clipboardLabel": "Copiar enlace al portapapeles",
-		"text": "Explora el trabajo de ingeniería de software, proyectos seleccionados y enlaces profesionales de David Sandoval."
+		"clipboardLabel": "Copiar enlace al portapapeles"
 	},
 	"theme": {
 		"light": "Cambiar a modo claro",

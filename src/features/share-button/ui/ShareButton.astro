@@ -17,7 +17,6 @@ const t = useTranslations(lang);
 	aria-label={t('share.ariaLabel')}
 	data-share-label-webshare={t('share.webShareLabel')}
 	data-share-label-clipboard={t('share.clipboardLabel')}
-	data-share-text={t('share.text')}
 	type="button">
 	<span class="share-button__icon" aria-hidden="true" set:html={ShareIcon} />
 	<span class="share-button__feedback" id="share-feedback" aria-hidden="true">
@@ -35,7 +34,6 @@ const t = useTranslations(lang);
 		const fallbackLabel = button.getAttribute('aria-label') || '';
 		const webshareLabel = button.getAttribute('data-share-label-webshare') || fallbackLabel;
 		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || fallbackLabel;
-		const shareText = button.getAttribute('data-share-text') || '';
 		const updateAriaLabel = () => {
 			button.setAttribute('aria-label', isWebShareSupported() ? webshareLabel : clipboardLabel);
 		};
@@ -47,7 +45,7 @@ const t = useTranslations(lang);
 			button.classList.add('share-button--loading');
 
 			try {
-				const result = await share(shareText);
+				const result = await share();
 				if (result.method === 'clipboard' && result.success && feedback) {
 					feedback.classList.add('share-button__feedback--visible');
 					setTimeout(() => feedback.classList.remove('share-button__feedback--visible'), 2000);

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
 describe('Navigation and i18n control contracts (#90, #91)', () => {
-	test('ShareButton and ThemeToggle receive localized attributes', async () => {
+	test('ShareButton localizes action labels without injecting share copy', async () => {
 		const shareContent = await readFile(
 			join(repositoryRoot, 'src/features/share-button/ui/ShareButton.astro'),
 			'utf8'
@@ -19,7 +19,9 @@ describe('Navigation and i18n control contracts (#90, #91)', () => {
 		expect(shareContent).toContain('useTranslations');
 		expect(shareContent).toContain('data-share-label-webshare');
 		expect(shareContent).toContain('data-share-label-clipboard');
-		expect(shareContent).toContain('data-share-text');
+		expect(shareContent).not.toContain('data-share-text');
+		expect(shareContent).not.toContain("t('share.text')");
+		expect(shareContent).toContain('await share()');
 		expect(themeContent).toContain('useTranslations');
 		expect(themeContent).toContain('data-label-light');
 		expect(themeContent).toContain('data-label-dark');
