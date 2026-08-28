@@ -1,6 +1,4 @@
 interface ShareData {
-	title: string;
-	text: string;
 	url: string;
 }
 
@@ -18,11 +16,11 @@ export function isWebShareSupported(
 	return typeof capability?.share === 'function';
 }
 
-export function getShareData(text: string): ShareData {
-	const pageTitle = typeof document !== 'undefined' ? document.title : '';
-	const pageUrl =
-		typeof window !== 'undefined' ? window.location.href : 'https://hub.sandovaldavid.com';
-	return { title: pageTitle, text, url: pageUrl };
+export function getShareData(
+	pageUrl: string =
+		typeof window !== 'undefined' ? window.location.href : 'https://hub.sandovaldavid.com/'
+): ShareData {
+	return { url: pageUrl };
 }
 
 export async function shareViaWebAPI(data: ShareData): Promise<ShareResult> {
@@ -66,8 +64,8 @@ export async function copyToClipboard(text: string): Promise<ShareResult> {
 	}
 }
 
-export async function share(text: string): Promise<ShareResult> {
-	const shareData = getShareData(text);
+export async function share(): Promise<ShareResult> {
+	const shareData = getShareData();
 	if (isWebShareSupported()) {
 		const result = await shareViaWebAPI(shareData);
 		if (result.success || result.error === 'User cancelled') return result;
