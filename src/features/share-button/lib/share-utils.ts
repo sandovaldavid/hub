@@ -10,16 +10,19 @@ interface ShareResult {
 
 type WebShareCapability = Pick<Navigator, 'share'>;
 
+const defaultShareUrl = 'https://hub.sandovaldavid.com/';
+
 export function isWebShareSupported(
 	capability: WebShareCapability | null = typeof navigator === 'undefined' ? null : navigator
 ): boolean {
 	return typeof capability?.share === 'function';
 }
 
-export function getShareData(
-	pageUrl: string =
-		typeof window !== 'undefined' ? window.location.href : 'https://hub.sandovaldavid.com/'
-): ShareData {
+function getCurrentPageUrl(): string {
+	return typeof window !== 'undefined' ? window.location.href : defaultShareUrl;
+}
+
+export function getShareData(pageUrl: string = getCurrentPageUrl()): ShareData {
 	return { url: pageUrl };
 }
 
