@@ -10,7 +10,7 @@ export const profile: Profile = {
 		alt: siteConfig.name,
 	},
 	logo: {
-		url: `/logo/${siteConfig.handle}.svg`,
+		url: '/logo/logo.svg',
 	},
 	contact: {
 		email: siteConfig.email,

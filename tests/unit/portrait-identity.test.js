@@ -9,6 +9,8 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const approvedPortraitPath = join(repositoryRoot, 'public/profile/perfil.webp');
 const illustratedPortraitPath = join(repositoryRoot, 'public/profile/retrato-giblin.webp');
+const approvedLogoV2MicroPath = join(repositoryRoot, 'public/logo/logo.svg');
+const retiredLogoV1Path = join(repositoryRoot, 'public/logo/sandovaldavid.svg');
 const approvedPortfolioBlob = '8b0c1634cac7f4c1d08f7f4bc3a4b314762827f1';
 
 describe('Human-first portrait contract (#60)', () => {
@@ -29,6 +31,28 @@ describe('Human-first portrait contract (#60)', () => {
 		expect(portrait.subarray(0, 4).toString('ascii')).toBe('RIFF');
 		expect(portrait.subarray(8, 12).toString('ascii')).toBe('WEBP');
 		expect(gitBlobSha).toBe(approvedPortfolioBlob);
+	});
+
+	test('uses the clean Logo v2 Micro 24 dark-context badge instead of scaling Logo v1', async () => {
+		const [profileSource, profileAvatar, logo] = await Promise.all([
+			readFile(join(repositoryRoot, 'src/data/profile.ts'), 'utf8'),
+			readFile(join(repositoryRoot, 'src/entities/profile/ui/ProfileAvatar.astro'), 'utf8'),
+			readFile(approvedLogoV2MicroPath, 'utf8'),
+		]);
+
+		expect(profileSource).toContain("url: '/logo/logo.svg'");
+		expect(profileAvatar).toContain(
+			"showBrandLogo && brandLogoSrc && ['3xl', '4xl'].includes(size)"
+		);
+		expect(profileAvatar).toContain('data-theme="dark"');
+		expect(profileAvatar).toContain('size-[38px]');
+		expect(profileAvatar).toContain('width="24"');
+		expect(profileAvatar).toContain('height="24"');
+		expect(profileAvatar).not.toContain('logoSizeMap');
+		expect(logo).toContain('viewBox="0 0 24 24"');
+		expect(logo).toContain('fill="#0080FF"');
+		expect(logo).toContain('fill="#00D8FF"');
+		expect(existsSync(retiredLogoV1Path)).toBe(false);
 	});
 
 	test('localizes a truthful portrait label for English and Spanish', async () => {
