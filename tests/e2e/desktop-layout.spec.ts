@@ -77,7 +77,7 @@ for (const route of routes) {
 				await expect(snapshotMetadata).toHaveCount(3);
 
 				const socialItems = page.locator('.social-grid__item');
-				await expect(socialItems).toHaveCount(4);
+				await expect(socialItems).toHaveCount(3);
 				await expect(page.locator('.social-grid__item--wide')).toHaveCount(0);
 
 				const [socialGridBox, socialBoxes, socialRowCount] = await Promise.all([
@@ -236,7 +236,7 @@ for (const route of routes) {
 			expect(metadataBoxes[2].width).toBeGreaterThan(metadataBoxes[0].width * 1.8);
 
 			const mobileSocialItems = page.locator('.social-grid__item');
-			await expect(mobileSocialItems).toHaveCount(4);
+			await expect(mobileSocialItems).toHaveCount(3);
 			const [socialWidths, mobileSocialRows] = await Promise.all([
 				mobileSocialItems.evaluateAll(elements =>
 					elements.map(element => element.getBoundingClientRect().width)
