@@ -39,7 +39,6 @@ describe('public privacy contract', () => {
 		expect(Object.keys(siteConfig.socialUrls).sort(), 'socialUrls keys').toEqual([
 			'instagram',
 			'linkedin',
-			'twitter',
 		]);
 	});
 
