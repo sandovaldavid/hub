@@ -43,7 +43,9 @@ function normalizeSource(referrer: string, currentHost: string): ConversionSourc
 		const host = new URL(referrer).hostname.toLowerCase();
 		if (host === currentHost) return 'internal';
 		if (/google\.|bing\.|duckduckgo\.|yahoo\./.test(host)) return 'search';
-		if (/linkedin\.|github\.|twitter\.|x\.com|youtube\.|facebook\.|instagram\./.test(host)) {
+		if (
+			/linkedin\.|github\.|twitter\.|x\.com|youtube\.|tiktok\.|facebook\.|instagram\./.test(host)
+		) {
 			return 'social';
 		}
 		return 'referral';
