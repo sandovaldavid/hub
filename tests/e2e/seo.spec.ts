@@ -7,7 +7,6 @@ const profileImageUrl = `${siteUrl}/profile/perfil.webp`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
-	'https://x.com/jdsandoval_',
 	'https://www.instagram.com/jdsandovals',
 ];
 
@@ -163,6 +162,8 @@ for (const route of routes) {
 				'content',
 				socialPreviewUrl
 			);
+			await expect(page.locator('meta[name="twitter:site"]')).toHaveCount(0);
+			await expect(page.locator('meta[name="twitter:creator"]')).toHaveCount(0);
 			await expect(page.locator('meta[name="twitter:image:alt"]')).toHaveAttribute(
 				'content',
 				route.imageAlt
