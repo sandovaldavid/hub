@@ -41,6 +41,9 @@ describe('Human-first portrait contract (#60)', () => {
 		]);
 
 		expect(profileSource).toContain("url: '/logo/logo-v2-micro-dark-24.svg'");
+		expect(profileAvatar).toContain(
+			"showBrandLogo && brandLogoSrc && ['3xl', '4xl'].includes(size)"
+		);
 		expect(profileAvatar).toContain('data-theme="dark"');
 		expect(profileAvatar).toContain('size-[38px]');
 		expect(profileAvatar).toContain('width="24"');

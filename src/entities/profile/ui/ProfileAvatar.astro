@@ -40,12 +40,11 @@ const {
 	/>
 
 	{
-		showBrandLogo && brandLogoSrc && (
+		showBrandLogo && brandLogoSrc && ['3xl', '4xl'].includes(size) && (
 			<span
 				data-theme="dark"
 				class="absolute right-0 bottom-0 flex size-[38px] items-center justify-center rounded-full border border-channel-edge-default bg-channel-surface-default shadow-xs"
-				aria-hidden="true"
-			>
+				aria-hidden="true">
 				<img
 					src={brandLogoSrc}
 					alt=""

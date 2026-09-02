@@ -48,7 +48,7 @@ export const siteConfig = {
 		es: 'https://sandovaldavid.com/resume/david-sandoval-resume-es.pdf',
 	},
 	socialPreview: {
-		path: '/og/og-image.png',
+		path: '/og/og_dark.png',
 		type: 'image/png',
 		width: 1200,
 		height: 630,

@@ -9,18 +9,16 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');
 
 describe('theme favicon contract', () => {
-	test('keeps favicon assets synchronized with the approved logos', async () => {
-		const [darkFavicon, lightFavicon, darkLogo, lightLogo] = await Promise.all([
+	test('keeps Logo v2 favicons and removes retired V1 logo sources', async () => {
+		const [darkFavicon, lightFavicon] = await Promise.all([
 			read('public/favicon.dark.svg'),
 			read('public/favicon.light.svg'),
-			read('public/logo/sandovaldavid.svg'),
-			read('public/logo/sandovaldavid.light.svg'),
 		]);
 
-		expect(darkFavicon).toBe(darkLogo);
-		expect(lightFavicon).toBe(lightLogo);
 		expect(darkFavicon).not.toBe(lightFavicon);
 		expect(existsSync(join(repositoryRoot, 'public/favicon.svg'))).toBe(false);
+		expect(existsSync(join(repositoryRoot, 'public/logo/sandovaldavid.svg'))).toBe(false);
+		expect(existsSync(join(repositoryRoot, 'public/logo/sandovaldavid.light.svg'))).toBe(false);
 	});
 
 	test('uses one effective-theme mapping for favicon updates', async () => {

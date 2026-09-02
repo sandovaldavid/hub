@@ -4,7 +4,7 @@ I built this compact, bilingual professional Hub as a focused entry point to my 
 
 [View production](https://hub.sandovaldavid.com) · [Portfolio](https://sandovaldavid.com) · [Résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
 
-[![Current production preview](public/og/og-image.png)](https://hub.sandovaldavid.com)
+[![Current production preview](public/og/og_dark.png)](https://hub.sandovaldavid.com)
 
 ## Why I built this
 
