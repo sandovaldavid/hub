@@ -78,7 +78,8 @@ for (const route of routes) {
 
 				const socialItems = page.locator('.social-grid__item');
 				await expect(socialItems).toHaveCount(3);
-				await expect(page.locator('.social-grid__item--wide')).toHaveCount(0);
+				await expect(page.locator('.social-grid__item--wide')).toHaveCount(1);
+				await expect(socialItems.last()).toHaveClass(/social-grid__item--wide/);
 
 				const [socialGridBox, socialBoxes, socialRowCount] = await Promise.all([
 					page.locator('.social-grid').boundingBox(),
@@ -99,7 +100,8 @@ for (const route of routes) {
 				const socialHeights = socialBoxes.map(box => box.height);
 				const socialWidths = socialBoxes.map(box => box.width);
 				expect(Math.max(...socialHeights) - Math.min(...socialHeights)).toBeLessThanOrEqual(2);
-				expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
+				expect(Math.abs(socialWidths[0] - socialWidths[1])).toBeLessThanOrEqual(2);
+				expect(socialWidths[2]).toBeGreaterThan(socialWidths[0] * 1.8);
 				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(64);
 
 				const primaryActions = page.locator('[data-layout-column="primary-actions"]');
