@@ -38,16 +38,6 @@ export const socialLinks: SocialLink[] = [
 		conversionEvent: 'github_opened',
 	},
 	{
-		id: 'twitter',
-		platform: 'twitter',
-		label: 'X',
-		url: siteConfig.socialUrls.twitter,
-		username: siteConfig.socialUsernames.twitter,
-		priority: 'secondary',
-		audience: ['community'],
-		analyticsId: 'social_x_opened',
-	},
-	{
 		id: 'instagram',
 		platform: 'instagram',
 		label: 'Instagram',
