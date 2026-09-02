@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const approvedPortraitPath = join(repositoryRoot, 'public/profile/perfil.webp');
 const illustratedPortraitPath = join(repositoryRoot, 'public/profile/retrato-giblin.webp');
-const approvedLogoV2MicroPath = join(repositoryRoot, 'public/logo/logo-v2-micro-dark-24.svg');
+const approvedLogoV2MicroPath = join(repositoryRoot, 'public/logo/logo.svg');
 const retiredLogoV1Path = join(repositoryRoot, 'public/logo/sandovaldavid.svg');
 const approvedPortfolioBlob = '8b0c1634cac7f4c1d08f7f4bc3a4b314762827f1';
 
@@ -40,7 +40,7 @@ describe('Human-first portrait contract (#60)', () => {
 			readFile(approvedLogoV2MicroPath, 'utf8'),
 		]);
 
-		expect(profileSource).toContain("url: '/logo/logo-v2-micro-dark-24.svg'");
+		expect(profileSource).toContain("url: '/logo/logo.svg'");
 		expect(profileAvatar).toContain(
 			"showBrandLogo && brandLogoSrc && ['3xl', '4xl'].includes(size)"
 		);
