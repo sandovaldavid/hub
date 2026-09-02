@@ -38,24 +38,22 @@ describe('social link configuration', () => {
 		}
 	});
 
-	test('publishes the approved professional social panel and keeps pending channels out', () => {
-		expect(getSocialLinksByPriority('secondary').map(link => link.id)).toEqual([
-			'twitter',
-			'youtube',
-			'tiktok',
-		]);
-		expect(getSocialLinksByPriority('footer').map(link => link.id)).toEqual([]);
+	test('publishes only approved secondary channels', () => {
+		const secondary = getSocialLinksByPriority('secondary').map(link => link.id);
+
+		expect(secondary).toEqual(['twitter', 'youtube', 'tiktok']);
+		expect(getSocialLinksByPriority('footer')).toHaveLength(0);
 		expect(socialLinks.some(link => ['instagram', 'facebook'].includes(link.id))).toBe(false);
 	});
 
 	test('uses the migrated X handle and professional creator handles', () => {
 		expect(getRequiredSocialLink('twitter')).toMatchObject({
-		url: 'https://x.com/davidsandoval_s',
-		username: '@davidsandoval_s',
-	});
-	for (const id of ['youtube', 'tiktok']) {
-		expect(getRequiredSocialLink(id).username).toBe('@davidsandoval.s');
-	}
+			url: 'https://x.com/davidsandoval_s',
+			username: '@davidsandoval_s',
+		});
+		for (const id of ['youtube', 'tiktok']) {
+			expect(getRequiredSocialLink(id).username).toBe('@davidsandoval.s');
+		}
 	});
 
 	test('defines audience and analytics metadata for every link', () => {

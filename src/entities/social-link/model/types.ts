@@ -1,13 +1,7 @@
 import type { ConversionEvent } from '@shared/analytics/conversion';
 
 export type SocialPlatform =
-	| 'github'
-	| 'linkedin'
-	| 'twitter'
-	| 'instagram'
-	| 'youtube'
-	| 'tiktok'
-	| 'website';
+	'github' | 'linkedin' | 'twitter' | 'instagram' | 'youtube' | 'tiktok' | 'website';
 export type SocialLinkPriority = 'primary' | 'secondary' | 'footer';
 export type SocialLinkAudience = 'recruiter' | 'client' | 'community';
 
