@@ -36,8 +36,6 @@ export function getSEO(lang: Lang = 'en') {
 
 		// Twitter Card
 		twitterCard: 'summary_large_image',
-		twitterSite: siteConfig.twitterHandle,
-		twitterCreator: siteConfig.twitterHandle,
 		twitterImageAlt: t.twitterImageAlt,
 		twitterLabel1: t.twitterLabel1,
 		twitterData1: t.twitterData1,
