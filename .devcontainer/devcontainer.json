@@ -39,7 +39,7 @@
 			"upgradePackages": false,
 			"username": "node"
 		},
-		"ghcr.io/devcontainers/features/github-cli:1.1.0": {}
+		"ghcr.io/devcontainers/features/github-cli:1.1.2": {}
 	},
 	"postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
 	"postStartCommand": "bash .devcontainer/scripts/post-start.sh",
