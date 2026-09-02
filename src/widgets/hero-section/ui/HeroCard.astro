@@ -21,8 +21,9 @@ const isCompact = variant === 'compact';
 				<ProfileAvatar
 					src={profile.avatar.url}
 					alt={profile.avatar.alt}
-					brandLogoSrc={profile.logo.url}
-					size={isCompact ? '3xl' : '4xl'}
+					brandLogoLightSrc={profile.logo.lightUrl}
+					brandLogoDarkSrc={profile.logo.darkUrl}
+					size="4xl"
 				/>
 			</div>
 		</div>
