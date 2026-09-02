@@ -41,7 +41,7 @@
 		"@astrojs/sitemap": "^3.7.3",
 		"@tailwindcss/vite": "^4.3.3",
 		"@vercel/analytics": "^2.0.1",
-		"astro": "7.2.4",
+		"astro": "7.2.9",
 		"tailwindcss": "^4.3.3"
 	},
 	"devDependencies": {
