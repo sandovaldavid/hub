@@ -8,11 +8,11 @@ import {
 
 describe('social link configuration', () => {
 	test('resolves a link by id regardless of array position', () => {
-		const instagram = getRequiredSocialLink('instagram');
+		const youtube = getRequiredSocialLink('youtube');
 
-		expect(instagram.id).toBe('instagram');
-		expect(instagram.url).toContain('instagram.com');
-		expect(socialLinks.indexOf(instagram)).toBeGreaterThanOrEqual(0);
+		expect(youtube.id).toBe('youtube');
+		expect(youtube.url).toContain('youtube.com');
+		expect(socialLinks.indexOf(youtube)).toBeGreaterThanOrEqual(0);
 	});
 
 	test('throws a clear error when a required link is missing', () => {
@@ -28,19 +28,34 @@ describe('social link configuration', () => {
 		expect(primary.length).toBeLessThanOrEqual(5);
 	});
 
-	test('keeps the LinkedIn label aligned with its public profile slug', () => {
-		const linkedin = getRequiredSocialLink('linkedin');
-		const slug = new URL(linkedin.url).pathname.split('/').filter(Boolean).at(-1);
+	test('keeps profile labels aligned with their public profile slugs', () => {
+		for (const id of ['linkedin', 'twitter', 'youtube', 'tiktok']) {
+			const link = getRequiredSocialLink(id);
+			const slug = new URL(link.url).pathname.split('/').filter(Boolean).at(-1);
+			const normalizedSlug = slug?.startsWith('@') ? slug : `@${slug}`;
 
-		expect(linkedin.username).toBe(`@${slug}`);
+			expect(link.username).toBe(normalizedSlug);
+		}
 	});
 
-	test('keeps only currently approved community networks outside the primary tier', () => {
-		expect(getSocialLinksByPriority('secondary').map(link => link.id)).toEqual([]);
-		expect(getSocialLinksByPriority('footer').map(link => link.id)).toEqual(['instagram']);
-		expect(
-			socialLinks.some(link => ['twitter', 'youtube', 'tiktok', 'facebook'].includes(link.id))
-		).toBe(false);
+	test('publishes the approved professional social panel and keeps pending channels out', () => {
+		expect(getSocialLinksByPriority('secondary').map(link => link.id)).toEqual([
+			'twitter',
+			'youtube',
+			'tiktok',
+		]);
+		expect(getSocialLinksByPriority('footer').map(link => link.id)).toEqual([]);
+		expect(socialLinks.some(link => ['instagram', 'facebook'].includes(link.id))).toBe(false);
+	});
+
+	test('uses the migrated X handle and professional creator handles', () => {
+		expect(getRequiredSocialLink('twitter')).toMatchObject({
+		url: 'https://x.com/davidsandoval_s',
+		username: '@davidsandoval_s',
+	});
+	for (const id of ['youtube', 'tiktok']) {
+		expect(getRequiredSocialLink(id).username).toBe('@davidsandoval.s');
+	}
 	});
 
 	test('defines audience and analytics metadata for every link', () => {

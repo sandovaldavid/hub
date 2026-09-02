@@ -7,7 +7,9 @@ const profileImageUrl = `${siteUrl}/profile/perfil.webp`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
-	'https://www.instagram.com/jdsandovals',
+	'https://x.com/davidsandoval_s',
+	'https://www.youtube.com/@davidsandoval.s',
+	'https://www.tiktok.com/@davidsandoval.s',
 ];
 
 const routes = [
@@ -162,8 +164,14 @@ for (const route of routes) {
 				'content',
 				socialPreviewUrl
 			);
-			await expect(page.locator('meta[name="twitter:site"]')).toHaveCount(0);
-			await expect(page.locator('meta[name="twitter:creator"]')).toHaveCount(0);
+			await expect(page.locator('meta[name="twitter:site"]')).toHaveAttribute(
+				'content',
+				'@davidsandoval_s'
+			);
+			await expect(page.locator('meta[name="twitter:creator"]')).toHaveAttribute(
+				'content',
+				'@davidsandoval_s'
+			);
 			await expect(page.locator('meta[name="twitter:image:alt"]')).toHaveAttribute(
 				'content',
 				route.imageAlt

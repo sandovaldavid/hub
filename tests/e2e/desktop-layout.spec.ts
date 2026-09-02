@@ -77,9 +77,8 @@ for (const route of routes) {
 				await expect(snapshotMetadata).toHaveCount(3);
 
 				const socialItems = page.locator('.social-grid__item');
-				await expect(socialItems).toHaveCount(3);
-				await expect(page.locator('.social-grid__item--wide')).toHaveCount(1);
-				await expect(socialItems.last()).toHaveClass(/social-grid__item--wide/);
+				await expect(socialItems).toHaveCount(6);
+				await expect(page.locator('.social-grid__item--wide')).toHaveCount(0);
 
 				const [socialGridBox, socialBoxes, socialRowCount] = await Promise.all([
 					page.locator('.social-grid').boundingBox(),
@@ -95,13 +94,12 @@ for (const route of routes) {
 					}),
 				]);
 				expect(socialGridBox).not.toBeNull();
-				expect(socialGridBox?.height ?? 0).toBeLessThanOrEqual(160);
-				expect(socialRowCount).toBe(2);
+				expect(socialGridBox?.height ?? 0).toBeLessThanOrEqual(210);
+				expect(socialRowCount).toBe(3);
 				const socialHeights = socialBoxes.map(box => box.height);
 				const socialWidths = socialBoxes.map(box => box.width);
 				expect(Math.max(...socialHeights) - Math.min(...socialHeights)).toBeLessThanOrEqual(2);
-				expect(Math.abs(socialWidths[0] - socialWidths[1])).toBeLessThanOrEqual(2);
-				expect(socialWidths[2]).toBeGreaterThan(socialWidths[0] * 1.8);
+				expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
 				expect(Math.max(...socialHeights)).toBeLessThanOrEqual(64);
 
 				const primaryActions = page.locator('[data-layout-column="primary-actions"]');
@@ -157,9 +155,6 @@ for (const route of routes) {
 					'#featured-projects-title'
 				);
 
-				// Section headings carry no decorative icon. "Featured projects" used to
-				// sit beside a rocket while "Explore my work" had nothing, which read as
-				// an inconsistency rather than emphasis.
 				await expect(page.locator('.featured-project-section__icon')).toHaveCount(0);
 				await expect(
 					page.locator('#featured-projects-title, #cta-heading').locator('svg')
@@ -238,7 +233,7 @@ for (const route of routes) {
 			expect(metadataBoxes[2].width).toBeGreaterThan(metadataBoxes[0].width * 1.8);
 
 			const mobileSocialItems = page.locator('.social-grid__item');
-			await expect(mobileSocialItems).toHaveCount(3);
+			await expect(mobileSocialItems).toHaveCount(6);
 			const [socialWidths, mobileSocialRows] = await Promise.all([
 				mobileSocialItems.evaluateAll(elements =>
 					elements.map(element => element.getBoundingClientRect().width)
@@ -249,7 +244,7 @@ for (const route of routes) {
 				}),
 			]);
 			expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
-			expect(mobileSocialRows).toBe(2);
+			expect(mobileSocialRows).toBe(3);
 
 			const mobileActionRows = await page
 				.locator('.cta-buttons--vertical .cta-buttons__link')

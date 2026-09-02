@@ -39,6 +39,8 @@ const {
 	fbAppId,
 	ogLocale,
 	twitterCard,
+	twitterSite,
+	twitterCreator,
 	twitterImageAlt,
 	twitterLabel1,
 	twitterData1,
@@ -113,6 +115,8 @@ const jsonLd = emitStructuredData
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={socialDescription} />
 		<meta name="twitter:image" content={absoluteOgImage} />
+		<meta name="twitter:site" content={twitterSite} />
+		<meta name="twitter:creator" content={twitterCreator} />
 		<meta name="twitter:image:alt" content={twitterImageAlt} />
 		<meta name="twitter:label1" content={twitterLabel1} />
 		<meta name="twitter:data1" content={twitterData1} />

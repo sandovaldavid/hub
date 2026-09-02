@@ -78,8 +78,13 @@ describe('human-first SEO contract', () => {
 		expect(structuredData).toContain("mainEntity: { '@id': personId }");
 		expect(structuredData).toContain("mainEntityOfPage: { '@id': pageId }");
 		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
-		expect(siteConfig).toContain('sameAs: [socialUrls.linkedin, githubUrl, socialUrls.instagram]');
-		expect(siteConfig).not.toMatch(/x\.com|youtube|tiktok|facebook|whatsapp/i);
+		expect(siteConfig).toContain("twitter: 'https://x.com/davidsandoval_s'");
+		expect(siteConfig).toContain("youtube: 'https://www.youtube.com/@davidsandoval.s'");
+		expect(siteConfig).toContain("tiktok: 'https://www.tiktok.com/@davidsandoval.s'");
+		expect(siteConfig).toContain('socialUrls.twitter');
+		expect(siteConfig).toContain('socialUrls.youtube');
+		expect(siteConfig).toContain('socialUrls.tiktok');
+		expect(siteConfig).not.toMatch(/jdsandoval_|socialUrls\.instagram|facebook|whatsapp/i);
 	});
 
 	test('keeps social preview metadata synchronized with the PNG asset', async () => {

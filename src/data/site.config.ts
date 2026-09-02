@@ -4,17 +4,22 @@ const portfolioUrl = 'https://sandovaldavid.com';
 const githubUrl = 'https://github.com/sandovaldavid';
 const socialUrls = {
 	linkedin: 'https://www.linkedin.com/in/jdsandovals',
-	instagram: 'https://www.instagram.com/jdsandovals',
+	twitter: 'https://x.com/davidsandoval_s',
+	youtube: 'https://www.youtube.com/@davidsandoval.s',
+	tiktok: 'https://www.tiktok.com/@davidsandoval.s',
 } as const;
 
 const usernameFromUrl = (url: string): string => {
 	const slug = new URL(url).pathname.split('/').filter(Boolean).at(-1);
-	return slug ? `@${slug}` : '';
+	if (!slug) return '';
+	return slug.startsWith('@') ? slug : `@${slug}`;
 };
 
 const socialUsernames = {
 	linkedin: usernameFromUrl(socialUrls.linkedin),
-	instagram: usernameFromUrl(socialUrls.instagram),
+	twitter: usernameFromUrl(socialUrls.twitter),
+	youtube: usernameFromUrl(socialUrls.youtube),
+	tiktok: usernameFromUrl(socialUrls.tiktok),
 } as const;
 
 export const siteConfig = {
@@ -23,6 +28,7 @@ export const siteConfig = {
 	name: 'David Sandoval',
 	shortName: 'David Sandoval',
 	email: 'hello@sandovaldavid.com',
+	twitterHandle: socialUsernames.twitter,
 
 	url: 'https://hub.sandovaldavid.com',
 	portfolioUrl,
@@ -30,7 +36,13 @@ export const siteConfig = {
 	socialUrls,
 	socialUsernames,
 	// `portfolioUrl` identifies David's canonical website; `sameAs` lists approved profiles.
-	sameAs: [socialUrls.linkedin, githubUrl, socialUrls.instagram],
+	sameAs: [
+		socialUrls.linkedin,
+		githubUrl,
+		socialUrls.twitter,
+		socialUrls.youtube,
+		socialUrls.tiktok,
+	],
 	resume: {
 		en: 'https://sandovaldavid.com/resume/david-sandoval-resume.pdf',
 		es: 'https://sandovaldavid.com/resume/david-sandoval-resume-es.pdf',

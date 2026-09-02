@@ -11,7 +11,9 @@ import './SocialGrid.css';
 import LinkedInIcon from '@shared/assets/social-platform/linkedin.svg';
 import GitHubIcon from '@shared/assets/social-platform/github.svg';
 import InstagramIcon from '@shared/assets/social-platform/instagram.svg';
+import TikTokIcon from '@shared/assets/social-platform/tiktok.svg';
 import XIcon from '@shared/assets/social-platform/x.svg';
+import YouTubeIcon from '@shared/assets/social-platform/youtube.svg';
 import WebSiteIcon from '@shared/assets/social-platform/website.svg';
 
 interface Props {
@@ -66,6 +68,12 @@ const platformClasses: Partial<Record<SocialPlatform, { brand?: string; icon?: s
 							)}
 							{link.platform === 'twitter' && (
 								<XIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
+							{link.platform === 'youtube' && (
+								<YouTubeIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
+							{link.platform === 'tiktok' && (
+								<TikTokIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
 							)}
 							{link.platform === 'website' && (
 								<WebSiteIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
