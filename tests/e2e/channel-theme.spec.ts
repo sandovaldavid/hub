@@ -103,8 +103,8 @@ test.describe('Link Hub Compact channel theme', () => {
 					await expect(avatar).toBeVisible();
 					const avatarBox = await avatar.boundingBox();
 					expect(avatarBox).not.toBeNull();
-					expect(Math.round(avatarBox!.width)).toBe(160);
-					expect(Math.round(avatarBox!.height)).toBe(160);
+					expect(Math.round(avatarBox!.width)).toBe(208);
+					expect(Math.round(avatarBox!.height)).toBe(208);
 
 					const logoBadge = page.locator('[data-profile-brand-logo]');
 					const lightLogo = logoBadge.locator('[data-logo-mode="light"]');
@@ -135,8 +135,8 @@ test.describe('Link Hub Compact channel theme', () => {
 							expectedSurface,
 						};
 					});
-					expect(badgeContract.width).toBe('48px');
-					expect(badgeContract.height).toBe('48px');
+					expect(badgeContract.width).toBe('56px');
+					expect(badgeContract.height).toBe('56px');
 					expect(badgeContract.background).toBe(badgeContract.expectedSurface);
 
 					const tokenContract = await page.evaluate(() => {

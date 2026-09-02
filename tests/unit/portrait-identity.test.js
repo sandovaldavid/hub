@@ -48,12 +48,12 @@ describe('Human-first portrait contract (#60)', () => {
 		expect(profileSource).toContain("darkUrl: '/favicon.dark.svg'");
 		expect(heroCard).toContain('brandLogoLightSrc={profile.logo.lightUrl}');
 		expect(heroCard).toContain('brandLogoDarkSrc={profile.logo.darkUrl}');
-		expect(heroCard).toContain('size="4xl"');
+		expect(heroCard).toContain('size="5xl"');
 		expect(profileAvatar).toContain(
-			"showBrandLogo && brandLogoSources && ['3xl', '4xl'].includes(size)"
+			"showBrandLogo && brandLogoSources && ['3xl', '4xl', '5xl'].includes(size)"
 		);
 		expect(profileAvatar).not.toContain('data-theme="dark"');
-		expect(profileAvatar).toContain('size-12');
+		expect(profileAvatar).toContain('size-14');
 		expect(profileAvatar).toContain('width="32"');
 		expect(profileAvatar).toContain('height="32"');
 		expect(profileAvatar).toContain('dark:hidden');
