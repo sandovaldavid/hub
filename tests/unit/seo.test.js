@@ -52,6 +52,10 @@ describe('human-first SEO contract', () => {
 		expect(spanish.seo.socialDescription).toMatch(
 			/^Soy David Sandoval, Ingeniero de Software.*foco en backend.*frontend/i
 		);
+		expect(english.seo.ogImageAlt).toBe('David Sandoval — Software Engineer profile card');
+		expect(spanish.seo.ogImageAlt).toBe(
+			'David Sandoval — tarjeta de perfil de Software Engineer'
+		);
 		expect(seoData).toContain('socialDescription: t.socialDescription');
 		expect(seoData).not.toContain('keywords:');
 		expect(seoData).not.toContain('googlebot:');
@@ -89,7 +93,7 @@ describe('human-first SEO contract', () => {
 
 	test('keeps social preview metadata synchronized with the PNG asset', async () => {
 		const [preview, siteConfig, seoData, layout] = await Promise.all([
-			readFile(join(repositoryRoot, 'public/og/og_dark.png')),
+			readFile(join(repositoryRoot, 'public/og/og-image.png')),
 			read('src/data/site.config.ts'),
 			read('src/data/seo.ts'),
 			read('src/app/layouts/Layout.astro'),
@@ -98,7 +102,7 @@ describe('human-first SEO contract', () => {
 		expect(preview.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
 		expect(preview.readUInt32BE(16)).toBe(1200);
 		expect(preview.readUInt32BE(20)).toBe(630);
-		expect(siteConfig).toContain("path: '/og/og_dark.png'");
+		expect(siteConfig).toContain("path: '/og/og-image.png'");
 		expect(siteConfig).toContain("type: 'image/png'");
 		expect(siteConfig).toContain('width: 1200');
 		expect(siteConfig).toContain('height: 630');
@@ -155,7 +159,7 @@ describe('human-first SEO contract', () => {
 			description: 'Description',
 			lang: 'en',
 			canonicalUrl: 'https://hub.sandovaldavid.com/',
-			imageUrl: 'https://hub.sandovaldavid.com/og/og_dark.png',
+			imageUrl: 'https://hub.sandovaldavid.com/og/og-image.png',
 			imageAlt: 'social preview alt',
 			portraitAlt: 'portrait alt',
 		})['@graph'];
@@ -175,7 +179,7 @@ describe('human-first SEO contract', () => {
 		expect(portrait.width).toBe(portrait.height);
 
 		const socialPreview = nodeById[page.primaryImageOfPage['@id']];
-		expect(socialPreview.url).toBe('https://hub.sandovaldavid.com/og/og_dark.png');
+		expect(socialPreview.url).toBe('https://hub.sandovaldavid.com/og/og-image.png');
 		expect(socialPreview.width).not.toBe(socialPreview.height);
 	});
 
