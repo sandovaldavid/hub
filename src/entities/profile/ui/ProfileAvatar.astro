@@ -49,10 +49,12 @@ const brandLogoSources =
 	{
 		showBrandLogo && brandLogoSources && ['3xl', '4xl'].includes(size) && (
 			<span
+				data-profile-brand-logo
 				class="absolute right-0 bottom-0 flex size-12 items-center justify-center rounded-full border border-channel-edge-default bg-channel-surface-default shadow-xs"
 				aria-hidden="true">
 				<img
 					src={brandLogoSources.light}
+					data-logo-mode="light"
 					alt=""
 					role="presentation"
 					width="32"
@@ -64,6 +66,7 @@ const brandLogoSources =
 				/>
 				<img
 					src={brandLogoSources.dark}
+					data-logo-mode="dark"
 					alt=""
 					role="presentation"
 					width="32"

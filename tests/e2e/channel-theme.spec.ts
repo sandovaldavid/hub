@@ -98,7 +98,46 @@ test.describe('Link Hub Compact channel theme', () => {
 					await expect(page.locator('html')).toHaveAttribute('lang', route.locale);
 					await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
 					await expect(page.locator('h1#hero-heading')).toBeVisible();
-					await expect(page.getByRole('img', { name: route.avatarAlt, exact: true })).toBeVisible();
+
+					const avatar = page.getByRole('img', { name: route.avatarAlt, exact: true });
+					await expect(avatar).toBeVisible();
+					const avatarBox = await avatar.boundingBox();
+					expect(avatarBox).not.toBeNull();
+					expect(Math.round(avatarBox!.width)).toBe(160);
+					expect(Math.round(avatarBox!.height)).toBe(160);
+
+					const logoBadge = page.locator('[data-profile-brand-logo]');
+					const lightLogo = logoBadge.locator('[data-logo-mode="light"]');
+					const darkLogo = logoBadge.locator('[data-logo-mode="dark"]');
+					await expect(logoBadge).toBeVisible();
+					await expect(logoBadge).not.toHaveAttribute('data-theme', /.+/);
+					await expect(theme === 'light' ? lightLogo : darkLogo).toBeVisible();
+					await expect(theme === 'light' ? darkLogo : lightLogo).toBeHidden();
+
+					const activeLogo = theme === 'light' ? lightLogo : darkLogo;
+					const activeLogoBox = await activeLogo.boundingBox();
+					expect(activeLogoBox).not.toBeNull();
+					expect(Math.round(activeLogoBox!.width)).toBe(32);
+					expect(Math.round(activeLogoBox!.height)).toBe(32);
+
+					const badgeContract = await logoBadge.evaluate(element => {
+						const style = getComputedStyle(element);
+						const surfaceProbe = document.createElement('span');
+						surfaceProbe.style.backgroundColor = 'var(--channel-surface-default)';
+						document.body.append(surfaceProbe);
+						const expectedSurface = getComputedStyle(surfaceProbe).backgroundColor;
+						surfaceProbe.remove();
+
+						return {
+							width: style.width,
+							height: style.height,
+							background: style.backgroundColor,
+							expectedSurface,
+						};
+					});
+					expect(badgeContract.width).toBe('48px');
+					expect(badgeContract.height).toBe('48px');
+					expect(badgeContract.background).toBe(badgeContract.expectedSurface);
 
 					const tokenContract = await page.evaluate(() => {
 						const root = getComputedStyle(document.documentElement);
