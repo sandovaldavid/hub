@@ -78,10 +78,8 @@ describe('human-first SEO contract', () => {
 		expect(structuredData).toContain("mainEntity: { '@id': personId }");
 		expect(structuredData).toContain("mainEntityOfPage: { '@id': pageId }");
 		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
-		expect(siteConfig).toContain(
-			'sameAs: [socialUrls.linkedin, githubUrl, socialUrls.twitter, socialUrls.instagram]'
-		);
-		expect(siteConfig).not.toMatch(/youtube|tiktok|facebook|whatsapp/i);
+		expect(siteConfig).toContain('sameAs: [socialUrls.linkedin, githubUrl, socialUrls.instagram]');
+		expect(siteConfig).not.toMatch(/x\.com|youtube|tiktok|facebook|whatsapp/i);
 	});
 
 	test('keeps social preview metadata synchronized with the PNG asset', async () => {
