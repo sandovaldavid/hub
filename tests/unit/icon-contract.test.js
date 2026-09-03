@@ -47,4 +47,38 @@ describe('shared iconography contract', () => {
 		expect(link).toContain('M10 13a5 5 0 0 0 7.54.54');
 		expect(share).toContain('m8.6 10.5 6.8-4');
 	});
+
+	test('uses Logo v2 Micro 24 as the owned Portfolio destination', async () => {
+		const [portfolio, socialGrid, ctaData, ctaModel, ctaButtons, footer, socialLinks] =
+			await Promise.all([
+				read('src/shared/assets/owned-destination/portfolio.svg'),
+				read('src/widgets/social-grid/ui/SocialGrid.astro'),
+				read('src/data/cta.ts'),
+				read('src/shared/model/cta.ts'),
+				read('src/widgets/cta-section/ui/CTAButtons.astro'),
+				read('src/widgets/site-footer/ui/SiteFooter.astro'),
+				read('src/data/social-links.ts'),
+			]);
+
+		expect(portfolio).toContain('viewBox="0 0 24 24"');
+		expect(portfolio).toContain('M12.436 2.38594');
+		expect(portfolio).toContain('light-dark(#172554, #ffffff)');
+		expect(portfolio).toContain('light-dark(#1D4ED8, #0080FF)');
+		expect(portfolio).toContain('fill="#00D8FF"');
+
+		expect(socialGrid).toContain(
+			"PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg'"
+		);
+		expect(socialGrid).not.toContain('social-platform/website.svg');
+		expect(ctaData).toContain("id: 'portfolio'");
+		expect(ctaData).toContain("icon: 'portfolio'");
+		expect(ctaModel).toContain("'portfolio' | 'rocket' | 'github' | 'email'");
+		expect(ctaButtons).toContain(
+			"PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg?raw'"
+		);
+		expect(footer).toContain(
+			"PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg?raw'"
+		);
+		expect(socialLinks).toContain("label: 'Portfolio'");
+	});
 });
