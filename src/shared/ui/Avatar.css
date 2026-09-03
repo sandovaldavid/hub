@@ -29,3 +29,6 @@
 .avatar-size-4xl {
 	@apply h-40 w-40 text-4xl;
 }
+.avatar-size-5xl {
+	@apply h-52 w-52 text-5xl;
+}

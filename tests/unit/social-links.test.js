@@ -1,10 +1,15 @@
 import { describe, expect, test } from 'bun:test';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
 	getPrimarySocialLinks,
 	getRequiredSocialLink,
 	getSocialLinksByPriority,
 	socialLinks,
 } from '../../src/data/social-links';
+
+const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
 describe('social link configuration', () => {
 	test('resolves a link by id regardless of array position', () => {
@@ -60,6 +65,30 @@ describe('social link configuration', () => {
 		for (const link of socialLinks) {
 			expect(link.audience.length).toBeGreaterThan(0);
 			expect(link.analyticsId).toMatch(/^social_/);
+		}
+	});
+
+	test('ensures every active social platform has a brand class and hover styles', async () => {
+		const [gridSource, stylesSource] = await Promise.all([
+			readFile(join(repositoryRoot, 'src/widgets/social-grid/ui/SocialGrid.astro'), 'utf8'),
+			readFile(join(repositoryRoot, 'src/entities/social-link/ui/SocialButton.css'), 'utf8'),
+		]);
+
+		const activePlatforms = new Set(socialLinks.map(link => link.platform));
+		for (const platform of activePlatforms) {
+			expect(gridSource).toContain(`${platform}: { brand: 'social-button--`);
+		}
+
+		for (const platformClass of [
+			'social-button--website',
+			'social-button--linkedin',
+			'social-button--github',
+			'social-button--x',
+			'social-button--youtube',
+			'social-button--tiktok',
+		]) {
+			expect(stylesSource).toContain(`.${platformClass}`);
+			expect(stylesSource).toContain(`.${platformClass}:hover`);
 		}
 	});
 });

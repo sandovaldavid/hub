@@ -9,7 +9,9 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const approvedPortraitPath = join(repositoryRoot, 'public/profile/perfil.webp');
 const illustratedPortraitPath = join(repositoryRoot, 'public/profile/retrato-giblin.webp');
-const approvedLogoV2MicroPath = join(repositoryRoot, 'public/logo/logo.svg');
+const approvedLogoV2MicroLightPath = join(repositoryRoot, 'public/favicon.light.svg');
+const approvedLogoV2MicroDarkPath = join(repositoryRoot, 'public/favicon.dark.svg');
+const retiredDarkOnlyLogoPath = join(repositoryRoot, 'public/logo/logo.svg');
 const retiredLogoV1Path = join(repositoryRoot, 'public/logo/sandovaldavid.svg');
 const approvedPortfolioBlob = '8b0c1634cac7f4c1d08f7f4bc3a4b314762827f1';
 
@@ -33,25 +35,38 @@ describe('Human-first portrait contract (#60)', () => {
 		expect(gitBlobSha).toBe(approvedPortfolioBlob);
 	});
 
-	test('uses the clean Logo v2 Micro 24 dark-context badge instead of scaling Logo v1', async () => {
-		const [profileSource, profileAvatar, logo] = await Promise.all([
+	test('uses the exact Logo v2 Micro 32 Light/Dark masters in a larger theme-aware badge', async () => {
+		const [profileSource, profileAvatar, heroCard, lightLogo, darkLogo] = await Promise.all([
 			readFile(join(repositoryRoot, 'src/data/profile.ts'), 'utf8'),
 			readFile(join(repositoryRoot, 'src/entities/profile/ui/ProfileAvatar.astro'), 'utf8'),
-			readFile(approvedLogoV2MicroPath, 'utf8'),
+			readFile(join(repositoryRoot, 'src/widgets/hero-section/ui/HeroCard.astro'), 'utf8'),
+			readFile(approvedLogoV2MicroLightPath, 'utf8'),
+			readFile(approvedLogoV2MicroDarkPath, 'utf8'),
 		]);
 
-		expect(profileSource).toContain("url: '/logo/logo.svg'");
+		expect(profileSource).toContain("lightUrl: '/favicon.light.svg'");
+		expect(profileSource).toContain("darkUrl: '/favicon.dark.svg'");
+		expect(heroCard).toContain('brandLogoLightSrc={profile.logo.lightUrl}');
+		expect(heroCard).toContain('brandLogoDarkSrc={profile.logo.darkUrl}');
+		expect(heroCard).toContain('size="5xl"');
 		expect(profileAvatar).toContain(
-			"showBrandLogo && brandLogoSrc && ['3xl', '4xl'].includes(size)"
+			"showBrandLogo && brandLogoSources && ['3xl', '4xl', '5xl'].includes(size)"
 		);
-		expect(profileAvatar).toContain('data-theme="dark"');
-		expect(profileAvatar).toContain('size-[38px]');
-		expect(profileAvatar).toContain('width="24"');
-		expect(profileAvatar).toContain('height="24"');
-		expect(profileAvatar).not.toContain('logoSizeMap');
-		expect(logo).toContain('viewBox="0 0 24 24"');
-		expect(logo).toContain('fill="#0080FF"');
-		expect(logo).toContain('fill="#00D8FF"');
+		expect(profileAvatar).not.toContain('data-theme="dark"');
+		expect(profileAvatar).toContain('size-14');
+		expect(profileAvatar).toContain('width="32"');
+		expect(profileAvatar).toContain('height="32"');
+		expect(profileAvatar).toContain('dark:hidden');
+		expect(profileAvatar).toContain('dark:block');
+		expect(lightLogo).toContain('viewBox="0 0 32 32"');
+		expect(lightLogo).toContain('fill="#172554"');
+		expect(lightLogo).toContain('fill="#1D4ED8"');
+		expect(lightLogo).toContain('fill="#00D8FF"');
+		expect(darkLogo).toContain('viewBox="0 0 32 32"');
+		expect(darkLogo).toContain('fill="white"');
+		expect(darkLogo).toContain('fill="#0080FF"');
+		expect(darkLogo).toContain('fill="#00D8FF"');
+		expect(existsSync(retiredDarkOnlyLogoPath)).toBe(false);
 		expect(existsSync(retiredLogoV1Path)).toBe(false);
 	});
 

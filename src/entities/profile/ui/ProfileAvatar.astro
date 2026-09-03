@@ -9,10 +9,11 @@ import Avatar from '@shared/ui/Avatar.astro';
 export interface Props {
 	src: string;
 	alt: string;
-	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 	ring?: boolean;
 	showBrandLogo?: boolean;
-	brandLogoSrc?: string;
+	brandLogoLightSrc?: string;
+	brandLogoDarkSrc?: string;
 	class?: string;
 }
 
@@ -22,9 +23,15 @@ const {
 	size = 'lg',
 	ring = true,
 	showBrandLogo = true,
-	brandLogoSrc,
+	brandLogoLightSrc,
+	brandLogoDarkSrc,
 	class: className,
 } = Astro.props;
+
+const brandLogoSources =
+	brandLogoLightSrc && brandLogoDarkSrc
+		? { light: brandLogoLightSrc, dark: brandLogoDarkSrc }
+		: null;
 ---
 
 <div class="relative inline-block w-fit">
@@ -40,21 +47,34 @@ const {
 	/>
 
 	{
-		showBrandLogo && brandLogoSrc && ['3xl', '4xl'].includes(size) && (
+		showBrandLogo && brandLogoSources && ['3xl', '4xl', '5xl'].includes(size) && (
 			<span
-				data-theme="dark"
-				class="absolute right-0 bottom-0 flex size-[38px] items-center justify-center rounded-full border border-channel-edge-default bg-channel-surface-default shadow-xs"
+				data-profile-brand-logo
+				class="absolute right-0 bottom-0 flex size-14 items-center justify-center rounded-full border border-channel-edge-default bg-channel-surface-default shadow-xs"
 				aria-hidden="true">
 				<img
-					src={brandLogoSrc}
+					src={brandLogoSources.light}
+					data-logo-mode="light"
 					alt=""
 					role="presentation"
-					width="24"
-					height="24"
+					width="32"
+					height="32"
 					loading="eager"
 					fetchpriority="low"
 					decoding="async"
-					class="size-6 shrink-0"
+					class="size-8 shrink-0 dark:hidden"
+				/>
+				<img
+					src={brandLogoSources.dark}
+					data-logo-mode="dark"
+					alt=""
+					role="presentation"
+					width="32"
+					height="32"
+					loading="eager"
+					fetchpriority="low"
+					decoding="async"
+					class="hidden size-8 shrink-0 dark:block"
 				/>
 			</span>
 		)

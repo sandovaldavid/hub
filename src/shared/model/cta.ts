@@ -1,7 +1,7 @@
 import type { ConversionEvent } from '@shared/analytics/conversion';
 
 export type CtaId = 'portfolio' | 'projects' | 'github' | 'contact';
-export type CtaIcon = 'briefcase' | 'rocket' | 'github' | 'email';
+export type CtaIcon = 'portfolio' | 'rocket' | 'github' | 'email';
 export type CtaVariant = 'primary' | 'secondary';
 
 export interface CtaDefinition {

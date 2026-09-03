@@ -10,7 +10,7 @@ import './Avatar.css';
 export interface Props {
 	src?: string;
 	alt: string;
-	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 	fallback?: string;
 	loading?: 'lazy' | 'eager';
 	fetchpriority?: 'high' | 'low' | 'auto';
@@ -43,6 +43,7 @@ const sizeClasses = {
 	'2xl': 'avatar-size-2xl',
 	'3xl': 'avatar-size-3xl',
 	'4xl': 'avatar-size-4xl',
+	'5xl': 'avatar-size-5xl',
 };
 
 const dimensions = {
@@ -54,6 +55,7 @@ const dimensions = {
 	'2xl': 80,
 	'3xl': 96,
 	'4xl': 128,
+	'5xl': 208,
 } as const;
 
 const roundedClasses = 'rounded-full';
