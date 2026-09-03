@@ -42,11 +42,11 @@ for (const route of routes) {
 				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(300);
 				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(280);
 				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(210);
-				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
+				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-5xl');
 				const avatarBox = await avatar.boundingBox();
 				expect(avatarBox).not.toBeNull();
-				expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(96);
-				expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(96);
+				expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(200);
+				expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(200);
 				await expect(page.locator('.hero-card__username')).toHaveCount(0);
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
