@@ -18,6 +18,7 @@ describe('shared iconography contract', () => {
 		expect(csharp).toContain('stop-color="#927BE5"');
 		expect(csharp).toContain('stop-color="#512BD4"');
 		expect(astro).toContain('viewBox="0 0 256 366"');
+		expect(astro).toContain('fill="light-dark(#17191E, #fff)"');
 		expect(astro).toContain('fill="#FF5D01"');
 		expect(postgresql).toContain('viewBox="0 0 256 264"');
 		expect(postgresql).toContain('fill="#336791"');
