@@ -42,11 +42,11 @@ for (const route of routes) {
 				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(300);
 				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(280);
 				expect(snapshotPanelBox?.height ?? 0).toBeLessThanOrEqual(210);
-				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-3xl');
+				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-5xl');
 				const avatarBox = await avatar.boundingBox();
 				expect(avatarBox).not.toBeNull();
-				expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(96);
-				expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(96);
+				expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(200);
+				expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(200);
 				await expect(page.locator('.hero-card__username')).toHaveCount(0);
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
@@ -77,7 +77,7 @@ for (const route of routes) {
 				await expect(snapshotMetadata).toHaveCount(3);
 
 				const socialItems = page.locator('.social-grid__item');
-				await expect(socialItems).toHaveCount(4);
+				await expect(socialItems).toHaveCount(6);
 				await expect(page.locator('.social-grid__item--wide')).toHaveCount(0);
 
 				const [socialGridBox, socialBoxes, socialRowCount] = await Promise.all([
@@ -94,8 +94,8 @@ for (const route of routes) {
 					}),
 				]);
 				expect(socialGridBox).not.toBeNull();
-				expect(socialGridBox?.height ?? 0).toBeLessThanOrEqual(160);
-				expect(socialRowCount).toBe(2);
+				expect(socialGridBox?.height ?? 0).toBeLessThanOrEqual(210);
+				expect(socialRowCount).toBe(3);
 				const socialHeights = socialBoxes.map(box => box.height);
 				const socialWidths = socialBoxes.map(box => box.width);
 				expect(Math.max(...socialHeights) - Math.min(...socialHeights)).toBeLessThanOrEqual(2);
@@ -155,9 +155,6 @@ for (const route of routes) {
 					'#featured-projects-title'
 				);
 
-				// Section headings carry no decorative icon. "Featured projects" used to
-				// sit beside a rocket while "Explore my work" had nothing, which read as
-				// an inconsistency rather than emphasis.
 				await expect(page.locator('.featured-project-section__icon')).toHaveCount(0);
 				await expect(
 					page.locator('#featured-projects-title, #cta-heading').locator('svg')
@@ -236,7 +233,7 @@ for (const route of routes) {
 			expect(metadataBoxes[2].width).toBeGreaterThan(metadataBoxes[0].width * 1.8);
 
 			const mobileSocialItems = page.locator('.social-grid__item');
-			await expect(mobileSocialItems).toHaveCount(4);
+			await expect(mobileSocialItems).toHaveCount(6);
 			const [socialWidths, mobileSocialRows] = await Promise.all([
 				mobileSocialItems.evaluateAll(elements =>
 					elements.map(element => element.getBoundingClientRect().width)
@@ -247,7 +244,7 @@ for (const route of routes) {
 				}),
 			]);
 			expect(Math.max(...socialWidths) - Math.min(...socialWidths)).toBeLessThanOrEqual(2);
-			expect(mobileSocialRows).toBe(2);
+			expect(mobileSocialRows).toBe(3);
 
 			const mobileActionRows = await page
 				.locator('.cta-buttons--vertical .cta-buttons__link')

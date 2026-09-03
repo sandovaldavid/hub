@@ -9,10 +9,11 @@ import Avatar from '@shared/ui/Avatar.astro';
 export interface Props {
 	src: string;
 	alt: string;
-	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 	ring?: boolean;
 	showBrandLogo?: boolean;
-	brandLogoSrc?: string;
+	brandLogoLightSrc?: string;
+	brandLogoDarkSrc?: string;
 	class?: string;
 }
 
@@ -22,22 +23,15 @@ const {
 	size = 'lg',
 	ring = true,
 	showBrandLogo = true,
-	brandLogoSrc,
+	brandLogoLightSrc,
+	brandLogoDarkSrc,
 	class: className,
 } = Astro.props;
 
-const logoSizeMap = {
-	xs: { className: 'h-4 w-4', dimension: 16 },
-	sm: { className: 'h-5 w-5', dimension: 20 },
-	md: { className: 'h-6 w-6', dimension: 24 },
-	lg: { className: 'h-8 w-8', dimension: 32 },
-	xl: { className: 'h-10 w-10', dimension: 40 },
-	'2xl': { className: 'h-12 w-12', dimension: 48 },
-	'3xl': { className: 'h-16 w-16', dimension: 64 },
-	'4xl': { className: 'h-20 w-20', dimension: 80 },
-} as const;
-
-const logoSize = logoSizeMap[size];
+const brandLogoSources =
+	brandLogoLightSrc && brandLogoDarkSrc
+		? { light: brandLogoLightSrc, dark: brandLogoDarkSrc }
+		: null;
 ---
 
 <div class="relative inline-block w-fit">
@@ -53,19 +47,36 @@ const logoSize = logoSizeMap[size];
 	/>
 
 	{
-		showBrandLogo && brandLogoSrc && (
-			<img
-				src={brandLogoSrc}
-				alt=""
-				role="presentation"
-				aria-hidden="true"
-				width={logoSize.dimension}
-				height={logoSize.dimension}
-				loading="eager"
-				fetchpriority="low"
-				decoding="async"
-				class={`absolute right-0 bottom-0 ${logoSize.className} rounded-full border border-card-edge bg-channel-surface-default shadow-xs transition-transform duration-200 hover:scale-105`}
-			/>
+		showBrandLogo && brandLogoSources && ['3xl', '4xl', '5xl'].includes(size) && (
+			<span
+				data-profile-brand-logo
+				class="absolute right-0 bottom-0 flex size-14 items-center justify-center rounded-full border border-channel-edge-default bg-channel-surface-default shadow-xs"
+				aria-hidden="true">
+				<img
+					src={brandLogoSources.light}
+					data-logo-mode="light"
+					alt=""
+					role="presentation"
+					width="32"
+					height="32"
+					loading="eager"
+					fetchpriority="low"
+					decoding="async"
+					class="size-8 shrink-0 dark:hidden"
+				/>
+				<img
+					src={brandLogoSources.dark}
+					data-logo-mode="dark"
+					alt=""
+					role="presentation"
+					width="32"
+					height="32"
+					loading="eager"
+					fetchpriority="low"
+					decoding="async"
+					class="hidden size-8 shrink-0 dark:block"
+				/>
+			</span>
 		)
 	}
 </div>

@@ -12,7 +12,8 @@ export interface Profile {
 		alt: string;
 	};
 	logo: {
-		url: string;
+		lightUrl: string;
+		darkUrl: string;
 	};
 	contact: {
 		email: string;

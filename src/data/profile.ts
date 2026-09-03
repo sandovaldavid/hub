@@ -10,7 +10,9 @@ export const profile: Profile = {
 		alt: siteConfig.name,
 	},
 	logo: {
-		url: `/logo/${siteConfig.handle}.svg`,
+		// Figma's 32px favicon exports reuse the exact Logo / Micro 32 Light/Dark masters.
+		lightUrl: '/favicon.light.svg',
+		darkUrl: '/favicon.dark.svg',
 	},
 	contact: {
 		email: siteConfig.email,

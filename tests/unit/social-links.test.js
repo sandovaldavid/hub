@@ -1,4 +1,7 @@
 import { describe, expect, test } from 'bun:test';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
 	getPrimarySocialLinks,
 	getRequiredSocialLink,
@@ -6,13 +9,15 @@ import {
 	socialLinks,
 } from '../../src/data/social-links';
 
+const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
+
 describe('social link configuration', () => {
 	test('resolves a link by id regardless of array position', () => {
-		const instagram = getRequiredSocialLink('instagram');
+		const youtube = getRequiredSocialLink('youtube');
 
-		expect(instagram.id).toBe('instagram');
-		expect(instagram.url).toContain('instagram.com');
-		expect(socialLinks.indexOf(instagram)).toBeGreaterThanOrEqual(0);
+		expect(youtube.id).toBe('youtube');
+		expect(youtube.url).toContain('youtube.com');
+		expect(socialLinks.indexOf(youtube)).toBeGreaterThanOrEqual(0);
 	});
 
 	test('throws a clear error when a required link is missing', () => {
@@ -28,25 +33,62 @@ describe('social link configuration', () => {
 		expect(primary.length).toBeLessThanOrEqual(5);
 	});
 
-	test('keeps the LinkedIn label aligned with its public profile slug', () => {
-		const linkedin = getRequiredSocialLink('linkedin');
-		const slug = new URL(linkedin.url).pathname.split('/').filter(Boolean).at(-1);
+	test('keeps profile labels aligned with their public profile slugs', () => {
+		for (const id of ['linkedin', 'twitter', 'youtube', 'tiktok']) {
+			const link = getRequiredSocialLink(id);
+			const slug = new URL(link.url).pathname.split('/').filter(Boolean).at(-1);
+			const normalizedSlug = slug?.startsWith('@') ? slug : `@${slug}`;
 
-		expect(linkedin.username).toBe(`@${slug}`);
+			expect(link.username).toBe(normalizedSlug);
+		}
 	});
 
-	test('classifies only approved community networks outside the primary tier', () => {
-		expect(getSocialLinksByPriority('secondary').map(link => link.id)).toEqual(['twitter']);
-		expect(getSocialLinksByPriority('footer').map(link => link.id)).toEqual(['instagram']);
-		expect(socialLinks.some(link => ['youtube', 'tiktok', 'facebook'].includes(link.id))).toBe(
-			false
-		);
+	test('publishes only approved secondary channels', () => {
+		const secondary = getSocialLinksByPriority('secondary').map(link => link.id);
+
+		expect(secondary).toEqual(['twitter', 'youtube', 'tiktok']);
+		expect(getSocialLinksByPriority('footer')).toHaveLength(0);
+		expect(socialLinks.some(link => ['instagram', 'facebook'].includes(link.id))).toBe(false);
+	});
+
+	test('uses the migrated X handle and professional creator handles', () => {
+		expect(getRequiredSocialLink('twitter')).toMatchObject({
+			url: 'https://x.com/davidsandoval_s',
+			username: '@davidsandoval_s',
+		});
+		for (const id of ['youtube', 'tiktok']) {
+			expect(getRequiredSocialLink(id).username).toBe('@davidsandoval.s');
+		}
 	});
 
 	test('defines audience and analytics metadata for every link', () => {
 		for (const link of socialLinks) {
 			expect(link.audience.length).toBeGreaterThan(0);
 			expect(link.analyticsId).toMatch(/^social_/);
+		}
+	});
+
+	test('ensures every active social platform has a brand class and hover styles', async () => {
+		const [gridSource, stylesSource] = await Promise.all([
+			readFile(join(repositoryRoot, 'src/widgets/social-grid/ui/SocialGrid.astro'), 'utf8'),
+			readFile(join(repositoryRoot, 'src/entities/social-link/ui/SocialButton.css'), 'utf8'),
+		]);
+
+		const activePlatforms = new Set(socialLinks.map(link => link.platform));
+		for (const platform of activePlatforms) {
+			expect(gridSource).toContain(`${platform}: { brand: 'social-button--`);
+		}
+
+		for (const platformClass of [
+			'social-button--website',
+			'social-button--linkedin',
+			'social-button--github',
+			'social-button--x',
+			'social-button--youtube',
+			'social-button--tiktok',
+		]) {
+			expect(stylesSource).toContain(`.${platformClass}`);
+			expect(stylesSource).toContain(`.${platformClass}:hover`);
 		}
 	});
 });

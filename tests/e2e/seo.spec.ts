@@ -2,13 +2,14 @@ import { expect, test } from '@playwright/test';
 
 const siteUrl = 'https://hub.sandovaldavid.com';
 const portfolioUrl = 'https://sandovaldavid.com';
-const socialPreviewUrl = `${siteUrl}/og/og_dark.png`;
+const socialPreviewUrl = `${siteUrl}/og/og-meta.png`;
 const profileImageUrl = `${siteUrl}/profile/perfil.webp`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
-	'https://x.com/jdsandoval_',
-	'https://www.instagram.com/jdsandovals',
+	'https://x.com/davidsandoval_s',
+	'https://www.youtube.com/@davidsandoval.s',
+	'https://www.tiktok.com/@davidsandoval.s',
 ];
 
 const routes = [
@@ -23,7 +24,7 @@ const routes = [
 			'David Sandoval is a Software Engineer focused on maintainable backend systems, reliable APIs, practical frontend delivery, and developer tooling.',
 		socialDescription:
 			"I'm David Sandoval, a Software Engineer focused on backend systems with hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
-		imageAlt: 'Social preview for David Sandoval, Software Engineer.',
+		imageAlt: 'David Sandoval — Software Engineer profile card',
 		twitterLabel: 'Professional focus',
 		twitterData: 'Backend systems · Developer tooling',
 		portraitAlt: 'Portrait of David Sandoval',
@@ -39,7 +40,7 @@ const routes = [
 			'David Sandoval es Ingeniero de Software con foco en sistemas backend mantenibles, APIs confiables, desarrollo frontend e iniciativas de developer tooling.',
 		socialDescription:
 			'Soy David Sandoval, Ingeniero de Software con foco en backend y experiencia frontend. Explora mis proyectos, portafolio, GitHub y CV.',
-		imageAlt: 'Vista previa social de David Sandoval, Ingeniero de Software.',
+		imageAlt: 'David Sandoval — tarjeta de perfil de Software Engineer',
 		twitterLabel: 'Enfoque profesional',
 		portraitAlt: 'Retrato de David Sandoval',
 		twitterData: 'Sistemas backend · Developer tooling',
@@ -163,6 +164,14 @@ for (const route of routes) {
 				'content',
 				socialPreviewUrl
 			);
+			await expect(page.locator('meta[name="twitter:site"]')).toHaveAttribute(
+				'content',
+				'@davidsandoval_s'
+			);
+			await expect(page.locator('meta[name="twitter:creator"]')).toHaveAttribute(
+				'content',
+				'@davidsandoval_s'
+			);
 			await expect(page.locator('meta[name="twitter:image:alt"]')).toHaveAttribute(
 				'content',
 				route.imageAlt
@@ -244,7 +253,7 @@ for (const route of routes) {
 }
 
 test('serves the declared social preview asset', async ({ request }) => {
-	const response = await request.get('/og/og_dark.png');
+	const response = await request.get('/og/og-meta.png');
 	expect(response.ok()).toBe(true);
 	expect(response.headers()['content-type']).toContain('image/png');
 	expect((await response.body()).byteLength).toBeGreaterThan(0);

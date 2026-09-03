@@ -6,9 +6,9 @@ import { cn } from '@shared/lib/utils';
 import type { ConversionEvent } from '@shared/analytics/conversion';
 import BackToTop from '@features/back-to-top/ui/BackToTop.astro';
 
+import PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg?raw';
 import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
 import GitHubIcon from '@shared/assets/social-platform/github.svg?raw';
-import BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw';
 
 interface Props {
 	lang: Lang;
@@ -32,7 +32,7 @@ const footerLinks: Array<{
 	{
 		id: 'portfolio',
 		href: portfolio.url,
-		icon: BriefcaseIcon,
+		icon: PortfolioIcon,
 		label: portfolio.label,
 		external: true,
 		conversionEvent: 'portfolio_opened',

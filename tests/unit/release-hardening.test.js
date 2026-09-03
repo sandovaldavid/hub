@@ -102,7 +102,7 @@ describe('release delivery hardening contracts', () => {
 			'js-yaml': '4.3.1',
 			'mdast-util-to-hast': '13.2.1',
 			nanoid: '3.3.18',
-			sharp: '0.35.3',
+			sharp: '0.35.4',
 			svgo: '4.0.2',
 		});
 		expect(packageJson.overrides.picomatch).toBeUndefined();

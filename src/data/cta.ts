@@ -4,7 +4,7 @@ import { siteConfig } from './site.config';
 export const getCtaButtons = (contactSubject: string): CtaDefinition[] => [
 	{
 		id: 'portfolio',
-		icon: 'briefcase',
+		icon: 'portfolio',
 		href: siteConfig.portfolioUrl,
 		variant: 'primary',
 		external: true,

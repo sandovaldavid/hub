@@ -8,11 +8,13 @@ import type {
 import { cn } from '@shared/lib/utils';
 import './SocialGrid.css';
 
+import PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg';
 import LinkedInIcon from '@shared/assets/social-platform/linkedin.svg';
 import GitHubIcon from '@shared/assets/social-platform/github.svg';
 import InstagramIcon from '@shared/assets/social-platform/instagram.svg';
+import TikTokIcon from '@shared/assets/social-platform/tiktok.svg';
 import XIcon from '@shared/assets/social-platform/x.svg';
-import WebSiteIcon from '@shared/assets/social-platform/website.svg';
+import YouTubeIcon from '@shared/assets/social-platform/youtube.svg';
 
 interface Props {
 	links: SocialLink[];
@@ -30,6 +32,8 @@ const platformClasses: Partial<Record<SocialPlatform, { brand?: string; icon?: s
 	github: { brand: 'social-button--github', icon: 'social-button__icon--github' },
 	twitter: { brand: 'social-button--x', icon: 'social-button__icon--x' },
 	instagram: { brand: 'social-button--instagram', icon: 'social-button__icon--instagram' },
+	youtube: { brand: 'social-button--youtube', icon: 'social-button__icon--youtube' },
+	tiktok: { brand: 'social-button--tiktok', icon: 'social-button__icon--tiktok' },
 };
 ---
 
@@ -67,8 +71,14 @@ const platformClasses: Partial<Record<SocialPlatform, { brand?: string; icon?: s
 							{link.platform === 'twitter' && (
 								<XIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
 							)}
+							{link.platform === 'youtube' && (
+								<YouTubeIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
+							{link.platform === 'tiktok' && (
+								<TikTokIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+							)}
 							{link.platform === 'website' && (
-								<WebSiteIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+								<PortfolioIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
 							)}
 						</span>
 					</SocialButton>

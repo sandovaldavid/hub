@@ -67,16 +67,30 @@
 	--platform-gradient-end: #00a0dc;
 	--platform-edge: #0077b5;
 }
+.social-button--youtube {
+	--platform-gradient-start: #ff1000;
+	--platform-gradient-end: #ff4444;
+	--platform-edge: #ff0000;
+}
+.social-button--tiktok {
+	--platform-gradient-start: var(--color-neutral-900);
+	--platform-gradient-end: #ee1d52;
+	--platform-edge: var(--color-neutral-900);
+}
 .social-button--github,
 .social-button--x,
-.social-button--linkedin {
+.social-button--linkedin,
+.social-button--youtube,
+.social-button--tiktok {
 	--platform-on-brand: #ffffff;
 }
 
 @media (hover: hover) {
 	.social-button--github:hover,
 	.social-button--x:hover,
-	.social-button--linkedin:hover {
+	.social-button--linkedin:hover,
+	.social-button--youtube:hover,
+	.social-button--tiktok:hover {
 		border-color: var(--platform-edge);
 		background: linear-gradient(
 			90deg,
