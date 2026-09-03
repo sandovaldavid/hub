@@ -137,7 +137,7 @@ describe('Hub messaging alignment contract', () => {
 		const spanishKioku = getFeaturedProjects('es').find(project => project.id === 'kioku');
 
 		expect(englishKioku?.summary).toMatch(/local-first.*\.NET MCP server.*AI-agent sessions/i);
-		expect(spanishKioku?.summary).toMatch(/local-first.*MCP.*\.NET.*agentes de IA/i);
+		expect(spanishKioku?.summary).toMatch(/MCP.*local-first.*\.NET.*agentes de IA/i);
 		expect(englishKioku?.projectUrl).toBe('https://kioku.sandovaldavid.com');
 		expect(englishKioku?.githubUrl).toBe('https://github.com/sandovaldavid/kioku');
 		expect(englishKioku?.projectAvailability).toBe('public');
