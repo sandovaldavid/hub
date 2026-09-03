@@ -1,25 +1,31 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Home page', () => {
-	test('loads with correct professional title', async ({ page }) => {
+	test('loads with correct professional title and metadata', async ({ page }) => {
 		await page.goto('/');
 		await expect(page).toHaveTitle(/David Sandoval.*Software Engineer/);
-	});
-
-	test('has meta description', async ({ page }) => {
-		await page.goto('/');
-		const meta = page.locator('meta[name="description"]');
-		await expect(meta).toHaveAttribute('content', /Software Engineer/);
-	});
-
-	test('has Open Graph tags', async ({ page }) => {
-		await page.goto('/');
-		await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /.+/);
-		await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content', /.+/);
+		await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+			'content',
+			/Software Engineer/
+		);
+		await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+			'content',
+			'David Sandoval | Software Engineer'
+		);
+		await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+			'content',
+			/David Sandoval.*Software Engineer/
+		);
 		await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /.+/);
+		await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+			'content',
+			'David Sandoval — Software Engineer'
+		);
 	});
 
-	test('renders main sections', async ({ page }) => {
+	test('renders the compact recognition and routing sections without a visible stack catalog', async ({
+		page,
+	}) => {
 		await page.goto('/');
 		await expect(page.locator('main')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="hero-heading"]')).toBeVisible();
@@ -27,95 +33,95 @@ test.describe('Home page', () => {
 		await expect(page.locator('[aria-labelledby="cta-heading"]')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="contact-heading"]')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="featured-projects-title"]')).toBeVisible();
-		await expect(page.locator('[aria-labelledby="skills-heading"]')).toBeVisible();
+		await expect(page.locator('[aria-labelledby="skills-heading"]')).toHaveCount(0);
+		await expect(page.locator('[data-skill-item]')).toHaveCount(0);
 	});
 
-	test('uses a clear h1, h2 and h3 hierarchy', async ({ page }) => {
+	test('uses a clear human-first heading hierarchy', async ({ page }) => {
 		await page.goto('/');
 
 		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toHaveCount(1);
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Professional snapshot' })
 		).toBeVisible();
-		await expect(page.getByRole('heading', { level: 2, name: 'Explore my work' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Work & contact' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
-		await expect(
-			page.getByRole('heading', { level: 2, name: 'Engineering stack & tooling' })
-		).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: "Let's talk" })).toBeVisible();
-		await expect(page.locator('.cta-button-card__title')).toHaveCount(4);
-		for (const heading of await page.locator('.cta-button-card__title').all()) {
-			expect(await heading.evaluate(element => element.tagName)).toBe('H3');
-		}
+		await expect(page.locator('.cta-button-card__title')).toHaveCount(2);
 	});
 
-	test('hero exposes clear positioning and a resume action', async ({ page }) => {
+	test('hero exposes clear positioning and routes first to the portfolio', async ({ page }) => {
 		await page.setViewportSize({ width: 1280, height: 720 });
 		await page.goto('/');
+
 		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toBeVisible();
 		await expect(page.getByText('Software Engineer · Backend-focused')).toBeVisible();
 		await expect(page.getByText('Open to remote software engineering opportunities')).toBeVisible();
 		await expect(page.getByText('Piura, Peru · UTC-5')).toBeVisible();
 		await expect(page.getByText('Remote · based in Peru')).toBeVisible();
-		await expect(page.locator('.hero-card__username')).toHaveCount(0);
 
-		const resumeLink = page.locator(
-			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]'
+		const portfolioLink = page.locator(
+			'.hero-card__primary-action[href="https://sandovaldavid.com"]'
 		);
-		await expect(resumeLink).toBeAttached();
-		await expect(resumeLink).toBeVisible();
-		await expect(resumeLink).toHaveAttribute('target', '_blank');
-		await expect(resumeLink).toHaveAttribute('rel', /noopener/);
-		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+		await expect(portfolioLink).toBeVisible();
+		await expect(portfolioLink).toHaveText('View portfolio');
+		await expect(portfolioLink).toHaveAttribute('target', '_blank');
+		await expect(portfolioLink).toHaveAttribute('rel', /noopener/);
+		await expect(portfolioLink).toHaveAttribute('data-conversion-event', 'portfolio_opened');
+		await expect(portfolioLink).toHaveAttribute('data-conversion-item', 'portfolio');
 
 		await page.setViewportSize({ width: 390, height: 844 });
-		await expect(resumeLink).toBeVisible();
+		await expect(portfolioLink).toBeVisible();
 	});
 
-	test('social links have href and security attributes', async ({ page }) => {
+	test('keeps social channels distinct from primary work routing', async ({ page }) => {
 		await page.goto('/');
+
+		const socialItems = page.locator('.social-grid__item');
+		await expect(socialItems).toHaveCount(5);
+		await expect(page.locator('.social-button[href="https://sandovaldavid.com"]')).toHaveCount(0);
+		await expect(page.locator('.social-button[href="https://www.linkedin.com/in/jdsandovals"]')).toHaveCount(
+			1
+		);
+		await expect(page.locator('.social-button[href="https://github.com/sandovaldavid"]')).toHaveCount(
+			1
+		);
+
 		const externalLinks = page.locator('main a[target="_blank"]');
 		const count = await externalLinks.count();
 		expect(count).toBeGreaterThan(0);
-
-		for (let i = 0; i < count; i++) {
-			const link = externalLinks.nth(i);
-			await expect(link).toHaveAttribute('href', /.+/);
-			const rel = await link.getAttribute('rel');
-			expect(rel).toContain('noopener');
+		for (let index = 0; index < count; index++) {
+			await expect(externalLinks.nth(index)).toHaveAttribute('rel', /noopener/);
 		}
 	});
 
-	test('keeps professional actions intentional alongside social destinations', async ({ page }) => {
+	test('keeps Portfolio primary, résumé secondary, and contact explicit', async ({ page }) => {
 		await page.goto('/');
 
-		const professionalLinks = [
-			'.cta-buttons__link[href="https://sandovaldavid.com"]',
-			'.social-button[href="https://sandovaldavid.com"]',
-			'.hero-card__primary-action[href$="david-sandoval-resume.pdf"]',
-			'.cta-buttons__link[href="#featured-projects-title"]',
-			'.cta-buttons__link[href="https://github.com/sandovaldavid"]',
-			'.cta-buttons__link[href^="mailto:"]',
-			'.social-button[href="https://github.com/sandovaldavid"]',
-		];
+		const actionLinks = page.locator('.cta-buttons__link');
+		await expect(actionLinks).toHaveCount(2);
 
-		for (const selector of professionalLinks) {
-			await expect(page.locator(selector)).toHaveCount(1);
-		}
+		const portfolio = actionLinks.filter({ hasText: 'View portfolio' });
+		const resume = actionLinks.filter({ hasText: 'Download résumé' });
+		await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
+		await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
+		await expect(resume).toHaveAttribute(
+			'href',
+			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
+		);
+		await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+		await expect(page.locator('.cta-buttons__link[href="#featured-projects-title"]')).toHaveCount(0);
+		await expect(page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')).toHaveCount(
+			0
+		);
+		await expect(page.locator('.cta-buttons__link[href^="mailto:"]')).toHaveCount(0);
+		await expect(page.locator('[data-layout-column="contact"] a[href^="mailto:"]')).toHaveCount(1);
 	});
 
-	test('share button is present', async ({ page }) => {
+	test('share, theme and skip navigation controls remain available', async ({ page }) => {
 		await page.goto('/');
 		await expect(page.locator('#share-button')).toBeVisible();
-	});
-
-	test('theme toggle is present', async ({ page }) => {
-		await page.goto('/');
 		await expect(page.locator('#theme-toggle')).toBeVisible();
-	});
-
-	test('skip link is present and points to main content', async ({ page }) => {
-		await page.goto('/');
 		const skipLink = page.locator('.skip-link');
 		await expect(skipLink).toBeAttached();
 		await expect(skipLink).toHaveAttribute('href', '#main-content');
@@ -125,16 +131,14 @@ test.describe('Home page', () => {
 		await page.goto('/');
 		const images = page.locator('img');
 		const count = await images.count();
-		for (let i = 0; i < count; i++) {
-			const img = images.nth(i);
-			const alt = await img.getAttribute('alt');
-			expect(alt).not.toBeNull();
+		for (let index = 0; index < count; index++) {
+			expect(await images.nth(index).getAttribute('alt')).not.toBeNull();
 		}
 	});
 });
 
 test.describe('Spanish version (/es/)', () => {
-	test('loads the Spanish professional page', async ({ page }) => {
+	test('loads natural Spanish positioning and routing', async ({ page }) => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
 		await expect(page.getByText('Ingeniero de Software · Enfoque backend')).toBeVisible();
@@ -142,46 +146,34 @@ test.describe('Spanish version (/es/)', () => {
 			page.getByText('Disponible para oportunidades remotas en ingeniería de software')
 		).toBeVisible();
 		await expect(page.getByText('Piura, Perú · UTC-5')).toBeVisible();
-	});
+		await expect(page.getByRole('heading', { level: 2, name: 'Trabajo y contacto' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })).toBeVisible();
+		await expect(page.locator('[aria-labelledby="skills-heading"]')).toHaveCount(0);
 
-	test('uses the localized heading hierarchy', async ({ page }) => {
-		await page.goto('/es/');
-		await expect(page.getByRole('heading', { level: 2, name: 'Perfil profesional' })).toBeVisible();
-		await expect(page.getByRole('heading', { level: 2, name: 'Explora mi trabajo' })).toBeVisible();
-		await expect(
-			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })
-		).toBeVisible();
-		await expect(
-			page.getByRole('heading', { level: 2, name: 'Stack y herramientas de ingeniería' })
-		).toBeVisible();
-		await expect(page.getByRole('heading', { level: 3, name: 'Conversemos' })).toBeVisible();
-	});
-
-	test('html lang attribute is es', async ({ page }) => {
-		await page.goto('/es/');
-		const htmlEl = page.locator('html');
-		await expect(htmlEl).toHaveAttribute('lang', 'es');
-	});
-
-	test('has a localized resume action', async ({ page }) => {
-		await page.setViewportSize({ width: 1280, height: 720 });
-		await page.goto('/es/');
-		const resumeLink = page.locator(
-			'.hero-card__primary-action[href$="david-sandoval-resume-es.pdf"]'
+		const portfolioLink = page.locator(
+			'.hero-card__primary-action[href="https://sandovaldavid.com"]'
 		);
-		await expect(resumeLink).toBeAttached();
-		await expect(resumeLink).toBeVisible();
-		await expect(resumeLink).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+		await expect(portfolioLink).toHaveText('Ver portafolio');
+		await expect(portfolioLink).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 
-		await page.setViewportSize({ width: 390, height: 844 });
-		await expect(resumeLink).toBeVisible();
+		const resume = page.locator('.cta-buttons__link').filter({ hasText: 'Descargar CV' });
+		await expect(resume).toHaveAttribute(
+			'href',
+			'https://sandovaldavid.com/resume/david-sandoval-resume-es.pdf'
+		);
+		await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
 	});
 
-	test('has hreflang alternate links', async ({ page }) => {
+	test('uses localized semantics and hreflang', async ({ page }) => {
+		await page.goto('/es/');
+		await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+		await expect(page.locator('main')).toHaveAttribute(
+			'aria-label',
+			'Perfil profesional de David Sandoval'
+		);
+
 		await page.goto('/');
-		const hreflangEn = page.locator('link[rel="alternate"][hreflang="en"]');
-		const hreflangEs = page.locator('link[rel="alternate"][hreflang="es"]');
-		await expect(hreflangEn).toBeAttached();
-		await expect(hreflangEs).toBeAttached();
+		await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toBeAttached();
+		await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toBeAttached();
 	});
 });

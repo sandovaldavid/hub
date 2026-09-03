@@ -41,19 +41,21 @@ describe('human-first SEO contract', () => {
 		}
 
 		expect(english.seo.description).toMatch(
-			/David Sandoval.*Software Engineer.*maintainable backend systems.*reliable APIs.*developer tooling/i
+			/David Sandoval.*Software Engineer.*backend-oriented.*frontend experience.*portfolio.*GitHub.*résumé/i
 		);
 		expect(spanish.seo.description).toMatch(
-			/David Sandoval.*Ingeniero de Software.*sistemas backend mantenibles.*APIs confiables.*frontend.*developer tooling/i
+			/David Sandoval.*Ingeniero de Software.*backend.*frontend.*portafolio.*GitHub.*CV/i
 		);
 		expect(english.seo.socialDescription).toMatch(
-			/^I'm David Sandoval, a Software Engineer.*backend systems.*frontend experience/i
+			/^David Sandoval — Software Engineer.*backend systems.*frontend experience/i
 		);
 		expect(spanish.seo.socialDescription).toMatch(
-			/^Soy David Sandoval, Ingeniero de Software.*foco en backend.*frontend/i
+			/^David Sandoval — Ingeniero de Software.*backend.*frontend/i
 		);
-		expect(english.seo.ogImageAlt).toBe('David Sandoval — Software Engineer profile card');
-		expect(spanish.seo.ogImageAlt).toBe('David Sandoval — tarjeta de perfil de Software Engineer');
+		expect(english.seo.ogImageAlt).toBe('David Sandoval — Software Engineer');
+		expect(spanish.seo.ogImageAlt).toBe('David Sandoval — Ingeniero de Software');
+		expect(english.seo.twitterImageAlt).toBe(english.seo.ogImageAlt);
+		expect(spanish.seo.twitterImageAlt).toBe(spanish.seo.ogImageAlt);
 		expect(seoData).toContain('socialDescription: t.socialDescription');
 		expect(seoData).not.toContain('keywords:');
 		expect(seoData).not.toContain('googlebot:');
@@ -80,6 +82,7 @@ describe('human-first SEO contract', () => {
 		expect(structuredData).toContain("mainEntity: { '@id': personId }");
 		expect(structuredData).toContain("mainEntityOfPage: { '@id': pageId }");
 		expect(structuredData).toContain('sameAs: [...siteConfig.sameAs]');
+		expect(structuredData).not.toContain('ponytail:');
 		expect(siteConfig).toContain("twitter: 'https://x.com/davidsandoval_s'");
 		expect(siteConfig).toContain("youtube: 'https://www.youtube.com/@davidsandoval.s'");
 		expect(siteConfig).toContain("tiktok: 'https://www.tiktok.com/@davidsandoval.s'");
@@ -143,6 +146,8 @@ describe('human-first SEO contract', () => {
 		expect(notFound).toContain('emitStructuredData={false}');
 		expect(notFound).toContain('showShare={false}');
 		expect(notFound).toContain('socialDescription:');
+		expect(notFound).toContain('Go to homepage');
+		expect(notFound).not.toContain('Return to Hub');
 		expect(layout).toContain('emitCanonical?: boolean');
 		expect(layout).toContain('emitStructuredData?: boolean');
 		expect(layout).toContain(
@@ -166,8 +171,6 @@ describe('human-first SEO contract', () => {
 		const page = graph.find(node => node['@type'] === 'ProfilePage');
 		const person = graph.find(node => node['@type'] === 'Person');
 
-		// The two images are deliberately different nodes: the page's primary
-		// image is the 1200x630 social card, the person's is David's portrait.
 		expect(person.image['@id']).not.toBe(page.primaryImageOfPage['@id']);
 
 		const portrait = nodeById[person.image['@id']];
@@ -197,11 +200,6 @@ describe('human-first SEO contract', () => {
 		expect(architecture).toContain('src/data/structured-data.ts');
 		expect(architecture).toContain('src/shared/i18n/locales/*.json');
 		expect(architecture).toContain('src/data/site.config.ts');
-		// #140 moved the public docs from naming the maintainer's private
-		// history/rationale system directly to a generic boundary statement
-		// (also reflected in AGENTS.md's "Public repository boundary"
-		// section) — this still protects the same intent: no SEO rationale
-		// is expected to live only in an inaccessible private system.
 		expect(architecture).toContain('without access to private planning systems');
 	});
 });

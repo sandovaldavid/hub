@@ -21,10 +21,6 @@ const t = useTranslations(lang);
 		<p class="featured-project-section__subtitle">{t('projects.description')}</p>
 	</div>
 	<div class="featured-project-section__content" data-project-count={projects.length}>
-		{
-			projects.map((project, index) => (
-				<FeaturedProjectCard {project} {lang} position={index + 1} />
-			))
-		}
+		{projects.map(project => <FeaturedProjectCard {project} {lang} />)}
 	</div>
 </section>

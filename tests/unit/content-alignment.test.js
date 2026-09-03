@@ -27,30 +27,26 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Enfoque backend');
 		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
+
 		expect(english.profile.bio).toMatch(
-			/maintainable software.*backend focus.*frontend experience.*clear boundaries.*typed contracts.*validated delivery/i
+			/backend systems.*frontend experience.*debugging.*integration.*validation/i
 		);
-		expect(spanish.profile.bio).toMatch(
-			/software mantenible.*backend.*frontend.*límites claros.*contratos tipados.*validación/i
-		);
+		expect(spanish.profile.bio).toMatch(/sistemas backend.*frontend.*debugging.*integración.*validación/i);
+		expect(english.profile.bio).not.toMatch(/typed contracts|validated delivery|clear boundaries/i);
+		expect(spanish.profile.bio).not.toMatch(/contratos tipados|límites claros/i);
+
 		expect(english.profile.location).toBe('Piura, Peru · UTC-5');
 		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
-		expect(english.cta.description).toMatch(/portfolio.*selected projects.*public repositories/i);
-		expect(spanish.cta.description).toMatch(
-			/portafolio.*proyectos seleccionados.*repositorios públicos/i
-		);
+		expect(english.cta.heading).toBe('Work & contact');
+		expect(spanish.cta.heading).toBe('Trabajo y contacto');
+		expect(english.cta.description).toMatch(/portfolio.*résumé.*email/i);
+		expect(spanish.cta.description).toMatch(/portafolio.*CV.*escríbeme/i);
 		expect(english.contact.heading).toBe('Contact');
 		expect(spanish.contact.heading).toBe('Contacto');
-		expect(english.contact.title).not.toMatch(/consult/i);
-		expect(spanish.contact.title).not.toMatch(/consult/i);
-		expect(english.skills.coreTitle).toBe('Current Engineering Stack');
-		expect(spanish.skills.coreTitle).toBe('Stack actual de ingeniería');
-		expect(english.projects.projectSite).toBe('Project site');
-		expect(spanish.projects.projectSite).toBe('Sitio del proyecto');
-		expect(english.projects.viewCaseStudy).toBe('View case study');
-		expect(spanish.projects.viewCaseStudy).toBe('Ver caso de estudio');
-		expect(english.projects.private).toBe('Private project');
-		expect(spanish.projects.private).toBe('Proyecto privado');
+		expect(english.page.mainLabel).toBe('David Sandoval professional profile');
+		expect(spanish.page.mainLabel).toBe('Perfil profesional de David Sandoval');
+		expect(english.seo.ogImageAlt).toBe('David Sandoval — Software Engineer');
+		expect(spanish.seo.ogImageAlt).toBe('David Sandoval — Ingeniero de Software');
 
 		const publicMessaging = JSON.stringify({
 			english: {
@@ -69,17 +65,31 @@ describe('Hub messaging alignment contract', () => {
 			},
 		});
 		expect(publicMessaging).not.toMatch(
-			/public engineering evidence|pending evidence|production unconfirmed|claim not verified|not visible to recruiter|evidencia técnica pública|evidencia pendiente|producción no confirmada/i
+			/public engineering evidence|pending evidence|production unconfirmed|claim not verified|not visible to recruiter|evidencia técnica pública|evidencia pendiente|producción no confirmada|brand architecture|arquitectura de marca/i
 		);
 	});
 
+	test('keeps one primary work route and a secondary résumé route', () => {
+		for (const lang of ['en', 'es']) {
+			const buttons = getCtaButtons(lang);
+			expect(buttons.map(button => button.id)).toEqual(['portfolio', 'resume']);
+			expect(buttons.filter(button => button.variant === 'primary').map(button => button.id)).toEqual([
+				'portfolio',
+			]);
+			expect(buttons.find(button => button.id === 'portfolio')?.href).toBe(siteConfig.portfolioUrl);
+			expect(buttons.find(button => button.id === 'resume')?.href).toBe(siteConfig.resume[lang]);
+		}
+	});
+
 	test('keeps CTA route metadata separate from localized public copy', () => {
-		for (const button of getCtaButtons('Software engineering opportunity')) {
-			expect(button).not.toHaveProperty('title');
-			expect(button).not.toHaveProperty('description');
-			expect(button.id).toBeTruthy();
-			expect(button.href).toBeTruthy();
-			expect(button.conversionEvent).toBeTruthy();
+		for (const lang of ['en', 'es']) {
+			for (const button of getCtaButtons(lang)) {
+				expect(button).not.toHaveProperty('title');
+				expect(button).not.toHaveProperty('description');
+				expect(button.id).toBeTruthy();
+				expect(button.href).toBeTruthy();
+				expect(button.conversionEvent).toBeTruthy();
+			}
 		}
 	});
 
@@ -90,42 +100,42 @@ describe('Hub messaging alignment contract', () => {
 		expect(profile.logo).not.toHaveProperty('alt');
 	});
 
-	test('keeps the selected project set purposeful and complementary', () => {
+	test('keeps the selected project set purposeful, compact and complementary', () => {
 		const englishProjects = getFeaturedProjects('en');
 		const spanishProjects = getFeaturedProjects('es');
 		const expectedProjectIds = ['kioku', 'yukidoke', 'oci-arm-hunter'];
 
 		expect(englishProjects.map(project => project.id)).toEqual(expectedProjectIds);
 		expect(spanishProjects.map(project => project.id)).toEqual(expectedProjectIds);
+
+		for (const project of [...englishProjects, ...spanishProjects]) {
+			expect(project.summary.length).toBeGreaterThan(40);
+			expect(project.summary.length).toBeLessThan(230);
+			expect(project).not.toHaveProperty('problem');
+			expect(project).not.toHaveProperty('contribution');
+			expect(project).not.toHaveProperty('outcome');
+			expect(project).not.toHaveProperty('technologies');
+			expect(project).not.toHaveProperty('status');
+		}
 	});
 
-	test('keeps recruiter-facing project copy free from internal audit language', () => {
+	test('keeps recruiter-facing project copy free from internal audit and release-governance language', () => {
 		for (const lang of ['en', 'es']) {
 			for (const project of getFeaturedProjects(lang)) {
-				const publicCopy = [
-					project.title,
-					project.problem,
-					project.contribution,
-					project.outcome,
-					project.status,
-				].join(' ');
+				const publicCopy = `${project.title} ${project.summary}`;
 				expect(publicCopy).not.toMatch(
-					/production unconfirmed|pending evidence|real-stack release evidence|claim not verified|not visible to recruiter|producción no confirmada|evidencia pendiente|evidencia final real-stack/i
+					/production unconfirmed|pending evidence|real-stack release evidence|claim not verified|not visible to recruiter|producción no confirmada|evidencia pendiente|evidencia final real-stack|release-ready|production-ready|lista para release|lista para producción/i
 				);
 			}
 		}
 	});
 
-	test('keeps Kioku wording durable while routing to its public project and repository', () => {
+	test('keeps Kioku routing public and durable without lifecycle copy', () => {
 		const englishKioku = getFeaturedProjects('en').find(project => project.id === 'kioku');
 		const spanishKioku = getFeaturedProjects('es').find(project => project.id === 'kioku');
 
-		expect(englishKioku?.status).toBe('Released · active development');
-		expect(spanishKioku?.status).toBe('Publicado · desarrollo activo');
-		expect(englishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
-		expect(spanishKioku?.status).not.toMatch(/v\d+\.\d+\.\d+/i);
-		expect(englishKioku?.outcome).toMatch(/versioned packages.*public documentation/i);
-		expect(spanishKioku?.outcome).toMatch(/paquetes versionados.*documentación pública/i);
+		expect(englishKioku?.summary).toMatch(/local-first.*\.NET MCP server.*AI-agent sessions/i);
+		expect(spanishKioku?.summary).toMatch(/local-first.*MCP.*\.NET.*agentes de IA/i);
 		expect(englishKioku?.projectUrl).toBe('https://kioku.sandovaldavid.com');
 		expect(englishKioku?.githubUrl).toBe('https://github.com/sandovaldavid/kioku');
 		expect(englishKioku?.projectAvailability).toBe('public');
@@ -138,14 +148,10 @@ describe('Hub messaging alignment contract', () => {
 
 		expect(englishYukidoke?.title).toBe('Yukidoke · Household finance platform');
 		expect(spanishYukidoke?.title).toBe('Yukidoke · Plataforma financiera para hogares');
-		expect(`${englishYukidoke?.contribution} ${englishYukidoke?.outcome}`).not.toMatch(
-			/v1 complete|release-ready|production-ready|scalable|multi-user/i
-		);
-		expect(`${spanishYukidoke?.contribution} ${spanishYukidoke?.outcome}`).not.toMatch(
+		expect(englishYukidoke?.summary).not.toMatch(/v1 complete|release-ready|production-ready|scalable|multi-user/i);
+		expect(spanishYukidoke?.summary).not.toMatch(
 			/v1 completa|lista para release|lista para producción|escalable|multiusuario/i
 		);
-		expect(englishYukidoke?.status).toBe('Active development');
-		expect(spanishYukidoke?.status).toBe('Desarrollo activo');
 		expect(englishYukidoke?.projectAvailability).toBe('unavailable');
 		expect(spanishYukidoke?.projectAvailability).toBe('unavailable');
 		expect(englishYukidoke?.repositoryAvailability).toBe('private');
@@ -156,18 +162,16 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanishYukidoke?.caseStudyUrl).toBe('https://sandovaldavid.com/es/projects/yukidoke');
 	});
 
-	test('keeps OCI ARM Hunter bounded to its released public automation', () => {
+	test('keeps OCI ARM Hunter bounded to its public automation', () => {
 		const englishOci = getFeaturedProjects('en').find(project => project.id === 'oci-arm-hunter');
 		const spanishOci = getFeaturedProjects('es').find(project => project.id === 'oci-arm-hunter');
 
 		expect(englishOci?.title).toBe('OCI ARM Hunter · Oracle Cloud capacity automation');
 		expect(spanishOci?.title).toBe('OCI ARM Hunter · Automatización de capacidad en Oracle Cloud');
-		expect(englishOci?.status).toBe('Released');
-		expect(spanishOci?.status).toBe('Publicado');
-		expect(`${englishOci?.contribution} ${englishOci?.outcome}`).not.toMatch(
+		expect(englishOci?.summary).not.toMatch(
 			/guaranteed capacity|guaranteed provisioning|SLA|fleet|adoption/i
 		);
-		expect(`${spanishOci?.contribution} ${spanishOci?.outcome}`).not.toMatch(
+		expect(spanishOci?.summary).not.toMatch(
 			/capacidad garantizada|aprovisionamiento garantizado|SLA|flota|adopción/i
 		);
 		expect(englishOci?.projectUrl).toBe('https://oci.sandovaldavid.com');

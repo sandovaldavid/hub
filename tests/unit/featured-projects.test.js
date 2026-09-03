@@ -14,41 +14,39 @@ const cssComponentPath = join(
 	'src/entities/featured-project/ui/FeaturedProjectCard.css'
 );
 
-describe('Featured project card step marker contract', () => {
-	test('defines 01, 02 and 03 markers in exact sequential order', async () => {
+describe('Featured project card compact-routing contract', () => {
+	test('renders one concise project summary instead of mini case-study evidence blocks', async () => {
 		const astroContent = await readFile(astroComponentPath, 'utf8');
 
-		expect(astroContent).toContain(
-			"{ label: t('projects.problem'), value: project.problem, kind: 'problem', marker: '01' }"
-		);
-		expect(astroContent).toContain("marker: '02'");
-		expect(astroContent).toContain("marker: '03'");
+		expect(astroContent).toContain('{project.summary}');
+		expect(astroContent).toContain('featured-project-card__summary');
+		expect(astroContent).not.toContain('data-project-evidence');
+		expect(astroContent).not.toContain("t('projects.problem')");
+		expect(astroContent).not.toContain("t('projects.contribution')");
+		expect(astroContent).not.toContain("t('projects.outcome')");
+		expect(astroContent).not.toContain('project.technologies');
+		expect(astroContent).not.toContain('project.status');
 	});
 
-	test('uses dedicated detail-step-marker role for consistent numeral legibility', async () => {
+	test('keeps compact cards readable without technology or step-marker decoration', async () => {
 		const cssContent = await readFile(cssComponentPath, 'utf8');
 
-		expect(cssContent).toContain('var(--detail-step-marker-background)');
-		expect(cssContent).toContain('var(--detail-step-marker-content)');
-		expect(cssContent).toContain('var(--detail-step-marker-edge)');
-		expect(cssContent).not.toContain(
-			'.featured-project-card__evidence-item--contribution .featured-project-card__evidence-marker'
-		);
-		expect(cssContent).not.toContain(
-			'.featured-project-card__evidence-item--outcome .featured-project-card__evidence-marker'
-		);
+		expect(cssContent).toContain('.featured-project-card__summary');
+		expect(cssContent).not.toContain('.featured-project-card__evidence');
+		expect(cssContent).not.toContain('.featured-project-card__technologies');
+		expect(cssContent).not.toContain('.featured-project-card__tech-badge');
+		expect(cssContent).not.toContain('.featured-project-card__evidence-marker');
 	});
 
-	test('provides featured project data for English and Spanish routes', () => {
+	test('provides concise featured project data for English and Spanish routes', () => {
 		const enProjects = getFeaturedProjects('en');
 		const esProjects = getFeaturedProjects('es');
 
-		expect(enProjects.length).toBeGreaterThan(0);
+		expect(enProjects.length).toBe(3);
 		expect(esProjects.length).toBe(enProjects.length);
-		for (const project of enProjects) {
-			expect(project.problem).toBeTruthy();
-			expect(project.contribution).toBeTruthy();
-			expect(project.outcome).toBeTruthy();
+		for (const project of [...enProjects, ...esProjects]) {
+			expect(project.summary).toBeTruthy();
+			expect(project.summary.length).toBeLessThan(230);
 		}
 	});
 });

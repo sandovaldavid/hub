@@ -5,9 +5,9 @@ import { getSEO } from '@data/seo';
 const SEO = {
 	...getSEO('en'),
 	title: 'Page not found | David Sandoval',
-	description: "The requested page could not be found on David Sandoval's professional Hub.",
+	description: "The requested page could not be found on David Sandoval's professional site.",
 	socialDescription:
-		"This page isn't available. Return to David Sandoval's professional Hub to continue exploring his software engineering work and projects.",
+		"This page isn't available. Return to David Sandoval's professional profile to continue.",
 	robots: 'noindex, follow',
 };
 ---
@@ -54,11 +54,11 @@ const SEO = {
 
 				<nav
 					class="mt-8 flex flex-col justify-center gap-3 sm:flex-row"
-					aria-label="404 recovery links">
+					aria-label="Page recovery options">
 					<a
 						class="inline-flex min-h-11 items-center justify-center rounded-xl bg-button-primary-background px-6 py-2.5 font-semibold text-button-primary-content transition-colors hover:bg-button-primary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
 						href="/">
-						Return to Hub
+						Go to homepage
 					</a>
 					<a
 						class="inline-flex min-h-11 items-center justify-center rounded-xl border border-button-secondary-edge bg-button-secondary-background px-6 py-2.5 font-semibold text-button-secondary-content transition-colors hover:bg-button-secondary-background-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
@@ -74,7 +74,7 @@ const SEO = {
 						class="ml-1 font-semibold text-channel-accent-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
 						href="/es/"
 						lang="es">
-						Ir al Hub en español
+						Ir al inicio en español
 					</a>
 				</p>
 			</div>

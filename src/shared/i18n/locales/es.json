@@ -1,7 +1,7 @@
 {
 	"profile": {
 		"tagline": "Ingeniero de Software · Enfoque backend",
-		"bio": "Construyo software mantenible con foco en backend y experiencia frontend, convirtiendo necesidades de producto en soluciones con límites claros, contratos tipados y validación.",
+		"bio": "Trabajo principalmente en sistemas backend, con experiencia práctica en frontend, resolviendo problemas de software mediante debugging, integración y validación.",
 		"availability": "Disponible para oportunidades remotas en ingeniería de software",
 		"location": "Piura, Perú · UTC-5",
 		"workMode": "Remoto · con base en Perú",
@@ -9,7 +9,7 @@
 		"locationLabel": "Ubicación",
 		"languagesLabel": "Idiomas",
 		"workModeLabel": "Modalidad",
-		"resumeAction": "Descargar CV",
+		"portfolioAction": "Ver portafolio",
 		"snapshotHeading": "Perfil profesional",
 		"avatarAlt": "Retrato de David Sandoval"
 	},
@@ -18,33 +18,23 @@
 		"switchLanguage": "Cambiar idioma a inglés"
 	},
 	"hero": {
-		"sectionsLabel": "Secciones del perfil profesional"
+		"sectionsLabel": "Perfil y enlaces de David Sandoval"
 	},
 	"social": {
-		"heading": "Enlaces profesionales y redes sociales"
+		"heading": "Perfiles y canales"
 	},
 	"cta": {
-		"heading": "Explora mi trabajo",
-		"description": "Empieza por el portafolio para conocer mejor mi experiencia y decisiones técnicas, revisa proyectos seleccionados, explora mis repositorios públicos o contáctame directamente.",
+		"heading": "Trabajo y contacto",
+		"description": "Empieza por mi portafolio para ver el detalle de mi trabajo, descarga mi CV para una vista rápida o escríbeme directamente.",
 		"portfolio": {
 			"title": "Ver portafolio",
-			"description": "Conoce mi experiencia profesional, proyectos seleccionados, investigación y casos de estudio de ingeniería.",
+			"description": "Conoce mi experiencia profesional, proyectos seleccionados y trabajo de ingeniería con mayor detalle.",
 			"label": "Ver portafolio"
 		},
-		"projects": {
-			"title": "Ver proyectos destacados",
-			"description": "Revisa sistemas y herramientas a partir del problema, mis decisiones técnicas y el resultado de ingeniería.",
-			"label": "Ver proyectos destacados"
-		},
-		"github": {
-			"title": "Ver GitHub",
-			"description": "Explora repositorios públicos, pruebas, releases y documentación técnica.",
-			"label": "Ver repositorios en GitHub"
-		},
-		"contact": {
-			"title": "Contactarme",
-			"description": "Conversemos sobre oportunidades en ingeniería de software y colaboraciones relevantes.",
-			"label": "Contactarme"
+		"resume": {
+			"title": "Descargar CV",
+			"description": "Revisa de forma concisa mi experiencia, habilidades y formación.",
+			"label": "Descargar CV"
 		}
 	},
 	"contact": {
@@ -56,16 +46,11 @@
 	},
 	"projects": {
 		"title": "Proyectos destacados",
-		"description": "Una selección de proyectos que resume el problema, mi contribución y el resultado técnico sin duplicar los casos de estudio completos del portafolio.",
-		"caseStudy": "Proyecto",
-		"problem": "Problema",
-		"contribution": "Mi contribución",
-		"outcome": "Resultado",
+		"description": "Algunos proyectos que muestran el tipo de sistemas y problemas en los que trabajo.",
 		"repository": "Repositorio",
 		"projectSite": "Sitio del proyecto",
 		"viewCaseStudy": "Ver caso de estudio",
-		"private": "Proyecto privado",
-		"technologyStack": "Tecnologías utilizadas"
+		"private": "Proyecto privado"
 	},
 	"skills": {
 		"title": "Stack y herramientas de ingeniería",
@@ -74,17 +59,17 @@
 		"heading": "Tecnologías y habilidades"
 	},
 	"page": {
-		"mainLabel": "Hub profesional de enlaces",
-		"sectionsLabel": "Secciones del perfil profesional"
+		"mainLabel": "Perfil profesional de David Sandoval",
+		"sectionsLabel": "Secciones del perfil profesional de David Sandoval"
 	},
 	"seo": {
 		"title": "David Sandoval | Ingeniero de Software",
-		"description": "David Sandoval es Ingeniero de Software con foco en sistemas backend mantenibles, APIs confiables, desarrollo frontend e iniciativas de developer tooling.",
-		"socialDescription": "Soy David Sandoval, Ingeniero de Software con foco en backend y experiencia frontend. Explora mis proyectos, portafolio, GitHub y CV.",
-		"ogImageAlt": "David Sandoval — tarjeta de perfil de Software Engineer",
-		"twitterImageAlt": "David Sandoval — tarjeta de perfil de Software Engineer",
+		"description": "David Sandoval es Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Revisa su portafolio, GitHub, CV y canales de contacto profesional.",
+		"socialDescription": "David Sandoval — Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Portafolio, GitHub, CV y contacto.",
+		"ogImageAlt": "David Sandoval — Ingeniero de Software",
+		"twitterImageAlt": "David Sandoval — Ingeniero de Software",
 		"twitterLabel1": "Enfoque profesional",
-		"twitterData1": "Sistemas backend · Developer tooling",
+		"twitterData1": "Backend · Experiencia frontend",
 		"ogLocale": "es_PE"
 	},
 	"share": {
@@ -99,7 +84,6 @@
 		"system": "Usar preferencia del sistema"
 	},
 	"footer": {
-		"builtWith": "Construido con Astro y Tailwind CSS",
 		"backToTop": "Volver arriba"
 	}
 }
