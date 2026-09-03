@@ -108,9 +108,9 @@ test.describe('Home page', () => {
 			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
 		);
 		await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
-		await expect(
-			page.locator('.cta-buttons__link[href="#featured-projects-title"]')
-		).toHaveCount(0);
+		await expect(page.locator('.cta-buttons__link[href="#featured-projects-title"]')).toHaveCount(
+			0
+		);
 		await expect(
 			page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')
 		).toHaveCount(0);

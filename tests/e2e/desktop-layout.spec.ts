@@ -96,9 +96,9 @@ for (const route of routes) {
 				await expect(heroPortfolio).toHaveCount(1);
 				await expect(heroPortfolio).toBeVisible();
 				await expect(heroPortfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
-				await expect(
-					page.locator('.cta-buttons__link[data-conversion-item="resume"]')
-				).toHaveCount(1);
+				await expect(page.locator('.cta-buttons__link[data-conversion-item="resume"]')).toHaveCount(
+					1
+				);
 				await expect(page.locator('[data-conversion-item="projects"]')).toHaveCount(0);
 
 				const projectCards = page.locator('[data-project-card]');
