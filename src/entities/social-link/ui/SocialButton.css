@@ -19,6 +19,9 @@
 .social-button__icon--website {
 	color: var(--channel-accent-primary);
 }
+.social-button__icon--website path {
+	transition: fill 200ms ease-out;
+}
 .social-button__icon--linkedin {
 	@apply h-full w-full;
 }
@@ -116,6 +119,9 @@
 			var(--channel-accent-primary),
 			var(--channel-accent-secondary)
 		);
+	}
+	.social-button--website:hover .social-button__icon--website path {
+		fill: var(--platform-on-brand);
 	}
 }
 

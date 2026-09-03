@@ -275,7 +275,7 @@ for (const route of routes) {
 					return new Set(rows).size;
 				})
 			);
-			expect(projectActionRows).toEqual([1, 2, 1]);
+			expect(projectActionRows).toEqual([1, 1, 1]);
 
 			const firstSkillRowCount = await page.locator('[data-skill-item]').evaluateAll(elements => {
 				const firstTop = Math.round(elements[0].getBoundingClientRect().top);

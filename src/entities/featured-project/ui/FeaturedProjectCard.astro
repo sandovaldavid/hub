@@ -127,7 +127,10 @@ const caseNumber = String(position).padStart(2, '0');
 			}
 			{
 				!hasPublicProject && !hasPublicRepository && (
-					<span class="featured-project-card__availability">{t('projects.private')}</span>
+					<span
+						class={`featured-project-card__availability ${hasPublicCaseStudy ? '' : 'featured-project-card__availability--wide'}`}>
+						{t('projects.private')}
+					</span>
 				)
 			}
 			{!hasPublicDestination && <span class="sr-only">{t('projects.private')}</span>}
