@@ -23,9 +23,7 @@ test.describe('Home page', () => {
 		);
 	});
 
-	test('renders the compact recognition and routing sections without a visible stack catalog', async ({
-		page,
-	}) => {
+	test('renders the compact recognition and routing sections', async ({ page }) => {
 		await page.goto('/');
 		await expect(page.locator('main')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="hero-heading"]')).toBeVisible();
@@ -80,12 +78,12 @@ test.describe('Home page', () => {
 		const socialItems = page.locator('.social-grid__item');
 		await expect(socialItems).toHaveCount(5);
 		await expect(page.locator('.social-button[href="https://sandovaldavid.com"]')).toHaveCount(0);
-		await expect(page.locator('.social-button[href="https://www.linkedin.com/in/jdsandovals"]')).toHaveCount(
-			1
-		);
-		await expect(page.locator('.social-button[href="https://github.com/sandovaldavid"]')).toHaveCount(
-			1
-		);
+		await expect(
+			page.locator('.social-button[href="https://www.linkedin.com/in/jdsandovals"]')
+		).toHaveCount(1);
+		await expect(
+			page.locator('.social-button[href="https://github.com/sandovaldavid"]')
+		).toHaveCount(1);
 
 		const externalLinks = page.locator('main a[target="_blank"]');
 		const count = await externalLinks.count();
@@ -110,10 +108,12 @@ test.describe('Home page', () => {
 			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
 		);
 		await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
-		await expect(page.locator('.cta-buttons__link[href="#featured-projects-title"]')).toHaveCount(0);
-		await expect(page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')).toHaveCount(
-			0
-		);
+		await expect(
+			page.locator('.cta-buttons__link[href="#featured-projects-title"]')
+		).toHaveCount(0);
+		await expect(
+			page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')
+		).toHaveCount(0);
 		await expect(page.locator('.cta-buttons__link[href^="mailto:"]')).toHaveCount(0);
 		await expect(page.locator('[data-layout-column="contact"] a[href^="mailto:"]')).toHaveCount(1);
 	});
@@ -147,7 +147,9 @@ test.describe('Spanish version (/es/)', () => {
 		).toBeVisible();
 		await expect(page.getByText('Piura, Perú · UTC-5')).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Trabajo y contacto' })).toBeVisible();
-		await expect(page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })
+		).toBeVisible();
 		await expect(page.locator('[aria-labelledby="skills-heading"]')).toHaveCount(0);
 
 		const portfolioLink = page.locator(

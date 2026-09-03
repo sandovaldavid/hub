@@ -52,11 +52,14 @@ for (const route of ['/', '/es/']) {
 			await expect(languageToggle).toHaveAttribute('data-conversion-position', 'navigation');
 		});
 
-		test('uses the canonical project position for project and case-study routing', async ({ page }) => {
+		test('uses the canonical project position for project routing', async ({ page }) => {
 			const projectLinks = page.locator('[data-conversion-event="project_opened"]');
 			expect(await projectLinks.count()).toBeGreaterThan(0);
 			for (let index = 0; index < (await projectLinks.count()); index++) {
-				await expect(projectLinks.nth(index)).toHaveAttribute('data-conversion-position', 'project');
+				await expect(projectLinks.nth(index)).toHaveAttribute(
+					'data-conversion-position',
+					'project'
+				);
 			}
 		});
 

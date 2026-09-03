@@ -9,9 +9,7 @@ const desktopViewports = [
 
 for (const route of routes) {
 	test.describe(`responsive layout for ${route}`, () => {
-		test('keeps the compact desktop hierarchy balanced without horizontal overflow', async ({
-			page,
-		}) => {
+		test('keeps the desktop hierarchy balanced without horizontal overflow', async ({ page }) => {
 			await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
 
 			for (const viewport of desktopViewports) {
@@ -142,12 +140,8 @@ for (const route of routes) {
 			expect(profileBox).not.toBeNull();
 			expect(snapshotBox).not.toBeNull();
 			expect(socialBox).not.toBeNull();
-			expect(snapshotBox?.y ?? 0).toBeGreaterThan(
-				(profileBox?.y ?? 0) + (profileBox?.height ?? 0)
-			);
-			expect(socialBox?.y ?? 0).toBeGreaterThan(
-				(snapshotBox?.y ?? 0) + (snapshotBox?.height ?? 0)
-			);
+			expect(snapshotBox?.y ?? 0).toBeGreaterThan((profileBox?.y ?? 0) + (profileBox?.height ?? 0));
+			expect(socialBox?.y ?? 0).toBeGreaterThan((snapshotBox?.y ?? 0) + (snapshotBox?.height ?? 0));
 			await expect(page.locator('.hero-card__primary-action')).toBeVisible();
 
 			const metadataItems = page.locator('.profile-snapshot__metadata-item');

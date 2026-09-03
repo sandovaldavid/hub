@@ -31,7 +31,9 @@ describe('Hub messaging alignment contract', () => {
 		expect(english.profile.bio).toMatch(
 			/backend systems.*frontend experience.*debugging.*integration.*validation/i
 		);
-		expect(spanish.profile.bio).toMatch(/sistemas backend.*frontend.*debugging.*integración.*validación/i);
+		expect(spanish.profile.bio).toMatch(
+			/sistemas backend.*frontend.*depuración.*integración.*validación/i
+		);
 		expect(english.profile.bio).not.toMatch(/typed contracts|validated delivery|clear boundaries/i);
 		expect(spanish.profile.bio).not.toMatch(/contratos tipados|límites claros/i);
 
@@ -73,9 +75,9 @@ describe('Hub messaging alignment contract', () => {
 		for (const lang of ['en', 'es']) {
 			const buttons = getCtaButtons(lang);
 			expect(buttons.map(button => button.id)).toEqual(['portfolio', 'resume']);
-			expect(buttons.filter(button => button.variant === 'primary').map(button => button.id)).toEqual([
-				'portfolio',
-			]);
+			expect(
+				buttons.filter(button => button.variant === 'primary').map(button => button.id)
+			).toEqual(['portfolio']);
 			expect(buttons.find(button => button.id === 'portfolio')?.href).toBe(siteConfig.portfolioUrl);
 			expect(buttons.find(button => button.id === 'resume')?.href).toBe(siteConfig.resume[lang]);
 		}
@@ -148,7 +150,9 @@ describe('Hub messaging alignment contract', () => {
 
 		expect(englishYukidoke?.title).toBe('Yukidoke · Household finance platform');
 		expect(spanishYukidoke?.title).toBe('Yukidoke · Plataforma financiera para hogares');
-		expect(englishYukidoke?.summary).not.toMatch(/v1 complete|release-ready|production-ready|scalable|multi-user/i);
+		expect(englishYukidoke?.summary).not.toMatch(
+			/v1 complete|release-ready|production-ready|scalable|multi-user/i
+		);
 		expect(spanishYukidoke?.summary).not.toMatch(
 			/v1 completa|lista para release|lista para producción|escalable|multiusuario/i
 		);
