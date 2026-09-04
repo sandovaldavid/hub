@@ -1,7 +1,7 @@
 ---
 import { cn } from '@shared/lib/utils';
 import ChatIcon from '@shared/assets/cta-icons/chat.svg?raw';
-import SentIcon from '@shared/assets/sent.svg';
+import EmailIcon from '@shared/assets/cta-icons/email.svg';
 import { useTranslations, type Lang } from '@shared/i18n';
 
 interface Props {
@@ -25,7 +25,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 <div
 	class={cn(
 		'contact-cta relative flex h-full w-full overflow-hidden lg:min-h-40',
-		'bg-card-background border border-card-edge rounded-2xl shadow-sm'
+		'bg-card-background-muted border border-card-edge rounded-2xl shadow-sm'
 	)}>
 	<div
 		class={cn(
@@ -64,7 +64,7 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 			<span
 				class="button-secondary flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-button-secondary-edge bg-button-secondary-background px-4 py-2 text-sm font-semibold text-button-secondary-content transition-colors duration-200 hover:bg-button-secondary-background-hover">
 				<span>{buttonText}</span>
-				<SentIcon class="h-4 w-4" aria-hidden="true" />
+				<EmailIcon class="size-[1.125rem] shrink-0" aria-hidden="true" />
 			</span>
 		</a>
 	</div>

@@ -26,6 +26,15 @@ describe('browser test infrastructure contract', () => {
 		expect(workflow).toMatch(/e2e:[\s\S]*?PLAYWRIGHT_WORKERS: 2/);
 	});
 
+	test('runs the required Lighthouse context for runtime changes on develop and main', async () => {
+		const workflow = await read('.github/workflows/ci.yml');
+		const lighthouseJob = workflow.match(/\n  lighthouse:[\s\S]*$/)?.[0] ?? '';
+
+		expect(lighthouseJob).toContain("if: ${{ needs.changes.outputs.runtime == 'true' }}");
+		expect(lighthouseJob).not.toContain("github.ref_name == 'main'");
+		expect(lighthouseJob).not.toContain("github.event_name == 'pull_request'");
+	});
+
 	test('keeps complete local browser validation inside the repository DevContainer', async () => {
 		const [packageJson, runner, devcontainer, dockerfile] = await Promise.all([
 			readJson('package.json'),

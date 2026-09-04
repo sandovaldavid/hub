@@ -61,7 +61,7 @@ for (const route of routes) {
 
 				const identityActions = await page.locator('.hero-card__identity-actions').boundingBox();
 				expect(identityActions).not.toBeNull();
-				expect(identityActions?.width ?? 0).toBeLessThanOrEqual(550);
+				expect(identityActions?.width ?? 0).toBeLessThanOrEqual(485);
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
 				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
@@ -100,6 +100,16 @@ for (const route of routes) {
 				expect(primaryBox).not.toBeNull();
 				expect(contactBox).not.toBeNull();
 				expect(Math.abs((primaryBox?.y ?? 0) - (contactBox?.y ?? 0))).toBeLessThanOrEqual(2);
+				expect(Math.abs((primaryBox?.x ?? 0) - (snapshotPanelBox?.x ?? 0))).toBeLessThanOrEqual(
+					2
+				);
+				const contactRight = (contactBox?.x ?? 0) + (contactBox?.width ?? 0);
+				const snapshotRight =
+					(snapshotPanelBox?.x ?? 0) + (snapshotPanelBox?.width ?? 0);
+				expect(Math.abs(contactRight - snapshotRight)).toBeLessThanOrEqual(2);
+				expect(Math.abs((primaryBox?.width ?? 0) - (contactBox?.width ?? 0))).toBeLessThanOrEqual(
+					2
+				);
 
 				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
 				await expect(primaryCtaLinks).toHaveCount(1);
