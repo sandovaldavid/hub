@@ -114,8 +114,14 @@ for (const route of routes) {
 					})
 				);
 				expect(new Set(routeBoxes.map(box => Math.round(box.y))).size).toBe(1);
-				expect(Math.max(...routeBoxes.map(box => box.width)) - Math.min(...routeBoxes.map(box => box.width))).toBeLessThanOrEqual(2);
-				expect(Math.max(...routeBoxes.map(box => box.height)) - Math.min(...routeBoxes.map(box => box.height))).toBeLessThanOrEqual(2);
+				expect(
+					Math.max(...routeBoxes.map(box => box.width)) -
+						Math.min(...routeBoxes.map(box => box.width))
+				).toBeLessThanOrEqual(2);
+				expect(
+					Math.max(...routeBoxes.map(box => box.height)) -
+						Math.min(...routeBoxes.map(box => box.height))
+				).toBeLessThanOrEqual(2);
 
 				const primaryCtaLinks = page.locator('.cta-buttons__link');
 				await expect(primaryCtaLinks).toHaveCount(2);
