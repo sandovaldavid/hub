@@ -37,6 +37,9 @@ describe('human-first SEO contract', () => {
 			expect(metadataCopy).not.toMatch(/Angular|\.NET|TypeScript/i);
 			expect(metadataCopy).not.toMatch(/senior|lead|founder|certified|expert/i);
 			expect(metadataCopy).not.toMatch(/evidence|evidencia|unconfirmed|no confirmada/i);
+			expect(metadataCopy).not.toMatch(
+				/reliable systems|structured problem solving|evidence-driven|complex problems|engineering excellence|sistemas confiables|resolución estructurada|problemas complejos|excelencia.*ingeniería/i
+			);
 			expect(seo).not.toHaveProperty('keywords');
 		}
 

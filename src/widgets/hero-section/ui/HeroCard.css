@@ -51,7 +51,7 @@
 	color: var(--status-online-content);
 }
 .hero-card__identity-actions {
-	@apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:max-w-[34rem] md:flex-row md:items-center md:justify-between md:gap-4;
+	@apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:max-w-[30rem] md:flex-row md:items-center md:justify-between md:gap-4;
 }
 .hero-card__metadata {
 	@apply m-0 grid w-full grid-cols-2 gap-2;
