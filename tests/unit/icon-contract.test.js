@@ -72,11 +72,12 @@ describe('shared iconography contract', () => {
 		);
 		expect(socialGrid).not.toContain('social-platform/website.svg');
 		expect(ctaData).toContain("id: 'portfolio'");
-		expect(ctaData).toContain("icon: 'portfolio'");
-		expect(ctaModel).toContain("'portfolio' | 'rocket' | 'github' | 'email'");
+		expect(ctaData).toContain("id: 'resume'");
+		expect(ctaModel).toContain("export type CtaIcon = 'portfolio' | 'briefcase';");
 		expect(ctaButtons).toContain(
 			"PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg?raw'"
 		);
+		expect(ctaButtons).toContain("BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw'");
 		expect(footer).toContain(
 			"PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg?raw'"
 		);

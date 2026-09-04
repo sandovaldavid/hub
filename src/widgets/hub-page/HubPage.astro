@@ -3,13 +3,11 @@ import { HeroCard, ProfileSnapshot } from '@widgets/hero-section';
 import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
 import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
 import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
-import { SkillsSection } from '@widgets/skills-section';
 import FeaturedProjectSection from '@widgets/featured-project-section/ui/FeaturedProjectSection.astro';
 
 import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
 import { getCtaButtons } from '@data/cta';
-import { coreSkills, toolingSkills } from '@data/skills';
 import { getFeaturedProjects } from '@data/featured-projects';
 import { siteConfig } from '@data/site.config';
 import { useTranslations, type Lang } from '@shared/i18n';
@@ -21,7 +19,9 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const projects = getFeaturedProjects(lang);
-const professionalSocialLinks = socialLinks.filter(link => link.priority !== 'footer');
+const professionalSocialLinks = socialLinks.filter(
+	link => link.id !== 'website' && link.priority !== 'footer'
+);
 
 const localizedProfile = {
 	...profile,
@@ -30,10 +30,11 @@ const localizedProfile = {
 	bio: t('profile.bio'),
 };
 
-const localizedCtaButtons = getCtaButtons(t('contact.emailSubject')).map(button => ({
+const localizedCtaButtons = getCtaButtons(lang).map(button => ({
 	...button,
 	title: t(`cta.${button.id}.title`),
 	description: t(`cta.${button.id}.description`),
+	label: t(`cta.${button.id}.label`),
 }));
 
 const heroMetadata = [
@@ -46,7 +47,7 @@ const heroMetadata = [
 <main
 	id="main-content"
 	tabindex="-1"
-	class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
+	class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 px-4 pt-2 pb-4 md:gap-9 md:px-6 md:pt-3 md:pb-8 lg:gap-9 lg:px-8 lg:pt-4 lg:pb-10 xl:px-10 xl:pt-4 xl:pb-12"
 	role="main"
 	aria-label={t('page.mainLabel')}>
 	<div
@@ -64,11 +65,11 @@ const heroMetadata = [
 				variant="compact"
 				availability={t('profile.availability')}
 				primaryAction={{
-					label: t('profile.resumeAction'),
-					href: siteConfig.resume[lang],
+					label: t('profile.portfolioAction'),
+					href: siteConfig.portfolioUrl,
 					external: true,
-					conversionEvent: 'resume_downloaded',
-					conversionItem: 'resume',
+					conversionEvent: 'portfolio_opened',
+					conversionItem: 'portfolio',
 				}}
 			/>
 		</section>
@@ -102,7 +103,7 @@ const heroMetadata = [
 	</div>
 
 	<section
-		class="flex flex-col gap-4 md:gap-6"
+		class="flex flex-col gap-4 md:gap-5"
 		data-layout-section="actions"
 		aria-labelledby="cta-heading">
 		<header class="bento-item mx-auto max-w-3xl text-center">
@@ -111,17 +112,20 @@ const heroMetadata = [
 				class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
 				{t('cta.heading')}
 			</h2>
-			<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-muted md:text-base">
+			<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-default md:text-base">
 				{t('cta.description')}
 			</p>
 		</header>
 
-		<div class="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:items-stretch">
-			<div class="bento-item flex min-w-0 lg:col-span-2" data-layout-column="primary-actions">
-				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
+		<div
+			class="grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-7 xl:gap-8">
+			<div
+				class="bento-item flex min-w-0 md:col-span-2 lg:col-span-2"
+				data-layout-column="primary-actions">
+				<CTAButtons buttons={localizedCtaButtons} layout="horizontal" />
 			</div>
 			<section
-				class="bento-item flex min-w-0"
+				class="bento-item flex min-w-0 md:col-span-2 lg:col-span-1"
 				data-layout-column="contact"
 				aria-labelledby="contact-heading">
 				<ContactCTA email={profile.contact.email} {lang} />
@@ -131,16 +135,6 @@ const heroMetadata = [
 
 	<section class="bento-item" data-layout-section="projects">
 		<FeaturedProjectSection {projects} {lang} />
-	</section>
-
-	<section class="bento-item" data-layout-section="skills" aria-labelledby="skills-heading">
-		<SkillsSection
-			{coreSkills}
-			{toolingSkills}
-			title={t('skills.title')}
-			coreTitle={t('skills.coreTitle')}
-			toolsTitle={t('skills.toolsTitle')}
-		/>
 	</section>
 </main>
 

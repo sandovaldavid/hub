@@ -1,6 +1,6 @@
 # David Sandoval — Professional Hub
 
-I built this compact, bilingual professional Hub as a focused entry point to my work as a Software Engineer. It helps recruiters, collaborators and potential clients understand what I do and reach the right public destination quickly, without duplicating the depth of my portfolio, résumé or project repositories.
+I built this compact, bilingual professional Hub as a focused entry point to my work as a Software Engineer. It helps recruiters, hiring teams, collaborators and professional contacts understand what I do and reach the right public destination quickly, without duplicating the depth of my portfolio, résumé or project repositories.
 
 [View production](https://hub.sandovaldavid.com) · [Portfolio](https://sandovaldavid.com) · [Résumé](https://sandovaldavid.com/resume/david-sandoval-resume.pdf)
 
@@ -16,11 +16,11 @@ I intentionally keep the Hub small. Its job is recognition and routing:
 - provide a fast, accessible experience across mobile and desktop;
 - keep public metadata, structured data and social previews aligned with the visible content.
 
-I do **not** treat it as a second portfolio, a generic link-in-bio template or an independent brand. My name, work and professional evidence remain primary; the visual system supports that identity rather than replacing it.
+I do **not** treat it as a second portfolio, a generic link-in-bio template or an independent brand. My name and work remain primary; the visual system supports that identity rather than replacing it.
 
-## What I wanted this project to demonstrate
+## Engineering approach
 
-Beyond serving as my professional Hub, I use this repository as public evidence of how I approach a small production web application:
+The repository keeps the implementation intentionally small and reviewable:
 
 - Static generation with Astro for two localized routes: `/` and `/es/`.
 - Typed content, destination and metadata ownership instead of scattering copy and URLs through components.

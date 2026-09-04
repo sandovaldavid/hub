@@ -189,7 +189,7 @@ jobs:
   lighthouse:
     name: Lighthouse
     needs: [changes, quality]
-    if: ${{ needs.changes.outputs.runtime == 'true' && (github.event_name == 'pull_request' || github.ref_name == 'main') }}
+    if: ${{ needs.changes.outputs.runtime == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read

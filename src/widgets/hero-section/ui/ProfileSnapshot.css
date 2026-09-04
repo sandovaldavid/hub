@@ -1,7 +1,7 @@
 @reference '../../../shared/styles/global.css';
 
 .profile-snapshot {
-	@apply grid min-w-0 gap-4 rounded-2xl border border-card-edge bg-card-background p-4 shadow-sm md:grid-cols-[minmax(0,1.35fr)_minmax(0,2fr)] md:items-center md:gap-5 md:p-5;
+	@apply grid min-w-0 gap-4 rounded-2xl border border-card-edge bg-card-background p-4 shadow-sm md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] md:items-center md:gap-6 md:p-5;
 }
 .profile-snapshot__summary {
 	@apply min-w-0;
@@ -13,25 +13,19 @@
 	@apply m-0 mt-1.5 text-sm leading-relaxed text-channel-content-default md:text-base;
 }
 .profile-snapshot__metadata {
-	@apply m-0 grid min-w-0 grid-cols-2 gap-2;
+	@apply m-0 flex min-w-0 flex-wrap items-center gap-y-2 md:justify-end;
 }
 .profile-snapshot__metadata-item {
-	@apply min-w-0 rounded-lg border border-card-edge bg-card-background-muted px-3 py-2;
-}
-.profile-snapshot__metadata-item:last-child {
-	@apply col-span-2;
-}
-.profile-snapshot__metadata-item dt {
-	@apply text-xs uppercase tracking-wide text-channel-content-muted;
+	@apply flex min-w-0 items-center;
 }
 .profile-snapshot__metadata-item dd {
-	@apply m-0 break-words text-xs font-semibold leading-snug text-channel-content-strong sm:text-sm;
+	@apply m-0 flex min-w-0 items-center break-words text-sm font-medium leading-snug;
+	color: var(--channel-content-default);
 }
-@media (min-width: 640px) {
-	.profile-snapshot__metadata {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-	.profile-snapshot__metadata-item:last-child {
-		grid-column: auto;
-	}
+.profile-snapshot__separator {
+	@apply mx-2 select-none text-sm;
+	color: var(--channel-content-muted);
+}
+.profile-snapshot__separator--group {
+	@apply mx-2;
 }

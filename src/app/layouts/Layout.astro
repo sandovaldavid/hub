@@ -147,9 +147,15 @@ const jsonLd = emitStructuredData
 	<body
 		class="flex min-h-screen flex-col bg-channel-background-canvas text-channel-content-default">
 		<a href="#main-content" class="skip-link">{t('nav.skipToContent')}</a>
-		{showShare && <ShareButton {lang} />}
-		{showLanguageToggle && <LanguageToggle {lang} {alternates} />}
-		<ThemeToggle {lang} />
+		<div
+			class="hub-global-controls mx-auto flex w-full max-w-384 items-center px-4 pt-3 md:px-6 md:pt-4 lg:px-8 xl:px-10"
+			data-layout-section="global-controls">
+			{showShare && <ShareButton {lang} />}
+			<div class="ml-auto flex items-center gap-2">
+				{showLanguageToggle && <LanguageToggle {lang} {alternates} />}
+				<ThemeToggle {lang} />
+			</div>
+		</div>
 		<slot />
 		<SiteFooter {lang} />
 		<Analytics />
@@ -159,3 +165,14 @@ const jsonLd = emitStructuredData
 		</script>
 	</body>
 </html>
+
+<style is:global>
+	.hub-global-controls .share-button,
+	.hub-global-controls .language-toggle,
+	.hub-global-controls .theme-toggle {
+		position: relative;
+		top: auto;
+		right: auto;
+		left: auto;
+	}
+</style>

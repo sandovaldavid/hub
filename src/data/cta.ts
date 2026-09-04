@@ -1,37 +1,22 @@
-import type { CtaDefinition } from '@shared/model/cta';
 import { siteConfig } from './site.config';
+import type { CtaDefinition } from '@shared/model/cta';
+import type { Lang } from '@shared/i18n';
 
-export const getCtaButtons = (contactSubject: string): CtaDefinition[] => [
+export const getCtaButtons = (lang: Lang): CtaDefinition[] => [
 	{
 		id: 'portfolio',
 		icon: 'portfolio',
 		href: siteConfig.portfolioUrl,
-		variant: 'primary',
+		variant: 'secondary',
 		external: true,
 		conversionEvent: 'portfolio_opened',
 	},
 	{
-		id: 'projects',
-		icon: 'rocket',
-		href: '#featured-projects-title',
-		variant: 'primary',
-		external: false,
-		conversionEvent: 'featured_projects_viewed',
-	},
-	{
-		id: 'github',
-		icon: 'github',
-		href: siteConfig.githubUrl,
+		id: 'resume',
+		icon: 'briefcase',
+		href: siteConfig.resume[lang],
 		variant: 'secondary',
 		external: true,
-		conversionEvent: 'github_opened',
-	},
-	{
-		id: 'contact',
-		icon: 'email',
-		href: `mailto:${siteConfig.email}?subject=${encodeURIComponent(contactSubject)}`,
-		variant: 'secondary',
-		external: false,
-		conversionEvent: 'contact_clicked',
+		conversionEvent: 'resume_downloaded',
 	},
 ];

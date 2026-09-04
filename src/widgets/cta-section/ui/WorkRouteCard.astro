@@ -1,0 +1,72 @@
+---
+import type { ConversionEvent, ConversionPosition } from '@shared/analytics/conversion';
+import ArrowIcon from '@shared/assets/arrow-right-filled.svg?raw';
+import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
+import './WorkRouteCard.css';
+
+type ActionIcon = 'arrow' | 'email';
+
+interface Props {
+	id: string;
+	title: string;
+	description?: string;
+	href: string;
+	actionLabel: string;
+	icon: string;
+	actionIcon?: ActionIcon;
+	external?: boolean;
+	conversionEvent: ConversionEvent;
+	conversionPosition: ConversionPosition;
+	conversionItem: string;
+	headingId?: string;
+	ariaLabel?: string;
+}
+
+const {
+	id,
+	title,
+	description,
+	href,
+	actionLabel,
+	icon,
+	actionIcon = 'arrow',
+	external = false,
+	conversionEvent,
+	conversionPosition,
+	conversionItem,
+	headingId,
+	ariaLabel,
+} = Astro.props;
+const actionIcons: Record<ActionIcon, string> = {
+	arrow: ArrowIcon,
+	email: EmailIcon,
+};
+const actionIconClass =
+	actionIcon === 'arrow'
+		? 'work-route-card__action-icon work-route-card__action-icon--arrow'
+		: 'work-route-card__action-icon';
+---
+
+<div class="work-route-card" data-work-route-card data-route-id={id}>
+	<div class="work-route-card__icon-shell" aria-hidden="true">
+		<span class="work-route-card__icon" set:html={icon} />
+	</div>
+
+	<div class="work-route-card__content">
+		<h3 id={headingId} class="work-route-card__title">{title}</h3>
+		{description && <p class="work-route-card__description">{description}</p>}
+	</div>
+
+	<a
+		{href}
+		class="work-route-card__action button-secondary"
+		target={external ? '_blank' : undefined}
+		rel={external ? 'noopener noreferrer' : undefined}
+		data-conversion-event={conversionEvent}
+		data-conversion-position={conversionPosition}
+		data-conversion-item={conversionItem}
+		aria-label={ariaLabel}>
+		<span>{actionLabel}</span>
+		<span class={actionIconClass} aria-hidden="true" set:html={actionIcons[actionIcon]} />
+	</a>
+</div>

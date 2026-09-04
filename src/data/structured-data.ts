@@ -17,9 +17,6 @@ const schemaLanguageByLocale = {
 	es: 'es-PE',
 } as const;
 
-// ponytail: profile.avatar.url's pixel dimensions belong in a typed catalog
-// (site.config.ts already holds socialPreview's) but site.config.ts is out of
-// scope for this change — move it there when that file is next touched.
 const PORTRAIT_IMAGE_DIMENSIONS = { width: 1254, height: 1254 } as const;
 
 export function getProfilePageStructuredData({

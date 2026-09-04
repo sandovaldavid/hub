@@ -7,6 +7,7 @@ const profileImageUrl = `${siteUrl}/profile/perfil.webp`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
+	'https://www.instagram.com/david.sandovals',
 	'https://x.com/davidsandoval_s',
 	'https://www.youtube.com/@davidsandoval.s',
 	'https://www.tiktok.com/@davidsandoval.s',
@@ -21,12 +22,12 @@ const routes = [
 		alternateLocale: 'es_PE',
 		title: 'David Sandoval | Software Engineer',
 		description:
-			'David Sandoval is a Software Engineer focused on maintainable backend systems, reliable APIs, practical frontend delivery, and developer tooling.',
+			'David Sandoval is a backend-oriented Software Engineer with hands-on frontend experience. Explore his portfolio, GitHub, resume, and professional contact links.',
 		socialDescription:
-			"I'm David Sandoval, a Software Engineer focused on backend systems with hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
-		imageAlt: 'David Sandoval — Software Engineer profile card',
+			'David Sandoval — Software Engineer focused on backend systems, with hands-on frontend experience. Portfolio, GitHub, resume, and contact.',
+		imageAlt: 'David Sandoval — Software Engineer',
 		twitterLabel: 'Professional focus',
-		twitterData: 'Backend systems · Developer tooling',
+		twitterData: 'Backend systems · Frontend experience',
 		portraitAlt: 'Portrait of David Sandoval',
 	},
 	{
@@ -37,13 +38,13 @@ const routes = [
 		alternateLocale: 'en_US',
 		title: 'David Sandoval | Ingeniero de Software',
 		description:
-			'David Sandoval es Ingeniero de Software con foco en sistemas backend mantenibles, APIs confiables, desarrollo frontend e iniciativas de developer tooling.',
+			'David Sandoval es Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Revisa su portafolio, GitHub, CV y canales de contacto profesional.',
 		socialDescription:
-			'Soy David Sandoval, Ingeniero de Software con foco en backend y experiencia frontend. Explora mis proyectos, portafolio, GitHub y CV.',
-		imageAlt: 'David Sandoval — tarjeta de perfil de Software Engineer',
+			'David Sandoval — Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Portafolio, GitHub, CV y contacto.',
+		imageAlt: 'David Sandoval — Ingeniero de Software',
 		twitterLabel: 'Enfoque profesional',
 		portraitAlt: 'Retrato de David Sandoval',
-		twitterData: 'Sistemas backend · Developer tooling',
+		twitterData: 'Backend · Experiencia frontend',
 	},
 ] as const;
 

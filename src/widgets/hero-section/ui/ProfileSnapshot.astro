@@ -9,6 +9,10 @@ interface Props {
 }
 
 const { heading, bio, metadata } = Astro.props;
+const localizedMetadata = metadata.map(item => ({
+	...item,
+	parts: item.value.split(/\s*·\s*/u),
+}));
 ---
 
 <section
@@ -22,10 +26,28 @@ const { heading, bio, metadata } = Astro.props;
 
 	<dl class="profile-snapshot__metadata">
 		{
-			metadata.map(item => (
+			localizedMetadata.map((item, itemIndex) => (
 				<div class="profile-snapshot__metadata-item">
-					<dt>{item.label}</dt>
-					<dd>{item.value}</dd>
+					<dt class="sr-only">{item.label}</dt>
+					<dd>
+						{item.parts.map((part, partIndex) => (
+							<>
+								{partIndex > 0 && (
+									<span class="profile-snapshot__separator" aria-hidden="true">
+										&middot;
+									</span>
+								)}
+								<span>{part}</span>
+							</>
+						))}
+						{itemIndex < localizedMetadata.length - 1 && (
+							<span
+								class="profile-snapshot__separator profile-snapshot__separator--group"
+								aria-hidden="true">
+								&middot;
+							</span>
+						)}
+					</dd>
 				</div>
 			))
 		}
