@@ -1,4 +1,28 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+async function expectProfileMetadata(page: Page, expectedGroups: string[][]) {
+	const metadataItems = page.locator('.profile-snapshot__metadata-item');
+	await expect(metadataItems).toHaveCount(expectedGroups.length);
+
+	for (let itemIndex = 0; itemIndex < expectedGroups.length; itemIndex++) {
+		const expectedParts = expectedGroups[itemIndex];
+		const parts = metadataItems
+			.nth(itemIndex)
+			.locator('dd > span:not(.profile-snapshot__separator)');
+		await expect(parts).toHaveCount(expectedParts.length);
+
+		for (let partIndex = 0; partIndex < expectedParts.length; partIndex++) {
+			await expect(parts.nth(partIndex)).toHaveText(expectedParts[partIndex]);
+		}
+	}
+
+	const separators = page.locator('.profile-snapshot__separator');
+	await expect(separators).toHaveCount(5);
+	for (let index = 0; index < 5; index++) {
+		await expect(separators.nth(index)).toHaveText('·');
+		await expect(separators.nth(index)).toHaveAttribute('aria-hidden', 'true');
+	}
+}
 
 test.describe('Home page', () => {
 	test('loads with correct professional title and metadata', async ({ page }) => {
@@ -54,14 +78,15 @@ test.describe('Home page', () => {
 
 		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toBeVisible();
 		await expect(page.getByText('Software Engineer · Backend-focused')).toBeVisible();
-		await expect(page.getByText('Open to new opportunities')).toBeVisible();
-		const snapshot = page.locator('[data-layout-panel="profile-snapshot"]');
-		await expect(snapshot).toContainText('Piura, Peru · UTC-5');
-		await expect(snapshot).toContainText('English · Spanish');
-		await expect(snapshot).toContainText('Remote · Peru');
+		await expect(page.getByText('Open to software engineering opportunities')).toBeVisible();
+		await expectProfileMetadata(page, [
+			['Piura, Peru', 'UTC-5'],
+			['English', 'Spanish'],
+			['Remote', 'Peru'],
+		]);
 		await expect(
 			page.getByText(
-				"I'm a Software Engineer focused on backend development, with professional experience building and maintaining applications across backend and frontend. I work mainly with .NET/C# and Angular/TypeScript, including APIs, integrations, data access, debugging, and validation."
+				"I'm a Software Engineer focused on backend development, with hands-on frontend experience. I work mainly with .NET/C# and Angular/TypeScript across APIs, integrations, data access, and frontend features."
 			)
 		).toBeVisible();
 
@@ -185,15 +210,18 @@ test.describe('Spanish version (/es/)', () => {
 	test('loads natural Spanish positioning and routing', async ({ page }) => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
-		await expect(page.getByText('Ingeniero de Software · Enfoque backend')).toBeVisible();
-		await expect(page.getByText('Disponible para nuevas oportunidades')).toBeVisible();
-		const snapshot = page.locator('[data-layout-panel="profile-snapshot"]');
-		await expect(snapshot).toContainText('Piura, Perú · UTC-5');
-		await expect(snapshot).toContainText('Inglés · Español');
-		await expect(snapshot).toContainText('Remoto · Perú');
+		await expect(page.getByText('Ingeniero de Software · Orientado a backend')).toBeVisible();
+		await expect(
+			page.getByText('Disponible para oportunidades en ingeniería de software')
+		).toBeVisible();
+		await expectProfileMetadata(page, [
+			['Piura, Perú', 'UTC-5'],
+			['Inglés', 'Español'],
+			['Remoto', 'Perú'],
+		]);
 		await expect(
 			page.getByText(
-				'Soy ingeniero de software con enfoque en desarrollo backend y experiencia profesional construyendo y manteniendo aplicaciones tanto en backend como en frontend. Trabajo principalmente con .NET/C# y Angular/TypeScript, incluyendo APIs, integraciones, acceso a datos, depuración y validación.'
+				'Soy Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Trabajo principalmente con .NET/C# y Angular/TypeScript en APIs, integraciones, acceso a datos y funcionalidades frontend.'
 			)
 		).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Sobre mí' })).toBeVisible();
