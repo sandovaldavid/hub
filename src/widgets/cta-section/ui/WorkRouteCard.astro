@@ -58,7 +58,7 @@ const actionIconClass =
 	</div>
 
 	<a
-		href={href}
+		{href}
 		class="work-route-card__action button-secondary"
 		target={external ? '_blank' : undefined}
 		rel={external ? 'noopener noreferrer' : undefined}
@@ -67,10 +67,6 @@ const actionIconClass =
 		data-conversion-item={conversionItem}
 		aria-label={ariaLabel}>
 		<span>{actionLabel}</span>
-		<span
-			class={actionIconClass}
-			aria-hidden="true"
-			set:html={actionIcons[actionIcon]}
-		/>
+		<span class={actionIconClass} aria-hidden="true" set:html={actionIcons[actionIcon]} />
 	</a>
 </div>

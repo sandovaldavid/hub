@@ -118,46 +118,45 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test(
-		'keeps Work & contact focused on portfolio, resume and email with button-only interactions',
-		async ({ page }) => {
-			await page.goto('/');
+	test('keeps Work & contact focused on portfolio, resume and email with button-only interactions', async ({
+		page,
+	}) => {
+		await page.goto('/');
 
-			const routeCards = page.locator('[data-work-route-card]');
-			await expect(routeCards).toHaveCount(3);
-			await expect(page.locator('a[data-work-route-card]')).toHaveCount(0);
+		const routeCards = page.locator('[data-work-route-card]');
+		await expect(routeCards).toHaveCount(3);
+		await expect(page.locator('a[data-work-route-card]')).toHaveCount(0);
 
-			const primaryActions = page.locator(
-				'.work-route-card__action[data-conversion-position="primary-cta"]'
+		const primaryActions = page.locator(
+			'.work-route-card__action[data-conversion-position="primary-cta"]'
+		);
+		await expect(primaryActions).toHaveCount(2);
+
+		const portfolio = primaryActions.filter({ hasText: 'View portfolio' });
+		await expect(portfolio).toHaveCount(1);
+		await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
+		await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
+
+		const resume = primaryActions.filter({ hasText: 'Download resume' });
+		await expect(resume).toHaveAttribute(
+			'href',
+			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
+		);
+		await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+		await expect(
+			page.locator('.work-route-card__action[href="#featured-projects-title"]')
+		).toHaveCount(0);
+		await expect(
+			page.locator('.work-route-card__action[href="https://github.com/sandovaldavid"]')
+		).toHaveCount(0);
+		await expect(page.locator('.work-route-card__action[href^="mailto:"]')).toHaveCount(1);
+
+		for (let index = 0; index < 3; index++) {
+			await expect(routeCards.nth(index).locator(':scope > .work-route-card__action')).toHaveCount(
+				1
 			);
-			await expect(primaryActions).toHaveCount(2);
-
-			const portfolio = primaryActions.filter({ hasText: 'View portfolio' });
-			await expect(portfolio).toHaveCount(1);
-			await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
-			await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
-
-			const resume = primaryActions.filter({ hasText: 'Download resume' });
-			await expect(resume).toHaveAttribute(
-				'href',
-				'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
-			);
-			await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
-			await expect(
-				page.locator('.work-route-card__action[href="#featured-projects-title"]')
-			).toHaveCount(0);
-			await expect(
-				page.locator('.work-route-card__action[href="https://github.com/sandovaldavid"]')
-			).toHaveCount(0);
-			await expect(page.locator('.work-route-card__action[href^="mailto:"]')).toHaveCount(1);
-
-			for (let index = 0; index < 3; index++) {
-				await expect(
-					routeCards.nth(index).locator(':scope > .work-route-card__action')
-				).toHaveCount(1);
-			}
 		}
-	);
+	});
 
 	test('share, language and theme controls remain available in the page layout', async ({
 		page,
