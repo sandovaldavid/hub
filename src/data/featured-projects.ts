@@ -50,7 +50,8 @@ const projects: Record<Lang, FeaturedProject[]> = {
 		{
 			id: 'yukidoke',
 			title: 'Yukidoke · Plataforma financiera para hogares',
-			summary: 'Una aplicación privada de finanzas para hogares con backend .NET y frontend Angular.',
+			summary:
+				'Una aplicación privada de finanzas para hogares con backend .NET y frontend Angular.',
 			caseStudyUrl: 'https://sandovaldavid.com/es/projects/yukidoke',
 			projectAvailability: 'unavailable',
 			repositoryAvailability: 'private',

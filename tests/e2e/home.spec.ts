@@ -170,7 +170,9 @@ test.describe('Spanish version (/es/)', () => {
 		).toBeVisible();
 		await expect(page.getByText('Piura, Perú · UTC-5')).toBeVisible();
 		await expect(
-			page.getByText('Trabajo principalmente en backend y también tengo experiencia práctica en frontend.')
+			page.getByText(
+				'Trabajo principalmente en backend y también tengo experiencia práctica en frontend.'
+			)
 		).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Sobre mí' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Trabajo y contacto' })).toBeVisible();
