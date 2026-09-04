@@ -16,10 +16,8 @@ describe('theme-aware icon color contract', () => {
 		expect(emailIcon).toContain('viewBox="0 0 24 24"');
 		expect(emailIcon).toContain('stroke="currentColor"');
 		expect(emailIcon).not.toMatch(/#fff(?:fff)?\b|\bwhite\b/i);
-		expect(contactCta).toContain(
-			"EmailIcon from '@shared/assets/cta-icons/email.svg'"
-		);
-		expect(contactCta).not.toContain("@shared/assets/sent.svg");
+		expect(contactCta).toContain("EmailIcon from '@shared/assets/cta-icons/email.svg'");
+		expect(contactCta).not.toContain('@shared/assets/sent.svg');
 		expect(contactCta).toContain('text-button-secondary-content');
 		expect(contactCta).toContain('bg-button-secondary-background');
 		expect(contactCta).toContain(
