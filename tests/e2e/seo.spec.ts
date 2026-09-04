@@ -22,9 +22,9 @@ const routes = [
 		alternateLocale: 'es_PE',
 		title: 'David Sandoval | Software Engineer',
 		description:
-			'David Sandoval is a backend-oriented Software Engineer with hands-on frontend experience. Explore his portfolio, GitHub, résumé, and professional contact links.',
+			'David Sandoval is a backend-oriented Software Engineer with hands-on frontend experience. Explore his portfolio, GitHub, resume, and professional contact links.',
 		socialDescription:
-			'David Sandoval — Software Engineer focused on backend systems, with hands-on frontend experience. Portfolio, GitHub, résumé, and contact.',
+			'David Sandoval — Software Engineer focused on backend systems, with hands-on frontend experience. Portfolio, GitHub, resume, and contact.',
 		imageAlt: 'David Sandoval — Software Engineer',
 		twitterLabel: 'Professional focus',
 		twitterData: 'Backend systems · Frontend experience',
