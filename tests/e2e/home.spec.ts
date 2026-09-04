@@ -39,9 +39,7 @@ test.describe('Home page', () => {
 		await page.goto('/');
 
 		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toHaveCount(1);
-		await expect(
-			page.getByRole('heading', { level: 2, name: 'Professional snapshot' })
-		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'About' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Work & contact' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: "Let's talk" })).toBeVisible();
@@ -57,6 +55,9 @@ test.describe('Home page', () => {
 		await expect(page.getByText('Open to remote software engineering opportunities')).toBeVisible();
 		await expect(page.getByText('Piura, Peru · UTC-5')).toBeVisible();
 		await expect(page.getByText('Remote · based in Peru')).toBeVisible();
+		await expect(
+			page.getByText('I work mainly on backend systems and also have hands-on frontend experience.')
+		).toBeVisible();
 
 		const portfolioLink = page.locator(
 			'.hero-card__primary-action[href="https://sandovaldavid.com"]'
@@ -168,6 +169,10 @@ test.describe('Spanish version (/es/)', () => {
 			page.getByText('Disponible para oportunidades remotas en ingeniería de software')
 		).toBeVisible();
 		await expect(page.getByText('Piura, Perú · UTC-5')).toBeVisible();
+		await expect(
+			page.getByText('Trabajo principalmente en backend y también tengo experiencia práctica en frontend.')
+		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 2, name: 'Sobre mí' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Trabajo y contacto' })).toBeVisible();
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })

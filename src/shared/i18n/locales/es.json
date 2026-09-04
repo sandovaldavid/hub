@@ -1,7 +1,7 @@
 {
 	"profile": {
 		"tagline": "Ingeniero de Software · Enfoque backend",
-		"bio": "Trabajo principalmente en sistemas backend, con experiencia práctica en frontend, resolviendo problemas de software mediante depuración, integración y validación.",
+		"bio": "Trabajo principalmente en backend y también tengo experiencia práctica en frontend.",
 		"availability": "Disponible para oportunidades remotas en ingeniería de software",
 		"location": "Piura, Perú · UTC-5",
 		"workMode": "Remoto · con base en Perú",
@@ -10,7 +10,7 @@
 		"languagesLabel": "Idiomas",
 		"workModeLabel": "Modalidad",
 		"portfolioAction": "Ver portafolio",
-		"snapshotHeading": "Perfil profesional",
+		"snapshotHeading": "Sobre mí",
 		"avatarAlt": "Retrato de David Sandoval"
 	},
 	"nav": {
@@ -25,7 +25,7 @@
 	},
 	"cta": {
 		"heading": "Trabajo y contacto",
-		"description": "Descarga mi CV para ver un resumen de mi experiencia o escríbeme directamente sobre oportunidades de ingeniería de software y colaboraciones relevantes.",
+		"description": "Descarga mi CV o escríbeme sobre oportunidades de ingeniería de software o colaboraciones.",
 		"portfolio": {
 			"title": "Ver portafolio",
 			"description": "Conoce mi experiencia profesional, proyectos seleccionados y trabajo de ingeniería con mayor detalle.",
@@ -33,20 +33,20 @@
 		},
 		"resume": {
 			"title": "Descargar CV",
-			"description": "Revisa de forma concisa mi experiencia, habilidades y formación.",
+			"description": "Un resumen breve de mi experiencia y formación.",
 			"label": "Descargar CV"
 		}
 	},
 	"contact": {
 		"title": "Conversemos",
-		"message": "Para oportunidades en ingeniería de software o colaboraciones relevantes, escríbeme directamente.",
+		"message": "Escríbeme por correo sobre oportunidades de ingeniería de software o colaboraciones.",
 		"buttonText": "Enviar correo",
 		"heading": "Contacto",
 		"emailSubject": "Oportunidad de ingeniería de software"
 	},
 	"projects": {
 		"title": "Proyectos destacados",
-		"description": "Algunos proyectos que muestran el tipo de sistemas y problemas en los que trabajo.",
+		"description": "Algunos proyectos seleccionados.",
 		"repository": "Repositorio",
 		"projectSite": "Sitio del proyecto",
 		"viewCaseStudy": "Ver caso de estudio",

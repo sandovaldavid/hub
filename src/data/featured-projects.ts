@@ -17,8 +17,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 		{
 			id: 'yukidoke',
 			title: 'Yukidoke · Household finance platform',
-			summary:
-				'A private household finance product with a .NET backend and Angular client, built around server-owned authorization and financial rules.',
+			summary: 'A private household finance app with a .NET backend and Angular frontend.',
 			caseStudyUrl: 'https://sandovaldavid.com/projects/yukidoke',
 			projectAvailability: 'unavailable',
 			repositoryAvailability: 'private',
@@ -28,7 +27,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			id: 'oci-arm-hunter',
 			title: 'OCI ARM Hunter · Oracle Cloud capacity automation',
 			summary:
-				'A Bash and OCI CLI tool that automates ARM capacity retries, Availability Domain rotation, jitter, and unattended notifications.',
+				'A Bash and OCI CLI tool that retries ARM instance creation across Oracle Cloud Availability Domains.',
 			projectUrl: 'https://oci.sandovaldavid.com',
 			githubUrl: 'https://github.com/sandovaldavid/oci-arm-hunter',
 			projectAvailability: 'public',
@@ -51,8 +50,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 		{
 			id: 'yukidoke',
 			title: 'Yukidoke · Plataforma financiera para hogares',
-			summary:
-				'Un producto privado de finanzas para hogares con backend .NET y cliente Angular, construido con autorización y reglas financieras controladas por el servidor.',
+			summary: 'Una aplicación privada de finanzas para hogares con backend .NET y frontend Angular.',
 			caseStudyUrl: 'https://sandovaldavid.com/es/projects/yukidoke',
 			projectAvailability: 'unavailable',
 			repositoryAvailability: 'private',
@@ -62,7 +60,7 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			id: 'oci-arm-hunter',
 			title: 'OCI ARM Hunter · Automatización de capacidad en Oracle Cloud',
 			summary:
-				'Una herramienta en Bash y OCI CLI que automatiza reintentos de capacidad ARM, rotación de Availability Domains, jitter y notificaciones.',
+				'Una herramienta en Bash y OCI CLI que reintenta la creación de instancias ARM entre Availability Domains de Oracle Cloud.',
 			projectUrl: 'https://oci.sandovaldavid.com',
 			githubUrl: 'https://github.com/sandovaldavid/oci-arm-hunter',
 			projectAvailability: 'public',

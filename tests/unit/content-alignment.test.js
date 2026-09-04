@@ -28,17 +28,23 @@ describe('Hub messaging alignment contract', () => {
 		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 
-		expect(english.profile.bio).toMatch(
-			/backend systems.*frontend experience.*debugging.*integration.*validation/i
+		expect(english.profile.bio).toBe(
+			'I work mainly on backend systems and also have hands-on frontend experience.'
 		);
-		expect(spanish.profile.bio).toMatch(
-			/sistemas backend.*frontend.*depuración.*integración.*validación/i
+		expect(spanish.profile.bio).toBe(
+			'Trabajo principalmente en backend y también tengo experiencia práctica en frontend.'
 		);
-		expect(english.profile.bio).not.toMatch(/typed contracts|validated delivery|clear boundaries/i);
-		expect(spanish.profile.bio).not.toMatch(/contratos tipados|límites claros/i);
+		expect(english.profile.bio).not.toMatch(
+			/reliable systems|structured problem solving|evidence-driven|complex problems|engineering excellence|debugging.*integration.*validation/i
+		);
+		expect(spanish.profile.bio).not.toMatch(
+			/sistemas confiables|resolución estructurada|evidencia|problemas complejos|excelencia.*ingeniería|depuración.*integración.*validación/i
+		);
 
 		expect(english.profile.location).toBe('Piura, Peru · UTC-5');
 		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
+		expect(english.profile.snapshotHeading).toBe('About');
+		expect(spanish.profile.snapshotHeading).toBe('Sobre mí');
 		expect(english.cta.heading).toBe('Work & contact');
 		expect(spanish.cta.heading).toBe('Trabajo y contacto');
 		expect(english.cta.description).toMatch(/résumé.*email/i);
@@ -121,12 +127,12 @@ describe('Hub messaging alignment contract', () => {
 		}
 	});
 
-	test('keeps recruiter-facing project copy free from internal audit and release-governance language', () => {
+	test('keeps recruiter-facing project copy about the projects instead of David positioning', () => {
 		for (const lang of ['en', 'es']) {
 			for (const project of getFeaturedProjects(lang)) {
 				const publicCopy = `${project.title} ${project.summary}`;
 				expect(publicCopy).not.toMatch(
-					/production unconfirmed|pending evidence|real-stack release evidence|claim not verified|not visible to recruiter|producción no confirmada|evidencia pendiente|evidencia final real-stack|release-ready|production-ready|lista para release|lista para producción/i
+					/production unconfirmed|pending evidence|real-stack release evidence|claim not verified|not visible to recruiter|producción no confirmada|evidencia pendiente|evidencia final real-stack|release-ready|production-ready|lista para release|lista para producción|demonstrates|showcases|highlights my ability|this project demonstrates|demuestra|demuestra mi capacidad/i
 				);
 			}
 		}
@@ -150,6 +156,12 @@ describe('Hub messaging alignment contract', () => {
 
 		expect(englishYukidoke?.title).toBe('Yukidoke · Household finance platform');
 		expect(spanishYukidoke?.title).toBe('Yukidoke · Plataforma financiera para hogares');
+		expect(englishYukidoke?.summary).toBe(
+			'A private household finance app with a .NET backend and Angular frontend.'
+		);
+		expect(spanishYukidoke?.summary).toBe(
+			'Una aplicación privada de finanzas para hogares con backend .NET y frontend Angular.'
+		);
 		expect(englishYukidoke?.summary).not.toMatch(
 			/v1 complete|release-ready|production-ready|scalable|multi-user/i
 		);
@@ -172,6 +184,12 @@ describe('Hub messaging alignment contract', () => {
 
 		expect(englishOci?.title).toBe('OCI ARM Hunter · Oracle Cloud capacity automation');
 		expect(spanishOci?.title).toBe('OCI ARM Hunter · Automatización de capacidad en Oracle Cloud');
+		expect(englishOci?.summary).toBe(
+			'A Bash and OCI CLI tool that retries ARM instance creation across Oracle Cloud Availability Domains.'
+		);
+		expect(spanishOci?.summary).toBe(
+			'Una herramienta en Bash y OCI CLI que reintenta la creación de instancias ARM entre Availability Domains de Oracle Cloud.'
+		);
 		expect(englishOci?.summary).not.toMatch(
 			/guaranteed capacity|guaranteed provisioning|SLA|fleet|adoption/i
 		);
