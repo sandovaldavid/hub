@@ -2,7 +2,6 @@
 import type { ConversionEvent, ConversionPosition } from '@shared/analytics/conversion';
 import ArrowIcon from '@shared/assets/arrow-right-filled.svg?raw';
 import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
-import { cn } from '@shared/lib/utils';
 import './WorkRouteCard.css';
 
 type ActionIcon = 'arrow' | 'email';
@@ -42,6 +41,10 @@ const actionIcons: Record<ActionIcon, string> = {
 	arrow: ArrowIcon,
 	email: EmailIcon,
 };
+const actionIconClass =
+	actionIcon === 'arrow'
+		? 'work-route-card__action-icon work-route-card__action-icon--arrow'
+		: 'work-route-card__action-icon';
 ---
 
 <div class="work-route-card" data-work-route-card data-route-id={id}>
@@ -65,10 +68,7 @@ const actionIcons: Record<ActionIcon, string> = {
 		aria-label={ariaLabel}>
 		<span>{actionLabel}</span>
 		<span
-			class={cn(
-				'work-route-card__action-icon',
-				actionIcon === 'arrow' && 'work-route-card__action-icon--arrow'
-			)}
+			class={actionIconClass}
 			aria-hidden="true"
 			set:html={actionIcons[actionIcon]}
 		/>
