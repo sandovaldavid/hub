@@ -45,7 +45,7 @@ test.describe('Home page', () => {
 		await expect(page.getByRole('heading', { level: 2, name: 'Work & contact' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: "Let's talk" })).toBeVisible();
-		await expect(page.locator('.cta-button-card__title')).toHaveCount(2);
+		await expect(page.locator('.cta-button-card__title')).toHaveCount(1);
 	});
 
 	test('hero exposes clear positioning and routes first to the portfolio', async ({ page }) => {
@@ -72,11 +72,14 @@ test.describe('Home page', () => {
 		await expect(portfolioLink).toBeVisible();
 	});
 
-	test('keeps social channels distinct from primary work routing', async ({ page }) => {
+	test('keeps professional profiles visually primary and restores verified Instagram routing', async ({
+		page,
+	}) => {
 		await page.goto('/');
 
 		const socialItems = page.locator('.social-grid__item');
-		await expect(socialItems).toHaveCount(5);
+		await expect(socialItems).toHaveCount(6);
+		await expect(page.locator('.social-grid__item--wide')).toHaveCount(0);
 		await expect(page.locator('.social-button[href="https://sandovaldavid.com"]')).toHaveCount(0);
 		await expect(
 			page.locator('.social-button[href="https://www.linkedin.com/in/jdsandovals"]')
@@ -84,6 +87,21 @@ test.describe('Home page', () => {
 		await expect(
 			page.locator('.social-button[href="https://github.com/sandovaldavid"]')
 		).toHaveCount(1);
+		await expect(
+			page.locator('.social-button[href="https://www.instagram.com/david.sandovals"]')
+		).toHaveCount(1);
+		await expect(socialItems.filter({ hasText: 'LinkedIn' })).toHaveAttribute(
+			'data-priority',
+			'primary'
+		);
+		await expect(socialItems.filter({ hasText: 'GitHub' })).toHaveAttribute(
+			'data-priority',
+			'primary'
+		);
+		await expect(socialItems.filter({ hasText: 'Instagram' })).toHaveAttribute(
+			'data-priority',
+			'secondary'
+		);
 
 		const externalLinks = page.locator('main a[target="_blank"]');
 		const count = await externalLinks.count();
@@ -93,16 +111,16 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test('keeps Portfolio primary, résumé secondary, and contact explicit', async ({ page }) => {
+	test('keeps Portfolio primary in the hero and Work & contact focused on résumé and email', async ({
+		page,
+	}) => {
 		await page.goto('/');
 
 		const actionLinks = page.locator('.cta-buttons__link');
-		await expect(actionLinks).toHaveCount(2);
+		await expect(actionLinks).toHaveCount(1);
+		await expect(actionLinks.filter({ hasText: 'View portfolio' })).toHaveCount(0);
 
-		const portfolio = actionLinks.filter({ hasText: 'View portfolio' });
 		const resume = actionLinks.filter({ hasText: 'Download résumé' });
-		await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
-		await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 		await expect(resume).toHaveAttribute(
 			'href',
 			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
@@ -118,9 +136,11 @@ test.describe('Home page', () => {
 		await expect(page.locator('[data-layout-column="contact"] a[href^="mailto:"]')).toHaveCount(1);
 	});
 
-	test('share, theme and skip navigation controls remain available', async ({ page }) => {
+	test('share, language and theme controls remain available in the page layout', async ({ page }) => {
 		await page.goto('/');
+		await expect(page.locator('[data-layout-section="global-controls"]')).toBeVisible();
 		await expect(page.locator('#share-button')).toBeVisible();
+		await expect(page.locator('.language-toggle')).toBeVisible();
 		await expect(page.locator('#theme-toggle')).toBeVisible();
 		const skipLink = page.locator('.skip-link');
 		await expect(skipLink).toBeAttached();
@@ -158,7 +178,10 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(portfolioLink).toHaveText('Ver portafolio');
 		await expect(portfolioLink).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 
-		const resume = page.locator('.cta-buttons__link').filter({ hasText: 'Descargar CV' });
+		const actionLinks = page.locator('.cta-buttons__link');
+		await expect(actionLinks).toHaveCount(1);
+		await expect(actionLinks.filter({ hasText: 'Ver portafolio' })).toHaveCount(0);
+		const resume = actionLinks.filter({ hasText: 'Descargar CV' });
 		await expect(resume).toHaveAttribute(
 			'href',
 			'https://sandovaldavid.com/resume/david-sandoval-resume-es.pdf'

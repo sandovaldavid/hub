@@ -41,8 +41,10 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
 		expect(english.cta.heading).toBe('Work & contact');
 		expect(spanish.cta.heading).toBe('Trabajo y contacto');
-		expect(english.cta.description).toMatch(/portfolio.*résumé.*email/i);
-		expect(spanish.cta.description).toMatch(/portafolio.*CV.*escríbeme/i);
+		expect(english.cta.description).toMatch(/résumé.*email/i);
+		expect(spanish.cta.description).toMatch(/CV.*escríbeme/i);
+		expect(english.cta.description).not.toMatch(/start with my portfolio/i);
+		expect(spanish.cta.description).not.toMatch(/empieza por mi portafolio/i);
 		expect(english.contact.heading).toBe('Contact');
 		expect(spanish.contact.heading).toBe('Contacto');
 		expect(english.page.mainLabel).toBe('David Sandoval professional profile');
@@ -71,14 +73,12 @@ describe('Hub messaging alignment contract', () => {
 		);
 	});
 
-	test('keeps one primary work route and a secondary résumé route', () => {
+	test('keeps the central CTA route focused on the localized résumé', () => {
 		for (const lang of ['en', 'es']) {
 			const buttons = getCtaButtons(lang);
-			expect(buttons.map(button => button.id)).toEqual(['portfolio', 'resume']);
-			expect(
-				buttons.filter(button => button.variant === 'primary').map(button => button.id)
-			).toEqual(['portfolio']);
-			expect(buttons.find(button => button.id === 'portfolio')?.href).toBe(siteConfig.portfolioUrl);
+			expect(buttons.map(button => button.id)).toEqual(['resume']);
+			expect(buttons.filter(button => button.variant === 'primary')).toHaveLength(0);
+			expect(buttons.find(button => button.id === 'resume')?.variant).toBe('secondary');
 			expect(buttons.find(button => button.id === 'resume')?.href).toBe(siteConfig.resume[lang]);
 		}
 	});

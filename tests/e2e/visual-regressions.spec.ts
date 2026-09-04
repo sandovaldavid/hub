@@ -27,35 +27,36 @@ for (const theme of THEMES) {
 	});
 }
 
-test('Yukidoke aligns its case-study route with the private-project state', async ({ page }) => {
+test('Yukidoke presents privacy as metadata instead of a disabled-looking action', async ({ page }) => {
 	await page.setViewportSize({ width: 1440, height: 1000 });
 	await page.goto('/');
 
 	const card = page.locator('[data-project-id="yukidoke"]');
 	const caseStudy = card.locator('a[href="https://sandovaldavid.com/projects/yukidoke"]');
-	const availability = card.locator('.featured-project-card__availability');
+	const privacyBadge = card.locator('.featured-project-card__privacy-badge');
+	const actions = card.locator('.featured-project-card__actions');
+
 	await expect(caseStudy).toBeVisible();
 	await expect(caseStudy).toHaveAttribute('data-conversion-position', 'project');
-	await expect(availability).toBeVisible();
-	await expect(availability).not.toHaveClass(/featured-project-card__availability--wide/);
+	await expect(privacyBadge).toBeVisible();
+	await expect(privacyBadge).toHaveText('Private project');
+	await expect(card.locator('.featured-project-card__availability')).toHaveCount(0);
+	await expect(actions).toHaveAttribute('data-action-count', '1');
+	await expect(actions.locator('> *')).toHaveCount(1);
 
-	const layout = await card.locator('.featured-project-card__actions').evaluate(element => {
-		const caseStudyAction = element.querySelector(
-			'a[href="https://sandovaldavid.com/projects/yukidoke"]'
-		);
-		const privateState = element.querySelector('.featured-project-card__availability');
-		if (!(caseStudyAction instanceof HTMLElement) || !(privateState instanceof HTMLElement)) {
-			throw new Error('Yukidoke action layout contract is incomplete');
+	const placement = await card.evaluate(element => {
+		const heading = element.querySelector('.featured-project-card__heading');
+		const badge = element.querySelector('.featured-project-card__privacy-badge');
+		const actionsElement = element.querySelector('.featured-project-card__actions');
+		if (!(heading instanceof HTMLElement) || !(badge instanceof HTMLElement)) {
+			throw new Error('Yukidoke privacy metadata contract is incomplete');
 		}
-
-		const actionRect = caseStudyAction.getBoundingClientRect();
-		const privateRect = privateState.getBoundingClientRect();
 		return {
-			topDelta: Math.abs(actionRect.top - privateRect.top),
-			widthDelta: Math.abs(actionRect.width - privateRect.width),
+			badgeInsideHeading: heading.contains(badge),
+			badgeInsideActions: actionsElement?.contains(badge) ?? false,
 		};
 	});
 
-	expect(layout.topDelta).toBeLessThanOrEqual(1);
-	expect(layout.widthDelta).toBeLessThanOrEqual(1);
+	expect(placement.badgeInsideHeading).toBe(true);
+	expect(placement.badgeInsideActions).toBe(false);
 });
