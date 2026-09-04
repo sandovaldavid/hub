@@ -25,14 +25,14 @@
 	},
 	"cta": {
 		"heading": "Trabajo y contacto",
-		"description": "Descarga mi CV o escríbeme sobre oportunidades de ingeniería de software o colaboraciones.",
+		"description": "Explora mi portafolio, descarga mi CV o escríbeme sobre oportunidades de ingeniería de software o colaboraciones.",
 		"portfolio": {
-			"title": "Ver portafolio",
-			"description": "Conoce mi experiencia profesional, proyectos seleccionados y trabajo de ingeniería con mayor detalle.",
+			"title": "Portafolio",
+			"description": "Experiencia profesional, proyectos seleccionados y trabajo de ingeniería con mayor detalle.",
 			"label": "Ver portafolio"
 		},
 		"resume": {
-			"title": "Descargar CV",
+			"title": "CV",
 			"description": "Un resumen breve de mi experiencia y formación.",
 			"label": "Descargar CV"
 		}
