@@ -28,7 +28,7 @@ describe('browser test infrastructure contract', () => {
 
 	test('runs the required Lighthouse context for runtime changes on develop and main', async () => {
 		const workflow = await read('.github/workflows/ci.yml');
-		const lighthouseJob = workflow.match(/\n  lighthouse:[\s\S]*$/)?.[0] ?? '';
+		const lighthouseJob = workflow.match(/\n {2}lighthouse:[\s\S]*$/)?.[0] ?? '';
 
 		expect(lighthouseJob).toContain("if: ${{ needs.changes.outputs.runtime == 'true' }}");
 		expect(lighthouseJob).not.toContain("github.ref_name == 'main'");
