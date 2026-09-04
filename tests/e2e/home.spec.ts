@@ -136,7 +136,9 @@ test.describe('Home page', () => {
 		await expect(page.locator('[data-layout-column="contact"] a[href^="mailto:"]')).toHaveCount(1);
 	});
 
-	test('share, language and theme controls remain available in the page layout', async ({ page }) => {
+	test('share, language and theme controls remain available in the page layout', async ({
+		page,
+	}) => {
 		await page.goto('/');
 		await expect(page.locator('[data-layout-section="global-controls"]')).toBeVisible();
 		await expect(page.locator('#share-button')).toBeVisible();

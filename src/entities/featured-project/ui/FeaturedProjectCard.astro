@@ -17,7 +17,9 @@ const hasPublicRepository =
 	project.repositoryAvailability === 'public' && Boolean(project.githubUrl);
 const hasPublicCaseStudy = Boolean(project.caseStudyUrl);
 const isPrivateProject = !hasPublicProject && !hasPublicRepository;
-const actionCount = [hasPublicProject, hasPublicCaseStudy, hasPublicRepository].filter(Boolean).length;
+const actionCount = [hasPublicProject, hasPublicCaseStudy, hasPublicRepository].filter(
+	Boolean
+).length;
 ---
 
 <article class="featured-project-card" data-project-card data-project-id={project.id}>

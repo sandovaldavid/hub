@@ -27,7 +27,9 @@ for (const theme of THEMES) {
 	});
 }
 
-test('Yukidoke presents privacy as metadata instead of a disabled-looking action', async ({ page }) => {
+test('Yukidoke presents privacy as metadata instead of a disabled-looking action', async ({
+	page,
+}) => {
 	await page.setViewportSize({ width: 1440, height: 1000 });
 	await page.goto('/');
 
