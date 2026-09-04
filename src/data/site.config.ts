@@ -4,6 +4,7 @@ const portfolioUrl = 'https://sandovaldavid.com';
 const githubUrl = 'https://github.com/sandovaldavid';
 const socialUrls = {
 	linkedin: 'https://www.linkedin.com/in/jdsandovals',
+	instagram: 'https://www.instagram.com/david.sandovals',
 	twitter: 'https://x.com/davidsandoval_s',
 	youtube: 'https://www.youtube.com/@davidsandoval.s',
 	tiktok: 'https://www.tiktok.com/@davidsandoval.s',
@@ -17,6 +18,7 @@ const usernameFromUrl = (url: string): string => {
 
 const socialUsernames = {
 	linkedin: usernameFromUrl(socialUrls.linkedin),
+	instagram: usernameFromUrl(socialUrls.instagram),
 	twitter: usernameFromUrl(socialUrls.twitter),
 	youtube: usernameFromUrl(socialUrls.youtube),
 	tiktok: usernameFromUrl(socialUrls.tiktok),
@@ -39,6 +41,7 @@ export const siteConfig = {
 	sameAs: [
 		socialUrls.linkedin,
 		githubUrl,
+		socialUrls.instagram,
 		socialUrls.twitter,
 		socialUrls.youtube,
 		socialUrls.tiktok,

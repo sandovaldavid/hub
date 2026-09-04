@@ -37,6 +37,7 @@ describe('public privacy contract', () => {
 
 	test('exposes only approved social URL keys', () => {
 		expect(Object.keys(siteConfig.socialUrls).sort(), 'socialUrls keys').toEqual([
+			'instagram',
 			'linkedin',
 			'tiktok',
 			'twitter',

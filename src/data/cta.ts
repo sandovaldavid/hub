@@ -4,14 +4,6 @@ import type { Lang } from '@shared/i18n';
 
 export const getCtaButtons = (lang: Lang): CtaDefinition[] => [
 	{
-		id: 'portfolio',
-		icon: 'portfolio',
-		href: siteConfig.portfolioUrl,
-		variant: 'primary',
-		external: true,
-		conversionEvent: 'portfolio_opened',
-	},
-	{
 		id: 'resume',
 		icon: 'briefcase',
 		href: siteConfig.resume[lang],

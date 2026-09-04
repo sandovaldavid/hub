@@ -1,7 +1,7 @@
 {
 	"profile": {
 		"tagline": "Software Engineer · Backend-focused",
-		"bio": "I work mainly on backend systems, with hands-on frontend experience, solving software problems through careful debugging, integration work, and validation.",
+		"bio": "I work mainly on backend systems and also have hands-on frontend experience.",
 		"availability": "Open to remote software engineering opportunities",
 		"location": "Piura, Peru · UTC-5",
 		"workMode": "Remote · based in Peru",
@@ -10,7 +10,7 @@
 		"languagesLabel": "Languages",
 		"workModeLabel": "Work mode",
 		"portfolioAction": "View portfolio",
-		"snapshotHeading": "Professional snapshot",
+		"snapshotHeading": "About",
 		"avatarAlt": "Portrait of David Sandoval"
 	},
 	"nav": {
@@ -25,7 +25,7 @@
 	},
 	"cta": {
 		"heading": "Work & contact",
-		"description": "Start with my portfolio for detailed work, download my résumé for a concise overview, or email me directly.",
+		"description": "Download my résumé or email me about software engineering opportunities or collaborations.",
 		"portfolio": {
 			"title": "View portfolio",
 			"description": "See professional experience, selected projects, and detailed engineering work.",
@@ -33,20 +33,20 @@
 		},
 		"resume": {
 			"title": "Download résumé",
-			"description": "Get a concise overview of my experience, skills, and background.",
+			"description": "A short overview of my experience and background.",
 			"label": "Download résumé"
 		}
 	},
 	"contact": {
 		"title": "Let's talk",
-		"message": "For software engineering opportunities or relevant collaborations, email me directly.",
+		"message": "Email me about software engineering opportunities or collaborations.",
 		"buttonText": "Send email",
 		"heading": "Contact",
 		"emailSubject": "Software engineering opportunity"
 	},
 	"projects": {
 		"title": "Featured projects",
-		"description": "A few projects that show the kinds of systems and problems I work on.",
+		"description": "A few selected projects.",
 		"repository": "Repository",
 		"projectSite": "Project site",
 		"viewCaseStudy": "View case study",

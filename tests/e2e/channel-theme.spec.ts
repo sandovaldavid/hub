@@ -157,9 +157,11 @@ test.describe('Link Hub Compact channel theme', () => {
 					}));
 					expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
 
-					const primaryButton = page.locator('.button-primary').first();
+					const primaryButton = page.locator('.hero-card__primary-action').first();
 					await expect(primaryButton).toBeVisible();
-					expect(await readContrastRatio(page, '.button-primary')).toBeGreaterThanOrEqual(4.5);
+					expect(
+						await readContrastRatio(page, '.hero-card__primary-action')
+					).toBeGreaterThanOrEqual(4.5);
 
 					const themeToggle = page.locator('.theme-toggle');
 					await themeToggle.focus();

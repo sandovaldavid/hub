@@ -16,16 +16,27 @@ const hasPublicProject = project.projectAvailability === 'public' && Boolean(pro
 const hasPublicRepository =
 	project.repositoryAvailability === 'public' && Boolean(project.githubUrl);
 const hasPublicCaseStudy = Boolean(project.caseStudyUrl);
+const isPrivateProject = !hasPublicProject && !hasPublicRepository;
+const actionCount = [hasPublicProject, hasPublicCaseStudy, hasPublicRepository].filter(
+	Boolean
+).length;
 ---
 
 <article class="featured-project-card" data-project-card data-project-id={project.id}>
 	<div class="featured-project-card__content">
 		<header class="featured-project-card__heading">
-			<h3 class="featured-project-card__title">{project.title}</h3>
+			<div class="featured-project-card__title-row">
+				<h3 class="featured-project-card__title">{project.title}</h3>
+				{
+					isPrivateProject && (
+						<span class="featured-project-card__privacy-badge">{t('projects.private')}</span>
+					)
+				}
+			</div>
 			<p class="featured-project-card__summary">{project.summary}</p>
 		</header>
 
-		<div class="featured-project-card__actions">
+		<div class="featured-project-card__actions" data-action-count={actionCount}>
 			{
 				hasPublicProject && project.projectUrl && (
 					<a
@@ -69,14 +80,6 @@ const hasPublicCaseStudy = Boolean(project.caseStudyUrl);
 						<GitHubIcon class="featured-project-card__button-icon" />
 						<span>{t('projects.repository')}</span>
 					</a>
-				)
-			}
-			{
-				!hasPublicProject && !hasPublicRepository && (
-					<span
-						class={`featured-project-card__availability ${hasPublicCaseStudy ? '' : 'featured-project-card__availability--wide'}`}>
-						{t('projects.private')}
-					</span>
 				)
 			}
 		</div>

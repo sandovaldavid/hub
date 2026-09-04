@@ -37,13 +37,31 @@ for (const route of routes) {
 				expect(socialPanelBox).not.toBeNull();
 				expect(snapshotPanelBox).not.toBeNull();
 				expect(profilePanelBox?.height ?? 0).toBeLessThanOrEqual(300);
-				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(280);
+				expect(socialPanelBox?.height ?? 0).toBeLessThanOrEqual(320);
+
+				const [shareBox, themeBox] = await Promise.all([
+					page.locator('#share-button').boundingBox(),
+					page.locator('#theme-toggle').boundingBox(),
+				]);
+				expect(shareBox).not.toBeNull();
+				expect(themeBox).not.toBeNull();
+				expect(Math.abs((shareBox?.x ?? 0) - (profilePanelBox?.x ?? 0))).toBeLessThanOrEqual(2);
+				const themeRight = (themeBox?.x ?? 0) + (themeBox?.width ?? 0);
+				const socialRight = (socialPanelBox?.x ?? 0) + (socialPanelBox?.width ?? 0);
+				expect(Math.abs(themeRight - socialRight)).toBeLessThanOrEqual(2);
+				expect((shareBox?.y ?? 0) + (shareBox?.height ?? 0)).toBeLessThanOrEqual(
+					profilePanelBox?.y ?? 0
+				);
 
 				const avatar = page.locator('.hero-card__avatar-wrapper .avatar-size-5xl');
 				const avatarBox = await avatar.boundingBox();
 				expect(avatarBox).not.toBeNull();
 				expect(avatarBox?.width ?? 0).toBeGreaterThanOrEqual(200);
 				expect(avatarBox?.height ?? 0).toBeGreaterThanOrEqual(200);
+
+				const identityActions = await page.locator('.hero-card__identity-actions').boundingBox();
+				expect(identityActions).not.toBeNull();
+				expect(identityActions?.width ?? 0).toBeLessThanOrEqual(550);
 
 				const profileCenterY = (profilePanelBox?.y ?? 0) + (profilePanelBox?.height ?? 0) / 2;
 				const socialCenterY = (socialPanelBox?.y ?? 0) + (socialPanelBox?.height ?? 0) / 2;
@@ -62,10 +80,11 @@ for (const route of routes) {
 
 				const snapshotMetadata = page.locator('.profile-snapshot__metadata-item');
 				await expect(snapshotMetadata).toHaveCount(3);
+				await expect(snapshotMetadata.locator('dt').first()).toHaveClass(/sr-only/);
 
 				const socialItems = page.locator('.social-grid__item');
-				await expect(socialItems).toHaveCount(5);
-				await expect(page.locator('.social-grid__item--wide')).toHaveCount(1);
+				await expect(socialItems).toHaveCount(6);
+				await expect(page.locator('.social-grid__item--wide')).toHaveCount(0);
 				const socialRowCount = await socialItems.evaluateAll(elements => {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
@@ -83,7 +102,7 @@ for (const route of routes) {
 				expect(Math.abs((primaryBox?.y ?? 0) - (contactBox?.y ?? 0))).toBeLessThanOrEqual(2);
 
 				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
-				await expect(primaryCtaLinks).toHaveCount(2);
+				await expect(primaryCtaLinks).toHaveCount(1);
 				const actionRowCount = await primaryCtaLinks.evaluateAll(elements => {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
@@ -96,6 +115,9 @@ for (const route of routes) {
 				await expect(heroPortfolio).toHaveCount(1);
 				await expect(heroPortfolio).toBeVisible();
 				await expect(heroPortfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
+				await expect(
+					page.locator('.cta-buttons__link[data-conversion-item="portfolio"]')
+				).toHaveCount(0);
 				await expect(page.locator('.cta-buttons__link[data-conversion-item="resume"]')).toHaveCount(
 					1
 				);
@@ -148,7 +170,7 @@ for (const route of routes) {
 			await expect(metadataItems).toHaveCount(3);
 
 			const mobileSocialItems = page.locator('.social-grid__item');
-			await expect(mobileSocialItems).toHaveCount(5);
+			await expect(mobileSocialItems).toHaveCount(6);
 			const mobileSocialRows = await mobileSocialItems.evaluateAll(elements => {
 				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 				return new Set(rows).size;
@@ -161,7 +183,7 @@ for (const route of routes) {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
 				});
-			expect(mobileActionRows).toBe(2);
+			expect(mobileActionRows).toBe(1);
 
 			const projectCards = page.locator('[data-project-card]');
 			await expect(projectCards).toHaveCount(3);

@@ -80,10 +80,19 @@ for (const route of [
 				'https://github.com/sandovaldavid/oci-arm-hunter'
 			);
 
-			await expect(yukidokeCard.getByText(route.privateProject, { exact: true })).toBeVisible();
+			const privateBadge = yukidokeCard.locator('.featured-project-card__privacy-badge');
+			await expect(privateBadge).toHaveText(route.privateProject);
+			await expect(privateBadge).toBeVisible();
+			await expect(yukidokeCard.locator('.featured-project-card__availability')).toHaveCount(0);
+
 			const caseStudy = yukidokeCard.getByRole('link', { name: route.caseStudy });
 			await expect(caseStudy).toHaveAttribute('href', route.caseStudyUrl);
 			await expect(caseStudy).toHaveAttribute('data-conversion-position', 'project');
+			await expect(yukidokeCard.locator('.featured-project-card__actions')).toHaveAttribute(
+				'data-action-count',
+				'1'
+			);
+			await expect(yukidokeCard.locator('.featured-project-card__actions > *')).toHaveCount(1);
 			await expect(yukidokeCard.getByRole('link', { name: /Repository|Repositorio/ })).toHaveCount(
 				0
 			);

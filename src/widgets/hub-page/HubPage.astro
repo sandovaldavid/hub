@@ -46,7 +46,7 @@ const heroMetadata = [
 <main
 	id="main-content"
 	tabindex="-1"
-	class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 p-4 md:gap-9 md:px-6 md:py-8 lg:gap-10 lg:px-8 lg:py-10 xl:px-10 xl:py-12"
+	class="hub-container mx-auto flex w-full max-w-384 flex-col gap-6 px-4 pt-2 pb-4 md:gap-9 md:px-6 md:pt-3 md:pb-8 lg:gap-10 lg:px-8 lg:pt-4 lg:pb-10 xl:px-10 xl:pt-4 xl:pb-12"
 	role="main"
 	aria-label={t('page.mainLabel')}>
 	<div
@@ -111,13 +111,14 @@ const heroMetadata = [
 				class="m-0 text-2xl font-bold leading-tight text-channel-content-strong md:text-3xl">
 				{t('cta.heading')}
 			</h2>
-			<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-muted md:text-base">
+			<p class="mx-auto mt-2 text-sm leading-relaxed text-channel-content-default md:text-base">
 				{t('cta.description')}
 			</p>
 		</header>
 
-		<div class="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:items-stretch">
-			<div class="bento-item flex min-w-0 lg:col-span-2" data-layout-column="primary-actions">
+		<div
+			class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:mx-auto lg:w-full lg:max-w-5xl lg:items-stretch">
+			<div class="bento-item flex min-w-0" data-layout-column="primary-actions">
 				<CTAButtons buttons={localizedCtaButtons} layout="vertical" />
 			</div>
 			<section

@@ -7,6 +7,7 @@ const profileImageUrl = `${siteUrl}/profile/perfil.webp`;
 const expectedSameAs = [
 	'https://www.linkedin.com/in/jdsandovals',
 	'https://github.com/sandovaldavid',
+	'https://www.instagram.com/david.sandovals',
 	'https://x.com/davidsandoval_s',
 	'https://www.youtube.com/@davidsandoval.s',
 	'https://www.tiktok.com/@davidsandoval.s',
