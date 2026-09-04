@@ -21,6 +21,6 @@ describe('theme-aware icon color contract', () => {
 		expect(contactCta).not.toContain('@shared/assets/sent.svg');
 		expect(workRouteCard).toContain("EmailIcon from '@shared/assets/cta-icons/email.svg?raw'");
 		expect(workRouteCard).toContain('work-route-card__action button-secondary');
-		expect(workRouteCard).toContain("email: EmailIcon");
+		expect(workRouteCard).toContain('email: EmailIcon');
 	});
 });
