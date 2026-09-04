@@ -1,10 +1,10 @@
 {
 	"profile": {
-		"tagline": "Ingeniero de Software · Enfoque backend",
-		"bio": "Trabajo principalmente en backend y también tengo experiencia práctica en frontend.",
-		"availability": "Disponible para oportunidades remotas en ingeniería de software",
+		"tagline": "Ingeniero de Software · Orientado a backend",
+		"bio": "Soy Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Trabajo principalmente con .NET/C# y Angular/TypeScript en APIs, integraciones, acceso a datos y funcionalidades frontend.",
+		"availability": "Disponible para oportunidades en ingeniería de software",
 		"location": "Piura, Perú · UTC-5",
-		"workMode": "Remoto · con base en Perú",
+		"workMode": "Remoto · Perú",
 		"languages": "Inglés · Español",
 		"locationLabel": "Ubicación",
 		"languagesLabel": "Idiomas",

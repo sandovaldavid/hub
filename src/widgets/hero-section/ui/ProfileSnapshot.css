@@ -18,12 +18,14 @@
 .profile-snapshot__metadata-item {
 	@apply flex min-w-0 items-center;
 }
-.profile-snapshot__metadata-item:not(:last-child)::after {
-	content: '·';
+.profile-snapshot__metadata-item dd {
+	@apply m-0 flex min-w-0 items-center break-words text-sm font-medium leading-snug;
+	color: var(--channel-content-default);
+}
+.profile-snapshot__separator {
 	@apply mx-2 select-none text-sm;
 	color: var(--channel-content-muted);
 }
-.profile-snapshot__metadata-item dd {
-	@apply m-0 break-words text-sm font-medium leading-snug;
-	color: var(--channel-content-default);
+.profile-snapshot__separator--group {
+	@apply mx-2;
 }

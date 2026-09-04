@@ -24,35 +24,44 @@ describe('Hub messaging alignment contract', () => {
 		]);
 
 		expect(english.profile.tagline).toBe('Software Engineer · Backend-focused');
-		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Enfoque backend');
+		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Orientado a backend');
 		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 
 		expect(english.profile.bio).toBe(
-			'I work mainly on backend systems and also have hands-on frontend experience.'
+			"I'm a Software Engineer focused on backend development, with hands-on frontend experience. I work mainly with .NET/C# and Angular/TypeScript across APIs, integrations, data access, and frontend features."
 		);
 		expect(spanish.profile.bio).toBe(
-			'Trabajo principalmente en backend y también tengo experiencia práctica en frontend.'
+			'Soy Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Trabajo principalmente con .NET/C# y Angular/TypeScript en APIs, integraciones, acceso a datos y funcionalidades frontend.'
 		);
 		expect(english.profile.bio).not.toMatch(
-			/reliable systems|structured problem solving|evidence-driven|complex problems|engineering excellence|debugging.*integration.*validation/i
+			/reliable systems|structured problem solving|evidence-driven|complex problems|engineering excellence|debugging|validation/i
 		);
 		expect(spanish.profile.bio).not.toMatch(
-			/sistemas confiables|resolución estructurada|evidencia|problemas complejos|excelencia.*ingeniería|depuración.*integración.*validación/i
+			/sistemas confiables|resolución estructurada|evidencia|problemas complejos|excelencia.*ingeniería|depuración|validación/i
 		);
 
+		expect(english.profile.availability).toBe('Open to software engineering opportunities');
+		expect(spanish.profile.availability).toBe(
+			'Disponible para oportunidades en ingeniería de software'
+		);
 		expect(english.profile.location).toBe('Piura, Peru · UTC-5');
 		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
+		expect(english.profile.workMode).toBe('Remote · Peru');
+		expect(spanish.profile.workMode).toBe('Remoto · Perú');
 		expect(english.profile.snapshotHeading).toBe('About');
 		expect(spanish.profile.snapshotHeading).toBe('Sobre mí');
 		expect(english.cta.heading).toBe('Work & contact');
 		expect(spanish.cta.heading).toBe('Trabajo y contacto');
-		expect(english.cta.description).toMatch(/portfolio.*résumé.*email/i);
+		expect(english.cta.description).toMatch(/portfolio.*resume.*email/i);
 		expect(spanish.cta.description).toMatch(/portafolio.*CV.*escríbeme/i);
 		expect(english.cta.portfolio.title).toBe('Portfolio');
 		expect(spanish.cta.portfolio.title).toBe('Portafolio');
-		expect(english.cta.resume.title).toBe('Résumé');
+		expect(english.cta.resume.title).toBe('Resume');
+		expect(english.cta.resume.label).toBe('Download resume');
 		expect(spanish.cta.resume.title).toBe('CV');
+		expect(spanish.cta.resume.label).toBe('Descargar CV');
+		expect(JSON.stringify(english)).not.toMatch(/résumé/i);
 		expect(english.contact.heading).toBe('Contact');
 		expect(spanish.contact.heading).toBe('Contacto');
 		expect(english.page.mainLabel).toBe('David Sandoval professional profile');
@@ -79,6 +88,17 @@ describe('Hub messaging alignment contract', () => {
 		expect(publicMessaging).not.toMatch(
 			/public engineering evidence|pending evidence|production unconfirmed|claim not verified|not visible to recruiter|evidencia técnica pública|evidencia pendiente|producción no confirmada|brand architecture|arquitectura de marca/i
 		);
+	});
+
+	test('renders profile metadata separators as semantic HTML entities instead of CSS text content', async () => {
+		const [snapshot, snapshotCss] = await Promise.all([
+			readFile(join(repositoryRoot, 'src/widgets/hero-section/ui/ProfileSnapshot.astro'), 'utf8'),
+			readFile(join(repositoryRoot, 'src/widgets/hero-section/ui/ProfileSnapshot.css'), 'utf8'),
+		]);
+
+		expect(snapshot).toContain('&middot;');
+		expect(snapshot).toContain('aria-hidden="true"');
+		expect(snapshotCss).not.toContain("content: '·'");
 	});
 
 	test('keeps Work & contact focused on three professional routes', () => {

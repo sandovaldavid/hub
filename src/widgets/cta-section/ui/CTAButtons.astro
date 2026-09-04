@@ -1,8 +1,8 @@
 ---
 import { cn } from '@shared/lib/utils';
 import './CTAButtons.css';
-import ArrowIcon from '@shared/assets/arrow-right-filled.svg';
 import type { CtaIcon, LocalizedCtaButton } from '@shared/model/cta';
+import WorkRouteCard from './WorkRouteCard.astro';
 
 import PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg?raw';
 import BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw';
@@ -22,36 +22,19 @@ const iconMap: Record<CtaIcon, string> = {
 <div class={cn('cta-buttons', layout === 'vertical' && 'cta-buttons--vertical')}>
 	{
 		buttons.map(button => (
-			<a
+			<WorkRouteCard
+				id={button.id}
+				title={button.title}
+				description={button.description}
 				href={button.href}
-				class="cta-buttons__link group"
-				target={button.external ? '_blank' : undefined}
-				rel={button.external ? 'noopener noreferrer' : undefined}
-				data-conversion-event={button.conversionEvent}
-				data-conversion-position="primary-cta"
-				data-conversion-item={button.id}
-				aria-label={`${button.label}: ${button.description ?? button.title}`}>
-				<div
-					class={cn(
-						'cta-button-card',
-						button.variant === 'primary' && 'cta-button-card--primary button-primary',
-						button.variant === 'secondary' && 'cta-button-card--secondary'
-					)}
-					data-work-route-card
-					data-route-id={button.id}>
-					<div class="cta-button-card__icon-shell" aria-hidden="true">
-						<span class="cta-button-card__icon" set:html={iconMap[button.icon]} />
-					</div>
-					<div class="cta-button-card__content">
-						<h3 class="cta-button-card__title">{button.title}</h3>
-						{button.description && <p class="cta-button-card__description">{button.description}</p>}
-					</div>
-					<span class="cta-button-card__action button-secondary" aria-hidden="true">
-						<span>{button.label}</span>
-						<ArrowIcon class="cta-button-card__arrow" />
-					</span>
-				</div>
-			</a>
+				actionLabel={button.label}
+				icon={iconMap[button.icon]}
+				actionIcon="arrow"
+				external={button.external}
+				conversionEvent={button.conversionEvent}
+				conversionPosition="primary-cta"
+				conversionItem={button.id}
+			/>
 		))
 	}
 </div>

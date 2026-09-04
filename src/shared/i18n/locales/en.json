@@ -1,10 +1,10 @@
 {
 	"profile": {
 		"tagline": "Software Engineer · Backend-focused",
-		"bio": "I work mainly on backend systems and also have hands-on frontend experience.",
-		"availability": "Open to remote software engineering opportunities",
+		"bio": "I'm a Software Engineer focused on backend development, with hands-on frontend experience. I work mainly with .NET/C# and Angular/TypeScript across APIs, integrations, data access, and frontend features.",
+		"availability": "Open to software engineering opportunities",
 		"location": "Piura, Peru · UTC-5",
-		"workMode": "Remote · based in Peru",
+		"workMode": "Remote · Peru",
 		"languages": "English · Spanish",
 		"locationLabel": "Location",
 		"languagesLabel": "Languages",
@@ -25,16 +25,16 @@
 	},
 	"cta": {
 		"heading": "Work & contact",
-		"description": "Explore my portfolio, download my résumé, or email me about software engineering opportunities or collaborations.",
+		"description": "Explore my portfolio, download my resume, or email me about software engineering opportunities or collaborations.",
 		"portfolio": {
 			"title": "Portfolio",
 			"description": "Professional experience, selected projects, and detailed engineering work.",
 			"label": "View portfolio"
 		},
 		"resume": {
-			"title": "Résumé",
+			"title": "Resume",
 			"description": "A short overview of my experience and background.",
-			"label": "Download résumé"
+			"label": "Download resume"
 		}
 	},
 	"contact": {
@@ -64,8 +64,8 @@
 	},
 	"seo": {
 		"title": "David Sandoval | Software Engineer",
-		"description": "David Sandoval is a backend-oriented Software Engineer with hands-on frontend experience. Explore his portfolio, GitHub, résumé, and professional contact links.",
-		"socialDescription": "David Sandoval — Software Engineer focused on backend systems, with hands-on frontend experience. Portfolio, GitHub, résumé, and contact.",
+		"description": "David Sandoval is a backend-oriented Software Engineer with hands-on frontend experience. Explore his portfolio, GitHub, resume, and professional contact links.",
+		"socialDescription": "David Sandoval — Software Engineer focused on backend systems, with hands-on frontend experience. Portfolio, GitHub, resume, and contact.",
 		"ogImageAlt": "David Sandoval — Software Engineer",
 		"twitterImageAlt": "David Sandoval — Software Engineer",
 		"twitterLabel1": "Professional focus",
