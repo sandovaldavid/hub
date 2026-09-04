@@ -16,4 +16,5 @@ export interface CtaDefinition {
 export interface LocalizedCtaButton extends CtaDefinition {
 	title: string;
 	description?: string;
+	label: string;
 }
