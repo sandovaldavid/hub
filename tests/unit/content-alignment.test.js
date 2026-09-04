@@ -24,25 +24,27 @@ describe('Hub messaging alignment contract', () => {
 		]);
 
 		expect(english.profile.tagline).toBe('Software Engineer · Backend-focused');
-		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Enfoque backend');
+		expect(spanish.profile.tagline).toBe('Ingeniero de Software · Orientado a backend');
 		expect(english.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 		expect(spanish.profile.tagline).not.toMatch(/\.NET|C#|Angular/i);
 
 		expect(english.profile.bio).toBe(
-			"I'm a Software Engineer focused on backend development, with professional experience building and maintaining applications across backend and frontend. I work mainly with .NET/C# and Angular/TypeScript, including APIs, integrations, data access, debugging, and validation."
+			"I'm a Software Engineer focused on backend development, with hands-on frontend experience. I work mainly with .NET/C# and Angular/TypeScript across APIs, integrations, data access, and frontend features."
 		);
 		expect(spanish.profile.bio).toBe(
-			'Soy ingeniero de software con enfoque en desarrollo backend y experiencia profesional construyendo y manteniendo aplicaciones tanto en backend como en frontend. Trabajo principalmente con .NET/C# y Angular/TypeScript, incluyendo APIs, integraciones, acceso a datos, depuración y validación.'
+			'Soy Ingeniero de Software orientado a backend, con experiencia práctica en frontend. Trabajo principalmente con .NET/C# y Angular/TypeScript en APIs, integraciones, acceso a datos y funcionalidades frontend.'
 		);
 		expect(english.profile.bio).not.toMatch(
-			/reliable systems|structured problem solving|evidence-driven|complex problems|engineering excellence/i
+			/reliable systems|structured problem solving|evidence-driven|complex problems|engineering excellence|debugging|validation/i
 		);
 		expect(spanish.profile.bio).not.toMatch(
-			/sistemas confiables|resolución estructurada|evidencia|problemas complejos|excelencia.*ingeniería/i
+			/sistemas confiables|resolución estructurada|evidencia|problemas complejos|excelencia.*ingeniería|depuración|validación/i
 		);
 
-		expect(english.profile.availability).toBe('Open to new opportunities');
-		expect(spanish.profile.availability).toBe('Disponible para nuevas oportunidades');
+		expect(english.profile.availability).toBe('Open to software engineering opportunities');
+		expect(spanish.profile.availability).toBe(
+			'Disponible para oportunidades en ingeniería de software'
+		);
 		expect(english.profile.location).toBe('Piura, Peru · UTC-5');
 		expect(spanish.profile.location).toBe('Piura, Perú · UTC-5');
 		expect(english.profile.workMode).toBe('Remote · Peru');
