@@ -1,8 +1,7 @@
 ---
-import { cn } from '@shared/lib/utils';
 import ChatIcon from '@shared/assets/cta-icons/chat.svg?raw';
-import EmailIcon from '@shared/assets/cta-icons/email.svg';
 import { useTranslations, type Lang } from '@shared/i18n';
+import WorkRouteCard from '@widgets/cta-section/ui/WorkRouteCard.astro';
 
 interface Props {
 	lang?: Lang;
@@ -22,52 +21,17 @@ const buttonText = Astro.props.buttonText ?? t('contact.buttonText');
 const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 ---
 
-<div
-	class={cn(
-		'contact-cta relative flex h-full w-full overflow-hidden lg:min-h-40',
-		'bg-card-background-muted border border-card-edge rounded-2xl shadow-sm'
-	)}
-	data-work-route-card
-	data-route-id="contact">
-	<div
-		class={cn(
-			'flex h-full min-w-0 flex-1 flex-col items-center justify-center gap-2.5 px-5 py-4 text-center',
-			'sm:px-6 md:px-5 lg:px-5'
-		)}>
-		<div
-			class={cn(
-				'flex size-9 items-center justify-center rounded-full border shadow-xs',
-				'bg-channel-surface-default border-channel-edge-default'
-			)}
-			aria-hidden="true">
-			<span class="inline-block size-5 text-channel-content-muted" set:html={ChatIcon} />
-		</div>
-		<div class="flex min-w-0 max-w-xl flex-col gap-1.5">
-			<h3
-				id="contact-heading"
-				class="m-0 break-words text-base font-bold leading-tight text-channel-content-strong">
-				{title}
-			</h3>
-			{
-				message && (
-					<p class="m-0 break-words text-xs leading-relaxed text-channel-content-default md:text-sm">
-						{message}
-					</p>
-				)
-			}
-		</div>
-		<a
-			href={mailtoLink}
-			class="w-full max-w-xs"
-			data-conversion-event="contact_clicked"
-			data-conversion-position="contact"
-			data-conversion-item="email"
-			aria-label={`${buttonText}: ${email}`}>
-			<span
-				class="button-secondary flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-button-secondary-edge bg-button-secondary-background px-4 py-2 text-sm font-semibold text-button-secondary-content transition-colors duration-200 hover:bg-button-secondary-background-hover">
-				<span>{buttonText}</span>
-				<EmailIcon class="size-[1.125rem] shrink-0" aria-hidden="true" />
-			</span>
-		</a>
-	</div>
-</div>
+<WorkRouteCard
+	id="contact"
+	{title}
+	description={message}
+	href={mailtoLink}
+	actionLabel={buttonText}
+	icon={ChatIcon}
+	actionIcon="email"
+	conversionEvent="contact_clicked"
+	conversionPosition="contact"
+	conversionItem="email"
+	headingId="contact-heading"
+	ariaLabel={`${buttonText}: ${email}`}
+/>

@@ -43,9 +43,9 @@ test.describe('Home page', () => {
 		await expect(page.getByRole('heading', { level: 2, name: 'Work & contact' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: 'Portfolio' })).toBeVisible();
-		await expect(page.getByRole('heading', { level: 3, name: 'Résumé' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'Resume' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: "Let's talk" })).toBeVisible();
-		await expect(page.locator('.cta-button-card__title')).toHaveCount(2);
+		await expect(page.locator('.work-route-card__title')).toHaveCount(3);
 	});
 
 	test('hero exposes clear positioning and routes first to the portfolio', async ({ page }) => {
@@ -54,11 +54,15 @@ test.describe('Home page', () => {
 
 		await expect(page.getByRole('heading', { level: 1, name: 'David Sandoval' })).toBeVisible();
 		await expect(page.getByText('Software Engineer · Backend-focused')).toBeVisible();
-		await expect(page.getByText('Open to remote software engineering opportunities')).toBeVisible();
-		await expect(page.getByText('Piura, Peru · UTC-5')).toBeVisible();
-		await expect(page.getByText('Remote · based in Peru')).toBeVisible();
+		await expect(page.getByText('Open to new opportunities')).toBeVisible();
+		const snapshot = page.locator('[data-layout-panel="profile-snapshot"]');
+		await expect(snapshot).toContainText('Piura, Peru · UTC-5');
+		await expect(snapshot).toContainText('English · Spanish');
+		await expect(snapshot).toContainText('Remote · Peru');
 		await expect(
-			page.getByText('I work mainly on backend systems and also have hands-on frontend experience.')
+			page.getByText(
+				"I'm a Software Engineer focused on backend development, with professional experience building and maintaining applications across backend and frontend. I work mainly with .NET/C# and Angular/TypeScript, including APIs, integrations, data access, debugging, and validation."
+			)
 		).toBeVisible();
 
 		const portfolioLink = page.locator(
@@ -114,32 +118,42 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test('keeps Work & contact focused on portfolio, résumé and email', async ({ page }) => {
+	test('keeps Work & contact focused on portfolio, resume and email with button-only interactions', async ({
+		page,
+	}) => {
 		await page.goto('/');
 
-		const actionLinks = page.locator('.cta-buttons__link');
-		await expect(actionLinks).toHaveCount(2);
+		const routeCards = page.locator('[data-work-route-card]');
+		await expect(routeCards).toHaveCount(3);
+		await expect(page.locator('a[data-work-route-card]')).toHaveCount(0);
 
-		const portfolio = actionLinks.filter({ hasText: 'View portfolio' });
+		const primaryActions = page.locator(
+			'.work-route-card__action[data-conversion-position="primary-cta"]'
+		);
+		await expect(primaryActions).toHaveCount(2);
+
+		const portfolio = primaryActions.filter({ hasText: 'View portfolio' });
 		await expect(portfolio).toHaveCount(1);
 		await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
 		await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 
-		const resume = actionLinks.filter({ hasText: 'Download résumé' });
+		const resume = primaryActions.filter({ hasText: 'Download resume' });
 		await expect(resume).toHaveAttribute(
 			'href',
 			'https://sandovaldavid.com/resume/david-sandoval-resume.pdf'
 		);
 		await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
-		await expect(page.locator('.cta-buttons__link[href="#featured-projects-title"]')).toHaveCount(
+		await expect(page.locator('.work-route-card__action[href="#featured-projects-title"]')).toHaveCount(
 			0
 		);
 		await expect(
-			page.locator('.cta-buttons__link[href="https://github.com/sandovaldavid"]')
+			page.locator('.work-route-card__action[href="https://github.com/sandovaldavid"]')
 		).toHaveCount(0);
-		await expect(page.locator('.cta-buttons__link[href^="mailto:"]')).toHaveCount(0);
-		await expect(page.locator('[data-layout-column="contact"] a[href^="mailto:"]')).toHaveCount(1);
-		await expect(page.locator('[data-work-route-card]')).toHaveCount(3);
+		await expect(page.locator('.work-route-card__action[href^="mailto:"]')).toHaveCount(1);
+
+		for (let index = 0; index < 3; index++) {
+			await expect(routeCards.nth(index).locator(':scope > .work-route-card__action')).toHaveCount(1);
+		}
 	});
 
 	test('share, language and theme controls remain available in the page layout', async ({
@@ -170,13 +184,14 @@ test.describe('Spanish version (/es/)', () => {
 		await page.goto('/es/');
 		await expect(page).toHaveTitle(/David Sandoval.*Ingeniero de Software/);
 		await expect(page.getByText('Ingeniero de Software · Enfoque backend')).toBeVisible();
-		await expect(
-			page.getByText('Disponible para oportunidades remotas en ingeniería de software')
-		).toBeVisible();
-		await expect(page.getByText('Piura, Perú · UTC-5')).toBeVisible();
+		await expect(page.getByText('Disponible para nuevas oportunidades')).toBeVisible();
+		const snapshot = page.locator('[data-layout-panel="profile-snapshot"]');
+		await expect(snapshot).toContainText('Piura, Perú · UTC-5');
+		await expect(snapshot).toContainText('Inglés · Español');
+		await expect(snapshot).toContainText('Remoto · Perú');
 		await expect(
 			page.getByText(
-				'Trabajo principalmente en backend y también tengo experiencia práctica en frontend.'
+				'Soy ingeniero de software con enfoque en desarrollo backend y experiencia profesional construyendo y manteniendo aplicaciones tanto en backend como en frontend. Trabajo principalmente con .NET/C# y Angular/TypeScript, incluyendo APIs, integraciones, acceso a datos, depuración y validación.'
 			)
 		).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Sobre mí' })).toBeVisible();
@@ -195,12 +210,14 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(portfolioLink).toHaveText('Ver portafolio');
 		await expect(portfolioLink).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 
-		const actionLinks = page.locator('.cta-buttons__link');
-		await expect(actionLinks).toHaveCount(2);
-		const portfolio = actionLinks.filter({ hasText: 'Ver portafolio' });
+		const primaryActions = page.locator(
+			'.work-route-card__action[data-conversion-position="primary-cta"]'
+		);
+		await expect(primaryActions).toHaveCount(2);
+		const portfolio = primaryActions.filter({ hasText: 'Ver portafolio' });
 		await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
 		await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
-		const resume = actionLinks.filter({ hasText: 'Descargar CV' });
+		const resume = primaryActions.filter({ hasText: 'Descargar CV' });
 		await expect(resume).toHaveAttribute(
 			'href',
 			'https://sandovaldavid.com/resume/david-sandoval-resume-es.pdf'
