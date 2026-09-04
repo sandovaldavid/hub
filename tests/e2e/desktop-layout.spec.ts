@@ -104,12 +104,27 @@ for (const route of routes) {
 				const contactRight = (contactBox?.x ?? 0) + (contactBox?.width ?? 0);
 				const snapshotRight = (snapshotPanelBox?.x ?? 0) + (snapshotPanelBox?.width ?? 0);
 				expect(Math.abs(contactRight - snapshotRight)).toBeLessThanOrEqual(2);
-				expect(Math.abs((primaryBox?.width ?? 0) - (contactBox?.width ?? 0))).toBeLessThanOrEqual(
-					2
-				);
 
-				const primaryCtaLinks = page.locator('.cta-buttons--vertical .cta-buttons__link');
-				await expect(primaryCtaLinks).toHaveCount(1);
+				const routeCards = page.locator('[data-work-route-card]');
+				await expect(routeCards).toHaveCount(3);
+				const routeBoxes = await routeCards.evaluateAll(elements =>
+					elements.map(element => {
+						const rect = element.getBoundingClientRect();
+						return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+					})
+				);
+				expect(new Set(routeBoxes.map(box => Math.round(box.y))).size).toBe(1);
+				expect(
+					Math.max(...routeBoxes.map(box => box.width)) -
+						Math.min(...routeBoxes.map(box => box.width))
+				).toBeLessThanOrEqual(2);
+				expect(
+					Math.max(...routeBoxes.map(box => box.height)) -
+						Math.min(...routeBoxes.map(box => box.height))
+				).toBeLessThanOrEqual(2);
+
+				const primaryCtaLinks = page.locator('.cta-buttons__link');
+				await expect(primaryCtaLinks).toHaveCount(2);
 				const actionRowCount = await primaryCtaLinks.evaluateAll(elements => {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
@@ -124,7 +139,7 @@ for (const route of routes) {
 				await expect(heroPortfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 				await expect(
 					page.locator('.cta-buttons__link[data-conversion-item="portfolio"]')
-				).toHaveCount(0);
+				).toHaveCount(1);
 				await expect(page.locator('.cta-buttons__link[data-conversion-item="resume"]')).toHaveCount(
 					1
 				);
@@ -184,13 +199,19 @@ for (const route of routes) {
 			});
 			expect(mobileSocialRows).toBe(3);
 
-			const mobileActionRows = await page
-				.locator('.cta-buttons--vertical .cta-buttons__link')
-				.evaluateAll(elements => {
-					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
-					return new Set(rows).size;
-				});
-			expect(mobileActionRows).toBe(1);
+			const mobileActionRows = await page.locator('.cta-buttons__link').evaluateAll(elements => {
+				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+				return new Set(rows).size;
+			});
+			expect(mobileActionRows).toBe(2);
+
+			const mobileRouteCards = page.locator('[data-work-route-card]');
+			await expect(mobileRouteCards).toHaveCount(3);
+			const mobileRouteRows = await mobileRouteCards.evaluateAll(elements => {
+				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
+				return new Set(rows).size;
+			});
+			expect(mobileRouteRows).toBe(3);
 
 			const projectCards = page.locator('[data-project-card]');
 			await expect(projectCards).toHaveCount(3);

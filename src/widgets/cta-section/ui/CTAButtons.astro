@@ -30,19 +30,26 @@ const iconMap: Record<CtaIcon, string> = {
 				data-conversion-event={button.conversionEvent}
 				data-conversion-position="primary-cta"
 				data-conversion-item={button.id}
-				aria-label={`${button.title}${button.description ? ': ' + button.description : ''}`}>
+				aria-label={`${button.label}: ${button.description ?? button.title}`}>
 				<div
 					class={cn(
 						'cta-button-card',
 						button.variant === 'primary' && 'cta-button-card--primary button-primary',
 						button.variant === 'secondary' && 'cta-button-card--secondary'
-					)}>
-					<div class="cta-button-card__icon" aria-hidden="true" set:html={iconMap[button.icon]} />
+					)}
+					data-work-route-card
+					data-route-id={button.id}>
+					<div class="cta-button-card__icon-shell" aria-hidden="true">
+						<span class="cta-button-card__icon" set:html={iconMap[button.icon]} />
+					</div>
 					<div class="cta-button-card__content">
 						<h3 class="cta-button-card__title">{button.title}</h3>
 						{button.description && <p class="cta-button-card__description">{button.description}</p>}
 					</div>
-					<ArrowIcon class="cta-button-card__arrow size-8" aria-hidden="true" />
+					<span class="cta-button-card__action button-secondary" aria-hidden="true">
+						<span>{button.label}</span>
+						<ArrowIcon class="cta-button-card__arrow" />
+					</span>
 				</div>
 			</a>
 		))

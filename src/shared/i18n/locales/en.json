@@ -25,14 +25,14 @@
 	},
 	"cta": {
 		"heading": "Work & contact",
-		"description": "Download my résumé or email me about software engineering opportunities or collaborations.",
+		"description": "Explore my portfolio, download my résumé, or email me about software engineering opportunities or collaborations.",
 		"portfolio": {
-			"title": "View portfolio",
-			"description": "See professional experience, selected projects, and detailed engineering work.",
+			"title": "Portfolio",
+			"description": "Professional experience, selected projects, and detailed engineering work.",
 			"label": "View portfolio"
 		},
 		"resume": {
-			"title": "Download résumé",
+			"title": "Résumé",
 			"description": "A short overview of my experience and background.",
 			"label": "Download résumé"
 		}

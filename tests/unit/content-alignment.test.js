@@ -47,10 +47,12 @@ describe('Hub messaging alignment contract', () => {
 		expect(spanish.profile.snapshotHeading).toBe('Sobre mí');
 		expect(english.cta.heading).toBe('Work & contact');
 		expect(spanish.cta.heading).toBe('Trabajo y contacto');
-		expect(english.cta.description).toMatch(/résumé.*email/i);
-		expect(spanish.cta.description).toMatch(/CV.*escríbeme/i);
-		expect(english.cta.description).not.toMatch(/start with my portfolio/i);
-		expect(spanish.cta.description).not.toMatch(/empieza por mi portafolio/i);
+		expect(english.cta.description).toMatch(/portfolio.*résumé.*email/i);
+		expect(spanish.cta.description).toMatch(/portafolio.*CV.*escríbeme/i);
+		expect(english.cta.portfolio.title).toBe('Portfolio');
+		expect(spanish.cta.portfolio.title).toBe('Portafolio');
+		expect(english.cta.resume.title).toBe('Résumé');
+		expect(spanish.cta.resume.title).toBe('CV');
 		expect(english.contact.heading).toBe('Contact');
 		expect(spanish.contact.heading).toBe('Contacto');
 		expect(english.page.mainLabel).toBe('David Sandoval professional profile');
@@ -79,11 +81,13 @@ describe('Hub messaging alignment contract', () => {
 		);
 	});
 
-	test('keeps the central CTA route focused on the localized résumé', () => {
+	test('keeps Work & contact focused on three professional routes', () => {
 		for (const lang of ['en', 'es']) {
 			const buttons = getCtaButtons(lang);
-			expect(buttons.map(button => button.id)).toEqual(['resume']);
+			expect(buttons.map(button => button.id)).toEqual(['portfolio', 'resume']);
 			expect(buttons.filter(button => button.variant === 'primary')).toHaveLength(0);
+			expect(buttons.find(button => button.id === 'portfolio')?.variant).toBe('secondary');
+			expect(buttons.find(button => button.id === 'portfolio')?.href).toBe(siteConfig.portfolioUrl);
 			expect(buttons.find(button => button.id === 'resume')?.variant).toBe('secondary');
 			expect(buttons.find(button => button.id === 'resume')?.href).toBe(siteConfig.resume[lang]);
 		}
@@ -94,6 +98,7 @@ describe('Hub messaging alignment contract', () => {
 			for (const button of getCtaButtons(lang)) {
 				expect(button).not.toHaveProperty('title');
 				expect(button).not.toHaveProperty('description');
+				expect(button).not.toHaveProperty('label');
 				expect(button.id).toBeTruthy();
 				expect(button.href).toBeTruthy();
 				expect(button.conversionEvent).toBeTruthy();

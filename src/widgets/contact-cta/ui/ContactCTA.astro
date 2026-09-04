@@ -26,7 +26,9 @@ const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 	class={cn(
 		'contact-cta relative flex h-full w-full overflow-hidden lg:min-h-40',
 		'bg-card-background-muted border border-card-edge rounded-2xl shadow-sm'
-	)}>
+	)}
+	data-work-route-card
+	data-route-id="contact">
 	<div
 		class={cn(
 			'flex h-full min-w-0 flex-1 flex-col items-center justify-center gap-2.5 px-5 py-4 text-center',

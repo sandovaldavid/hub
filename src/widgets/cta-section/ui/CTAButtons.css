@@ -1,98 +1,96 @@
 @reference '../../../shared/styles/global.css';
 
 .cta-buttons {
-	@apply flex w-full flex-col gap-3 md:grid md:grid-cols-3 md:gap-4 lg:gap-5;
+	@apply grid h-full w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:gap-7 xl:gap-8;
 }
+
 .cta-buttons__link {
 	@apply block h-full w-full no-underline;
 }
+
 .cta-button-card {
-	@apply flex h-full w-full cursor-pointer items-center gap-4 rounded-xl border px-4 py-4 shadow-sm backdrop-blur-xl transition-all duration-300 ease-out md:px-5 md:py-5;
-	background-color: var(--card-background);
+	@apply flex h-full w-full cursor-pointer flex-col items-center justify-center gap-2.5 rounded-2xl border px-5 py-4 text-center shadow-sm transition-all duration-300 ease-out;
+	background-color: var(--card-background-muted);
 	border-color: var(--card-edge);
 }
+
 .cta-button-card:active {
 	@apply scale-[0.98];
 }
+
 .cta-button-card--primary {
 	border-color: var(--card-edge-accent);
 }
+
 @media (hover: hover) {
 	.cta-button-card:hover {
 		@apply -translate-y-0.5 shadow-retro-xs;
 		background-color: var(--control-background-hover);
 		border-color: var(--control-edge-hover);
 	}
+
 	.cta-button-card--primary:hover {
 		border-color: var(--channel-accent-primary);
 	}
+
+	.cta-button-card:hover .cta-button-card__action {
+		background-color: var(--button-secondary-background-hover);
+	}
 }
-.cta-button-card--secondary {
-	background-color: var(--card-background-muted);
+
+.cta-button-card__icon-shell {
+	@apply flex size-9 shrink-0 items-center justify-center rounded-full border shadow-xs;
+	background-color: var(--channel-surface-default);
+	border-color: var(--channel-edge-default);
 }
+
 .cta-button-card__icon {
-	@apply flex h-10 w-10 shrink-0 items-center justify-center md:h-11 md:w-11 lg:h-12 lg:w-12;
-	color: var(--channel-accent-primary);
+	@apply inline-flex size-5 items-center justify-center;
+	color: var(--channel-content-muted);
 }
+
 .cta-button-card__icon svg {
 	@apply h-full w-full;
 }
-.cta-button-card--primary .cta-button-card__icon {
-	color: var(--channel-accent-secondary);
-}
+
 .cta-button-card__content {
-	@apply min-w-0 flex-1 text-left;
+	@apply flex min-w-0 max-w-xl flex-col gap-1.5 text-center;
 }
+
 .cta-button-card__title {
-	@apply m-0 mb-1 text-base font-bold leading-tight md:text-lg lg:text-xl;
+	@apply m-0 break-words text-base font-bold leading-tight;
 	color: var(--channel-content-strong);
 }
+
 .cta-button-card__description {
-	@apply m-0 text-sm leading-snug md:text-base;
+	@apply m-0 break-words text-xs leading-relaxed md:text-sm;
 	color: var(--channel-content-default);
 }
-.cta-button-card__arrow {
-	@apply h-6 w-6 shrink-0 transition-transform duration-300 ease-in-out md:h-7 md:w-7;
-	color: var(--channel-accent-primary);
+
+.cta-button-card__action {
+	@apply flex min-h-10 w-full max-w-xs items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition-colors duration-200;
+	background-color: var(--button-secondary-background);
+	border-color: var(--button-secondary-edge);
+	color: var(--button-secondary-content);
 }
+
+.cta-button-card__arrow {
+	@apply size-[1.125rem] shrink-0 transition-transform duration-300 ease-in-out;
+	color: currentColor;
+}
+
 @media (hover: hover) {
 	.cta-button-card:hover .cta-button-card__arrow {
-		@apply translate-x-1;
-		color: var(--channel-accent-secondary);
+		@apply translate-x-0.5;
 	}
 }
-.cta-buttons--vertical {
-	@apply flex h-full w-full flex-col gap-3;
-}
-.cta-buttons--vertical .cta-buttons__link {
-	@apply h-full;
-}
-.cta-buttons--vertical .cta-button-card {
-	@apply h-full gap-3 px-4 py-4;
-}
-.cta-buttons--vertical .cta-button-card__icon {
-	@apply h-10 w-10;
-}
-.cta-buttons--vertical .cta-button-card__title {
-	@apply text-base lg:text-lg;
-}
-.cta-buttons--vertical .cta-button-card__description {
-	@apply text-sm;
-}
+
 @media (min-width: 768px) {
-	.cta-buttons--vertical .cta-button-card {
-		@apply min-h-36 gap-3 px-4 py-4 lg:min-h-40;
+	.cta-button-card {
+		@apply min-h-40;
 	}
-	.cta-buttons--vertical .cta-button-card__icon {
-		@apply h-9 w-9;
-	}
-	.cta-buttons--vertical .cta-button-card__title {
-		@apply text-base;
-	}
-	.cta-buttons--vertical .cta-button-card__description {
-		@apply text-sm leading-snug;
-	}
-	.cta-buttons--vertical .cta-button-card__arrow {
-		@apply h-6 w-6;
-	}
+}
+
+.cta-buttons--vertical {
+	@apply flex h-full w-full flex-col gap-4;
 }

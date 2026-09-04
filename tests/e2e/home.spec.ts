@@ -42,8 +42,10 @@ test.describe('Home page', () => {
 		await expect(page.getByRole('heading', { level: 2, name: 'About' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Work & contact' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 2, name: 'Featured projects' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'Portfolio' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'Résumé' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: "Let's talk" })).toBeVisible();
-		await expect(page.locator('.cta-button-card__title')).toHaveCount(1);
+		await expect(page.locator('.cta-button-card__title')).toHaveCount(2);
 	});
 
 	test('hero exposes clear positioning and routes first to the portfolio', async ({ page }) => {
@@ -112,14 +114,16 @@ test.describe('Home page', () => {
 		}
 	});
 
-	test('keeps Portfolio primary in the hero and Work & contact focused on résumé and email', async ({
-		page,
-	}) => {
+	test('keeps Work & contact focused on portfolio, résumé and email', async ({ page }) => {
 		await page.goto('/');
 
 		const actionLinks = page.locator('.cta-buttons__link');
-		await expect(actionLinks).toHaveCount(1);
-		await expect(actionLinks.filter({ hasText: 'View portfolio' })).toHaveCount(0);
+		await expect(actionLinks).toHaveCount(2);
+
+		const portfolio = actionLinks.filter({ hasText: 'View portfolio' });
+		await expect(portfolio).toHaveCount(1);
+		await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
+		await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 
 		const resume = actionLinks.filter({ hasText: 'Download résumé' });
 		await expect(resume).toHaveAttribute(
@@ -135,6 +139,7 @@ test.describe('Home page', () => {
 		).toHaveCount(0);
 		await expect(page.locator('.cta-buttons__link[href^="mailto:"]')).toHaveCount(0);
 		await expect(page.locator('[data-layout-column="contact"] a[href^="mailto:"]')).toHaveCount(1);
+		await expect(page.locator('[data-work-route-card]')).toHaveCount(3);
 	});
 
 	test('share, language and theme controls remain available in the page layout', async ({
@@ -179,6 +184,9 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(
 			page.getByRole('heading', { level: 2, name: 'Proyectos destacados' })
 		).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'Portafolio' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'CV' })).toBeVisible();
+		await expect(page.getByRole('heading', { level: 3, name: 'Conversemos' })).toBeVisible();
 		await expect(page.locator('[aria-labelledby="skills-heading"]')).toHaveCount(0);
 
 		const portfolioLink = page.locator(
@@ -188,14 +196,17 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(portfolioLink).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 
 		const actionLinks = page.locator('.cta-buttons__link');
-		await expect(actionLinks).toHaveCount(1);
-		await expect(actionLinks.filter({ hasText: 'Ver portafolio' })).toHaveCount(0);
+		await expect(actionLinks).toHaveCount(2);
+		const portfolio = actionLinks.filter({ hasText: 'Ver portafolio' });
+		await expect(portfolio).toHaveAttribute('href', 'https://sandovaldavid.com');
+		await expect(portfolio).toHaveAttribute('data-conversion-event', 'portfolio_opened');
 		const resume = actionLinks.filter({ hasText: 'Descargar CV' });
 		await expect(resume).toHaveAttribute(
 			'href',
 			'https://sandovaldavid.com/resume/david-sandoval-resume-es.pdf'
 		);
 		await expect(resume).toHaveAttribute('data-conversion-event', 'resume_downloaded');
+		await expect(page.locator('[data-work-route-card]')).toHaveCount(3);
 	});
 
 	test('uses localized semantics and hreflang', async ({ page }) => {
