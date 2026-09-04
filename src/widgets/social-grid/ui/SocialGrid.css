@@ -12,6 +12,12 @@
 .social-grid__item .social-button {
 	@apply min-h-14;
 }
+.social-grid__item[data-priority='primary'] .social-button {
+	border-color: var(--card-edge-accent);
+}
+.social-grid__item[data-priority='secondary'] .social-button {
+	border-width: 1px;
+}
 @media (min-width: 360px) {
 	.social-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));

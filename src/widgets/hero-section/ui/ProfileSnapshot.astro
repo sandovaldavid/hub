@@ -24,7 +24,7 @@ const { heading, bio, metadata } = Astro.props;
 		{
 			metadata.map(item => (
 				<div class="profile-snapshot__metadata-item">
-					<dt>{item.label}</dt>
+					<dt class="sr-only">{item.label}</dt>
 					<dd>{item.value}</dd>
 				</div>
 			))

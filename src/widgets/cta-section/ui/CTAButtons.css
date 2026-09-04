@@ -62,13 +62,13 @@
 	}
 }
 .cta-buttons--vertical {
-	@apply flex w-full flex-col gap-3;
+	@apply flex h-full w-full flex-col gap-3;
 }
 .cta-buttons--vertical .cta-buttons__link {
-	@apply h-auto;
+	@apply h-full;
 }
 .cta-buttons--vertical .cta-button-card {
-	@apply h-auto gap-3 px-4 py-4;
+	@apply h-full gap-3 px-4 py-4;
 }
 .cta-buttons--vertical .cta-button-card__icon {
 	@apply h-10 w-10;
@@ -80,18 +80,8 @@
 	@apply text-sm;
 }
 @media (min-width: 768px) {
-	.cta-buttons--vertical {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		grid-auto-rows: 1fr;
-		gap: 1rem;
-	}
-	.cta-buttons--vertical .cta-buttons__link,
 	.cta-buttons--vertical .cta-button-card {
-		@apply h-full;
-	}
-	.cta-buttons--vertical .cta-button-card {
-		@apply min-h-28 gap-3 px-4 py-4;
+		@apply min-h-36 gap-3 px-4 py-4 lg:min-h-40;
 	}
 	.cta-buttons--vertical .cta-button-card__icon {
 		@apply h-9 w-9;

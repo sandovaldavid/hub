@@ -38,16 +38,6 @@ export const socialLinks: SocialLink[] = [
 		conversionEvent: 'github_opened',
 	},
 	{
-		id: 'twitter',
-		platform: 'twitter',
-		label: 'X',
-		url: siteConfig.socialUrls.twitter,
-		username: siteConfig.socialUsernames.twitter,
-		priority: 'secondary',
-		audience: ['community'],
-		analyticsId: 'social_x_opened',
-	},
-	{
 		id: 'youtube',
 		platform: 'youtube',
 		label: 'YouTube',
@@ -66,6 +56,26 @@ export const socialLinks: SocialLink[] = [
 		priority: 'secondary',
 		audience: ['community'],
 		analyticsId: 'social_tiktok_opened',
+	},
+	{
+		id: 'instagram',
+		platform: 'instagram',
+		label: 'Instagram',
+		url: siteConfig.socialUrls.instagram,
+		username: siteConfig.socialUsernames.instagram,
+		priority: 'secondary',
+		audience: ['community'],
+		analyticsId: 'social_instagram_opened',
+	},
+	{
+		id: 'twitter',
+		platform: 'twitter',
+		label: 'X',
+		url: siteConfig.socialUrls.twitter,
+		username: siteConfig.socialUsernames.twitter,
+		priority: 'secondary',
+		audience: ['community'],
+		analyticsId: 'social_x_opened',
 	},
 ];
 
