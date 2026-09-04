@@ -34,7 +34,7 @@ describe('social link configuration', () => {
 	});
 
 	test('keeps profile labels aligned with their public profile slugs', () => {
-		for (const id of ['linkedin', 'twitter', 'youtube', 'tiktok']) {
+		for (const id of ['linkedin', 'twitter', 'instagram', 'youtube', 'tiktok']) {
 			const link = getRequiredSocialLink(id);
 			const slug = new URL(link.url).pathname.split('/').filter(Boolean).at(-1);
 			const normalizedSlug = slug?.startsWith('@') ? slug : `@${slug}`;
@@ -46,15 +46,19 @@ describe('social link configuration', () => {
 	test('publishes only approved secondary channels', () => {
 		const secondary = getSocialLinksByPriority('secondary').map(link => link.id);
 
-		expect(secondary).toEqual(['twitter', 'youtube', 'tiktok']);
+		expect(secondary).toEqual(['youtube', 'tiktok', 'instagram', 'twitter']);
 		expect(getSocialLinksByPriority('footer')).toHaveLength(0);
-		expect(socialLinks.some(link => ['instagram', 'facebook'].includes(link.id))).toBe(false);
+		expect(socialLinks.some(link => link.id === 'facebook')).toBe(false);
 	});
 
-	test('uses the migrated X handle and professional creator handles', () => {
+	test('uses the migrated X handle and approved creator handles', () => {
 		expect(getRequiredSocialLink('twitter')).toMatchObject({
 			url: 'https://x.com/davidsandoval_s',
 			username: '@davidsandoval_s',
+		});
+		expect(getRequiredSocialLink('instagram')).toMatchObject({
+			url: 'https://www.instagram.com/david.sandovals',
+			username: '@david.sandovals',
 		});
 		for (const id of ['youtube', 'tiktok']) {
 			expect(getRequiredSocialLink(id).username).toBe('@davidsandoval.s');
@@ -84,6 +88,7 @@ describe('social link configuration', () => {
 			'social-button--linkedin',
 			'social-button--github',
 			'social-button--x',
+			'social-button--instagram',
 			'social-button--youtube',
 			'social-button--tiktok',
 		]) {
