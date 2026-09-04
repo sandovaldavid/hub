@@ -1,7 +1,7 @@
 {
 	"profile": {
 		"tagline": "Software Engineer · Backend-focused",
-		"bio": "I build maintainable software with a backend focus and hands-on frontend experience, turning product needs into clear boundaries, typed contracts, and validated delivery.",
+		"bio": "I work mainly on backend systems, with hands-on frontend experience, solving software problems through careful debugging, integration work, and validation.",
 		"availability": "Open to remote software engineering opportunities",
 		"location": "Piura, Peru · UTC-5",
 		"workMode": "Remote · based in Peru",
@@ -9,7 +9,7 @@
 		"locationLabel": "Location",
 		"languagesLabel": "Languages",
 		"workModeLabel": "Work mode",
-		"resumeAction": "Download resume",
+		"portfolioAction": "View portfolio",
 		"snapshotHeading": "Professional snapshot",
 		"avatarAlt": "Portrait of David Sandoval"
 	},
@@ -18,33 +18,23 @@
 		"switchLanguage": "Switch language to Spanish"
 	},
 	"hero": {
-		"sectionsLabel": "Professional profile sections"
+		"sectionsLabel": "David Sandoval profile and links"
 	},
 	"social": {
-		"heading": "Professional and social links"
+		"heading": "Profiles & channels"
 	},
 	"cta": {
-		"heading": "Explore my work",
-		"description": "Start with the portfolio for deeper engineering context, browse selected projects, review public repositories, or contact me directly.",
+		"heading": "Work & contact",
+		"description": "Start with my portfolio for detailed work, download my résumé for a concise overview, or email me directly.",
 		"portfolio": {
-			"title": "View Portfolio",
-			"description": "See professional experience, selected projects, research, and deeper engineering case studies.",
+			"title": "View portfolio",
+			"description": "See professional experience, selected projects, and detailed engineering work.",
 			"label": "View portfolio"
 		},
-		"projects": {
-			"title": "View Featured Projects",
-			"description": "See selected systems and tools through the problems, decisions, and outcomes behind them.",
-			"label": "View featured projects"
-		},
-		"github": {
-			"title": "View GitHub",
-			"description": "Browse public repositories, tests, releases, and technical documentation.",
-			"label": "View GitHub repositories"
-		},
-		"contact": {
-			"title": "Contact Me",
-			"description": "Get in touch about software engineering opportunities and relevant collaborations.",
-			"label": "Contact me"
+		"resume": {
+			"title": "Download résumé",
+			"description": "Get a concise overview of my experience, skills, and background.",
+			"label": "Download résumé"
 		}
 	},
 	"contact": {
@@ -56,16 +46,11 @@
 	},
 	"projects": {
 		"title": "Featured projects",
-		"description": "Selected work showing the problem, my contribution, and the engineering outcome without duplicating the full portfolio case studies.",
-		"caseStudy": "Project",
-		"problem": "Problem",
-		"contribution": "My contribution",
-		"outcome": "Outcome",
+		"description": "A few projects that show the kinds of systems and problems I work on.",
 		"repository": "Repository",
 		"projectSite": "Project site",
 		"viewCaseStudy": "View case study",
-		"private": "Private project",
-		"technologyStack": "Technology stack"
+		"private": "Private project"
 	},
 	"skills": {
 		"title": "Engineering stack & tooling",
@@ -74,17 +59,17 @@
 		"heading": "Technologies and skills"
 	},
 	"page": {
-		"mainLabel": "Professional link hub",
-		"sectionsLabel": "Professional profile sections"
+		"mainLabel": "David Sandoval professional profile",
+		"sectionsLabel": "David Sandoval professional profile sections"
 	},
 	"seo": {
 		"title": "David Sandoval | Software Engineer",
-		"description": "David Sandoval is a Software Engineer focused on maintainable backend systems, reliable APIs, practical frontend delivery, and developer tooling.",
-		"socialDescription": "I'm David Sandoval, a Software Engineer focused on backend systems with hands-on frontend experience. Explore my projects, portfolio, GitHub, and resume.",
-		"ogImageAlt": "David Sandoval — Software Engineer profile card",
-		"twitterImageAlt": "David Sandoval — Software Engineer profile card",
+		"description": "David Sandoval is a backend-oriented Software Engineer with hands-on frontend experience. Explore his portfolio, GitHub, résumé, and professional contact links.",
+		"socialDescription": "David Sandoval — Software Engineer focused on backend systems, with hands-on frontend experience. Portfolio, GitHub, résumé, and contact.",
+		"ogImageAlt": "David Sandoval — Software Engineer",
+		"twitterImageAlt": "David Sandoval — Software Engineer",
 		"twitterLabel1": "Professional focus",
-		"twitterData1": "Backend systems · Developer tooling",
+		"twitterData1": "Backend systems · Frontend experience",
 		"ogLocale": "en_US"
 	},
 	"share": {
@@ -99,7 +84,6 @@
 		"system": "Use system preference"
 	},
 	"footer": {
-		"builtWith": "Built with Astro & Tailwind CSS",
 		"backToTop": "Back to top"
 	}
 }

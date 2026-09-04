@@ -27,78 +27,18 @@
 	);
 }
 .featured-project-card__content {
-	@apply relative z-10 flex h-full flex-col gap-3 p-4 sm:gap-4 sm:p-5 md:p-6;
+	@apply relative z-10 flex h-full flex-col gap-4 p-4 sm:p-5 md:p-6;
 }
 .featured-project-card__heading {
 	@apply flex flex-col gap-2.5;
-}
-.featured-project-card__meta {
-	@apply flex flex-wrap items-center justify-between gap-2;
-}
-.featured-project-card__index {
-	@apply text-xs font-semibold uppercase tracking-[0.14em];
-	color: var(--channel-accent-primary);
 }
 .featured-project-card__title {
 	@apply m-0 text-lg font-bold leading-snug md:text-xl;
 	color: var(--channel-content-strong);
 }
-.featured-project-card__status {
-	@apply w-fit rounded-full border px-2.5 py-1 text-xs font-semibold leading-none;
-}
-.featured-project-card__status[data-status-tone='live'] {
-	background-color: var(--badge-success-background);
-	color: var(--badge-success-content);
-	border-color: var(--badge-success-edge);
-}
-.featured-project-card__status[data-status-tone='active'] {
-	background-color: var(--badge-brand-background);
-	color: var(--badge-brand-content);
-	border-color: var(--badge-brand-edge);
-}
-.featured-project-card__status[data-status-tone='private'] {
-	background-color: var(--badge-warning-background);
-	color: var(--badge-warning-content);
-	border-color: var(--badge-warning-edge);
-}
-.featured-project-card__evidence {
-	@apply flex flex-col gap-2.5;
-}
-.featured-project-card__evidence-item {
-	@apply rounded-xl border px-3 py-2.5;
-	background-color: var(--card-background-muted);
-	border-color: var(--card-edge);
-}
-.featured-project-card__evidence-item--contribution {
-	background-color: var(--badge-brand-background);
-	border-color: var(--badge-brand-edge);
-}
-.featured-project-card__evidence-item--outcome {
-	background-color: var(--badge-success-background);
-	border-color: var(--badge-success-edge);
-}
-.featured-project-card__evidence dt {
-	@apply flex items-center gap-2 text-xs font-bold uppercase tracking-wide;
+.featured-project-card__summary {
+	@apply m-0 text-sm leading-relaxed;
 	color: var(--channel-content-default);
-}
-.featured-project-card__evidence-marker {
-	@apply inline-flex size-6 shrink-0 items-center justify-center rounded-full border text-xs font-bold;
-	background-color: var(--detail-step-marker-background);
-	color: var(--detail-step-marker-content);
-	border-color: var(--detail-step-marker-edge);
-}
-.featured-project-card__evidence dd {
-	@apply m-0 mt-1.5 text-xs leading-relaxed sm:text-sm;
-	color: var(--channel-content-default);
-}
-.featured-project-card__technologies {
-	@apply flex flex-wrap gap-1.5 pt-0.5;
-}
-.featured-project-card__tech-badge {
-	@apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium leading-none;
-	background-color: var(--badge-brand-background);
-	color: var(--badge-brand-content);
-	border-color: var(--badge-brand-edge);
 }
 .featured-project-card__actions {
 	@apply mt-auto grid grid-cols-2 gap-2 border-t pt-3.5;

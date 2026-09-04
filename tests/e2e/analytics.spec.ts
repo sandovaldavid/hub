@@ -3,22 +3,13 @@ import { expect, test } from '@playwright/test';
 const allowedEvents = [
 	'resume_downloaded',
 	'portfolio_opened',
-	'featured_projects_viewed',
 	'github_opened',
 	'linkedin_opened',
 	'project_opened',
 	'contact_clicked',
 	'language_changed',
 ];
-const allowedPositions = [
-	'hero',
-	'primary-cta',
-	'social',
-	'project',
-	'case-study',
-	'contact',
-	'navigation',
-];
+const allowedPositions = ['hero', 'primary-cta', 'social', 'project', 'contact', 'navigation'];
 
 for (const route of ['/', '/es/']) {
 	test.describe(`conversion analytics for ${route}`, () => {
@@ -26,13 +17,13 @@ for (const route of ['/', '/es/']) {
 			await page.goto(route);
 		});
 
-		test('instruments every primary conversion CTA', async ({ page }) => {
+		test('instruments every primary conversion event used by the compact Hub', async ({ page }) => {
 			for (const eventName of allowedEvents) {
 				await expect(page.locator(`[data-conversion-event="${eventName}"]`).first()).toBeAttached();
 			}
 		});
 
-		test('uses only allow-listed non-personal metadata', async ({ page }) => {
+		test('uses only source-allow-listed non-personal metadata', async ({ page }) => {
 			const tracked = page.locator('[data-conversion-event]');
 			expect(await tracked.count()).toBeGreaterThan(0);
 
@@ -61,7 +52,18 @@ for (const route of ['/', '/es/']) {
 			await expect(languageToggle).toHaveAttribute('data-conversion-position', 'navigation');
 		});
 
-		test('does not intercept or block navigation', async ({ page }) => {
+		test('uses the canonical project position for project routing', async ({ page }) => {
+			const projectLinks = page.locator('[data-conversion-event="project_opened"]');
+			expect(await projectLinks.count()).toBeGreaterThan(0);
+			for (let index = 0; index < (await projectLinks.count()); index++) {
+				await expect(projectLinks.nth(index)).toHaveAttribute(
+					'data-conversion-position',
+					'project'
+				);
+			}
+		});
+
+		test('does not intercept or block portfolio navigation', async ({ page }) => {
 			const portfolio = page.locator('[data-conversion-event="portfolio_opened"]').first();
 			await expect(portfolio).toHaveAttribute('target', '_blank');
 			await expect(portfolio).toHaveAttribute('rel', /noopener/);

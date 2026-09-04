@@ -4,10 +4,9 @@ for (const route of [
 	{
 		path: '/',
 		heading: 'Featured projects',
-		problem: 'Problem',
-		contribution: 'My contribution',
-		outcome: 'Outcome',
 		kiokuTitle: 'Kioku · Persistent memory for AI agents',
+		kiokuSummary:
+			'A local-first .NET MCP server that keeps structured Obsidian knowledge available across AI-agent sessions.',
 		yukidokeTitle: 'Yukidoke · Household finance platform',
 		ociTitle: 'OCI ARM Hunter · Oracle Cloud capacity automation',
 		projectSite: 'Project site',
@@ -18,10 +17,9 @@ for (const route of [
 	{
 		path: '/es/',
 		heading: 'Proyectos destacados',
-		problem: 'Problema',
-		contribution: 'Mi contribución',
-		outcome: 'Resultado',
 		kiokuTitle: 'Kioku · Memoria persistente para agentes de IA',
+		kiokuSummary:
+			'Un servidor MCP local-first en .NET que mantiene conocimiento estructurado de Obsidian disponible entre sesiones de agentes de IA.',
 		yukidokeTitle: 'Yukidoke · Plataforma financiera para hogares',
 		ociTitle: 'OCI ARM Hunter · Automatización de capacidad en Oracle Cloud',
 		projectSite: 'Sitio del proyecto',
@@ -35,7 +33,7 @@ for (const route of [
 			await page.goto(route.path);
 		});
 
-		test('shows the three selected projects, without turning the Hub into a second portfolio', async ({
+		test('shows three compact project routes without mini case-study evidence blocks', async ({
 			page,
 		}) => {
 			const sectionHeading = page.locator('#featured-projects-title');
@@ -44,9 +42,12 @@ for (const route of [
 
 			const cards = page.locator('.featured-project-card');
 			await expect(cards).toHaveCount(3);
-			await expect(cards.first()).toContainText(route.problem);
-			await expect(cards.first()).toContainText(route.contribution);
-			await expect(cards.first()).toContainText(route.outcome);
+			await expect(cards.first()).toContainText(route.kiokuSummary);
+			await expect(page.locator('.featured-project-card__summary')).toHaveCount(3);
+			await expect(page.locator('[data-project-evidence]')).toHaveCount(0);
+			await expect(page.locator('.featured-project-card__technologies')).toHaveCount(0);
+			await expect(page.locator('.featured-project-card__status')).toHaveCount(0);
+			await expect(page.locator('.featured-project-card__index')).toHaveCount(0);
 		});
 
 		test('routes public work to useful destinations while preserving private-project boundaries', async ({
@@ -80,10 +81,9 @@ for (const route of [
 			);
 
 			await expect(yukidokeCard.getByText(route.privateProject, { exact: true })).toBeVisible();
-			await expect(yukidokeCard.getByRole('link', { name: route.caseStudy })).toHaveAttribute(
-				'href',
-				route.caseStudyUrl
-			);
+			const caseStudy = yukidokeCard.getByRole('link', { name: route.caseStudy });
+			await expect(caseStudy).toHaveAttribute('href', route.caseStudyUrl);
+			await expect(caseStudy).toHaveAttribute('data-conversion-position', 'project');
 			await expect(yukidokeCard.getByRole('link', { name: /Repository|Repositorio/ })).toHaveCount(
 				0
 			);

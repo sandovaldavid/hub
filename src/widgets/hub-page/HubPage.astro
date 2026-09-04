@@ -3,13 +3,11 @@ import { HeroCard, ProfileSnapshot } from '@widgets/hero-section';
 import CTAButtons from '@widgets/cta-section/ui/CTAButtons.astro';
 import SocialGrid from '@widgets/social-grid/ui/SocialGrid.astro';
 import ContactCTA from '@widgets/contact-cta/ui/ContactCTA.astro';
-import { SkillsSection } from '@widgets/skills-section';
 import FeaturedProjectSection from '@widgets/featured-project-section/ui/FeaturedProjectSection.astro';
 
 import { profile } from '@data/profile';
 import { socialLinks } from '@data/social-links';
 import { getCtaButtons } from '@data/cta';
-import { coreSkills, toolingSkills } from '@data/skills';
 import { getFeaturedProjects } from '@data/featured-projects';
 import { siteConfig } from '@data/site.config';
 import { useTranslations, type Lang } from '@shared/i18n';
@@ -21,7 +19,9 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const projects = getFeaturedProjects(lang);
-const professionalSocialLinks = socialLinks.filter(link => link.priority !== 'footer');
+const professionalSocialLinks = socialLinks.filter(
+	link => link.id !== 'website' && link.priority !== 'footer'
+);
 
 const localizedProfile = {
 	...profile,
@@ -30,7 +30,7 @@ const localizedProfile = {
 	bio: t('profile.bio'),
 };
 
-const localizedCtaButtons = getCtaButtons(t('contact.emailSubject')).map(button => ({
+const localizedCtaButtons = getCtaButtons(lang).map(button => ({
 	...button,
 	title: t(`cta.${button.id}.title`),
 	description: t(`cta.${button.id}.description`),
@@ -64,11 +64,11 @@ const heroMetadata = [
 				variant="compact"
 				availability={t('profile.availability')}
 				primaryAction={{
-					label: t('profile.resumeAction'),
-					href: siteConfig.resume[lang],
+					label: t('profile.portfolioAction'),
+					href: siteConfig.portfolioUrl,
 					external: true,
-					conversionEvent: 'resume_downloaded',
-					conversionItem: 'resume',
+					conversionEvent: 'portfolio_opened',
+					conversionItem: 'portfolio',
 				}}
 			/>
 		</section>
@@ -131,16 +131,6 @@ const heroMetadata = [
 
 	<section class="bento-item" data-layout-section="projects">
 		<FeaturedProjectSection {projects} {lang} />
-	</section>
-
-	<section class="bento-item" data-layout-section="skills" aria-labelledby="skills-heading">
-		<SkillsSection
-			{coreSkills}
-			{toolingSkills}
-			title={t('skills.title')}
-			coreTitle={t('skills.coreTitle')}
-			toolsTitle={t('skills.toolsTitle')}
-		/>
 	</section>
 </main>
 

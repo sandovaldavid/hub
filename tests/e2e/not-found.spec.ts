@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('serves missing routes as a branded noindex 404', async ({ page }) => {
+test('serves missing routes as a human-first noindex 404', async ({ page }) => {
 	const response = await page.goto('/this-route-does-not-exist');
 
 	expect(response?.status()).toBe(404);
@@ -12,9 +12,9 @@ test('serves missing routes as a branded noindex 404', async ({ page }) => {
 	await expect(page.getByText('404', { exact: true })).toBeVisible();
 	await expect(page.getByRole('heading', { level: 1, name: 'Page not found' })).toBeVisible();
 	await expect(page.getByText('Página no encontrada', { exact: true })).toBeVisible();
-	await expect(page.getByRole('link', { name: 'Return to Hub' })).toHaveAttribute('href', '/');
+	await expect(page.getByRole('link', { name: 'Go to homepage' })).toHaveAttribute('href', '/');
 	await expect(page.getByRole('link', { name: 'Go back' })).toHaveAttribute('href', '/');
-	await expect(page.getByRole('link', { name: 'Ir al Hub en español' })).toHaveAttribute(
+	await expect(page.getByRole('link', { name: 'Ir al inicio en español' })).toHaveAttribute(
 		'href',
 		'/es/'
 	);
@@ -44,9 +44,6 @@ test('serves missing routes as a branded noindex 404', async ({ page }) => {
 	expect(layout).not.toBeNull();
 	if (!layout) return;
 
-	// The footer must always terminate the document. When the whole page fits in the
-	// viewport this is also the viewport edge; on shorter/mobile viewports natural
-	// document overflow is correct and the footer may sit below the fold.
 	expect(Math.abs(layout.footerBottom - layout.documentHeight)).toBeLessThanOrEqual(2);
 	if (layout.documentHeight <= layout.viewportHeight + 2) {
 		expect(Math.abs(layout.footerBottom - layout.viewportHeight)).toBeLessThanOrEqual(2);

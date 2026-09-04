@@ -5,9 +5,7 @@ import ArrowIcon from '@shared/assets/arrow-right-filled.svg';
 import type { CtaIcon, LocalizedCtaButton } from '@shared/model/cta';
 
 import PortfolioIcon from '@shared/assets/owned-destination/portfolio.svg?raw';
-import EmailIcon from '@shared/assets/cta-icons/email.svg?raw';
-import RocketIcon from '@shared/assets/cta-icons/rocket.svg?raw';
-import GitHubIcon from '@shared/assets/social-platform/github.svg?raw';
+import BriefcaseIcon from '@shared/assets/cta-icons/briefcase.svg?raw';
 
 interface Props {
 	buttons: LocalizedCtaButton[];
@@ -17,9 +15,7 @@ interface Props {
 const { buttons, layout = 'horizontal' } = Astro.props;
 const iconMap: Record<CtaIcon, string> = {
 	portfolio: PortfolioIcon,
-	email: EmailIcon,
-	rocket: RocketIcon,
-	github: GitHubIcon,
+	briefcase: BriefcaseIcon,
 };
 ---
 
