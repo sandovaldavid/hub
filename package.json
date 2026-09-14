@@ -41,7 +41,7 @@
 		"@astrojs/sitemap": "^3.7.4",
 		"@tailwindcss/vite": "^4.3.3",
 		"@vercel/analytics": "^2.0.1",
-		"astro": "7.3.1",
+		"astro": "7.3.2",
 		"tailwindcss": "^4.3.3"
 	},
 	"devDependencies": {
@@ -52,7 +52,7 @@
 		"@eslint/js": "^10.0.1",
 		"@playwright/test": "1.61.0",
 		"chrome-launcher": "^1.2.1",
-		"eslint": "^10.9.0",
+		"eslint": "^10.10.0",
 		"eslint-plugin-astro": "^3.1.0",
 		"husky": "^9.1.7",
 		"lighthouse": "13.4.1",
@@ -60,7 +60,7 @@
 		"prettier": "^3.9.6",
 		"prettier-plugin-astro": "^0.14.1",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.69.0"
+		"typescript-eslint": "^8.70.0"
 	},
 	"overrides": {
 		"@astrojs/language-server": "2.16.14",
