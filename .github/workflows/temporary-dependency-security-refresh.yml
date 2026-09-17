@@ -37,10 +37,10 @@ jobs:
 
           const testPath = 'tests/unit/release-hardening.test.js';
           let test = fs.readFileSync(testPath, 'utf8');
-          test = test.replace('"js-yaml": "4.3.1",', '"js-yaml": "4.3.2",');
+          test = test.replace("'js-yaml': '4.3.1',", "'js-yaml': '4.3.2',");
           test = test.replace(
-            '"svgo": "4.0.2",',
-            '"smol-toml": "1.7.1",\n\t\t\t"svgo": "4.1.0",'
+            "\t\t\tsvgo: '4.0.2',",
+            "\t\t\t'smol-toml': '1.7.1',\n\t\t\tsvgo: '4.1.0',"
           );
           fs.writeFileSync(testPath, test);
           NODE
