@@ -99,11 +99,12 @@ describe('release delivery hardening contracts', () => {
 			'brace-expansion': '5.0.9',
 			'fast-uri': '3.1.6',
 			'ip-address': '10.5.0',
-			'js-yaml': '4.3.1',
+			'js-yaml': '4.3.2',
 			'mdast-util-to-hast': '13.2.1',
 			nanoid: '3.3.18',
 			sharp: '0.35.4',
-			svgo: '4.0.2',
+			'smol-toml': '1.7.1',
+			svgo: '4.1.0',
 		});
 		expect(packageJson.overrides.picomatch).toBeUndefined();
 		expect(packageJson.devDependencies.picomatch).toBe('2.3.2');
