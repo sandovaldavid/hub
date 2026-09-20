@@ -19,7 +19,7 @@
 		"lint:fix": "eslint . --fix",
 		"check:architecture": "node scripts/check-architecture.mjs",
 		"check:links": "node scripts/check-links.mjs",
-		"audit:deps": "bun update astro@7.3.2 && git diff -- bun.lock && bun audit && exit 1",
+		"audit:deps": "bun install && git diff -- bun.lock && bun audit && exit 1",
 		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
 		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
 		"rulesets:apply": "node scripts/manage-rulesets.mjs apply",
@@ -65,6 +65,7 @@
 	"overrides": {
 		"@astrojs/language-server": "2.16.14",
 		"brace-expansion": "5.0.9",
+		"devalue": "5.9.2",
 		"fast-uri": "3.1.6",
 		"ip-address": "10.5.0",
 		"js-yaml": "4.3.2",
