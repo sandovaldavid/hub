@@ -161,7 +161,7 @@ describe('human-first SEO contract', () => {
 		expect(layout).toContain(
 			'{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}'
 		);
-		expect(layout).toContain('{jsonLd && <script is:inline type="application/ld+json"');
+		expect(layout).toMatch(\n			/\\{jsonLd\\s*&&[\\s\\S]*?<script\\s+is:inline\\s+type="application\\/ld\\+json"\\s+set:html=\\{JSON\\.stringify\\(jsonLd\\)\\}/\n		);
 	});
 
 	test('points Person.image at the portrait, not at the page social preview', () => {
