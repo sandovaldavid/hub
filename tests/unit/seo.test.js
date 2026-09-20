@@ -161,7 +161,12 @@ describe('human-first SEO contract', () => {
 		expect(layout).toContain(
 			'{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}'
 		);
-		expect(layout).toContain('{jsonLd && <script is:inline type="application/ld+json"');
+		const jsonLdGuardIndex = layout.search(/\{jsonLd\s*&&/);
+		const jsonLdScriptIndex = layout.indexOf('type="application/ld+json"');
+
+		expect(jsonLdGuardIndex).toBeGreaterThanOrEqual(0);
+		expect(jsonLdScriptIndex).toBeGreaterThan(jsonLdGuardIndex);
+		expect(layout).toContain('set:html={JSON.stringify(jsonLd)}');
 	});
 
 	test('points Person.image at the portrait, not at the page social preview', () => {

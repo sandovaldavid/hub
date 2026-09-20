@@ -77,21 +77,19 @@ const initials = fallback || getInitials(alt);
 ---
 
 <div class={avatarClasses} role="img" aria-label={alt} {...rest}>
-	{
-		src ? (
-			<img
-				src={src}
-				alt=""
-				role="presentation"
-				width={dimension}
-				height={dimension}
-				loading={loading}
-				fetchpriority={fetchpriority}
-				decoding="async"
-				class="absolute inset-0 h-full w-full object-cover"
-			/>
-		) : (
-			<span aria-hidden="true">{initials}</span>
-		)
-	}
+	{src ? (
+		<img
+			{src}
+			alt=""
+			role="presentation"
+			width={dimension}
+			height={dimension}
+			{loading}
+			{fetchpriority}
+			decoding="async"
+			class="absolute inset-0 h-full w-full object-cover"
+		/>
+	) : (
+		<span aria-hidden="true">{initials}</span>
+	)}
 </div>
