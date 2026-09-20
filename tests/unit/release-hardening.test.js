@@ -97,6 +97,7 @@ describe('release delivery hardening contracts', () => {
 		expect(packageJson.overrides).toEqual({
 			'@astrojs/language-server': '2.16.14',
 			'brace-expansion': '5.0.9',
+			devalue: '5.9.2',
 			'fast-uri': '3.1.6',
 			'ip-address': '10.5.0',
 			'js-yaml': '4.3.2',

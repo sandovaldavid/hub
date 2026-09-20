@@ -121,19 +121,13 @@ const jsonLd = emitStructuredData
 		<meta name="twitter:label1" content={twitterLabel1} />
 		<meta name="twitter:data1" content={twitterData1} />
 
-		{
-			alternates && (
-				<>
-					<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
-					<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
-					<link
-						rel="alternate"
-						hreflang="x-default"
-						href={new URL(alternates.en, siteConfig.url)}
-					/>
-				</>
-			)
-		}
+		{alternates && (
+			<>
+				<link rel="alternate" hreflang="en" href={new URL(alternates.en, siteConfig.url)} />
+				<link rel="alternate" hreflang="es" href={new URL(alternates.es, siteConfig.url)} />
+				<link rel="alternate" hreflang="x-default" href={new URL(alternates.en, siteConfig.url)} />
+			</>
+		)}
 
 		{emitCanonical && <link rel="canonical" href={finalCanonicalUrl} />}
 		<meta name="robots" content={robots} />
@@ -141,12 +135,15 @@ const jsonLd = emitStructuredData
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<script is:inline set:html={themeScript} />
-		{jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+		<script is:inline set:html={themeScript}></script>
+		{jsonLd && (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+		)}
 	</head>
-	<body
-		class="flex min-h-screen flex-col bg-channel-background-canvas text-channel-content-default">
-		<a href="#main-content" class="skip-link">{t('nav.skipToContent')}</a>
+	<body class="flex min-h-screen flex-col bg-channel-background-canvas text-channel-content-default">
+		<a href="#main-content" class="skip-link">
+			{t('nav.skipToContent')}
+		</a>
 		<div
 			class="hub-global-controls mx-auto flex w-full max-w-384 items-center px-4 pt-3 md:px-6 md:pt-4 lg:px-8 xl:px-10"
 			data-layout-section="global-controls">

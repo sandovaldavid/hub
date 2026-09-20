@@ -40,67 +40,61 @@ const isCompact = variant === 'compact';
 				{profile.name}
 			</h1>
 			{profile.tagline && <p class="hero-card__tagline">{profile.tagline}</p>}
-			{
-				isCompact ? (
-					<div class="hero-card__identity-actions">
-						{availability && (
-							<p class="hero-card__availability">
-								<span class="hero-card__availability-indicator" aria-hidden="true" />
-								<span class="hero-card__availability-text">{availability}</span>
-							</p>
-						)}
-						{primaryAction && (
-							<a
-								class="hero-card__primary-action"
-								href={primaryAction.href}
-								target={primaryAction.external ? '_blank' : undefined}
-								rel={primaryAction.external ? 'noopener noreferrer' : undefined}
-								data-conversion-event={primaryAction.conversionEvent}
-								data-conversion-position="hero"
-								data-conversion-item={primaryAction.conversionItem}>
-								{primaryAction.label}
-							</a>
-						)}
-					</div>
-				) : (
-					availability && (
+			{isCompact ? (
+				<div class="hero-card__identity-actions">
+					{availability && (
 						<p class="hero-card__availability">
-							<>
-								<span class="hero-card__availability-indicator" aria-hidden="true" />
-								<span class="hero-card__availability-text">{availability}</span>
-							</>
+							<span class="hero-card__availability-indicator" aria-hidden="true" />
+							<span class="hero-card__availability-text">{availability}</span>
 						</p>
-					)
+					)}
+					{primaryAction && (
+						<a
+							class="hero-card__primary-action"
+							href={primaryAction.href}
+							target={primaryAction.external ? '_blank' : undefined}
+							rel={primaryAction.external ? 'noopener noreferrer' : undefined}
+							data-conversion-event={primaryAction.conversionEvent}
+							data-conversion-position="hero"
+							data-conversion-item={primaryAction.conversionItem}>
+							{primaryAction.label}
+						</a>
+					)}
+				</div>
+			) : (
+				availability && (
+					<p class="hero-card__availability">
+						<>
+							<span class="hero-card__availability-indicator" aria-hidden="true" />
+							<span class="hero-card__availability-text">{availability}</span>
+						</>
+					</p>
 				)
-			}
+			)}
 		</div>
 	</div>
 
 	{variant === 'default' && profile.bio && <p class="hero-card__bio">{profile.bio}</p>}
-	{
-		metadata.length > 0 && (
-			<dl class="hero-card__metadata">
-				{metadata.map(item => (
-					<div class="hero-card__metadata-item">
-						<dt>{item.label}</dt>
-						<dd>{item.value}</dd>
-					</div>
-				))}
-			</dl>
-		)
-	}
-	{
-		!isCompact && primaryAction && (
-			<a
-				class="button-primary hero-card__primary-action"
-				href={primaryAction.href}
-				target={primaryAction.external ? '_blank' : undefined}
-				rel={primaryAction.external ? 'noopener noreferrer' : undefined}
-				data-conversion-event={primaryAction.conversionEvent}
-				data-conversion-position="hero"
-				data-conversion-item={primaryAction.conversionItem}>
-				{primaryAction.label}
-			</a>
-		)
-	}
+	{metadata.length > 0 && (
+		<dl class="hero-card__metadata">
+			{metadata.map(item => (
+				<div class="hero-card__metadata-item">
+					<dt>{item.label}</dt>
+					<dd>{item.value}</dd>
+				</div>
+			))}
+		</dl>
+	)}
+	{!isCompact && primaryAction && (
+		<a
+			class="button-primary hero-card__primary-action"
+			href={primaryAction.href}
+			target={primaryAction.external ? '_blank' : undefined}
+			rel={primaryAction.external ? 'noopener noreferrer' : undefined}
+			data-conversion-event={primaryAction.conversionEvent}
+			data-conversion-position="hero"
+			data-conversion-item={primaryAction.conversionItem}>
+			{primaryAction.label}
+		</a>
+	)}
 </div>

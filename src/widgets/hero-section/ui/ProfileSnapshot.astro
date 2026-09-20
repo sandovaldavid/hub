@@ -20,36 +20,36 @@ const localizedMetadata = metadata.map(item => ({
 	data-layout-panel="profile-snapshot"
 	aria-labelledby="profile-snapshot-heading">
 	<div class="profile-snapshot__summary">
-		<h2 id="profile-snapshot-heading" class="profile-snapshot__heading">{heading}</h2>
+		<h2 id="profile-snapshot-heading" class="profile-snapshot__heading">
+			{heading}
+		</h2>
 		<p class="profile-snapshot__bio">{bio}</p>
 	</div>
 
 	<dl class="profile-snapshot__metadata">
-		{
-			localizedMetadata.map((item, itemIndex) => (
-				<div class="profile-snapshot__metadata-item">
-					<dt class="sr-only">{item.label}</dt>
-					<dd>
-						{item.parts.map((part, partIndex) => (
-							<>
-								{partIndex > 0 && (
-									<span class="profile-snapshot__separator" aria-hidden="true">
-										&middot;
-									</span>
-								)}
-								<span>{part}</span>
-							</>
-						))}
-						{itemIndex < localizedMetadata.length - 1 && (
-							<span
-								class="profile-snapshot__separator profile-snapshot__separator--group"
-								aria-hidden="true">
-								&middot;
-							</span>
-						)}
-					</dd>
-				</div>
-			))
-		}
+		{localizedMetadata.map((item, itemIndex) => (
+			<div class="profile-snapshot__metadata-item">
+				<dt class="sr-only">{item.label}</dt>
+				<dd>
+					{item.parts.map((part, partIndex) => (
+						<>
+							{partIndex > 0 && (
+								<span class="profile-snapshot__separator" aria-hidden="true">
+									&middot;
+								</span>
+							)}
+							<span>{part}</span>
+						</>
+					))}
+					{itemIndex < localizedMetadata.length - 1 && (
+						<span
+							class="profile-snapshot__separator profile-snapshot__separator--group"
+							aria-hidden="true">
+							&middot;
+						</span>
+					)}
+				</dd>
+			</div>
+		))}
 	</dl>
 </section>

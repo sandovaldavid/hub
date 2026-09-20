@@ -27,61 +27,53 @@ const actionCount = [hasPublicProject, hasPublicCaseStudy, hasPublicRepository].
 		<header class="featured-project-card__heading">
 			<div class="featured-project-card__title-row">
 				<h3 class="featured-project-card__title">{project.title}</h3>
-				{
-					isPrivateProject && (
-						<span class="featured-project-card__privacy-badge">{t('projects.private')}</span>
-					)
-				}
+				{isPrivateProject && (
+					<span class="featured-project-card__privacy-badge">{t('projects.private')}</span>
+				)}
 			</div>
 			<p class="featured-project-card__summary">{project.summary}</p>
 		</header>
 
 		<div class="featured-project-card__actions" data-action-count={actionCount}>
-			{
-				hasPublicProject && project.projectUrl && (
-					<a
-						href={project.projectUrl}
-						class="featured-project-card__button featured-project-card__button--primary"
-						target="_blank"
-						rel="noopener noreferrer"
-						data-conversion-event="project_opened"
-						data-conversion-position="project"
-						data-conversion-item={project.id}>
-						<span>{t('projects.projectSite')}</span>
-						<LinkIcon class="featured-project-card__button-icon" />
-					</a>
-				)
-			}
-			{
-				hasPublicCaseStudy && project.caseStudyUrl && (
-					<a
-						href={project.caseStudyUrl}
-						class={`featured-project-card__button ${hasPublicProject ? 'featured-project-card__button--secondary' : 'featured-project-card__button--primary'}`}
-						target="_blank"
-						rel="noopener noreferrer"
-						data-conversion-event="project_opened"
-						data-conversion-position="project"
-						data-conversion-item={project.id}>
-						<span>{t('projects.viewCaseStudy')}</span>
-						<LinkIcon class="featured-project-card__button-icon" />
-					</a>
-				)
-			}
-			{
-				hasPublicRepository && project.githubUrl && (
-					<a
-						href={project.githubUrl}
-						class="featured-project-card__button featured-project-card__button--secondary"
-						target="_blank"
-						rel="noopener noreferrer"
-						data-conversion-event="project_opened"
-						data-conversion-position="project"
-						data-conversion-item={project.id}>
-						<GitHubIcon class="featured-project-card__button-icon" />
-						<span>{t('projects.repository')}</span>
-					</a>
-				)
-			}
+			{hasPublicProject && project.projectUrl && (
+				<a
+					href={project.projectUrl}
+					class="featured-project-card__button featured-project-card__button--primary"
+					target="_blank"
+					rel="noopener noreferrer"
+					data-conversion-event="project_opened"
+					data-conversion-position="project"
+					data-conversion-item={project.id}>
+					<span>{t('projects.projectSite')}</span>
+					<LinkIcon class="featured-project-card__button-icon" />
+				</a>
+			)}
+			{hasPublicCaseStudy && project.caseStudyUrl && (
+				<a
+					href={project.caseStudyUrl}
+					class={`featured-project-card__button ${hasPublicProject ? 'featured-project-card__button--secondary' : 'featured-project-card__button--primary'}`}
+					target="_blank"
+					rel="noopener noreferrer"
+					data-conversion-event="project_opened"
+					data-conversion-position="project"
+					data-conversion-item={project.id}>
+					<span>{t('projects.viewCaseStudy')}</span>
+					<LinkIcon class="featured-project-card__button-icon" />
+				</a>
+			)}
+			{hasPublicRepository && project.githubUrl && (
+				<a
+					href={project.githubUrl}
+					class="featured-project-card__button featured-project-card__button--secondary"
+					target="_blank"
+					rel="noopener noreferrer"
+					data-conversion-event="project_opened"
+					data-conversion-position="project"
+					data-conversion-item={project.id}>
+					<GitHubIcon class="featured-project-card__button-icon" />
+					<span>{t('projects.repository')}</span>
+				</a>
+			)}
 		</div>
 	</div>
 </article>

@@ -20,21 +20,19 @@ const iconMap: Record<CtaIcon, string> = {
 ---
 
 <div class={cn('cta-buttons', layout === 'vertical' && 'cta-buttons--vertical')}>
-	{
-		buttons.map(button => (
-			<WorkRouteCard
-				id={button.id}
-				title={button.title}
-				description={button.description}
-				href={button.href}
-				actionLabel={button.label}
-				icon={iconMap[button.icon]}
-				actionIcon="arrow"
-				external={button.external}
-				conversionEvent={button.conversionEvent}
-				conversionPosition="primary-cta"
-				conversionItem={button.id}
-			/>
-		))
-	}
+	{buttons.map(button => (
+		<WorkRouteCard
+			id={button.id}
+			title={button.title}
+			description={button.description}
+			href={button.href}
+			actionLabel={button.label}
+			icon={iconMap[button.icon]}
+			actionIcon="arrow"
+			external={button.external}
+			conversionEvent={button.conversionEvent}
+			conversionPosition="primary-cta"
+			conversionItem={button.id}
+		/>
+	))}
 </div>
