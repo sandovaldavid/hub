@@ -19,7 +19,7 @@
 		"lint:fix": "eslint . --fix",
 		"check:architecture": "node scripts/check-architecture.mjs",
 		"check:links": "node scripts/check-links.mjs",
-		"audit:deps": "bun update devalue@5.9.2 && git diff -- bun.lock && bun audit && exit 1",
+		"audit:deps": "bun update astro@7.3.2 && git diff -- bun.lock && bun audit && exit 1",
 		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
 		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
 		"rulesets:apply": "node scripts/manage-rulesets.mjs apply",
