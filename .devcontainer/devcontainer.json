@@ -31,7 +31,7 @@
 	"init": true,
 	"runArgs": ["--security-opt", "label=disable", "--ipc=host"],
 	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2.6.0": {
+		"ghcr.io/devcontainers/features/common-utils:2.7.0": {
 			"installZsh": true,
 			"configureZshAsDefaultShell": true,
 			"installOhMyZsh": false,
@@ -39,7 +39,7 @@
 			"upgradePackages": false,
 			"username": "node"
 		},
-		"ghcr.io/devcontainers/features/github-cli:1.1.2": {}
+		"ghcr.io/devcontainers/features/github-cli:1.1.3": {}
 	},
 	"postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
 	"postStartCommand": "bash .devcontainer/scripts/post-start.sh",
