@@ -66,7 +66,7 @@ describe('release delivery hardening contracts', () => {
 		]);
 
 		expect(packageJson.devDependencies['@lhci/cli']).toBeUndefined();
-		expect(packageJson.devDependencies.lighthouse).toMatch(/^\\d+\\.\\d+\\.\\d+$/);
+		expect(packageJson.devDependencies.lighthouse).toMatch(/^[0-9]+[.][0-9]+[.][0-9]+$/);
 		expect(packageJson.devDependencies['chrome-launcher']).toBe('^1.2.1');
 		expect(packageJson.devDependencies['@playwright/test']).toBe('1.61.0');
 		expect(packageJson.scripts['test:lighthouse:mobile']).toBe(
