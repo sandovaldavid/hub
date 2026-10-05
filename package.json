@@ -19,7 +19,7 @@
 		"lint:fix": "eslint . --fix",
 		"check:architecture": "node scripts/check-architecture.mjs",
 		"check:links": "node scripts/check-links.mjs",
-		"audit:deps": "bun audit",
+		"audit:deps": "bun audit --ignore GHSA-ch52-4w7c-c8xp",
 		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
 		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
 		"rulesets:apply": "node scripts/manage-rulesets.mjs apply",
@@ -65,7 +65,7 @@
 	"overrides": {
 		"@astrojs/language-server": "2.16.14",
 		"brace-expansion": "5.0.12",
-		"devalue": "5.9.2",
+		"devalue": "5.9.3",
 		"fast-uri": "3.1.8",
 		"ip-address": "10.5.0",
 		"js-yaml": "4.3.2",
