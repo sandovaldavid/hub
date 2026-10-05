@@ -67,7 +67,7 @@ describe('release delivery hardening contracts', () => {
 
 		expect(packageJson.devDependencies['@lhci/cli']).toBeUndefined();
 		expect(packageJson.devDependencies.lighthouse).toMatch(/^[0-9]+[.][0-9]+[.][0-9]+$/);
-		expect(packageJson.devDependencies['chrome-launcher']).toBe('^1.2.1');
+		expect(packageJson.devDependencies['chrome-launcher']).toBe('^1.2.2');
 		expect(packageJson.devDependencies['@playwright/test']).toBe('1.61.0');
 		expect(packageJson.scripts['test:lighthouse:mobile']).toBe(
 			'node scripts/run-lighthouse.mjs mobile'
@@ -97,7 +97,7 @@ describe('release delivery hardening contracts', () => {
 		expect(packageJson.overrides).toEqual({
 			'@astrojs/language-server': '2.16.14',
 			'brace-expansion': '5.0.12',
-			devalue: '5.9.2',
+			devalue: '5.9.3',
 			'fast-uri': '3.1.8',
 			'ip-address': '10.5.0',
 			'js-yaml': '4.3.2',
@@ -122,14 +122,16 @@ describe('release delivery hardening contracts', () => {
 		expect(lock).toContain('picomatch@4.0.5');
 	});
 
-	test('keeps dependency advisory checks explicit but outside the deterministic quality gate', async () => {
+	test('keeps dependency advisory checks explicit with one temporary unpatched-advisory exception', async () => {
 		const [packageJson, ci, securityAudit] = await Promise.all([
 			readJson('package.json'),
 			read('.github/workflows/ci.yml'),
 			read('.github/workflows/security-audit.yml'),
 		]);
 
-		expect(packageJson.scripts['audit:deps']).toBe('bun audit');
+		expect(packageJson.scripts['audit:deps']).toBe(
+			'bun audit --ignore GHSA-ch52-4w7c-c8xp'
+		);
 		expect(packageJson.scripts['validate:quality']).not.toContain('audit:deps');
 		expect(packageJson.scripts['validate:quality']).not.toMatch(/\bbun audit\b/);
 		expect(ci).not.toContain('audit:deps');
