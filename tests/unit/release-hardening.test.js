@@ -122,16 +122,14 @@ describe('release delivery hardening contracts', () => {
 		expect(lock).toContain('picomatch@4.0.5');
 	});
 
-	test('keeps dependency advisory checks explicit with one temporary unpatched-advisory exception', async () => {
+	test('keeps the unpatched dependency-audit exception narrow and explicit', async () => {
 		const [packageJson, ci, securityAudit] = await Promise.all([
 			readJson('package.json'),
 			read('.github/workflows/ci.yml'),
 			read('.github/workflows/security-audit.yml'),
 		]);
 
-		expect(packageJson.scripts['audit:deps']).toBe(
-			'bun audit --ignore GHSA-ch52-4w7c-c8xp'
-		);
+		expect(packageJson.scripts['audit:deps']).toBe('bun audit --ignore GHSA-ch52-4w7c-c8xp');
 		expect(packageJson.scripts['validate:quality']).not.toContain('audit:deps');
 		expect(packageJson.scripts['validate:quality']).not.toMatch(/\bbun audit\b/);
 		expect(ci).not.toContain('audit:deps');
