@@ -13,7 +13,16 @@
 	@apply flex flex-col items-center lg:items-start;
 }
 .hero-card__avatar-wrapper {
-	@apply flex items-center justify-center;
+	@apply flex w-full items-center justify-center;
+}
+/* Fixed 13rem avatar overflows narrow viewports at 200% text; let it shrink within the wrapper. */
+.hero-card__avatar-wrapper > * {
+	max-width: 100%;
+}
+.hero-card__avatar-wrapper .avatar-size-5xl {
+	max-width: 100%;
+	height: auto;
+	aspect-ratio: 1 / 1;
 }
 .hero-card__body {
 	@apply flex w-full min-w-0 flex-col items-center gap-1.5 lg:items-start;
