@@ -103,8 +103,10 @@ describe('release delivery hardening contracts', () => {
 			'js-yaml': '4.3.2',
 			'mdast-util-to-hast': '13.2.1',
 			nanoid: '3.3.18',
-			sharp: '0.35.4',
-			'smol-toml': '1.7.1',
+			'postcss-selector-parser': '7.1.6',
+			sharp: '0.35.5',
+			'smol-toml': '1.9.0',
+			'source-map-js': '1.2.2',
 			svgo: '4.1.0',
 			undici: '8.10.2',
 		});
