@@ -38,7 +38,9 @@
 }
 .share-button::after {
 	content: attr(aria-label);
-	@apply pointer-events-none absolute top-full left-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	@apply pointer-events-none absolute top-full left-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-normal opacity-0 shadow-sm transition-all duration-150;
+	/* Hidden at rest but still scrollable overflow: cap width so long localized labels wrap at 200% text. */
+	max-width: calc(100vw - 2rem);
 	background-color: var(--channel-content-strong);
 	color: var(--channel-background-canvas);
 }
