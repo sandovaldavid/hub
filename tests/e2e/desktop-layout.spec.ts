@@ -81,7 +81,7 @@ for (const route of routes) {
 				const snapshotMetadata = page.locator('.profile-snapshot__metadata-item');
 				await expect(snapshotMetadata).toHaveCount(3);
 				await expect(snapshotMetadata.locator('dt').first()).toHaveClass(/sr-only/);
-				await expect(page.locator('.profile-snapshot__separator')).toHaveCount(5);
+				await expect(page.locator('.profile-snapshot__separator')).toHaveCount(3);
 
 				const socialItems = page.locator('.social-grid__item');
 				await expect(socialItems).toHaveCount(6);

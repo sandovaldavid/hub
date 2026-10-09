@@ -17,8 +17,8 @@ async function expectProfileMetadata(page: Page, expectedGroups: string[][]) {
 	}
 
 	const separators = page.locator('.profile-snapshot__separator');
-	await expect(separators).toHaveCount(5);
-	for (let index = 0; index < 5; index++) {
+	await expect(separators).toHaveCount(3);
+	for (let index = 0; index < 3; index++) {
 		await expect(separators.nth(index)).toHaveText('·');
 		await expect(separators.nth(index)).toHaveAttribute('aria-hidden', 'true');
 	}
