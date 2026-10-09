@@ -27,7 +27,7 @@ const localizedMetadata = metadata.map(item => ({
 	</div>
 
 	<dl class="profile-snapshot__metadata">
-		{localizedMetadata.map((item, itemIndex) => (
+		{localizedMetadata.map(item => (
 			<div class="profile-snapshot__metadata-item">
 				<dt class="sr-only">{item.label}</dt>
 				<dd>
@@ -41,13 +41,6 @@ const localizedMetadata = metadata.map(item => ({
 							<span>{part}</span>
 						</>
 					))}
-					{itemIndex < localizedMetadata.length - 1 && (
-						<span
-							class="profile-snapshot__separator profile-snapshot__separator--group"
-							aria-hidden="true">
-							&middot;
-						</span>
-					)}
 				</dd>
 			</div>
 		))}
