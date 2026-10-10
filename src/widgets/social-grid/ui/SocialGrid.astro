@@ -38,52 +38,50 @@ const platformClasses: Partial<Record<SocialPlatform, { brand?: string; icon?: s
 ---
 
 <div class="social-grid" data-social-count={displayLinks.length}>
-	{
-		displayLinks.map((link, index) => {
-			const isWideItem = hasOddLinkCount && index === displayLinks.length - 1;
-			const classes = platformClasses[link.platform];
+	{displayLinks.map((link, index) => {
+		const isWideItem = hasOddLinkCount && index === displayLinks.length - 1;
+		const classes = platformClasses[link.platform];
 
-			return (
-				<div
-					class={cn('social-grid__item', isWideItem && 'social-grid__item--wide')}
-					data-priority={link.priority}
-					data-audience={link.audience.join(',')}
-					data-social-index={index}
-					data-social-wide={isWideItem ? 'true' : undefined}>
-					<SocialButton
-						class={classes?.brand}
-						label={link.label}
-						url={link.url}
-						username={link.username}
-						analyticsId={link.analyticsId}
-						conversionEvent={link.conversionEvent}
-						{variant}>
-						<span slot="icon">
-							{link.platform === 'linkedin' && (
-								<LinkedInIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
-							)}
-							{link.platform === 'github' && (
-								<GitHubIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
-							)}
-							{link.platform === 'instagram' && (
-								<InstagramIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
-							)}
-							{link.platform === 'twitter' && (
-								<XIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
-							)}
-							{link.platform === 'youtube' && (
-								<YouTubeIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
-							)}
-							{link.platform === 'tiktok' && (
-								<TikTokIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
-							)}
-							{link.platform === 'website' && (
-								<PortfolioIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
-							)}
-						</span>
-					</SocialButton>
-				</div>
-			);
-		})
-	}
+		return (
+			<div
+				class={cn('social-grid__item', isWideItem && 'social-grid__item--wide')}
+				data-priority={link.priority}
+				data-audience={link.audience.join(',')}
+				data-social-index={index}
+				data-social-wide={isWideItem ? 'true' : undefined}>
+				<SocialButton
+					class={classes?.brand}
+					label={link.label}
+					url={link.url}
+					username={link.username}
+					analyticsId={link.analyticsId}
+					conversionEvent={link.conversionEvent}
+					{variant}>
+					<span slot="icon">
+						{link.platform === 'linkedin' && (
+							<LinkedInIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+						)}
+						{link.platform === 'github' && (
+							<GitHubIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+						)}
+						{link.platform === 'instagram' && (
+							<InstagramIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+						)}
+						{link.platform === 'twitter' && (
+							<XIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+						)}
+						{link.platform === 'youtube' && (
+							<YouTubeIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+						)}
+						{link.platform === 'tiktok' && (
+							<TikTokIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+						)}
+						{link.platform === 'website' && (
+							<PortfolioIcon class={`social-button__icon ${classes?.icon ?? ''}`} />
+						)}
+					</span>
+				</SocialButton>
+			</div>
+		);
+	})}
 </div>
