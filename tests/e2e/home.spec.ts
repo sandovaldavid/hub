@@ -196,6 +196,25 @@ test.describe('Home page', () => {
 		await expect(skipLink).toHaveAttribute('href', '#main-content');
 	});
 
+	test('footer back-to-top returns to the page controls above main content', async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: 'reduce' });
+		await page.goto('/');
+
+		const backToTop = page.locator('#site-footer .back-to-top');
+		await expect(backToTop).toHaveAttribute('href', '#page-top');
+		await backToTop.scrollIntoViewIfNeeded();
+		await backToTop.click();
+
+		await expect
+			.poll(() =>
+				page.evaluate(() => document.querySelector('#page-top')?.getBoundingClientRect().top)
+			)
+			.toBe(0);
+		await expect(page.locator('#share-button')).toBeInViewport();
+		await expect(page.locator('.language-toggle')).toBeInViewport();
+		await expect(page.locator('#theme-toggle')).toBeInViewport();
+	});
+
 	test('all images have alt text', async ({ page }) => {
 		await page.goto('/');
 		const images = page.locator('img');
