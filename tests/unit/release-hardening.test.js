@@ -121,7 +121,7 @@ describe('release delivery hardening contracts', () => {
 		expect(lock).not.toContain('"anymatch/picomatch":');
 		expect(lock).not.toContain('picomatch@2.3.1');
 		expect(lock).toContain('picomatch@4.0.4');
-		expect(lock).toContain('picomatch@4.0.5');
+		expect(lock).toContain('picomatch@4.0.7');
 	});
 
 	test('keeps the unpatched dependency-audit exception narrow and explicit', async () => {
