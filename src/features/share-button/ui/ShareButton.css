@@ -36,6 +36,16 @@
 .share-button__feedback--visible {
 	@apply translate-x-0 opacity-100;
 }
+.share-button__feedback.share-button__feedback--error {
+	top: 100%;
+	left: 0;
+	margin: 0.5rem 0 0;
+	width: max-content;
+	max-width: calc(100vw - 2rem);
+	white-space: normal;
+	translate: none;
+	transition-property: opacity;
+}
 .share-button::after {
 	content: attr(aria-label);
 	@apply pointer-events-none absolute top-full left-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-normal opacity-0 shadow-sm transition-all duration-150;

@@ -75,13 +75,18 @@
 	"share": {
 		"ariaLabel": "Compartir esta página",
 		"copied": "¡Enlace copiado!",
+		"shared": "¡Enlace compartido!",
+		"error": "No se pudo compartir el enlace. Cópialo desde la barra de direcciones.",
 		"webShareLabel": "Compartir sitio usando el menú del sistema",
 		"clipboardLabel": "Copiar enlace al portapapeles"
 	},
 	"theme": {
 		"light": "Cambiar a modo claro",
 		"dark": "Cambiar a modo oscuro",
-		"system": "Usar preferencia del sistema"
+		"system": "Usar preferencia del sistema",
+		"currentLight": "Tema actual: Claro",
+		"currentDark": "Tema actual: Oscuro",
+		"currentSystem": "Tema actual: Sistema"
 	},
 	"footer": {
 		"backToTop": "Volver arriba"
