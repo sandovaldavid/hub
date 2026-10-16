@@ -13,7 +13,7 @@
 	@apply m-0 mt-1.5 text-sm leading-relaxed text-channel-content-default md:text-base;
 }
 .profile-snapshot__metadata {
-	@apply m-0 flex min-w-0 flex-wrap items-center gap-y-2 md:justify-end;
+	@apply m-0 flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 md:justify-end;
 }
 .profile-snapshot__metadata-item {
 	@apply flex min-w-0 items-center;
@@ -25,7 +25,4 @@
 .profile-snapshot__separator {
 	@apply mx-2 select-none text-sm;
 	color: var(--channel-content-muted);
-}
-.profile-snapshot__separator--group {
-	@apply mx-2;
 }

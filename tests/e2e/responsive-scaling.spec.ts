@@ -106,5 +106,47 @@ for (const route of routes) {
 				`${route} .language-toggle must not clip under the fallback font stack`
 			).toBeLessThanOrEqual(box.clientWidth + 3);
 		});
+
+		// Footer links (including back-to-top) and the hero avatar are fixed-width or
+		// non-wrapping at 200% text. They must stay inside the viewport so no control
+		// is clipped or reachable only through horizontal scrolling.
+		for (const width of [375, 640] as const) {
+			test(`${width}px with 200% text keeps footer controls and hero avatar inside the viewport`, async ({
+				page,
+			}) => {
+				await page.setViewportSize({ width, height: 800 });
+				await page.goto(route);
+				await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+				await expect(page.locator('#site-footer')).toBeVisible();
+
+				// Poll until the layout settles. The hidden (opacity 0) Share tooltip still
+				// adds scrollable overflow, and its transitions run after a root font-size
+				// change, so one immediate read can differ from the settled page.
+				await expect
+					.poll(
+						() =>
+							page.locator('html').evaluate(element => element.scrollWidth - element.clientWidth),
+						{ message: `${route} must not overflow horizontally at ${width}px with 200% text` }
+					)
+					.toBeLessThanOrEqual(0);
+
+				await expect
+					.poll(() =>
+						page
+							.locator('#site-footer a, .hero-card__avatar-wrapper .avatar-size-5xl')
+							.evaluateAll(elements =>
+								elements
+									.filter(element => {
+										const box = element.getBoundingClientRect();
+										return (
+											box.left < -0.5 || box.right > document.documentElement.clientWidth + 0.5
+										);
+									})
+									.map(element => element.textContent?.trim() || element.className)
+							)
+					)
+					.toEqual([]);
+			});
+		}
 	});
 }

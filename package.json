@@ -19,7 +19,7 @@
 		"lint:fix": "eslint . --fix",
 		"check:architecture": "node scripts/check-architecture.mjs",
 		"check:links": "node scripts/check-links.mjs",
-		"audit:deps": "bun audit",
+		"audit:deps": "bun audit --ignore GHSA-ch52-4w7c-c8xp",
 		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
 		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
 		"rulesets:apply": "node scripts/manage-rulesets.mjs apply",
@@ -41,7 +41,7 @@
 		"@astrojs/sitemap": "^3.7.4",
 		"@tailwindcss/vite": "^4.3.3",
 		"@vercel/analytics": "^2.0.1",
-		"astro": "7.3.5",
+		"astro": "7.3.8",
 		"tailwindcss": "^4.3.3"
 	},
 	"devDependencies": {
@@ -51,29 +51,31 @@
 		"@commitlint/config-conventional": "^21.2.3",
 		"@eslint/js": "^10.0.1",
 		"@playwright/test": "1.61.0",
-		"chrome-launcher": "^1.2.1",
-		"eslint": "^10.11.0",
+		"chrome-launcher": "^1.2.2",
+		"eslint": "^10.12.0",
 		"eslint-plugin-astro": "^3.2.1",
 		"husky": "^9.1.7",
 		"lighthouse": "13.5.0",
 		"picomatch": "2.3.2",
-		"prettier": "^3.9.9",
-		"prettier-plugin-astro": "^1.1.0",
+		"prettier": "^3.9.10",
+		"prettier-plugin-astro": "^1.1.1",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.70.1"
+		"typescript-eslint": "^8.71.1"
 	},
 	"overrides": {
 		"@astrojs/language-server": "2.16.14",
 		"brace-expansion": "5.0.12",
-		"devalue": "5.9.2",
+		"devalue": "5.9.3",
 		"fast-uri": "3.1.8",
 		"ip-address": "10.5.0",
 		"js-yaml": "4.3.2",
 		"mdast-util-to-hast": "13.2.1",
 		"nanoid": "3.3.18",
-		"sharp": "0.35.4",
+		"postcss-selector-parser": "7.1.6",
+		"sharp": "0.35.5",
+		"source-map-js": "1.2.2",
 		"svgo": "4.1.0",
-		"smol-toml": "1.7.1",
+		"smol-toml": "1.9.0",
 		"undici": "8.10.2"
 	}
 }

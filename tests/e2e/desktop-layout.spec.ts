@@ -9,6 +9,29 @@ const desktopViewports = [
 
 for (const route of routes) {
 	test.describe(`responsive layout for ${route}`, () => {
+		test('centers the compact hero availability badge and portfolio action when they wrap', async ({
+			page,
+		}) => {
+			await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
+			await page.setViewportSize({ width: 870, height: 445 });
+			await page.goto(route);
+
+			const panel = await page.locator('[data-layout-panel="profile"]').boundingBox();
+			const availability = await page.locator('.hero-card__availability').boundingBox();
+			const portfolio = await page
+				.locator('.hero-card__identity-actions .hero-card__primary-action')
+				.boundingBox();
+			expect(panel).not.toBeNull();
+			expect(availability).not.toBeNull();
+			expect(portfolio).not.toBeNull();
+
+			const panelCenter = (panel?.x ?? 0) + (panel?.width ?? 0) / 2;
+			for (const box of [availability, portfolio]) {
+				const elementCenter = (box?.x ?? 0) + (box?.width ?? 0) / 2;
+				expect(Math.abs(elementCenter - panelCenter)).toBeLessThanOrEqual(2);
+			}
+		});
+
 		test('keeps the desktop hierarchy balanced without horizontal overflow', async ({ page }) => {
 			await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
 
@@ -81,7 +104,7 @@ for (const route of routes) {
 				const snapshotMetadata = page.locator('.profile-snapshot__metadata-item');
 				await expect(snapshotMetadata).toHaveCount(3);
 				await expect(snapshotMetadata.locator('dt').first()).toHaveClass(/sr-only/);
-				await expect(page.locator('.profile-snapshot__separator')).toHaveCount(5);
+				await expect(page.locator('.profile-snapshot__separator')).toHaveCount(3);
 
 				const socialItems = page.locator('.social-grid__item');
 				await expect(socialItems).toHaveCount(6);

@@ -17,8 +17,8 @@ async function expectProfileMetadata(page: Page, expectedGroups: string[][]) {
 	}
 
 	const separators = page.locator('.profile-snapshot__separator');
-	await expect(separators).toHaveCount(5);
-	for (let index = 0; index < 5; index++) {
+	await expect(separators).toHaveCount(3);
+	for (let index = 0; index < 3; index++) {
 		await expect(separators.nth(index)).toHaveText('·');
 		await expect(separators.nth(index)).toHaveAttribute('aria-hidden', 'true');
 	}
@@ -194,6 +194,25 @@ test.describe('Home page', () => {
 		const skipLink = page.locator('.skip-link');
 		await expect(skipLink).toBeAttached();
 		await expect(skipLink).toHaveAttribute('href', '#main-content');
+	});
+
+	test('footer back-to-top returns to the page controls above main content', async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: 'reduce' });
+		await page.goto('/');
+
+		const backToTop = page.locator('#site-footer .back-to-top');
+		await expect(backToTop).toHaveAttribute('href', '#page-top');
+		await backToTop.scrollIntoViewIfNeeded();
+		await backToTop.click();
+
+		await expect
+			.poll(() =>
+				page.evaluate(() => document.querySelector('#page-top')?.getBoundingClientRect().top)
+			)
+			.toBe(0);
+		await expect(page.locator('#share-button')).toBeInViewport();
+		await expect(page.locator('.language-toggle')).toBeInViewport();
+		await expect(page.locator('#theme-toggle')).toBeInViewport();
 	});
 
 	test('all images have alt text', async ({ page }) => {
