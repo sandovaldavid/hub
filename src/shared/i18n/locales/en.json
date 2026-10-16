@@ -75,13 +75,18 @@
 	"share": {
 		"ariaLabel": "Share this page",
 		"copied": "Link copied!",
+		"shared": "Link shared!",
+		"error": "Couldn't share the link. Copy it from your browser's address bar.",
 		"webShareLabel": "Share site using system menu",
 		"clipboardLabel": "Copy link to clipboard"
 	},
 	"theme": {
 		"light": "Switch to light mode",
 		"dark": "Switch to dark mode",
-		"system": "Use system preference"
+		"system": "Use system preference",
+		"currentLight": "Current theme: Light",
+		"currentDark": "Current theme: Dark",
+		"currentSystem": "Current theme: System"
 	},
 	"footer": {
 		"backToTop": "Back to top"

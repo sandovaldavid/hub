@@ -16,19 +16,26 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 const t = useTranslations(lang);
-const initialLabel = t('theme.system');
+const initialLabel = t('theme.light');
 const labelLight = t('theme.light');
 const labelDark = t('theme.dark');
 const labelSystem = t('theme.system');
+const currentLight = t('theme.currentLight');
+const currentDark = t('theme.currentDark');
+const currentSystem = t('theme.currentSystem');
 ---
 
 <button
 	id="theme-toggle"
 	class="theme-toggle"
 	aria-label={initialLabel}
+	aria-describedby="theme-current"
 	data-label-light={labelLight}
 	data-label-dark={labelDark}
 	data-label-system={labelSystem}
+	data-current-light={currentLight}
+	data-current-dark={currentDark}
+	data-current-system={currentSystem}
 	type="button">
 	<span class="theme-toggle__icon" data-theme-icon="light">
 		<Fragment set:html={SunIcon} />
@@ -40,6 +47,9 @@ const labelSystem = t('theme.system');
 		<Fragment set:html={SystemIcon} />
 	</span>
 </button>
+<span id="theme-current" class="sr-only">
+	{currentSystem}
+</span>
 
 <script>
 	import { ThemeManager } from '@entities/theme/lib/theme-manager';
@@ -54,6 +64,11 @@ const labelSystem = t('theme.system');
 			light: button.getAttribute('data-label-light') || 'Light mode',
 			dark: button.getAttribute('data-label-dark') || 'Dark mode',
 			system: button.getAttribute('data-label-system') || 'System preference',
+		};
+		const currentLabels: Record<Theme, string> = {
+			light: button.getAttribute('data-current-light') || '',
+			dark: button.getAttribute('data-current-dark') || '',
+			system: button.getAttribute('data-current-system') || '',
 		};
 
 		function updateUI(theme: Theme, animate = false) {
@@ -78,10 +93,11 @@ const labelSystem = t('theme.system');
 				}
 			}
 
-			// aria-label doubles as the visible tooltip content via
-			// ThemeToggle.css's `content: attr(aria-label)` — no separate
-			// title attribute (that gave an unstyled native tooltip).
-			button.setAttribute('aria-label', labels[theme]);
+			// The label is also the tooltip; the description exposes the selected preference.
+			const next: Theme = theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light';
+			button.setAttribute('aria-label', labels[next]);
+			const current = document.getElementById('theme-current');
+			if (current) current.textContent = currentLabels[theme];
 		}
 
 		const initialState = themeManager.getThemeState();

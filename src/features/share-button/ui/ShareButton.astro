@@ -17,20 +17,24 @@ const t = useTranslations(lang);
 	aria-label={t('share.ariaLabel')}
 	data-share-label-webshare={t('share.webShareLabel')}
 	data-share-label-clipboard={t('share.clipboardLabel')}
+	data-share-copied={t('share.copied')}
+	data-share-shared={t('share.shared')}
+	data-share-error={t('share.error')}
 	type="button">
 	<span class="share-button__icon" aria-hidden="true" set:html={ShareIcon} />
-	<span class="share-button__feedback" id="share-feedback" aria-hidden="true">
-		{t('share.copied')}
-	</span>
+	<span class="share-button__feedback" id="share-feedback" aria-hidden="true"></span>
 </button>
+<span id="share-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
 
 <script>
 	import { share, isWebShareSupported } from '../lib/share-utils';
 
 	const button = document.getElementById('share-button');
 	const feedback = document.getElementById('share-feedback');
+	const status = document.getElementById('share-status');
 
 	if (button) {
+		let feedbackTimeout: ReturnType<typeof setTimeout>;
 		const fallbackLabel = button.getAttribute('aria-label') || '';
 		const webshareLabel = button.getAttribute('data-share-label-webshare') || fallbackLabel;
 		const clipboardLabel = button.getAttribute('data-share-label-clipboard') || fallbackLabel;
@@ -41,20 +45,42 @@ const t = useTranslations(lang);
 		updateAriaLabel();
 
 		button.addEventListener('click', async () => {
+			const hadFocus = document.activeElement === button;
+			clearTimeout(feedbackTimeout);
+			feedback?.classList.remove('share-button__feedback--visible');
+			if (status) status.textContent = '';
 			(button as HTMLButtonElement).disabled = true;
 			button.classList.add('share-button--loading');
 
+			const showFeedback = (message: string, duration: number, failed = false) => {
+				if (feedback) {
+					feedback.textContent = message;
+					feedback.classList.toggle('share-button__feedback--error', failed);
+					feedback.classList.add('share-button__feedback--visible');
+					feedbackTimeout = setTimeout(
+						() => feedback.classList.remove('share-button__feedback--visible'),
+						duration
+					);
+				}
+				if (status) status.textContent = message;
+			};
+
 			try {
 				const result = await share();
-				if (result.method === 'clipboard' && result.success && feedback) {
-					feedback.classList.add('share-button__feedback--visible');
-					setTimeout(() => feedback.classList.remove('share-button__feedback--visible'), 2000);
-				}
+				if (result.success)
+					showFeedback(
+						button.dataset[result.method === 'clipboard' ? 'shareCopied' : 'shareShared'] || '',
+						2000
+					);
+				else if (result.error !== 'User cancelled')
+					showFeedback(button.dataset.shareError || '', 5000, true);
 			} catch (error) {
 				console.error('Error during share:', error);
+				showFeedback(button.dataset.shareError || '', 5000, true);
 			} finally {
 				(button as HTMLButtonElement).disabled = false;
 				button.classList.remove('share-button--loading');
+				if (hadFocus && document.activeElement === document.body) button.focus();
 			}
 		});
 	}

@@ -66,6 +66,40 @@ test.describe('Theme toggle', () => {
 	});
 
 	for (const route of routes) {
+		test(`${route.locale} names the next action and describes the selected theme`, async ({
+			page,
+		}) => {
+			await setThemePreference(page, 'system');
+			await page.goto(route.path);
+			const toggle = page.locator('#theme-toggle');
+			const states =
+				route.locale === 'en'
+					? [
+							['Switch to light mode', 'Current theme: System', 'system'],
+							['Switch to dark mode', 'Current theme: Light', 'light'],
+							['Use system preference', 'Current theme: Dark', 'dark'],
+							['Switch to light mode', 'Current theme: System', 'system'],
+						]
+					: [
+							['Cambiar a modo claro', 'Tema actual: Sistema', 'system'],
+							['Cambiar a modo oscuro', 'Tema actual: Claro', 'light'],
+							['Usar preferencia del sistema', 'Tema actual: Oscuro', 'dark'],
+							['Cambiar a modo claro', 'Tema actual: Sistema', 'system'],
+						];
+
+			for (const [index, [action, current, preference]] of states.entries()) {
+				if (index) await page.keyboard.press(index % 2 ? 'Enter' : 'Space');
+				else await toggle.focus();
+				await expect(toggle).toBeFocused();
+				await expect(toggle).toHaveAccessibleName(action);
+				await expect(toggle).toHaveAccessibleDescription(current);
+				if (index)
+					expect(await page.evaluate(() => localStorage.getItem('sandovaldavid-theme'))).toBe(
+						preference
+					);
+			}
+		});
+
 		for (const state of initialStates) {
 			test(`${route.locale} ${state.preference} resolves favicon for ${state.colorScheme}`, async ({
 				page,
