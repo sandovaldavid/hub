@@ -9,13 +9,13 @@ The recommended browser-validation environment is the repository DevContainer. C
 Current toolchain constraints are declared in `package.json`, `.devcontainer/`, `.vscode/mcp.json` and the delivery workflows:
 
 - Bun `1.3.14`;
-- Node.js `>=22.19.0` as the declared compatibility floor for native Lighthouse/Vercel tooling;
+- Node.js `>=22.23.4` as the declared compatibility floor for native Lighthouse/Vercel tooling;
 - Astro static generation;
 - Playwright browser dependencies installed by the DevContainer image;
 - Vercel CLI explicitly versioned by `.github/workflows/cd.yml`;
 - workspace Chrome DevTools MCP pinned to an explicit package version rather than `latest`.
 
-The open Node.js engine range is a compatibility declaration, not the release-runtime selection. CI/CD pins Node.js `22.19.0` explicitly so the validated and deployed toolchain does not silently move to a future Node major merely because `package.json` accepts it. Change the compatibility range and the exact CI/CD pin as separate, reviewed decisions.
+The open Node.js engine range is a compatibility declaration, not the release-runtime selection. CI/CD pins Node.js `22.23.4` explicitly so the validated and deployed toolchain does not silently move to a future Node major merely because `package.json` accepts it. Change the compatibility range and the exact CI/CD pin as separate, reviewed decisions.
 
 When `bun run validate:local` is started outside the DevContainer, the host needs a working container runtime and the `devcontainer` CLI. The command brings up the repository DevContainer and executes the complete gate there. When already inside the DevContainer, it executes the gate directly without nesting another container.
 
