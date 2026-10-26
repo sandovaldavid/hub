@@ -1,15 +1,7 @@
 name: Deploy
 
 on:
-  push:
-    branches: [develop, main]
-    paths-ignore:
-      - '.agents/**'
-      - '.vscode/**'
-      - '.vercel/**'
-      - 'docs/**'
-      - '**.md'
-      - '.gitignore'
+  workflow_dispatch:
 
 concurrency:
   group: deploy-${{ github.ref }}
