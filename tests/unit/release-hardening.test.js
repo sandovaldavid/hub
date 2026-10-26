@@ -54,7 +54,7 @@ describe('release delivery hardening contracts', () => {
 		const workflow = await read('.github/workflows/cd.yml');
 
 		expect(workflow).toContain('BUN_VERSION: 1.3.14');
-		expect(workflow).toContain('NODE_VERSION: 22.19.0');
+		expect(workflow).toContain('NODE_VERSION: 22.23.4');
 		expect(workflow).toMatch(/VERCEL_CLI_VERSION: \d+\.\d+\.\d+/);
 		expect(workflow).not.toContain('vercel@latest');
 	});
@@ -98,7 +98,7 @@ describe('release delivery hardening contracts', () => {
 			'@astrojs/language-server': '2.16.14',
 			'brace-expansion': '5.0.12',
 			devalue: '5.9.3',
-			'fast-uri': '3.1.8',
+			'fast-uri': '3.1.9',
 			'ip-address': '10.5.0',
 			'js-yaml': '4.3.2',
 			'mdast-util-to-hast': '13.2.1',
@@ -108,7 +108,8 @@ describe('release delivery hardening contracts', () => {
 			'smol-toml': '1.9.0',
 			'source-map-js': '1.2.2',
 			svgo: '4.1.0',
-			undici: '8.10.2',
+			undici: '8.12.3',
+			zod: '4.6.7',
 		});
 		expect(packageJson.overrides.picomatch).toBeUndefined();
 		expect(packageJson.devDependencies.picomatch).toBe('2.3.2');
