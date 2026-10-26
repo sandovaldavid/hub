@@ -109,7 +109,7 @@ CI and CD must use the same declared Bun and Node versions. The Vercel CLI must 
 
 Third-party GitHub Actions in delivery, release and DevContainer workflows are pinned to full commit SHAs. The adjacent version comment documents the human-readable release. Dependabot remains responsible for proposing Action updates.
 
-`cd.yml` runs the repository quality gate before producing the Vercel build so the deployed source is validated with the same executable contracts as normal development. GitHub Deployment and commit-status evidence is published through authenticated GitHub API calls that fail the workflow when the API call or returned deployment identifier is invalid.
+Deployments for `main` (Production) and `develop` (Preview) are managed directly and natively by Vercel via its GitHub integration to conserve GitHub Actions minutes. The manual workflow `.github/workflows/cd.yml` is retained as a release-hardened fallback that runs the repository quality gate before producing a Vercel build, with deployment evidence published through authenticated GitHub API calls that fail the workflow when the API call or returned deployment identifier is invalid.
 
 GitHub Deployment registration must use `auto_merge: false`. Deployment evidence records the exact commit already validated and deployed; it must not merge or otherwise reconcile `main` with `develop`. Branch integration remains an explicit repository workflow concern, separate from deployment registration.
 
