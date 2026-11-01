@@ -35,18 +35,47 @@ export interface ConversionProperties {
 const allowedEvents = new Set<string>(conversionEvents);
 const allowedPositions = new Set<string>(conversionPositions);
 
-function normalizeSource(referrer: string, currentHost: string): ConversionSource {
+const searchHosts = [
+	'google.com',
+	'google.co.uk',
+	'google.ca',
+	'google.com.au',
+	'google.de',
+	'google.fr',
+	'google.es',
+	'google.com.br',
+	'google.com.mx',
+	'google.co.in',
+	'bing.com',
+	'duckduckgo.com',
+	'yahoo.com',
+];
+
+const socialHosts = [
+	'linkedin.com',
+	'github.com',
+	'twitter.com',
+	'x.com',
+	'youtube.com',
+	'youtu.be',
+	'tiktok.com',
+	'facebook.com',
+	'instagram.com',
+];
+
+function matchesHost(host: string, domain: string): boolean {
+	return host === domain || host.endsWith(`.${domain}`);
+}
+
+export function normalizeSource(referrer: string, currentHost: string): ConversionSource {
 	if (!referrer) return 'direct';
 
 	try {
-		const host = new URL(referrer).hostname.toLowerCase();
-		if (host === currentHost) return 'internal';
-		if (/google\.|bing\.|duckduckgo\.|yahoo\./.test(host)) return 'search';
-		if (
-			/linkedin\.|github\.|twitter\.|x\.com|youtube\.|tiktok\.|facebook\.|instagram\./.test(host)
-		) {
-			return 'social';
-		}
+		const host = new URL(referrer).hostname.toLowerCase().replace(/\.$/, '');
+		const normalizedCurrentHost = currentHost.toLowerCase().replace(/\.$/, '');
+		if (host === normalizedCurrentHost) return 'internal';
+		if (searchHosts.some(domain => matchesHost(host, domain))) return 'search';
+		if (socialHosts.some(domain => matchesHost(host, domain))) return 'social';
 		return 'referral';
 	} catch {
 		return 'direct';
