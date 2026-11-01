@@ -12,9 +12,13 @@ describe('browser test infrastructure contract', () => {
 		const workflow = await read('.github/workflows/ci.yml');
 		const lighthouseJob = workflow.match(/\n {2}lighthouse:[\s\S]*$/)?.[0] ?? '';
 
-		expect(lighthouseJob).toContain("if: ${{ needs.changes.outputs.runtime == 'true' }}");
+		const jobIf = lighthouseJob.match(/^ {4}if: (.+)$/m)?.[1];
+
+		expect(jobIf).toBe("${{ needs.changes.outputs.runtime == 'true' }}");
+		expect(lighthouseJob).toContain(
+			"LIGHTHOUSE_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}"
+		);
 		expect(lighthouseJob).not.toContain("github.ref_name == 'main'");
-		expect(lighthouseJob).not.toContain("github.event_name == 'pull_request'");
 	});
 
 	test('keeps complete local browser validation inside the repository DevContainer', async () => {

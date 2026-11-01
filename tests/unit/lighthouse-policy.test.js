@@ -3,11 +3,11 @@ import {
 	aggregateAuditValues,
 	aggregateCategoryScores,
 	LIGHTHOUSE_POLICY,
+	parseRunsPerUrl,
 } from '@scripts/run-lighthouse.mjs';
 
 describe('Lighthouse release policy', () => {
-	test('keeps the agreed run count, category floors and audit ceilings', () => {
-		expect(LIGHTHOUSE_POLICY.runsPerUrl).toBe(3);
+	test('keeps the agreed category floors and audit ceilings', () => {
 		expect(LIGHTHOUSE_POLICY.categories).toEqual([
 			{ id: 'performance', minScore: 0.9 },
 			{ id: 'accessibility', minScore: 0.95 },
@@ -22,6 +22,19 @@ describe('Lighthouse release policy', () => {
 			{ id: 'speed-index', maxNumericValue: 3_000, unit: 'ms' },
 			{ id: 'total-byte-weight', maxNumericValue: 500_000, unit: 'bytes' },
 		]);
+	});
+
+	test('defaults to three runs and accepts only a positive override', () => {
+		expect(parseRunsPerUrl(undefined)).toBe(3);
+		expect(parseRunsPerUrl('')).toBe(3);
+		expect(parseRunsPerUrl('1')).toBe(1);
+		expect(parseRunsPerUrl('3')).toBe(3);
+		expect(() => parseRunsPerUrl('0')).toThrow(
+			'LIGHTHOUSE_RUNS must be a positive integer, received: 0'
+		);
+		expect(() => parseRunsPerUrl('1.5')).toThrow(
+			'LIGHTHOUSE_RUNS must be a positive integer, received: 1.5'
+		);
 	});
 
 	test('keeps optimistic aggregation across runs', () => {
