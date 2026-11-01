@@ -42,10 +42,7 @@
 						"context": "Quality"
 					},
 					{
-						"context": "E2E"
-					},
-					{
-						"context": "Lighthouse"
+						"context": "Browser"
 					}
 				],
 				"strict_required_status_checks_policy": true

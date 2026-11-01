@@ -59,6 +59,16 @@ describe('release delivery hardening contracts', () => {
 		expect(workflow).not.toContain('vercel@latest');
 	});
 
+	test('requires exact-SHA checks before a manual production deploy', async () => {
+		const workflow = await read('.github/workflows/cd.yml');
+
+		expect(workflow).toContain('name: Require validated checks');
+		expect(workflow).toContain("name: 'Quality'");
+		expect(workflow).toContain("name: 'Browser'");
+		expect(workflow).toContain("name: 'Dependency audit'");
+		expect(workflow).toContain('checks: read');
+	});
+
 	test('runs lighthouse directly without the stale lighthouse-ci dependency tree', async () => {
 		const packageJson = await readJson('package.json');
 

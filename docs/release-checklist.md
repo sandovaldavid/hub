@@ -45,11 +45,12 @@ Do not infer cross-browser coverage from hosted Chromium CI. The complete local 
 
 - [ ] Merge only the validated `develop -> main` candidate.
 - [ ] Record the exact resulting `main` commit SHA.
+- [ ] Require the exact-SHA `Quality` and `Browser` results for the `main` commit, or record why the browser gate is Not applicable for a docs-only release.
 - [ ] Require the production Deploy workflow to pass on that exact SHA.
 - [ ] Require an explicit dependency-audit result for that exact SHA or record why the hosted audit was blocked and provide equivalent evidence.
 - [ ] Do not describe the release as published merely because the promotion PR merged.
 
-The production deployment workflow re-runs the release-sensitive gate on the commit being shipped. Treat a failed or incomplete production Deploy run as a release blocker.
+The manual Deploy workflow is deploy-only: it requires the exact-SHA `Quality`, `Browser` (or a skipped docs-only Browser) and `Dependency audit` checks, keeps the external-link check on `main`, and publishes deployment evidence. It does not re-run `Quality` or `Browser`. Treat a failed or incomplete exact-SHA required check, external-link check or production Deploy run as a release blocker.
 
 ## 4. Verify the deployed production result
 
@@ -115,7 +116,7 @@ After the Release Please PR merges:
 - [ ] confirm the expected Git tag exists;
 - [ ] confirm the GitHub Release exists and is not a draft/prerelease unless explicitly intended;
 - [ ] confirm the release tag points to the expected release commit;
-- [ ] confirm the production Deploy workflow is green for the release commit;
+- [ ] confirm the exact-SHA required checks and the production Deploy workflow are green for the release commit;
 - [ ] confirm the dependency-audit result for the release commit is explicit;
 - [ ] confirm the live public surface matches the release commit where applicable;
 - [ ] re-check `/`, `/es/`, metadata and key public links after the release commit is deployed;
