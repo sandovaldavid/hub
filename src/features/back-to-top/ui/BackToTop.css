@@ -24,7 +24,7 @@
 }
 .back-to-top::after {
 	content: attr(aria-label);
-	@apply pointer-events-none absolute bottom-full right-0 z-[var(--z-index-fixed-control)] mb-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
+	@apply pointer-events-none absolute bottom-full right-0 z-[var(--z-index-tooltip)] mb-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap opacity-0 shadow-sm transition-all duration-150;
 	background-color: var(--channel-content-strong);
 	color: var(--channel-background-canvas);
 }

@@ -173,13 +173,11 @@
 }
 
 /*
- * Shared z-index layers for fixed chrome (#134/#137 audit follow-up).
- * Keep the skip-link above every fixed control so keyboard focus is never
- * hidden by corner UI; the three corner controls (share/theme/language)
- * share one layer since they never need to stack above one another.
+ * Shared z-index layers for tooltips and the skip link. Keep the skip link
+ * above tooltips so keyboard focus is never hidden.
  */
 :root {
-	--z-index-fixed-control: 1200;
+	--z-index-tooltip: 1200;
 	--z-index-skip-link: 9999;
 }
 
