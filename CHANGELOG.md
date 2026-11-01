@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1](https://github.com/sandovaldavid/hub/compare/v2.0.0...v2.0.1) (2026-11-01)
+
+
+### CI/CD
+
+* **actions:** combine browser gates and guard CD ([#244](https://github.com/sandovaldavid/hub/issues/244)) ([2d99ec2](https://github.com/sandovaldavid/hub/commit/2d99ec26debad5edd5e5898a3a4fc94096fe1975))
+* **actions:** reduce duplicate workflow runs ([#243](https://github.com/sandovaldavid/hub/issues/243)) ([263db37](https://github.com/sandovaldavid/hub/commit/263db376e3b61f538da6a3a0819af4aba7774367))
+
 ## [2.0.0](https://github.com/sandovaldavid/hub/compare/v1.0.0...v2.0.0) (2026-11-01)
 
 
