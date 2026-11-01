@@ -75,7 +75,7 @@ See [`docs/architecture.md`](docs/architecture.md) for placement rules, dependen
 ### Prerequisites
 
 - Bun `1.3.14`;
-- Node.js `22.19` or newer when running the native Lighthouse/Vercel toolchain;
+- Node.js `22.23.4` or newer when running the native Lighthouse/Vercel toolchain;
 - a container runtime plus the Dev Containers CLI when invoking the complete local validation gate from the host.
 
 ```bash
