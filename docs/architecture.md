@@ -80,7 +80,7 @@ bun run check:architecture
 
 | Concern | Canonical implementation |
 | --- | --- |
-| Public identity, canonical origin and approved destinations | `src/data/site.config.ts` |
+| Public identity, canonical origin and approved destinations | `src/data/site.config.ts` and `src/data/site-origin.ts` |
 | Portrait, brand logo references and contact email | `src/data/profile.ts` |
 | Calls to action | `src/data/cta.ts` |
 | Featured project summaries | `src/data/featured-projects.ts` |

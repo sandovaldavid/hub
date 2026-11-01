@@ -26,4 +26,8 @@ describe('share payload', () => {
 		expect(data).toEqual({ url: 'https://hub.sandovaldavid.com/es/' });
 		expect(Object.keys(data)).toEqual(['url']);
 	});
+
+	test('falls back to the single site origin outside the browser', () => {
+		expect(getShareData().url).toBe('https://hub.sandovaldavid.com/');
+	});
 });
