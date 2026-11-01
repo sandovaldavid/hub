@@ -3,7 +3,7 @@ import {
 	aggregateAuditValues,
 	aggregateCategoryScores,
 	LIGHTHOUSE_POLICY,
-} from '../../scripts/run-lighthouse.mjs';
+} from '@scripts/run-lighthouse.mjs';
 
 describe('Lighthouse release policy', () => {
 	test('keeps the agreed run count, category floors and audit ceilings', () => {

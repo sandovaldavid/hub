@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { normalizeSource } from '../../src/shared/analytics/conversion.ts';
+import { normalizeSource } from '@shared/analytics/conversion.ts';
 
 const currentHost = 'hub.sandovaldavid.com';
 

@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { profile } from '../../src/data/profile.ts';
+import { profile } from '@data/profile.ts';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const approvedPortraitPath = join(repositoryRoot, 'public/profile/perfil.webp');

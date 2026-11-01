@@ -68,6 +68,7 @@ In particular:
 - `widgets` must not import `app` or `pages`;
 - `data` must not import `widgets`, `features`, `app` or `pages`;
 - `entities`, `features` and `widgets` must not import application-owned styles;
+- cross-folder imports use the tsconfig aliases (`@app`, `@shared`, `@entities`, `@features`, `@widgets`, `@pages`, `@data`, `@scripts`); keep `./` only for same-folder siblings, and use `@shared/styles/global.css` in CSS `@reference` directives;
 - circular imports are forbidden.
 
 These rules apply to TypeScript/JavaScript/Astro imports **and** CSS `@import`/`@reference` dependencies. They are enforced by:

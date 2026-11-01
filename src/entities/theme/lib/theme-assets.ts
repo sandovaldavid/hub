@@ -1,4 +1,4 @@
-import type { EffectiveTheme } from '../model/types';
+import type { EffectiveTheme } from '@entities/theme/model/types';
 
 export const THEME_FAVICON_PATHS: Record<EffectiveTheme, string> = {
 	light: '/favicon.light.svg',

@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .featured-project-card {
 	@apply relative flex h-full flex-col overflow-hidden rounded-2xl border shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-retro-xs;

@@ -6,7 +6,7 @@ import {
 	extractMarkdownTargets,
 	getCheckMode,
 	shouldIgnoreExternalUrl,
-} from '../../scripts/check-links.mjs';
+} from '@scripts/check-links.mjs';
 
 describe('link checker', () => {
 	test('selects the full, internal, or external check mode', () => {

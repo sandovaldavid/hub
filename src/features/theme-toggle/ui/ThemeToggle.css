@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .theme-toggle {
 	@apply relative inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-lg border px-2 py-2 font-medium shadow-sm transition-all duration-150;

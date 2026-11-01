@@ -1,4 +1,4 @@
-@reference '../styles/global.css';
+@reference '@shared/styles/global.css';
 
 .avatar-default {
 	@apply relative inline-flex items-center justify-center overflow-hidden font-semibold;
