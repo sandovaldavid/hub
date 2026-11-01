@@ -50,16 +50,45 @@ install_starship() {
   local installed_version=""
 
   if [[ -x "$starship_bin" ]]; then
-    installed_version="$($starship_bin --version 2>/dev/null | awk 'NR == 1 { print $2 }')"
+    installed_version="$("$starship_bin" --version 2>/dev/null | awk 'NR == 1 { print $2 }')"
   elif command -v starship >/dev/null 2>&1; then
     starship_bin="$(command -v starship)"
     installed_version="$(starship --version 2>/dev/null | awk 'NR == 1 { print $2 }')"
   fi
 
-  if [[ "$installed_version" != "${STARSHIP_VERSION#v}" ]]; then
-    curl --proto '=https' --tlsv1.2 -fsSL https://starship.rs/install.sh \
-      | sh -s -- --yes --bin-dir "$BIN_DIR" --version "$STARSHIP_VERSION"
+  if [[ "$installed_version" == "${STARSHIP_VERSION#v}" ]]; then
+    return 0
   fi
+
+  local target checksum
+  case "$(uname -m)" in
+    x86_64|amd64)
+      target="x86_64-unknown-linux-gnu"
+      checksum="321f0dd7af8340a5f2e6a8fec6538a04f617486f9ec70d878f91c09cd8deef22"
+      ;;
+    aarch64|arm64)
+      # Starship publishes no aarch64 GNU build for this release; the static
+      # musl binary is the supported arm64 asset.
+      target="aarch64-unknown-linux-musl"
+      checksum="dc30189378d2f2e287384e8a692d3f95ad1df64cf0e8c36aa9201516028aed6b"
+      ;;
+    *)
+      echo "Unsupported architecture for the pinned starship binary: $(uname -m)" >&2
+      exit 1
+      ;;
+  esac
+
+  local temp_dir archive
+  temp_dir="$(mktemp -d)"
+  archive="${temp_dir}/starship.tar.gz"
+
+  curl --proto '=https' --tlsv1.2 -fsSL \
+    "https://github.com/starship/starship/releases/download/v${STARSHIP_VERSION#v}/starship-${target}.tar.gz" \
+    -o "$archive"
+  printf '%s  %s\n' "$checksum" "$archive" | sha256sum --check --status
+  tar -xzf "$archive" -C "$temp_dir" starship
+  install -m 0755 "${temp_dir}/starship" "$starship_bin"
+  rm -rf "$temp_dir"
 }
 
 install_eza() {
