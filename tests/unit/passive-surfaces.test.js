@@ -6,15 +6,15 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const sourceRoot = join(repositoryRoot, 'src');
 
-const collectCssFiles = async directory => {
+const collectStyleFiles = async directory => {
 	const entries = await readdir(directory, { withFileTypes: true });
 	const files = [];
 
 	for (const entry of entries) {
 		const path = join(directory, entry.name);
 		if (entry.isDirectory()) {
-			files.push(...(await collectCssFiles(path)));
-		} else if (entry.name.endsWith('.css')) {
+			files.push(...(await collectStyleFiles(path)));
+		} else if (entry.name.endsWith('.css') || entry.name.endsWith('.astro')) {
 			files.push(path);
 		}
 	}
@@ -23,18 +23,18 @@ const collectCssFiles = async directory => {
 };
 
 describe('Passive surface and affordance separation (#96)', () => {
-	test('source stylesheets use solid surfaces without backdrop blur', async () => {
-		const cssFiles = await collectCssFiles(sourceRoot);
+	test('source styles and components use solid surfaces without backdrop blur', async () => {
+		const styleFiles = await collectStyleFiles(sourceRoot);
 		const offenders = [];
 
-		for (const file of cssFiles) {
-			const css = await readFile(file, 'utf8');
-			if (/backdrop-(?:blur|filter)/.test(css)) {
+		for (const file of styleFiles) {
+			const source = await readFile(file, 'utf8');
+			if (/backdrop-(?:blur|filter)/.test(source)) {
 				offenders.push(relative(repositoryRoot, file));
 			}
 		}
 
-		expect(cssFiles.length).toBeGreaterThan(0);
+		expect(styleFiles.length).toBeGreaterThan(0);
 		expect(offenders).toEqual([]);
 	});
 });
