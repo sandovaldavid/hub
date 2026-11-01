@@ -1,7 +1,7 @@
 @reference '@shared/styles/global.css';
 
 .language-toggle {
-	@apply relative inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center rounded-lg border px-2.5 py-2 text-xs font-bold uppercase tracking-wider shadow-sm no-underline transition-all duration-150;
+	@apply relative z-[var(--z-index-tooltip)] inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center rounded-lg border px-2.5 py-2 text-xs font-bold uppercase tracking-wider shadow-sm no-underline transition-all duration-150;
 	background-color: var(--control-background);
 	color: var(--control-content);
 	border-color: var(--control-edge);
