@@ -1,4 +1,4 @@
-import type { SocialLink, SocialLinkPriority } from '@entities/social-link/model/types';
+import type { SocialLink } from '@entities/social-link/model/types';
 import { siteConfig } from './site.config';
 
 const h = siteConfig.handle;
@@ -77,8 +77,3 @@ export const getRequiredSocialLink = (id: SocialLink['id']): SocialLink => {
 	if (!link) throw new Error(`Required social link "${id}" is not configured.`);
 	return link;
 };
-
-export const getSocialLinksByPriority = (priority: SocialLinkPriority) =>
-	socialLinks.filter(link => link.priority === priority);
-
-export const getPrimarySocialLinks = () => getSocialLinksByPriority('primary');
