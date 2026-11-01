@@ -77,8 +77,3 @@
 .share-button--loading .share-button__icon {
 	animation: pulse 1.5s ease-in-out infinite;
 }
-@media (max-width: 640px) {
-	.share-button {
-		@apply top-3 left-3;
-	}
-}

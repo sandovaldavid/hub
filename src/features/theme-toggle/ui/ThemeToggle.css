@@ -39,11 +39,7 @@
 .theme-toggle__icon svg {
 	@apply block h-full w-full;
 }
-@media (max-width: 640px) {
-	.theme-toggle {
-		@apply top-3 right-3;
-	}
-}
+
 @keyframes theme-switch {
 	0% {
 		transform: rotate(0deg) scale(1);

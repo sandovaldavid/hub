@@ -30,8 +30,3 @@
 .language-toggle:focus-visible .language-toggle__tooltip {
 	@apply translate-y-0 opacity-100;
 }
-@media (max-width: 640px) {
-	.language-toggle {
-		@apply top-3 right-15;
-	}
-}
