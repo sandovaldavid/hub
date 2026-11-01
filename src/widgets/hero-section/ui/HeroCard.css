@@ -103,7 +103,7 @@
 }
 @media (max-width: 767px) {
 	[data-layout-panel='profile'].bento-item {
-		@apply w-full rounded-2xl border p-4 shadow-sm backdrop-blur-xl;
+		@apply w-full rounded-2xl border p-4 shadow-sm;
 		background-color: var(--card-background);
 		border-color: var(--card-edge-accent);
 	}
