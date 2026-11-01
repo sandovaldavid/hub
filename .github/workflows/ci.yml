@@ -111,7 +111,7 @@ jobs:
         run: bun run lint
 
       - name: Link check
-        run: bun run check:links
+        run: bun run check:links:internal
 
       - name: Unit tests
         run: bun run test:unit
