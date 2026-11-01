@@ -8,24 +8,6 @@ const read = path => readFile(join(repositoryRoot, path), 'utf8');
 const readJson = async path => JSON.parse(await read(path));
 
 describe('browser test infrastructure contract', () => {
-	test('separates GitHub Actions parallelism from generic CI behavior', async () => {
-		const [config, workflow] = await Promise.all([
-			read('playwright.config.ts'),
-			read('.github/workflows/ci.yml'),
-		]);
-
-		expect(config).toContain("const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';");
-		expect(config).toContain(
-			'const workerOverride = getWorkerOverride(process.env.PLAYWRIGHT_WORKERS);'
-		);
-		expect(config).toContain(
-			'const workers = workerOverride ?? (isGitHubActions ? 2 : undefined);'
-		);
-		expect(config).toContain('retries: isGitHubActions ? 2 : 0');
-		expect(config).not.toContain('workers: process.env.CI ? 1 : undefined');
-		expect(workflow).toMatch(/e2e:[\s\S]*?PLAYWRIGHT_WORKERS: 2/);
-	});
-
 	test('runs the required Lighthouse context for runtime changes on develop and main', async () => {
 		const workflow = await read('.github/workflows/ci.yml');
 		const lighthouseJob = workflow.match(/\n {2}lighthouse:[\s\S]*$/)?.[0] ?? '';

@@ -30,7 +30,7 @@ Astro renders the page shell as static HTML. Browser JavaScript is intentionally
 | `src/app` | Global document layout and application composition. |
 | `src/widgets` | Page sections composed from features, entities and typed data. |
 | `src/features` | Interactive user actions such as sharing and theme/language selection. |
-| `src/data` | Typed profile, destinations, calls to action, projects, skills, SEO and structured-data configuration. |
+| `src/data` | Typed profile, destinations, calls to action, projects, SEO and structured-data configuration. |
 | `src/entities` | Reusable product concepts and domain-shaped UI/models. |
 | `src/shared` | Reusable UI, assets, utilities, localization, analytics, cross-cutting models and shared design-system styles. |
 | `scripts` | Architecture, link and repository-governance automation. |
@@ -68,6 +68,7 @@ In particular:
 - `widgets` must not import `app` or `pages`;
 - `data` must not import `widgets`, `features`, `app` or `pages`;
 - `entities`, `features` and `widgets` must not import application-owned styles;
+- cross-folder imports use the tsconfig aliases (`@app`, `@shared`, `@entities`, `@features`, `@widgets`, `@pages`, `@data`, `@scripts`); keep `./` only for same-folder siblings, and use `@shared/styles/global.css` in CSS `@reference` directives;
 - circular imports are forbidden.
 
 These rules apply to TypeScript/JavaScript/Astro imports **and** CSS `@import`/`@reference` dependencies. They are enforced by:
@@ -80,11 +81,10 @@ bun run check:architecture
 
 | Concern | Canonical implementation |
 | --- | --- |
-| Public identity, canonical origin and approved destinations | `src/data/site.config.ts` |
+| Public identity, canonical origin and approved destinations | `src/data/site.config.ts` and `src/data/site-origin.ts` |
 | Portrait, brand logo references and contact email | `src/data/profile.ts` |
 | Calls to action | `src/data/cta.ts` |
 | Featured project summaries | `src/data/featured-projects.ts` |
-| Technology presentation | `src/data/skills.ts` |
 | English and Spanish copy, including localized profile facts (location, languages, work mode) | `src/shared/i18n/locales/*.json` |
 | Localized metadata assembly | `src/data/seo.ts` |
 | Schema.org graph | `src/data/structured-data.ts` |

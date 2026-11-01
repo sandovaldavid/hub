@@ -7,23 +7,6 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');
 
 describe('shared iconography contract', () => {
-	test('uses the approved cross-channel technology marks', async () => {
-		const [csharp, astro, postgresql] = await Promise.all([
-			read('src/shared/assets/tech-icons/csharp.svg'),
-			read('src/shared/assets/tech-icons/astro.svg'),
-			read('src/shared/assets/tech-icons/postgresql.svg'),
-		]);
-
-		expect(csharp).toContain('viewBox="0 0 72 72"');
-		expect(csharp).toContain('stop-color="#927BE5"');
-		expect(csharp).toContain('stop-color="#512BD4"');
-		expect(astro).toContain('viewBox="0 0 256 366"');
-		expect(astro).toContain('fill="light-dark(#17191E, #fff)"');
-		expect(astro).toContain('fill="#FF5D01"');
-		expect(postgresql).toContain('viewBox="0 0 256 264"');
-		expect(postgresql).toContain('fill="#336791"');
-	});
-
 	test('uses one shared geometry for recurring UI glyphs', async () => {
 		const [sun, moon, system, briefcase, email, link, share] = await Promise.all([
 			read('src/shared/assets/theme-icons/sun.svg'),

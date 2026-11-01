@@ -1,8 +1,5 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
-.hero-card {
-	@apply relative overflow-hidden;
-}
 .hero-card__content {
 	@apply flex h-full w-full flex-col items-center gap-3 text-center md:items-stretch md:gap-3.5 lg:items-start lg:text-left;
 }
@@ -37,10 +34,6 @@
 .hero-card__identity--compact .hero-card__tagline {
 	@apply text-sm font-semibold leading-snug sm:text-base lg:text-base;
 }
-.hero-card__bio {
-	@apply m-0 max-w-full text-sm leading-relaxed md:text-base;
-	color: var(--channel-content-default);
-}
 .hero-card__availability {
 	@apply m-0 inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-2;
 	background-color: var(--status-online-background);
@@ -62,25 +55,6 @@
 .hero-card__identity-actions {
 	@apply mt-1 flex w-full min-w-0 flex-col flex-wrap items-start gap-2 md:max-w-[30rem] md:flex-row md:items-center md:justify-center md:gap-4;
 }
-.hero-card__metadata {
-	@apply m-0 grid w-full grid-cols-2 gap-2;
-}
-.hero-card__metadata-item {
-	@apply min-w-0 rounded-lg border px-3 py-2;
-	background-color: var(--card-background-muted);
-	border-color: var(--card-edge);
-}
-.hero-card__metadata-item:last-child {
-	@apply col-span-2;
-}
-.hero-card__metadata-item dt {
-	@apply text-xs uppercase tracking-wide;
-	color: var(--channel-content-muted);
-}
-.hero-card__metadata-item dd {
-	@apply m-0 wrap-break-word text-xs font-semibold leading-snug sm:text-sm;
-	color: var(--channel-content-strong);
-}
 .hero-card__primary-action {
 	@apply inline-flex w-full items-center justify-center rounded-lg px-5 py-3 font-semibold transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto md:mt-auto;
 	background-color: var(--button-primary-background);
@@ -98,22 +72,11 @@
 .hero-card__identity-actions .hero-card__primary-action {
 	@apply px-4 py-2.5 text-sm md:mt-0;
 }
-.hero-card__logo-wrapper {
-	@apply mt-2 opacity-60 md:ml-auto md:mt-0;
-}
 @media (max-width: 767px) {
 	[data-layout-panel='profile'].bento-item {
-		@apply w-full rounded-2xl border p-4 shadow-sm backdrop-blur-xl;
+		@apply w-full rounded-2xl border p-4 shadow-sm;
 		background-color: var(--card-background);
 		border-color: var(--card-edge-accent);
-	}
-}
-@media (min-width: 640px) {
-	.hero-card__metadata {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-	.hero-card__metadata-item:last-child {
-		grid-column: auto;
 	}
 }
 @media (min-width: 768px) {

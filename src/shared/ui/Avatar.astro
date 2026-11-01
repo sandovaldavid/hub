@@ -1,17 +1,15 @@
 ---
 /**
  * Avatar Component - FSD Layer: shared/ui
- * Profile image with size variants, loading states, and fallback support
+ * Profile image with an optional ring.
  */
 
-import { cn } from '../lib/utils';
+import { cn } from '@shared/lib/utils';
 import './Avatar.css';
 
 export interface Props {
-	src?: string;
+	src: string;
 	alt: string;
-	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
-	fallback?: string;
 	loading?: 'lazy' | 'eager';
 	fetchpriority?: 'high' | 'low' | 'auto';
 	ring?: boolean;
@@ -22,8 +20,6 @@ export interface Props {
 const {
 	src,
 	alt,
-	size = 'md',
-	fallback,
 	loading = 'lazy',
 	fetchpriority = loading === 'eager' ? 'high' : 'auto',
 	ring = false,
@@ -32,64 +28,24 @@ const {
 	...rest
 } = Astro.props;
 
-const baseClasses = 'avatar-default';
-
-const sizeClasses = {
-	xs: 'avatar-size-xs',
-	sm: 'avatar-size-sm',
-	md: 'avatar-size-md',
-	lg: 'avatar-size-lg',
-	xl: 'avatar-size-xl',
-	'2xl': 'avatar-size-2xl',
-	'3xl': 'avatar-size-3xl',
-	'4xl': 'avatar-size-4xl',
-	'5xl': 'avatar-size-5xl',
-};
-
-const dimensions = {
-	xs: 24,
-	sm: 32,
-	md: 40,
-	lg: 48,
-	xl: 64,
-	'2xl': 80,
-	'3xl': 96,
-	'4xl': 128,
-	'5xl': 208,
-} as const;
-
-const roundedClasses = 'rounded-full';
+// Matches .avatar-size-5xl in Avatar.css.
+const AVATAR_DIMENSION = 208;
 const ringClasses = ring
 	? `ring-2 ring-offset-2 ring-offset-channel-background-canvas ${ringColor}`
 	: '';
-const avatarClasses = cn(baseClasses, sizeClasses[size], roundedClasses, ringClasses, className);
-const dimension = dimensions[size];
-
-const getInitials = (name: string): string => {
-	const parts = name.trim().split(' ');
-	if (parts.length >= 2) {
-		return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
-	}
-	return name.substring(0, 2).toUpperCase();
-};
-
-const initials = fallback || getInitials(alt);
+const avatarClasses = cn('avatar-default avatar-size-5xl rounded-full', ringClasses, className);
 ---
 
 <div class={avatarClasses} role="img" aria-label={alt} {...rest}>
-	{src ? (
-		<img
-			{src}
-			alt=""
-			role="presentation"
-			width={dimension}
-			height={dimension}
-			{loading}
-			{fetchpriority}
-			decoding="async"
-			class="absolute inset-0 h-full w-full object-cover"
-		/>
-	) : (
-		<span aria-hidden="true">{initials}</span>
-	)}
+	<img
+		{src}
+		alt=""
+		role="presentation"
+		width={AVATAR_DIMENSION}
+		height={AVATAR_DIMENSION}
+		{loading}
+		{fetchpriority}
+		decoding="async"
+		class="absolute inset-0 h-full w-full object-cover"
+	/>
 </div>

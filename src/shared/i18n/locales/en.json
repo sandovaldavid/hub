@@ -52,12 +52,6 @@
 		"viewCaseStudy": "View case study",
 		"private": "Private project"
 	},
-	"skills": {
-		"title": "Engineering stack & tooling",
-		"coreTitle": "Current Engineering Stack",
-		"toolsTitle": "Delivery & Product Tooling",
-		"heading": "Technologies and skills"
-	},
 	"page": {
 		"mainLabel": "David Sandoval professional profile",
 		"sectionsLabel": "David Sandoval professional profile sections"

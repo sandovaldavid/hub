@@ -212,6 +212,63 @@ test.describe('Accessible motion and navigation', () => {
 		}
 	});
 
+	for (const route of ['/', '/es/']) {
+		test(`${route} paints header tooltips above the hero`, async ({ page }) => {
+			await page.setViewportSize({ width: 1280, height: 900 });
+			await page.goto(route);
+
+			await page.hover('.language-toggle');
+			await expect(page.locator('.language-toggle__tooltip')).toHaveCSS('opacity', '1');
+			const languageAbove = await page.evaluate(selector => {
+				const element = document.querySelector<HTMLElement>(selector);
+				if (!element) return false;
+
+				element.style.pointerEvents = 'auto';
+				const rect = element.getBoundingClientRect();
+				const top = document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);
+				element.style.pointerEvents = '';
+
+				return top === element || element.contains(top);
+			}, '.language-toggle__tooltip');
+
+			expect(languageAbove).toBe(true);
+
+			await page.addStyleTag({
+				content: '.share-button::after, .theme-toggle::after { pointer-events: auto !important; }',
+			});
+
+			for (const { trigger, side } of [
+				{ trigger: '#share-button', side: 'left' as const },
+				{ trigger: '#theme-toggle', side: 'right' as const },
+			]) {
+				await page.hover(trigger);
+				await expect
+					.poll(() =>
+						page.evaluate(selector => {
+							const element = document.querySelector<HTMLElement>(selector);
+							return element ? getComputedStyle(element, '::after').opacity : '0';
+						}, trigger)
+					)
+					.toBe('1');
+
+				const isAbove = await page.evaluate(
+					({ trigger, side }) => {
+						const button = document.querySelector<HTMLElement>(trigger);
+						if (!button) return false;
+
+						const rect = button.getBoundingClientRect();
+						const x = side === 'left' ? rect.x + 5 : rect.right - 5;
+						const top = document.elementFromPoint(x, rect.bottom + 10);
+						return top === button;
+					},
+					{ trigger, side }
+				);
+
+				expect(isAbove).toBe(true);
+			}
+		});
+	}
+
 	for (const theme of ['light', 'dark']) {
 		test(`${theme} theme exposes visible focus`, async ({ page }) => {
 			await page.goto('/');

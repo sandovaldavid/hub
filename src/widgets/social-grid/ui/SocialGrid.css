@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .social-grid-card {
 	@apply flex w-full min-w-0 flex-col;

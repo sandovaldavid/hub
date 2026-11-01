@@ -1,8 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import {
-	getShareData,
-	isWebShareSupported,
-} from '../../src/features/share-button/lib/share-utils.ts';
+import { getShareData, isWebShareSupported } from '@features/share-button/lib/share-utils.ts';
 
 describe('share capability detection', () => {
 	test('accepts native share even when canShare is not exposed', () => {
@@ -25,5 +22,9 @@ describe('share payload', () => {
 
 		expect(data).toEqual({ url: 'https://hub.sandovaldavid.com/es/' });
 		expect(Object.keys(data)).toEqual(['url']);
+	});
+
+	test('falls back to the single site origin outside the browser', () => {
+		expect(getShareData().url).toBe('https://hub.sandovaldavid.com/');
 	});
 });

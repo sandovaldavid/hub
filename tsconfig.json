@@ -11,7 +11,8 @@
 			"@features/*": ["./src/features/*"],
 			"@widgets/*": ["./src/widgets/*"],
 			"@pages/*": ["./src/pages/*"],
-			"@data/*": ["./src/data/*"]
+			"@data/*": ["./src/data/*"],
+			"@scripts/*": ["./scripts/*"]
 		}
 	}
 }

@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .cta-buttons {
 	@apply grid h-full w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:gap-7 xl:gap-8;

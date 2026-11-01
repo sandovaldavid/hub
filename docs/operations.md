@@ -40,7 +40,7 @@ A frozen install must fail when `package.json` and `bun.lock` differ. Regenerate
 bun run validate:quality
 ```
 
-This runs Astro type checking, architecture validation, Prettier, ESLint, link validation, unit/repository-contract tests and the production build. It does not require browser execution and can run directly on the host.
+This runs Astro type checking, architecture validation, Prettier, ESLint, internal link validation, unit/repository-contract tests and the production build. It does not require browser execution and can run directly on the host.
 
 `check:architecture` validates the documented layer matrix for Astro/TypeScript/JavaScript imports and CSS `@import`/`@reference` dependencies, as well as circular imports.
 
@@ -72,7 +72,7 @@ When documenting validation, classify relevant checks as `Passed`, `Failed`, `No
 
 ## CI
 
-The primary workflow lives in `.github/workflows/ci.yml` and emits required check runs named `Quality`, `E2E` and `Lighthouse`. The source-branch workflow emits `check-source-branch` for pull requests targeting `main`. GitHub may display these checks with their workflow name in the UI, but repository rulesets must store the actual check-run context names returned by the Rulesets API.
+The primary workflow lives in `.github/workflows/ci.yml` and emits required check runs named `Quality`, `E2E` and `Lighthouse`. `Quality` runs for every pull request, including documentation-only changes, so link, unit, lint, format and build checks are never bypassed; `E2E` and `Lighthouse` still run only for runtime changes. The source-branch workflow emits `check-source-branch` for pull requests targeting `main`. GitHub may display these checks with their workflow name in the UI, but repository rulesets must store the actual check-run context names returned by the Rulesets API.
 
 The versioned desired state therefore requires `Quality`, `E2E` and `Lighthouse` on `develop`, and those same checks plus `check-source-branch` on `main`. Keep `.github/rulesets/*.json`, workflow job names and the active GitHub rulesets synchronized; `bun run rulesets:verify` must fail on drift rather than treating repository intent as remote enforcement.
 
@@ -131,7 +131,7 @@ The pre-v2 configuration contains the one-time `release-as: 2.0.0` override requ
 
 At that point, remove `release-as: 2.0.0` **inside the same release PR before merging it**. The release commit must therefore contain the version/manifest bump and the one-time override cleanup atomically. Do not defer the cleanup to a post-release PR: `tests/unit/release-hardening.test.js` intentionally rejects a release PR whose prepared package/manifest version still matches the one-time pin.
 
-After the release PR merges, Release Please can create the tag/release while `main` already contains configuration that has returned to normal semantic version calculation. This prevents future release PRs and the footer version from being frozen on the major-release override.
+After the release PR merges, Release Please can create the tag/release while `main` already contains configuration that has returned to normal semantic version calculation. This prevents future release PRs from being frozen on the major-release override.
 
 Review the generated `CHANGELOG.md` before merging a major release. Preserve factual traceability, but remove accidental duplicate/noisy entries when necessary and keep the release summary focused on meaningful public changes rather than implementation churn.
 
@@ -140,16 +140,20 @@ Do not manually describe a release as published until the tag/release exists and
 ## Link and dependency maintenance
 
 - `.github/dependabot.yml` targets `develop` and groups routine dependency updates.
-- `scripts/check-links.mjs` validates local targets and public destinations.
-- `.github/workflows/maintenance.yml` schedules recurring link checks.
+- `scripts/check-links.mjs` validates local targets and public destinations. `--internal` and `--external` select one side.
+- `.github/workflows/maintenance.yml` schedules recurring full link checks.
 - `.github/workflows/security-audit.yml` records dependency advisory results on PRs, integration/production pushes and a weekly schedule.
 - `config/link-check.json` contains link-check inputs and retry settings.
 
-Run:
+Run the full check, or one side:
 
 ```bash
 bun run check:links
+bun run check:links:internal
+bun run check:links:external
 ```
+
+`validate:quality` and the required `Quality` job use `check:links:internal` so a sibling deployment, social profile or other third-party outage cannot fail an unrelated pull request. External health remains visible in the scheduled Maintenance run, and production promotion runs `check:links:external` against the exact release candidate in `.github/workflows/cd.yml`.
 
 Persistent definitive failures such as HTTP `404` or `410` fail the check. Access controls, rate limits, anti-bot responses, timeouts and upstream incidents remain visible warnings after retries and require manual review.
 

@@ -2,8 +2,8 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getSEO } from '../../src/data/seo.ts';
-import { getProfilePageStructuredData } from '../../src/data/structured-data.ts';
+import { getSEO } from '@data/seo.ts';
+import { getProfilePageStructuredData } from '@data/structured-data.ts';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');
@@ -128,7 +128,7 @@ describe('human-first SEO contract', () => {
 			read('src/app/layouts/Layout.astro'),
 		]);
 
-		expect(astroConfig).toContain("site: 'https://hub.sandovaldavid.com'");
+		expect(astroConfig).toContain('site: siteOrigin');
 		expect(astroConfig).toContain("defaultLocale: 'en'");
 		expect(astroConfig).toContain("en: 'en-US'");
 		expect(astroConfig).toContain("es: 'es-PE'");

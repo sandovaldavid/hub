@@ -19,9 +19,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const projects = getFeaturedProjects(lang);
-const professionalSocialLinks = socialLinks.filter(
-	link => link.id !== 'website' && link.priority !== 'footer'
-);
+const professionalSocialLinks = socialLinks.filter(link => link.id !== 'website');
 
 const localizedProfile = {
 	...profile,
@@ -62,7 +60,6 @@ const heroMetadata = [
 			aria-labelledby="hero-heading">
 			<HeroCard
 				profile={localizedProfile}
-				variant="compact"
 				availability={t('profile.availability')}
 				primaryAction={{
 					label: t('profile.portfolioAction'),

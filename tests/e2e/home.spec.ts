@@ -55,8 +55,6 @@ test.describe('Home page', () => {
 		await expect(page.locator('[aria-labelledby="cta-heading"]')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="contact-heading"]')).toBeVisible();
 		await expect(page.locator('[aria-labelledby="featured-projects-title"]')).toBeVisible();
-		await expect(page.locator('[aria-labelledby="skills-heading"]')).toHaveCount(0);
-		await expect(page.locator('[data-skill-item]')).toHaveCount(0);
 	});
 
 	test('uses a clear human-first heading hierarchy', async ({ page }) => {
@@ -251,7 +249,6 @@ test.describe('Spanish version (/es/)', () => {
 		await expect(page.getByRole('heading', { level: 3, name: 'Portafolio' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: 'CV' })).toBeVisible();
 		await expect(page.getByRole('heading', { level: 3, name: 'Conversemos' })).toBeVisible();
-		await expect(page.locator('[aria-labelledby="skills-heading"]')).toHaveCount(0);
 
 		const portfolioLink = page.locator(
 			'.hero-card__primary-action[href="https://sandovaldavid.com"]'

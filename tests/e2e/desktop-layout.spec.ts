@@ -99,7 +99,6 @@ for (const route of routes) {
 				await expect(page.locator('#profile-snapshot-heading')).toBeVisible();
 				await expect(page.locator('#social-heading')).toBeVisible();
 				await expect(page.locator('#cta-heading')).toBeVisible();
-				await expect(page.locator('#skills-heading')).toHaveCount(0);
 
 				const snapshotMetadata = page.locator('.profile-snapshot__metadata-item');
 				await expect(snapshotMetadata).toHaveCount(3);
@@ -192,7 +191,6 @@ for (const route of routes) {
 				const projectCards = page.locator('[data-project-card]');
 				await expect(projectCards).toHaveCount(3);
 				await expect(page.locator('[data-project-evidence]')).toHaveCount(0);
-				await expect(page.locator('[data-skill-item]')).toHaveCount(0);
 				const projectRowCount = await projectCards.evaluateAll(elements => {
 					const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));
 					return new Set(rows).size;
@@ -264,7 +262,6 @@ for (const route of routes) {
 			await expect(projectCards).toHaveCount(3);
 			await expect(page.locator('[data-project-evidence]')).toHaveCount(0);
 			await expect(page.locator('.featured-project-card__index')).toHaveCount(0);
-			await expect(page.locator('[data-skill-item]')).toHaveCount(0);
 
 			const mobileProjectRows = await projectCards.evaluateAll(elements => {
 				const rows = elements.map(element => Math.round(element.getBoundingClientRect().top));

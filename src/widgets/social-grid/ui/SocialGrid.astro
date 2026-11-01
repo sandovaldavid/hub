@@ -46,7 +46,6 @@ const platformClasses: Partial<Record<SocialPlatform, { brand?: string; icon?: s
 			<div
 				class={cn('social-grid__item', isWideItem && 'social-grid__item--wide')}
 				data-priority={link.priority}
-				data-audience={link.audience.join(',')}
 				data-social-index={index}
 				data-social-wide={isWideItem ? 'true' : undefined}>
 				<SocialButton

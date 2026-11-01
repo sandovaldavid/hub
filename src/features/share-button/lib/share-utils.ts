@@ -1,3 +1,5 @@
+import { siteOrigin } from '@data/site-origin';
+
 interface ShareData {
 	url: string;
 }
@@ -10,7 +12,7 @@ interface ShareResult {
 
 type WebShareCapability = Pick<Navigator, 'share'>;
 
-const defaultShareUrl = 'https://hub.sandovaldavid.com/';
+const defaultShareUrl = `${siteOrigin}/`;
 
 export function isWebShareSupported(
 	capability: WebShareCapability | null = typeof navigator === 'undefined' ? null : navigator

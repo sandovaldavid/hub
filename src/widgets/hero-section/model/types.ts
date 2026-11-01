@@ -16,8 +16,6 @@ export interface HeroPrimaryAction {
 
 export interface HeroCardProps {
 	profile: Profile;
-	variant?: 'default' | 'compact';
 	availability?: string;
-	metadata?: HeroMetadataItem[];
 	primaryAction?: HeroPrimaryAction;
 }

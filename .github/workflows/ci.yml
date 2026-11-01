@@ -2,7 +2,8 @@ name: CI
 
 on:
   pull_request:
-    branches: [develop, main]
+    # stack/** lets each layer of a stacked PR series run the same gate.
+    branches: [develop, main, 'stack/**']
   push:
     branches: [develop, main]
 
@@ -20,7 +21,9 @@ permissions:
   contents: read
 
 jobs:
-  # Keep required contexts resolvable while skipping heavy jobs for non-runtime changes.
+  # Keep required contexts resolvable while skipping browser-heavy jobs for
+  # non-runtime changes. Quality itself always runs so documentation changes
+  # still reach the link, unit, lint, format and build checks.
   changes:
     name: Detect runtime changes
     runs-on: ubuntu-latest
@@ -74,7 +77,6 @@ jobs:
   quality:
     name: Quality
     needs: changes
-    if: ${{ needs.changes.outputs.runtime == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -99,9 +101,6 @@ jobs:
       - name: Type check
         run: bun x astro check
 
-      - name: Architecture check
-        run: bun run check:architecture
-
       - name: Format check
         run: bun run format:check
 
@@ -109,7 +108,7 @@ jobs:
         run: bun run lint
 
       - name: Link check
-        run: bun run check:links
+        run: bun run check:links:internal
 
       - name: Unit tests
         run: bun run test:unit

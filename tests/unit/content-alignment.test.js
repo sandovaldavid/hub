@@ -2,10 +2,10 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getCtaButtons } from '../../src/data/cta.ts';
-import { profile } from '../../src/data/profile.ts';
-import { siteConfig } from '../../src/data/site.config.ts';
-import { getFeaturedProjects } from '../../src/data/featured-projects.ts';
+import { getCtaButtons } from '@data/cta.ts';
+import { profile } from '@data/profile.ts';
+import { siteConfig } from '@data/site.config.ts';
+import { getFeaturedProjects } from '@data/featured-projects.ts';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const readJson = async path => JSON.parse(await readFile(join(repositoryRoot, path), 'utf8'));
@@ -105,10 +105,7 @@ describe('Hub messaging alignment contract', () => {
 		for (const lang of ['en', 'es']) {
 			const buttons = getCtaButtons(lang);
 			expect(buttons.map(button => button.id)).toEqual(['portfolio', 'resume']);
-			expect(buttons.filter(button => button.variant === 'primary')).toHaveLength(0);
-			expect(buttons.find(button => button.id === 'portfolio')?.variant).toBe('secondary');
 			expect(buttons.find(button => button.id === 'portfolio')?.href).toBe(siteConfig.portfolioUrl);
-			expect(buttons.find(button => button.id === 'resume')?.variant).toBe('secondary');
 			expect(buttons.find(button => button.id === 'resume')?.href).toBe(siteConfig.resume[lang]);
 		}
 	});

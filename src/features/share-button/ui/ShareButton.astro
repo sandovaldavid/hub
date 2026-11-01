@@ -27,7 +27,7 @@ const t = useTranslations(lang);
 <span id="share-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
 
 <script>
-	import { share, isWebShareSupported } from '../lib/share-utils';
+	import { share, isWebShareSupported } from '@features/share-button/lib/share-utils';
 
 	const button = document.getElementById('share-button');
 	const feedback = document.getElementById('share-feedback');

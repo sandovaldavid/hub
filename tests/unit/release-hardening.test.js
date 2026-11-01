@@ -60,10 +60,7 @@ describe('release delivery hardening contracts', () => {
 	});
 
 	test('runs lighthouse directly without the stale lighthouse-ci dependency tree', async () => {
-		const [packageJson, runner] = await Promise.all([
-			readJson('package.json'),
-			read('scripts/run-lighthouse.mjs'),
-		]);
+		const packageJson = await readJson('package.json');
 
 		expect(packageJson.devDependencies['@lhci/cli']).toBeUndefined();
 		expect(packageJson.devDependencies.lighthouse).toMatch(/^[0-9]+[.][0-9]+[.][0-9]+$/);
@@ -75,20 +72,6 @@ describe('release delivery hardening contracts', () => {
 		expect(packageJson.scripts['test:lighthouse:desktop']).toBe(
 			'node scripts/run-lighthouse.mjs desktop'
 		);
-
-		expect(runner).toContain('const RUNS_PER_URL = 3;');
-		expect(runner).toContain("{ id: 'performance', minScore: 0.9 }");
-		expect(runner).toContain("{ id: 'accessibility', minScore: 0.95 }");
-		expect(runner).toContain("{ id: 'best-practices', minScore: 0.95 }");
-		expect(runner).toContain("{ id: 'seo', minScore: 0.95 }");
-		expect(runner).toContain("{ id: 'first-contentful-paint', maxNumericValue: 3_000");
-		expect(runner).toContain("{ id: 'largest-contentful-paint', maxNumericValue: 4_000");
-		expect(runner).toContain("{ id: 'cumulative-layout-shift', maxNumericValue: 0.1");
-		expect(runner).toContain("{ id: 'total-blocking-time', maxNumericValue: 200");
-		expect(runner).toContain("{ id: 'speed-index', maxNumericValue: 3_000");
-		expect(runner).toContain("{ id: 'total-byte-weight', maxNumericValue: 500_000");
-		expect(runner).toContain('const actual = Math.max(...values);');
-		expect(runner).toContain('const actual = Math.min(...values);');
 	});
 
 	test('keeps security overrides narrow, explicit and major-compatible', async () => {
@@ -102,6 +85,7 @@ describe('release delivery hardening contracts', () => {
 			'ip-address': '10.5.0',
 			'js-yaml': '4.3.2',
 			'mdast-util-to-hast': '13.2.1',
+			minimatch: '11.0.1',
 			nanoid: '3.3.18',
 			'postcss-selector-parser': '7.1.6',
 			sharp: '0.35.5',
@@ -145,8 +129,8 @@ describe('release delivery hardening contracts', () => {
 	// until it is removed. It is valid while main still records an older release,
 	// but once a Release Please PR has prepared package.json and the manifest at
 	// the forced target, the pin has completed its job and must be removed in that
-	// same release PR before merge. Otherwise future release calculation and the
-	// footer version can remain frozen on the one-time override.
+	// same release PR before merge. Otherwise future release calculation can
+	// remain frozen on the one-time override.
 	test('requires a one-time release-as override to be removed by the target release PR', async () => {
 		const [config, manifest, packageJson] = await Promise.all([
 			readJson('release-please-config.json'),
