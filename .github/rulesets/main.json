@@ -42,10 +42,7 @@
 						"context": "Quality"
 					},
 					{
-						"context": "E2E"
-					},
-					{
-						"context": "Lighthouse"
+						"context": "Browser"
 					},
 					{
 						"context": "check-source-branch"

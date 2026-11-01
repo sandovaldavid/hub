@@ -9,6 +9,7 @@ concurrency:
 
 permissions:
   contents: read
+  checks: read
   deployments: write
   statuses: write
 
@@ -42,8 +43,41 @@ jobs:
         run: bun install --frozen-lockfile
 
       # Native Vercel deployments are the primary path. This manual fallback is
-      # deploy-only; the required PR and main checks provide the quality/browser
-      # evidence. Keep the exact-candidate external-link check on main.
+      # deploy-only; require the exact-SHA checks and keep the external-link
+      # check on main. It does not re-run the browser gates.
+      - name: Require validated checks
+        if: ${{ github.ref_name == 'main' }}
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const required = [
+              { name: 'Quality', allowSkipped: false },
+              { name: 'Browser', allowSkipped: true },
+              { name: 'Dependency audit', allowSkipped: false },
+            ];
+            const { data } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              per_page: 100,
+            });
+
+            for (const requirement of required) {
+              const runs = data.check_runs.filter(run => run.name === requirement.name);
+              const successful = runs.some(run => run.conclusion === 'success');
+              const skipped =
+                requirement.allowSkipped &&
+                runs.length > 0 &&
+                runs.every(run => run.conclusion === 'skipped');
+
+              if (!successful && !skipped) {
+                core.setFailed(
+                  `Required check ${requirement.name} is not successful for ${context.sha}`
+                );
+                return;
+              }
+            }
+
       - name: Check external destinations
         if: ${{ github.ref_name == 'main' }}
         run: bun run check:links:external
