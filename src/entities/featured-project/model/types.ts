@@ -9,5 +9,4 @@ export interface FeaturedProject {
 	caseStudyUrl?: string;
 	projectAvailability: ProjectAvailability;
 	repositoryAvailability: ProjectAvailability;
-	featured: boolean;
 }

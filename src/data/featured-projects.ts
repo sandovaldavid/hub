@@ -12,7 +12,6 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			projectAvailability: 'public',
 			repositoryAvailability: 'public',
-			featured: true,
 		},
 		{
 			id: 'yukidoke',
@@ -21,7 +20,6 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			caseStudyUrl: 'https://sandovaldavid.com/projects/yukidoke',
 			projectAvailability: 'unavailable',
 			repositoryAvailability: 'private',
-			featured: true,
 		},
 		{
 			id: 'oci-arm-hunter',
@@ -32,7 +30,6 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			githubUrl: 'https://github.com/sandovaldavid/oci-arm-hunter',
 			projectAvailability: 'public',
 			repositoryAvailability: 'public',
-			featured: true,
 		},
 	],
 	es: [
@@ -45,7 +42,6 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			githubUrl: 'https://github.com/sandovaldavid/kioku',
 			projectAvailability: 'public',
 			repositoryAvailability: 'public',
-			featured: true,
 		},
 		{
 			id: 'yukidoke',
@@ -55,7 +51,6 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			caseStudyUrl: 'https://sandovaldavid.com/es/projects/yukidoke',
 			projectAvailability: 'unavailable',
 			repositoryAvailability: 'private',
-			featured: true,
 		},
 		{
 			id: 'oci-arm-hunter',
@@ -66,10 +61,8 @@ const projects: Record<Lang, FeaturedProject[]> = {
 			githubUrl: 'https://github.com/sandovaldavid/oci-arm-hunter',
 			projectAvailability: 'public',
 			repositoryAvailability: 'public',
-			featured: true,
 		},
 	],
 };
 
-export const getFeaturedProjects = (lang: Lang): FeaturedProject[] =>
-	projects[lang].filter(project => project.featured).slice(0, 3);
+export const getFeaturedProjects = (lang: Lang): FeaturedProject[] => projects[lang];

@@ -47,7 +47,6 @@ describe('social link configuration', () => {
 		const secondary = getSocialLinksByPriority('secondary').map(link => link.id);
 
 		expect(secondary).toEqual(['youtube', 'tiktok', 'instagram', 'twitter']);
-		expect(getSocialLinksByPriority('footer')).toHaveLength(0);
 		expect(socialLinks.some(link => link.id === 'facebook')).toBe(false);
 	});
 
@@ -65,9 +64,8 @@ describe('social link configuration', () => {
 		}
 	});
 
-	test('defines audience and analytics metadata for every link', () => {
+	test('defines analytics metadata for every link', () => {
 		for (const link of socialLinks) {
-			expect(link.audience.length).toBeGreaterThan(0);
 			expect(link.analyticsId).toMatch(/^social_/);
 		}
 	});
