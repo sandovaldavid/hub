@@ -14,9 +14,22 @@ const URLS = [PREVIEW_ORIGIN, `${PREVIEW_ORIGIN}/es/`];
 const SERVER_READY_TIMEOUT_MS = 30_000;
 const ASTRO_CLI_PATH = fileURLToPath(new URL('../node_modules/.bin/astro', import.meta.url));
 const isMainModule = process.argv[1] === fileURLToPath(import.meta.url);
+const DEFAULT_RUNS_PER_URL = 3;
+
+export const parseRunsPerUrl = value => {
+	if (value === undefined || value === '') return DEFAULT_RUNS_PER_URL;
+
+	const runs = Number(value);
+	if (!Number.isInteger(runs) || runs < 1) {
+		throw new Error(`LIGHTHOUSE_RUNS must be a positive integer, received: ${value}`);
+	}
+
+	return runs;
+};
+
+const RUNS_PER_URL = parseRunsPerUrl(process.env.LIGHTHOUSE_RUNS);
 
 export const LIGHTHOUSE_POLICY = {
-	runsPerUrl: 3,
 	categories: [
 		{ id: 'performance', minScore: 0.9 },
 		{ id: 'accessibility', minScore: 0.95 },
@@ -139,7 +152,7 @@ function formatNumber(value) {
 function evaluateThresholds(url, lhrs) {
 	const failures = [];
 	console.log(`\nLighthouse ${PROFILE}: ${url}`);
-	console.log(`Aggregation: optimistic across ${LIGHTHOUSE_POLICY.runsPerUrl} runs`);
+	console.log(`Aggregation: optimistic across ${RUNS_PER_URL} runs`);
 
 	for (const threshold of LIGHTHOUSE_POLICY.categories) {
 		const values = getCategoryValues(lhrs, threshold.id);
@@ -183,8 +196,8 @@ async function collectLighthouseRuns(chromePort, url) {
 	const lhrs = [];
 	const config = createLighthouseConfig(PROFILE);
 
-	for (let run = 1; run <= LIGHTHOUSE_POLICY.runsPerUrl; run += 1) {
-		console.log(`\n[${PROFILE}] ${url} — run ${run}/${LIGHTHOUSE_POLICY.runsPerUrl}`);
+	for (let run = 1; run <= RUNS_PER_URL; run += 1) {
+		console.log(`\n[${PROFILE}] ${url} — run ${run}/${RUNS_PER_URL}`);
 		const result = await lighthouse(
 			url,
 			{
