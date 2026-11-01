@@ -129,8 +129,8 @@ describe('release delivery hardening contracts', () => {
 	// until it is removed. It is valid while main still records an older release,
 	// but once a Release Please PR has prepared package.json and the manifest at
 	// the forced target, the pin has completed its job and must be removed in that
-	// same release PR before merge. Otherwise future release calculation and the
-	// footer version can remain frozen on the one-time override.
+	// same release PR before merge. Otherwise future release calculation can
+	// remain frozen on the one-time override.
 	test('requires a one-time release-as override to be removed by the target release PR', async () => {
 		const [config, manifest, packageJson] = await Promise.all([
 			readJson('release-please-config.json'),

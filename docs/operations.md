@@ -131,7 +131,7 @@ The pre-v2 configuration contains the one-time `release-as: 2.0.0` override requ
 
 At that point, remove `release-as: 2.0.0` **inside the same release PR before merging it**. The release commit must therefore contain the version/manifest bump and the one-time override cleanup atomically. Do not defer the cleanup to a post-release PR: `tests/unit/release-hardening.test.js` intentionally rejects a release PR whose prepared package/manifest version still matches the one-time pin.
 
-After the release PR merges, Release Please can create the tag/release while `main` already contains configuration that has returned to normal semantic version calculation. This prevents future release PRs and the footer version from being frozen on the major-release override.
+After the release PR merges, Release Please can create the tag/release while `main` already contains configuration that has returned to normal semantic version calculation. This prevents future release PRs from being frozen on the major-release override.
 
 Review the generated `CHANGELOG.md` before merging a major release. Preserve factual traceability, but remove accidental duplicate/noisy entries when necessary and keep the release summary focused on meaningful public changes rather than implementation churn.
 
