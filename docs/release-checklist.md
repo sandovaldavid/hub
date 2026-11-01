@@ -117,7 +117,7 @@ After the Release Please PR merges:
 - [ ] confirm the release tag points to the expected release commit;
 - [ ] confirm the production Deploy workflow is green for the release commit;
 - [ ] confirm the dependency-audit result for the release commit is explicit;
-- [ ] confirm the live footer/version surface reflects the published version where applicable;
+- [ ] confirm the live public surface matches the release commit where applicable;
 - [ ] re-check `/`, `/es/`, metadata and key public links after the release commit is deployed;
 - [ ] confirm the one-time `release-as` override is absent from `main`.
 
