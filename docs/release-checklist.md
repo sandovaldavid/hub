@@ -29,6 +29,7 @@ bun run audit:deps
 Record:
 
 - [ ] exact-SHA dependency audit result and any accepted exception with rationale;
+- [ ] exact-SHA external link result (`bun run check:links:external`) with any accepted transient warning;
 - [ ] Chromium result;
 - [ ] WebKit / Mobile Safari result;
 - [ ] Firefox result;

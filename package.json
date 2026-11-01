@@ -19,6 +19,8 @@
 		"lint:fix": "eslint . --fix",
 		"check:architecture": "node scripts/check-architecture.mjs",
 		"check:links": "node scripts/check-links.mjs",
+		"check:links:internal": "node scripts/check-links.mjs --internal",
+		"check:links:external": "node scripts/check-links.mjs --external",
 		"audit:deps": "bun audit --ignore GHSA-ch52-4w7c-c8xp",
 		"rulesets:plan": "node scripts/manage-rulesets.mjs plan",
 		"rulesets:stage": "node scripts/manage-rulesets.mjs stage",
@@ -32,7 +34,7 @@
 		"test:lighthouse:mobile": "node scripts/run-lighthouse.mjs mobile",
 		"test:lighthouse:desktop": "node scripts/run-lighthouse.mjs desktop",
 		"test:lighthouse": "bun run test:lighthouse:mobile && bun run test:lighthouse:desktop",
-		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run check:links && bun run test:unit && bun run build",
+		"validate:quality": "bun x astro check && bun run check:architecture && bun run format:check && bun run lint && bun run check:links:internal && bun run test:unit && bun run build",
 		"validate:local": "bun scripts/run-local-validation.mjs",
 		"validate:local:inside": "bun run validate:quality && CI=1 bun run test:e2e && bun run test:lighthouse",
 		"prepare": "husky"

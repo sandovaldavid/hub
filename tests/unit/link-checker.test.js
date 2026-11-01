@@ -4,10 +4,21 @@ import {
 	classifyHttpStatus,
 	extractExternalUrls,
 	extractMarkdownTargets,
+	getCheckMode,
 	shouldIgnoreExternalUrl,
 } from '../../scripts/check-links.mjs';
 
 describe('link checker', () => {
+	test('selects the full, internal, or external check mode', () => {
+		expect(getCheckMode([])).toBe('all');
+		expect(getCheckMode(['--internal'])).toBe('internal');
+		expect(getCheckMode(['--external'])).toBe('external');
+		expect(() => getCheckMode(['--internal', '--external'])).toThrow(
+			'Use --internal or --external, not both.'
+		);
+		expect(() => getCheckMode(['--unknown'])).toThrow('Unsupported link-check option: --unknown');
+	});
+
 	test('extracts repository and external targets without markdown titles', () => {
 		const content = [
 			'[Operations](docs/operations.md)',

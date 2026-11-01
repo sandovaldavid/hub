@@ -51,6 +51,10 @@ jobs:
         if: ${{ github.ref_name == 'main' }}
         run: bun x playwright install --with-deps chromium
 
+      - name: Check external destinations
+        if: ${{ github.ref_name == 'main' }}
+        run: bun run check:links:external
+
       - name: Validate deploy source
         if: ${{ github.ref_name != 'main' }}
         run: bun run validate:quality

@@ -19,6 +19,23 @@ const absoluteUrlPattern = /https?:\/\/[^\s<>"'`)\]}]+/g;
 
 export const defaultTransientStatusCodes = new Set([401, 403, 408, 425, 429]);
 
+export const getCheckMode = argv => {
+	const flags = argv.filter(argument => argument.startsWith('--'));
+	const unknown = flags.filter(flag => !['--internal', '--external'].includes(flag));
+
+	if (unknown.length > 0) {
+		throw new Error(`Unsupported link-check option: ${unknown.join(', ')}`);
+	}
+
+	if (flags.includes('--internal') && flags.includes('--external')) {
+		throw new Error('Use --internal or --external, not both.');
+	}
+
+	if (flags.includes('--internal')) return 'internal';
+	if (flags.includes('--external')) return 'external';
+	return 'all';
+};
+
 const delay = milliseconds =>
 	new Promise(resolveDelay => {
 		setTimeout(resolveDelay, milliseconds);
@@ -320,40 +337,55 @@ const printExternalResult = result => {
 };
 
 const main = async () => {
+	let mode;
+	try {
+		mode = getCheckMode(process.argv.slice(2));
+	} catch (error) {
+		console.error(`[error] ${error instanceof Error ? error.message : String(error)}`);
+		process.exitCode = 1;
+		return;
+	}
+
 	const config = await loadConfiguration();
 	const extensions = new Set(config.extensions);
 	let hasFailures = false;
 
-	const markdownFiles = await expandConfiguredEntries(config.markdownSources, extensions);
-	const internal = await checkInternalLinks(markdownFiles);
-	console.log(`[links] internal: ${internal.checked} checked across ${markdownFiles.length} files`);
-	for (const failure of internal.broken) {
-		console.error(`[error] ${failure.source} -> ${failure.target}`);
+	if (mode !== 'external') {
+		const markdownFiles = await expandConfiguredEntries(config.markdownSources, extensions);
+		const internal = await checkInternalLinks(markdownFiles);
+		console.log(
+			`[links] internal: ${internal.checked} checked across ${markdownFiles.length} files`
+		);
+		for (const failure of internal.broken) {
+			console.error(`[error] ${failure.source} -> ${failure.target}`);
+		}
+		hasFailures ||= internal.broken.length > 0;
 	}
-	hasFailures ||= internal.broken.length > 0;
 
-	const externalFiles = await expandConfiguredEntries(config.externalSources, extensions);
-	const urls = await collectExternalUrls(externalFiles, config.ignoredExternalUrls);
-	const transientStatusCodes = new Set(config.transientStatusCodes);
-	const results = await mapWithConcurrency(urls, config.concurrency, url =>
-		checkExternalUrl(url, {
-			timeoutMs: config.timeoutMs,
-			retries: config.retries,
-			retryDelayMs: config.retryDelayMs,
-			transientStatusCodes,
-		})
-	);
-	const broken = results.filter(result => result.state === 'broken');
-	const transient = results.filter(result => result.state === 'transient');
-	const ok = results.filter(result => result.state === 'ok');
+	if (mode !== 'internal') {
+		const externalFiles = await expandConfiguredEntries(config.externalSources, extensions);
+		const urls = await collectExternalUrls(externalFiles, config.ignoredExternalUrls);
+		const transientStatusCodes = new Set(config.transientStatusCodes);
+		const results = await mapWithConcurrency(urls, config.concurrency, url =>
+			checkExternalUrl(url, {
+				timeoutMs: config.timeoutMs,
+				retries: config.retries,
+				retryDelayMs: config.retryDelayMs,
+				transientStatusCodes,
+			})
+		);
+		const broken = results.filter(result => result.state === 'broken');
+		const transient = results.filter(result => result.state === 'transient');
+		const ok = results.filter(result => result.state === 'ok');
 
-	console.log(
-		`[links] external: ${ok.length} healthy, ${transient.length} transient warning(s), ${broken.length} broken`
-	);
-	for (const result of [...broken, ...transient]) {
-		printExternalResult(result);
+		console.log(
+			`[links] external: ${ok.length} healthy, ${transient.length} transient warning(s), ${broken.length} broken`
+		);
+		for (const result of [...broken, ...transient]) {
+			printExternalResult(result);
+		}
+		hasFailures ||= broken.length > 0;
 	}
-	hasFailures ||= broken.length > 0;
 
 	if (hasFailures) {
 		process.exitCode = 1;
