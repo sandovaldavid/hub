@@ -2,7 +2,8 @@ name: Security Audit
 
 on:
   pull_request:
-    branches: [develop, main]
+    # stack/** validates each layer of a stacked PR series.
+    branches: [develop, main, 'stack/**']
   push:
     branches: [develop, main]
   schedule:
