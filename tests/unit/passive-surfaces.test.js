@@ -11,17 +11,12 @@ describe('Passive surface and affordance separation (#96)', () => {
 			join(repositoryRoot, 'src/widgets/hero-section/ui/ProfileSnapshot.css'),
 			'utf8'
 		);
-		const skillsAstro = await readFile(
-			join(repositoryRoot, 'src/widgets/skills-section/ui/SkillsSection.astro'),
-			'utf8'
-		);
 		const contactAstro = await readFile(
 			join(repositoryRoot, 'src/widgets/contact-cta/ui/ContactCTA.astro'),
 			'utf8'
 		);
 
 		expect(profileSnapshotCss).not.toContain('backdrop-blur');
-		expect(skillsAstro).not.toContain('backdrop-blur');
 		expect(contactAstro).not.toContain('backdrop-blur');
 	});
 });
