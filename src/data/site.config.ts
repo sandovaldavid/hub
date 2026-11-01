@@ -1,3 +1,5 @@
+import { siteOrigin } from './site-origin';
+
 const portfolioUrl = 'https://sandovaldavid.com';
 const githubUrl = 'https://github.com/sandovaldavid';
 const socialUrls = {
@@ -30,7 +32,7 @@ export const siteConfig = {
 	email: 'hello@sandovaldavid.com',
 	twitterHandle: socialUsernames.twitter,
 
-	url: 'https://hub.sandovaldavid.com',
+	url: siteOrigin,
 	portfolioUrl,
 	githubUrl,
 	socialUrls,

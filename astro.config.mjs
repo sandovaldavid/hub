@@ -2,10 +2,11 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import { siteOrigin } from './src/data/site-origin.ts';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://hub.sandovaldavid.com',
+	site: siteOrigin,
 	/*
 	 * The Identity Core declares JetBrains Mono for display/headings/technical
 	 * and Inter for reading. Astro downloads both from Fontsource at build time

@@ -128,7 +128,7 @@ describe('human-first SEO contract', () => {
 			read('src/app/layouts/Layout.astro'),
 		]);
 
-		expect(astroConfig).toContain("site: 'https://hub.sandovaldavid.com'");
+		expect(astroConfig).toContain('site: siteOrigin');
 		expect(astroConfig).toContain("defaultLocale: 'en'");
 		expect(astroConfig).toContain("en: 'en-US'");
 		expect(astroConfig).toContain("es: 'es-PE'");
