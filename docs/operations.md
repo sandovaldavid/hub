@@ -153,7 +153,7 @@ bun run check:links:internal
 bun run check:links:external
 ```
 
-`validate:quality` and the required `Quality` job use `check:links:internal` so a sibling deployment, social profile or other third-party outage cannot fail an unrelated pull request. External health remains visible in the scheduled Maintenance run.
+`validate:quality` and the required `Quality` job use `check:links:internal` so a sibling deployment, social profile or other third-party outage cannot fail an unrelated pull request. External health remains visible in the scheduled Maintenance run, and production promotion runs `check:links:external` against the exact release candidate in `.github/workflows/cd.yml`.
 
 Persistent definitive failures such as HTTP `404` or `410` fail the check. Access controls, rate limits, anti-bot responses, timeouts and upstream incidents remain visible warnings after retries and require manual review.
 
