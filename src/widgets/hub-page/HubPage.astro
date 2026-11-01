@@ -19,9 +19,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const projects = getFeaturedProjects(lang);
-const professionalSocialLinks = socialLinks.filter(
-	link => link.id !== 'website' && link.priority !== 'footer'
-);
+const professionalSocialLinks = socialLinks.filter(link => link.id !== 'website');
 
 const localizedProfile = {
 	...profile,

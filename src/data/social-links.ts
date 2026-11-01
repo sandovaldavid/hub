@@ -11,7 +11,6 @@ export const socialLinks: SocialLink[] = [
 		url: siteConfig.portfolioUrl,
 		username: `${h}.com`,
 		priority: 'primary',
-		audience: ['recruiter', 'client'],
 		analyticsId: 'social_portfolio_opened',
 		conversionEvent: 'portfolio_opened',
 	},
@@ -22,7 +21,6 @@ export const socialLinks: SocialLink[] = [
 		url: siteConfig.socialUrls.linkedin,
 		username: siteConfig.socialUsernames.linkedin,
 		priority: 'primary',
-		audience: ['recruiter', 'client'],
 		analyticsId: 'social_linkedin_opened',
 		conversionEvent: 'linkedin_opened',
 	},
@@ -33,7 +31,6 @@ export const socialLinks: SocialLink[] = [
 		url: siteConfig.githubUrl,
 		username: `@${h}`,
 		priority: 'primary',
-		audience: ['recruiter', 'community'],
 		analyticsId: 'social_github_opened',
 		conversionEvent: 'github_opened',
 	},
@@ -44,7 +41,6 @@ export const socialLinks: SocialLink[] = [
 		url: siteConfig.socialUrls.youtube,
 		username: siteConfig.socialUsernames.youtube,
 		priority: 'secondary',
-		audience: ['community'],
 		analyticsId: 'social_youtube_opened',
 	},
 	{
@@ -54,7 +50,6 @@ export const socialLinks: SocialLink[] = [
 		url: siteConfig.socialUrls.tiktok,
 		username: siteConfig.socialUsernames.tiktok,
 		priority: 'secondary',
-		audience: ['community'],
 		analyticsId: 'social_tiktok_opened',
 	},
 	{
@@ -64,7 +59,6 @@ export const socialLinks: SocialLink[] = [
 		url: siteConfig.socialUrls.instagram,
 		username: siteConfig.socialUsernames.instagram,
 		priority: 'secondary',
-		audience: ['community'],
 		analyticsId: 'social_instagram_opened',
 	},
 	{
@@ -74,7 +68,6 @@ export const socialLinks: SocialLink[] = [
 		url: siteConfig.socialUrls.twitter,
 		username: siteConfig.socialUsernames.twitter,
 		priority: 'secondary',
-		audience: ['community'],
 		analyticsId: 'social_x_opened',
 	},
 ];

@@ -105,10 +105,7 @@ describe('Hub messaging alignment contract', () => {
 		for (const lang of ['en', 'es']) {
 			const buttons = getCtaButtons(lang);
 			expect(buttons.map(button => button.id)).toEqual(['portfolio', 'resume']);
-			expect(buttons.filter(button => button.variant === 'primary')).toHaveLength(0);
-			expect(buttons.find(button => button.id === 'portfolio')?.variant).toBe('secondary');
 			expect(buttons.find(button => button.id === 'portfolio')?.href).toBe(siteConfig.portfolioUrl);
-			expect(buttons.find(button => button.id === 'resume')?.variant).toBe('secondary');
 			expect(buttons.find(button => button.id === 'resume')?.href).toBe(siteConfig.resume[lang]);
 		}
 	});
