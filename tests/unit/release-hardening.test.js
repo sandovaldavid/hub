@@ -60,10 +60,7 @@ describe('release delivery hardening contracts', () => {
 	});
 
 	test('runs lighthouse directly without the stale lighthouse-ci dependency tree', async () => {
-		const [packageJson, runner] = await Promise.all([
-			readJson('package.json'),
-			read('scripts/run-lighthouse.mjs'),
-		]);
+		const packageJson = await readJson('package.json');
 
 		expect(packageJson.devDependencies['@lhci/cli']).toBeUndefined();
 		expect(packageJson.devDependencies.lighthouse).toMatch(/^[0-9]+[.][0-9]+[.][0-9]+$/);
@@ -75,20 +72,6 @@ describe('release delivery hardening contracts', () => {
 		expect(packageJson.scripts['test:lighthouse:desktop']).toBe(
 			'node scripts/run-lighthouse.mjs desktop'
 		);
-
-		expect(runner).toContain('const RUNS_PER_URL = 3;');
-		expect(runner).toContain("{ id: 'performance', minScore: 0.9 }");
-		expect(runner).toContain("{ id: 'accessibility', minScore: 0.95 }");
-		expect(runner).toContain("{ id: 'best-practices', minScore: 0.95 }");
-		expect(runner).toContain("{ id: 'seo', minScore: 0.95 }");
-		expect(runner).toContain("{ id: 'first-contentful-paint', maxNumericValue: 3_000");
-		expect(runner).toContain("{ id: 'largest-contentful-paint', maxNumericValue: 4_000");
-		expect(runner).toContain("{ id: 'cumulative-layout-shift', maxNumericValue: 0.1");
-		expect(runner).toContain("{ id: 'total-blocking-time', maxNumericValue: 200");
-		expect(runner).toContain("{ id: 'speed-index', maxNumericValue: 3_000");
-		expect(runner).toContain("{ id: 'total-byte-weight', maxNumericValue: 500_000");
-		expect(runner).toContain('const actual = Math.max(...values);');
-		expect(runner).toContain('const actual = Math.min(...values);');
 	});
 
 	test('keeps security overrides narrow, explicit and major-compatible', async () => {

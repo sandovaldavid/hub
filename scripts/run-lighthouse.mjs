@@ -11,27 +11,32 @@ const PROFILE = process.argv[2] ?? 'mobile';
 const SUPPORTED_PROFILES = new Set(['mobile', 'desktop']);
 const PREVIEW_ORIGIN = 'http://localhost:4322';
 const URLS = [PREVIEW_ORIGIN, `${PREVIEW_ORIGIN}/es/`];
-const RUNS_PER_URL = 3;
 const SERVER_READY_TIMEOUT_MS = 30_000;
 const ASTRO_CLI_PATH = fileURLToPath(new URL('../node_modules/.bin/astro', import.meta.url));
+const isMainModule = process.argv[1] === fileURLToPath(import.meta.url);
 
-const categoryThresholds = [
-	{ id: 'performance', minScore: 0.9 },
-	{ id: 'accessibility', minScore: 0.95 },
-	{ id: 'best-practices', minScore: 0.95 },
-	{ id: 'seo', minScore: 0.95 },
-];
+export const LIGHTHOUSE_POLICY = {
+	runsPerUrl: 3,
+	categories: [
+		{ id: 'performance', minScore: 0.9 },
+		{ id: 'accessibility', minScore: 0.95 },
+		{ id: 'best-practices', minScore: 0.95 },
+		{ id: 'seo', minScore: 0.95 },
+	],
+	audits: [
+		{ id: 'first-contentful-paint', maxNumericValue: 3_000, unit: 'ms' },
+		{ id: 'largest-contentful-paint', maxNumericValue: 4_000, unit: 'ms' },
+		{ id: 'cumulative-layout-shift', maxNumericValue: 0.1, unit: '' },
+		{ id: 'total-blocking-time', maxNumericValue: 200, unit: 'ms' },
+		{ id: 'speed-index', maxNumericValue: 3_000, unit: 'ms' },
+		{ id: 'total-byte-weight', maxNumericValue: 500_000, unit: 'bytes' },
+	],
+};
 
-const auditThresholds = [
-	{ id: 'first-contentful-paint', maxNumericValue: 3_000, unit: 'ms' },
-	{ id: 'largest-contentful-paint', maxNumericValue: 4_000, unit: 'ms' },
-	{ id: 'cumulative-layout-shift', maxNumericValue: 0.1, unit: '' },
-	{ id: 'total-blocking-time', maxNumericValue: 200, unit: 'ms' },
-	{ id: 'speed-index', maxNumericValue: 3_000, unit: 'ms' },
-	{ id: 'total-byte-weight', maxNumericValue: 500_000, unit: 'bytes' },
-];
+export const aggregateCategoryScores = scores => Math.max(...scores);
+export const aggregateAuditValues = values => Math.min(...values);
 
-if (!SUPPORTED_PROFILES.has(PROFILE)) {
+if (isMainModule && !SUPPORTED_PROFILES.has(PROFILE)) {
 	console.error(`Unsupported Lighthouse profile: ${PROFILE}. Use "mobile" or "desktop".`);
 	process.exit(2);
 }
@@ -134,12 +139,12 @@ function formatNumber(value) {
 function evaluateThresholds(url, lhrs) {
 	const failures = [];
 	console.log(`\nLighthouse ${PROFILE}: ${url}`);
-	console.log(`Aggregation: optimistic across ${RUNS_PER_URL} runs`);
+	console.log(`Aggregation: optimistic across ${LIGHTHOUSE_POLICY.runsPerUrl} runs`);
 
-	for (const threshold of categoryThresholds) {
+	for (const threshold of LIGHTHOUSE_POLICY.categories) {
 		const values = getCategoryValues(lhrs, threshold.id);
 		// LHCI's default `optimistic` aggregation takes the maximum value for minScore assertions.
-		const actual = Math.max(...values);
+		const actual = aggregateCategoryScores(values);
 		const passed = actual >= threshold.minScore;
 		console.log(
 			`${passed ? 'PASS' : 'FAIL'} category:${threshold.id} >= ${threshold.minScore.toFixed(2)} | runs=[${values
@@ -153,10 +158,10 @@ function evaluateThresholds(url, lhrs) {
 		}
 	}
 
-	for (const threshold of auditThresholds) {
+	for (const threshold of LIGHTHOUSE_POLICY.audits) {
 		const values = getAuditValues(lhrs, threshold.id);
 		// LHCI's default `optimistic` aggregation takes the minimum value for maxNumericValue assertions.
-		const actual = Math.min(...values);
+		const actual = aggregateAuditValues(values);
 		const passed = actual <= threshold.maxNumericValue;
 		const unit = threshold.unit ? ` ${threshold.unit}` : '';
 		console.log(
@@ -178,8 +183,8 @@ async function collectLighthouseRuns(chromePort, url) {
 	const lhrs = [];
 	const config = createLighthouseConfig(PROFILE);
 
-	for (let run = 1; run <= RUNS_PER_URL; run += 1) {
-		console.log(`\n[${PROFILE}] ${url} — run ${run}/${RUNS_PER_URL}`);
+	for (let run = 1; run <= LIGHTHOUSE_POLICY.runsPerUrl; run += 1) {
+		console.log(`\n[${PROFILE}] ${url} — run ${run}/${LIGHTHOUSE_POLICY.runsPerUrl}`);
 		const result = await lighthouse(
 			url,
 			{
@@ -231,4 +236,4 @@ async function main() {
 	}
 }
 
-await main();
+if (isMainModule) await main();
