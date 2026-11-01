@@ -1,7 +1,7 @@
 @reference '../../../shared/styles/global.css';
 
 .share-button {
-	@apply fixed top-4 left-4 z-[var(--z-index-fixed-control)] flex min-h-10 min-w-10 cursor-pointer select-none items-center justify-center gap-2 rounded-lg border p-2 text-sm font-medium shadow-sm outline-none transition-all duration-150;
+	@apply relative flex min-h-10 min-w-10 cursor-pointer select-none items-center justify-center gap-2 rounded-lg border p-2 text-sm font-medium shadow-sm outline-none transition-all duration-150;
 	background-color: var(--control-background);
 	color: var(--control-content);
 	border-color: var(--control-edge);
@@ -48,7 +48,7 @@
 }
 .share-button::after {
 	content: attr(aria-label);
-	@apply pointer-events-none absolute top-full left-0 z-[var(--z-index-fixed-control)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-normal opacity-0 shadow-sm transition-all duration-150;
+	@apply pointer-events-none absolute top-full left-0 z-[var(--z-index-tooltip)] mt-2 translate-y-1 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-normal opacity-0 shadow-sm transition-all duration-150;
 	/* Hidden at rest but still scrollable overflow: cap width so long localized labels wrap at 200% text. */
 	max-width: calc(100vw - 2rem);
 	background-color: var(--channel-content-strong);
@@ -76,9 +76,4 @@
 }
 .share-button--loading .share-button__icon {
 	animation: pulse 1.5s ease-in-out infinite;
-}
-@media (max-width: 640px) {
-	.share-button {
-		@apply top-3 left-3;
-	}
 }

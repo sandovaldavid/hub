@@ -19,6 +19,26 @@ for (const route of routes) {
 			await expectNoHorizontalOverflow(page, `${route} must not overflow horizontally at 320px`);
 		});
 
+		test('keeps global controls in one aligned row', async ({ page }) => {
+			await page.setViewportSize({ width: 375, height: 800 });
+			await page.goto(route);
+
+			const [share, language, theme] = await Promise.all([
+				page.locator('#share-button').boundingBox(),
+				page.locator('.language-toggle').boundingBox(),
+				page.locator('#theme-toggle').boundingBox(),
+			]);
+
+			if (!share || !language || !theme) throw new Error('Missing global control bounds');
+
+			const centers = [share, language, theme].map(box => box.y + box.height / 2);
+			expect(Math.max(...centers) - Math.min(...centers)).toBeLessThanOrEqual(1);
+
+			const gap = theme.x - (language.x + language.width);
+			expect(gap).toBeGreaterThanOrEqual(0);
+			expect(gap).toBeLessThanOrEqual(12);
+		});
+
 		// WCAG 1.4.10 Reflow: 400% zoom on a 1280px viewport is equivalent to testing
 		// at a 320px CSS viewport; 200% zoom on the same reference is equivalent to 640px.
 		test('200% zoom equivalent viewport reflows without horizontal scroll', async ({ page }) => {
