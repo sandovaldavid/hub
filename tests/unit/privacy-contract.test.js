@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { URL } from 'node:url';
-import { siteConfig } from '../../src/data/site.config';
+import { siteConfig } from '@data/site.config';
 
 const SECRET_QUERY_KEYS = new Set(['token', 'api_key', 'apikey', 'secret', 'password', 'key']);
 

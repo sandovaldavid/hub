@@ -1,8 +1,8 @@
 import { profile } from './profile';
 import { siteConfig } from './site.config';
 import type { Lang } from '@shared/i18n';
-import en from '../shared/i18n/locales/en.json';
-import es from '../shared/i18n/locales/es.json';
+import en from '@shared/i18n/locales/en.json';
+import es from '@shared/i18n/locales/es.json';
 
 const seoLocales = { en, es };
 

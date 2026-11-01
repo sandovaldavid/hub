@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .hero-card__content {
 	@apply flex h-full w-full flex-col items-center gap-3 text-center md:items-stretch md:gap-3.5 lg:items-start lg:text-left;

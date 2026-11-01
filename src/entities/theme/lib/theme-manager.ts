@@ -1,5 +1,5 @@
 /** Theme management business logic. */
-import type { EffectiveTheme, Theme, ThemeState } from '../model/types';
+import type { EffectiveTheme, Theme, ThemeState } from '@entities/theme/model/types';
 import { THEME_FAVICON_PATHS, updateFavicon } from './theme-assets';
 
 export const THEME_STORAGE_KEY = 'sandovaldavid-theme';

@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .work-route-card {
 	@apply flex h-full w-full flex-col items-center gap-2.5 rounded-2xl border px-5 py-4 text-center shadow-sm;

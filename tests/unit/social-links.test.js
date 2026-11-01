@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getRequiredSocialLink, socialLinks } from '../../src/data/social-links';
+import { getRequiredSocialLink, socialLinks } from '@data/social-links';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 

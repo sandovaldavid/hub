@@ -1,8 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import {
-	getShareData,
-	isWebShareSupported,
-} from '../../src/features/share-button/lib/share-utils.ts';
+import { getShareData, isWebShareSupported } from '@features/share-button/lib/share-utils.ts';
 
 describe('share capability detection', () => {
 	test('accepts native share even when canShare is not exposed', () => {

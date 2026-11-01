@@ -2,8 +2,8 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getSEO } from '../../src/data/seo.ts';
-import { getProfilePageStructuredData } from '../../src/data/structured-data.ts';
+import { getSEO } from '@data/seo.ts';
+import { getProfilePageStructuredData } from '@data/structured-data.ts';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const read = path => readFile(join(repositoryRoot, path), 'utf8');

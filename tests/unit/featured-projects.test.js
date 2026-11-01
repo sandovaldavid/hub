@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getFeaturedProjects } from '../../src/data/featured-projects.ts';
+import { getFeaturedProjects } from '@data/featured-projects.ts';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const astroComponentPath = join(

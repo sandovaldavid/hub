@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .back-to-top {
 	@apply relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border shadow-sm no-underline transition-all duration-200;

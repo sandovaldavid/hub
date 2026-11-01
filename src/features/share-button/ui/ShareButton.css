@@ -1,4 +1,4 @@
-@reference '../../../shared/styles/global.css';
+@reference '@shared/styles/global.css';
 
 .share-button {
 	@apply relative flex min-h-10 min-w-10 cursor-pointer select-none items-center justify-center gap-2 rounded-lg border p-2 text-sm font-medium shadow-sm outline-none transition-all duration-150;
