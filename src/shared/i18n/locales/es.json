@@ -52,12 +52,6 @@
 		"viewCaseStudy": "Ver caso de estudio",
 		"private": "Proyecto privado"
 	},
-	"skills": {
-		"title": "Stack y herramientas de ingeniería",
-		"coreTitle": "Stack actual de ingeniería",
-		"toolsTitle": "Herramientas de entrega y producto",
-		"heading": "Tecnologías y habilidades"
-	},
 	"page": {
 		"mainLabel": "Perfil profesional de David Sandoval",
 		"sectionsLabel": "Secciones del perfil profesional de David Sandoval"
