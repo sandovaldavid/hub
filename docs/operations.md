@@ -72,7 +72,7 @@ When documenting validation, classify relevant checks as `Passed`, `Failed`, `No
 
 ## CI
 
-The primary workflow lives in `.github/workflows/ci.yml` and emits required check runs named `Quality`, `E2E` and `Lighthouse`. The source-branch workflow emits `check-source-branch` for pull requests targeting `main`. GitHub may display these checks with their workflow name in the UI, but repository rulesets must store the actual check-run context names returned by the Rulesets API.
+The primary workflow lives in `.github/workflows/ci.yml` and emits required check runs named `Quality`, `E2E` and `Lighthouse`. `Quality` runs for every pull request, including documentation-only changes, so link, unit, lint, format and build checks are never bypassed; `E2E` and `Lighthouse` still run only for runtime changes. The source-branch workflow emits `check-source-branch` for pull requests targeting `main`. GitHub may display these checks with their workflow name in the UI, but repository rulesets must store the actual check-run context names returned by the Rulesets API.
 
 The versioned desired state therefore requires `Quality`, `E2E` and `Lighthouse` on `develop`, and those same checks plus `check-source-branch` on `main`. Keep `.github/rulesets/*.json`, workflow job names and the active GitHub rulesets synchronized; `bun run rulesets:verify` must fail on drift rather than treating repository intent as remote enforcement.
 
