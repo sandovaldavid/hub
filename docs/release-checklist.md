@@ -45,12 +45,12 @@ Do not infer cross-browser coverage from hosted Chromium CI. The complete local 
 
 - [ ] Merge only the validated `develop -> main` candidate.
 - [ ] Record the exact resulting `main` commit SHA.
-- [ ] Require the exact-SHA `Quality`, `E2E` and `Lighthouse` results for the `main` commit, or record why a browser gate is Not applicable for a docs-only release.
+- [ ] Require the exact-SHA `Quality` and `Browser` results for the `main` commit, or record why the browser gate is Not applicable for a docs-only release.
 - [ ] Require the production Deploy workflow to pass on that exact SHA.
 - [ ] Require an explicit dependency-audit result for that exact SHA or record why the hosted audit was blocked and provide equivalent evidence.
 - [ ] Do not describe the release as published merely because the promotion PR merged.
 
-The manual Deploy workflow is deploy-only: it keeps the external-link check on `main` and publishes deployment evidence, but it does not re-run `Quality`, `E2E` or `Lighthouse`. Treat a failed or incomplete exact-SHA required check, external-link check or production Deploy run as a release blocker.
+The manual Deploy workflow is deploy-only: it requires the exact-SHA `Quality`, `Browser` (or a skipped docs-only Browser) and `Dependency audit` checks, keeps the external-link check on `main`, and publishes deployment evidence. It does not re-run `Quality` or `Browser`. Treat a failed or incomplete exact-SHA required check, external-link check or production Deploy run as a release blocker.
 
 ## 4. Verify the deployed production result
 

@@ -21,17 +21,11 @@ describe('GitHub ruleset synchronization contract', () => {
 			read('.github/workflows/check-pr-branch.yml'),
 		]);
 
-		expect(requiredContexts(developRuleset)).toEqual(['Quality', 'E2E', 'Lighthouse']);
-		expect(requiredContexts(mainRuleset)).toEqual([
-			'Quality',
-			'E2E',
-			'Lighthouse',
-			'check-source-branch',
-		]);
+		expect(requiredContexts(developRuleset)).toEqual(['Quality', 'Browser']);
+		expect(requiredContexts(mainRuleset)).toEqual(['Quality', 'Browser', 'check-source-branch']);
 
 		expect(ciWorkflow).toMatch(/\n {2}quality:\n {4}name: Quality\n/);
-		expect(ciWorkflow).toMatch(/\n {2}e2e:\n {4}name: E2E\n/);
-		expect(ciWorkflow).toMatch(/\n {2}lighthouse:\n {4}name: Lighthouse\n/);
+		expect(ciWorkflow).toMatch(/\n {2}browser:\n {4}name: Browser\n/);
 		expect(branchWorkflow).toMatch(/\n {2}check-source-branch:\n {4}name: check-source-branch\n/);
 
 		for (const context of [...requiredContexts(developRuleset), ...requiredContexts(mainRuleset)]) {

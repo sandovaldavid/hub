@@ -8,17 +8,20 @@ const read = path => readFile(join(repositoryRoot, path), 'utf8');
 const readJson = async path => JSON.parse(await read(path));
 
 describe('browser test infrastructure contract', () => {
-	test('runs the required Lighthouse context for runtime changes on develop and main', async () => {
+	test('runs the required Browser gate for runtime changes on develop and main', async () => {
 		const workflow = await read('.github/workflows/ci.yml');
-		const lighthouseJob = workflow.match(/\n {2}lighthouse:[\s\S]*$/)?.[0] ?? '';
+		const browserJob = workflow.match(/\n {2}browser:[\s\S]*$/)?.[0] ?? '';
 
-		const jobIf = lighthouseJob.match(/^ {4}if: (.+)$/m)?.[1];
+		const jobIf = browserJob.match(/^ {4}if: (.+)$/m)?.[1];
 
 		expect(jobIf).toBe("${{ needs.changes.outputs.runtime == 'true' }}");
-		expect(lighthouseJob).toContain(
+		expect(browserJob).toContain('PLAYWRIGHT_WORKERS: 2');
+		expect(browserJob).toContain(
 			"LIGHTHOUSE_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}"
 		);
-		expect(lighthouseJob).not.toContain("github.ref_name == 'main'");
+		expect(browserJob).toContain('Run E2E tests');
+		expect(browserJob).toContain('Run Lighthouse CI');
+		expect(browserJob).not.toContain("github.ref_name == 'main'");
 	});
 
 	test('keeps complete local browser validation inside the repository DevContainer', async () => {
