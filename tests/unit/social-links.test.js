@@ -2,12 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-	getPrimarySocialLinks,
-	getRequiredSocialLink,
-	getSocialLinksByPriority,
-	socialLinks,
-} from '../../src/data/social-links';
+import { getRequiredSocialLink, socialLinks } from '../../src/data/social-links';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -27,7 +22,7 @@ describe('social link configuration', () => {
 	});
 
 	test('keeps the primary category focused and ordered', () => {
-		const primary = getPrimarySocialLinks();
+		const primary = socialLinks.filter(link => link.priority === 'primary');
 
 		expect(primary.map(link => link.id)).toEqual(['website', 'linkedin', 'github']);
 		expect(primary.length).toBeLessThanOrEqual(5);
@@ -44,7 +39,9 @@ describe('social link configuration', () => {
 	});
 
 	test('publishes only approved secondary channels', () => {
-		const secondary = getSocialLinksByPriority('secondary').map(link => link.id);
+		const secondary = socialLinks
+			.filter(link => link.priority === 'secondary')
+			.map(link => link.id);
 
 		expect(secondary).toEqual(['youtube', 'tiktok', 'instagram', 'twitter']);
 		expect(socialLinks.some(link => link.id === 'facebook')).toBe(false);
