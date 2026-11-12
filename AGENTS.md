@@ -28,24 +28,25 @@ Maintainer-only systems may still exist for long-term visual governance, strateg
 
 Never copy private strategy, personal records, internal plans or confidential evidence into source documentation merely to make them available to an agent.
 
-## Branch workflow
-
-Normal work starts from and targets `develop`:
+## Branch and pull-request model
 
 ```text
-feature/*, fix/*, refactor/*, docs/* -> develop -> main
+short-lived branch -> main (dev environment) -> release tag -> production
 ```
 
-`main` is the stable delivery branch. A change present only on `develop` is not a verified production result.
+- `main` is the default and only long-lived development branch.
+- Pushes to `main` deploy to the development/preview environment (`dev.hub.sandovaldavid.com`).
+- Production deployment (`hub.sandovaldavid.com`) is triggered when a release tag is published.
 
 Before modifying source:
 
-1. Read the issue or pull request and its discussion.
-2. Read `README.md`, `CONTRIBUTING.md`, `docs/architecture.md` and `docs/operations.md`.
-3. Inspect relevant source, tests, scripts, workflows and configuration.
-4. Compare `develop` with `main` when delivery or public alignment is part of the task.
+1. Update `main` and create one short-lived branch (`feature/*`, `fix/*`, `refactor/*`, `docs/*`, `chore/*`).
+2. Read the issue or pull request and its discussion.
+3. Read `README.md`, `CONTRIBUTING.md`, `docs/architecture.md` and `docs/operations.md`.
+4. Inspect relevant source, tests, scripts, workflows and configuration.
 5. Verify public claims against their actual public source or evidence supplied in the task.
-6. Keep the implementation self-contained for contributors who do not have maintainer-private context.
+6. Open the pull request targeting `main`.
+7. Keep the implementation self-contained for contributors who do not have maintainer-private context.
 
 ## Human-first identity and content
 

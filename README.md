@@ -107,7 +107,7 @@ bun run validate:local
 
 The complete gate covers type checking, architecture rules, formatting, linting, internal link health, unit tests, production build, Playwright browser coverage, Axe checks and Lighthouse mobile/desktop audits. When started from the host, the browser-sensitive gate runs inside the DevContainer rather than relying on host Playwright support.
 
-Dependency advisories are checked separately by the `Security Audit` workflow on pull requests and `develop`/`main` pushes. The equivalent local command is:
+Dependency advisories are checked separately by the `Security Audit` workflow on pull requests and `main` pushes. The equivalent local command is:
 
 ```bash
 bun run audit:deps
@@ -138,13 +138,13 @@ The accessibility implementation targets WCAG 2.1 AA practices and is regression
 
 ## Development and delivery
 
-The repository uses `develop` as the integration branch and `main` as the stable production branch:
+The repository uses `main` as the default development branch (`dev.hub.sandovaldavid.com`). Production deployments (`hub.sandovaldavid.com`) are triggered by publishing a release from `main`:
 
 ```text
-feature/*, fix/*, refactor/*, docs/* -> develop -> main
+feature/*, fix/*, refactor/*, docs/* -> main (development) -> release tag (production)
 ```
 
-External contributors should branch from `develop` and open pull requests back to `develop`. Production deployment is associated with `main`.
+External contributors should branch from `main` and open pull requests back to `main`.
 
 Delivery uses the same declared Bun/Node toolchain as validation, a versioned Vercel CLI and third-party Actions pinned to immutable commit SHAs.
 

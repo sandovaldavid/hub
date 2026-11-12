@@ -3,7 +3,7 @@ version: 1
 project:
   id: hub
   repository: sandovaldavid/hub
-  base_branch: develop
+  base_branch: main
   contract: AGENTS.md
   archetype: astro-site
 
@@ -36,10 +36,10 @@ mcp_profiles:
 
 companions:
   - repository: sandovaldavid/portfolio
-    branch: develop
+    branch: main
     concerns: [identity, destinations, public-claims]
   - repository: sandovaldavid/resume
-    branch: develop
+    branch: main
     concerns: [professional-evidence, contact-data]
 
 validation:
