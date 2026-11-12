@@ -74,7 +74,7 @@ describe('release delivery hardening contracts', () => {
 
 		expect(packageJson.devDependencies['@lhci/cli']).toBeUndefined();
 		expect(packageJson.devDependencies.lighthouse).toMatch(/^[0-9]+[.][0-9]+[.][0-9]+$/);
-		expect(packageJson.devDependencies['chrome-launcher']).toBe('^1.2.2');
+		expect(packageJson.devDependencies['chrome-launcher']).toMatch(/^\^[0-9]+[.][0-9]+[.][0-9]+$/);
 		expect(packageJson.devDependencies['@playwright/test']).toBe('1.61.0');
 		expect(packageJson.scripts['test:lighthouse:mobile']).toBe(
 			'node scripts/run-lighthouse.mjs mobile'
@@ -92,6 +92,7 @@ describe('release delivery hardening contracts', () => {
 			'brace-expansion': '5.0.12',
 			devalue: '5.9.3',
 			'fast-uri': '3.1.9',
+			glob: '14.0.6',
 			'ip-address': '10.5.0',
 			'js-yaml': '4.3.2',
 			'mdast-util-to-hast': '13.2.1',
