@@ -72,10 +72,10 @@ Automated coverage emulates `prefers-contrast: more` and `forced-colors: active`
 
 ## Release evidence
 
-- [ ] Run `bun run validate:local` on the exact commit being promoted from `develop` to `main` for release-sensitive changes.
-- [ ] Confirm the `develop -> main` pull request shows no unresolved conflicts and every required hosted check has an explicit result.
+- [ ] Run `bun run validate:local` on the exact commit being merged into `main` or prepared for release when release-sensitive changes are involved.
+- [ ] Confirm the pull request targeting `main` shows no unresolved conflicts and every required hosted check has an explicit result.
 - [ ] Record local browser results explicitly as `Passed`, `Failed`, `Blocked` or `Not run`; never assume one engine proves another.
-- [ ] After merge, verify the change on the deployed `main` result (GitHub + Vercel), not only the merged pull request.
+- [ ] After merge to `main`, verify the change on the development deployment (`dev.hub.sandovaldavid.com`).
 - [ ] Complete the broader production sequence in [`../release-checklist.md`](../release-checklist.md) before publishing a tagged release.
 
 ## Automated validation

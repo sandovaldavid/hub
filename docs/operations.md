@@ -28,7 +28,7 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-The development server is available at `http://localhost:4321`. For contribution work, branch from the latest `develop` as described in [`../CONTRIBUTING.md`](../CONTRIBUTING.md).
+The development server is available at `http://localhost:4321`. For contribution work, branch from the latest `main` as described in [`../CONTRIBUTING.md`](../CONTRIBUTING.md).
 
 A frozen install must fail when `package.json` and `bun.lock` differ. Regenerate and review the lockfile intentionally; do not introduce a mutable fallback in lifecycle scripts.
 
@@ -72,9 +72,9 @@ When documenting validation, classify relevant checks as `Passed`, `Failed`, `No
 
 ## CI
 
-The primary workflow lives in `.github/workflows/ci.yml` and emits required check runs named `Quality` and `Browser`. `Quality` runs for pull requests targeting `develop` or `main`; `Browser` runs only for runtime changes and contains both E2E and Lighthouse. Documentation-only changes still run link, unit, format and lint, but skip Astro type checking, the production build and the build artifact. Stack layers above the bottom PR do not run separate CI; the final `develop` push is the full-tree integration gate, and the `main` push remains exact-SHA release evidence. Pull-request Lighthouse uses one pass per URL/profile; push events use three. The source-branch workflow emits `check-source-branch` for pull requests targeting `main`. GitHub may display these checks with their workflow name in the UI, but repository rulesets must store the actual check-run context names returned by the Rulesets API.
+The primary workflow lives in `.github/workflows/ci.yml` and emits required check runs named `Quality` and `Browser`. `Quality` runs for pull requests targeting `main` and pushes to `main`; `Browser` runs only for runtime changes and contains both E2E and Lighthouse. Documentation-only changes still run link, unit, format and lint, but skip Astro type checking, the production build and the build artifact. Pull-request Lighthouse uses one pass per URL/profile; push events use three. GitHub may display these checks with their workflow name in the UI, but repository rulesets must store the actual check-run context names returned by the Rulesets API.
 
-The versioned desired state therefore requires `Quality` and `Browser` on `develop`, and those same checks plus `check-source-branch` on `main`. Keep `.github/rulesets/*.json`, workflow job names and the active GitHub rulesets synchronized; `bun run rulesets:verify` must fail on drift rather than treating repository intent as remote enforcement.
+The versioned desired state requires `Quality` and `Browser` on `main`. Keep `.github/rulesets/*.json`, workflow job names and the active GitHub rulesets synchronized; `bun run rulesets:verify` must fail on drift rather than treating repository intent as remote enforcement.
 
 Chromium is the hosted browser baseline. The E2E job currently runs with `PLAYWRIGHT_WORKERS=2` and two retries per failing test. The worker count is deliberately explicit in the workflow so CI parallelism can be benchmarked independently of local machines. Additional browser projects run locally inside the DevContainer, where Chromium, WebKit and Firefox are installed and verified.
 
@@ -82,17 +82,17 @@ Playwright's `CI` flag still controls production-preview behavior and `forbidOnl
 
 Do not infer browser coverage that was not executed on the exact commit under review. If two workers introduce resource contention or flakiness on the hosted runner, reduce the explicit workflow value and record the observed evidence rather than masking failures with additional retries.
 
-Dependency advisory checking is intentionally isolated in `.github/workflows/security-audit.yml`. That workflow runs on pull requests targeting `develop`/`main`, pushes to `develop`/`main`, a weekly schedule and manual dispatch. It is not folded into the deterministic `validate:quality` chain because registry advisory data is mutable external state. A failed or unavailable dependency audit still requires an explicit release decision; being non-required by branch protection does not make it ignorable.
+Dependency advisory checking is intentionally isolated in `.github/workflows/security-audit.yml`. That workflow runs on pull requests targeting `main`, pushes to `main`, a weekly schedule and manual dispatch. It is not folded into the deterministic `validate:quality` chain because registry advisory data is mutable external state. A failed or unavailable dependency audit still requires an explicit release decision; being non-required by branch protection does not make it ignorable.
 
 ## Branch and delivery flow
 
 ```text
-feature/*, fix/*, refactor/*, docs/* -> develop -> main
+feature/*, fix/*, refactor/*, docs/* -> main (development) -> release tag (production)
 ```
 
-- `develop` is the integration branch.
-- `main` is the stable production branch.
-- Production behavior must be confirmed from the deployed result, not inferred solely from a merge.
+- `main` is the primary integration and development branch (`dev.hub.sandovaldavid.com`).
+- Production deployments (`hub.sandovaldavid.com`) are triggered by publishing a release from `main`.
+- Production behavior must be confirmed from the deployed result, not inferred solely from a merge or release tag.
 - Major/tagged releases follow [`release-checklist.md`](release-checklist.md).
 - The repository versions desired branch/ruleset intent under `.github/rulesets/`.
 
@@ -109,9 +109,9 @@ CI and CD must use the same declared Bun and Node versions. The Vercel CLI must 
 
 Third-party GitHub Actions in delivery, release and DevContainer workflows are pinned to full commit SHAs. The adjacent version comment documents the human-readable release. Dependabot remains responsible for proposing Action updates.
 
-Deployments for `main` (Production) and `develop` (Preview) are managed directly and natively by Vercel via its GitHub integration to conserve GitHub Actions minutes. The manual workflow `.github/workflows/cd.yml` is retained as a deploy-only fallback: it requires exact-SHA `Quality`, `Browser` (or a skipped docs-only Browser) and `Dependency audit` checks, keeps the exact-candidate external-link check on `main`, and publishes deployment evidence through authenticated GitHub API calls that fail when the API call or returned deployment identifier is invalid. It does not re-run the quality gate, E2E or Lighthouse; those remain the required PR/main checks.
+Development deployment for `main` (`dev.hub.sandovaldavid.com`) is managed directly by Vercel via its GitHub integration when commits land on `main`. Production deployment (`hub.sandovaldavid.com`) is handled by `.github/workflows/cd.yml` (`Deploy Production`), which triggers automatically on `release: types: [published]` or manual `workflow_dispatch`. It requires exact-SHA `Quality`, `Browser` (or a skipped docs-only Browser) and `Dependency audit` checks, runs the exact-candidate external-link check, deploys with `vercel deploy --prebuilt --prod`, and registers deployment evidence in the GitHub `production` environment with `auto_merge: false`. It does not re-run the quality gate, E2E or Lighthouse; those remain the required PR/main checks.
 
-GitHub Deployment registration must use `auto_merge: false`. Deployment evidence records the exact commit already validated and deployed; it must not merge or otherwise reconcile `main` with `develop`. Branch integration remains an explicit repository workflow concern, separate from deployment registration.
+GitHub Deployment registration must use `auto_merge: false`. Deployment evidence records the exact commit already validated and deployed; it must not merge or reconcile branches.
 
 ## Cache policy
 
@@ -139,7 +139,7 @@ Do not manually describe a release as published until the tag/release exists and
 
 ## Link and dependency maintenance
 
-- `.github/dependabot.yml` targets `develop` and groups routine dependency updates.
+- `.github/dependabot.yml` targets `main` and groups routine dependency updates.
 - `scripts/check-links.mjs` validates local targets and public destinations. `--internal` and `--external` select one side.
 - `.github/workflows/maintenance.yml` schedules recurring full link checks.
 - `.github/workflows/security-audit.yml` records dependency advisory results on PRs, integration/production pushes and a weekly schedule.

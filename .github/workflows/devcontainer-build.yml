@@ -2,11 +2,11 @@ name: Build DevContainer
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - '.devcontainer/**'
   pull_request:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - '.devcontainer/**'
 

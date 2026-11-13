@@ -8,7 +8,7 @@ const read = path => readFile(join(repositoryRoot, path), 'utf8');
 const readJson = async path => JSON.parse(await read(path));
 
 describe('browser test infrastructure contract', () => {
-	test('runs the required Browser gate for runtime changes on develop and main', async () => {
+	test('runs the required Browser gate for runtime changes on main', async () => {
 		const workflow = await read('.github/workflows/ci.yml');
 		const browserJob = workflow.match(/\n {2}browser:[\s\S]*$/)?.[0] ?? '';
 

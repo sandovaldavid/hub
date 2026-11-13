@@ -43,9 +43,6 @@
 					},
 					{
 						"context": "Browser"
-					},
-					{
-						"context": "check-source-branch"
 					}
 				],
 				"strict_required_status_checks_policy": true

@@ -5,9 +5,9 @@ Follow [`AGENTS.md`](../AGENTS.md) first. Use [`README.md`](../README.md), [`doc
 ## Project
 
 - Repository: `sandovaldavid/hub`.
-- Integration branch: `develop`.
-- Stable branch: `main`.
+- Default branch: `main` (development environment; production driven by releases).
 - Public origin: `https://hub.sandovaldavid.com`.
+- Development origin: `https://dev.hub.sandovaldavid.com`.
 - Historical repository name: `linktree`; use `hub` for new operational references.
 - Stack: Astro, TypeScript, Tailwind CSS, Bun and Playwright.
 - Routes: English `/` and Spanish `/es/`.

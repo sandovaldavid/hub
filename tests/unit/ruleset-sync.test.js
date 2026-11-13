@@ -14,23 +14,18 @@ function requiredContexts(ruleset) {
 
 describe('GitHub ruleset synchronization contract', () => {
 	test('uses the check-run names emitted by the current workflows', async () => {
-		const [developRuleset, mainRuleset, ciWorkflow, branchWorkflow] = await Promise.all([
-			readJson('.github/rulesets/develop.json'),
+		const [mainRuleset, ciWorkflow] = await Promise.all([
 			readJson('.github/rulesets/main.json'),
 			read('.github/workflows/ci.yml'),
-			read('.github/workflows/check-pr-branch.yml'),
 		]);
 
-		expect(requiredContexts(developRuleset)).toEqual(['Quality', 'Browser']);
-		expect(requiredContexts(mainRuleset)).toEqual(['Quality', 'Browser', 'check-source-branch']);
+		expect(requiredContexts(mainRuleset)).toEqual(['Quality', 'Browser']);
 
 		expect(ciWorkflow).toMatch(/\n {2}quality:\n {4}name: Quality\n/);
 		expect(ciWorkflow).toMatch(/\n {2}browser:\n {4}name: Browser\n/);
-		expect(branchWorkflow).toMatch(/\n {2}check-source-branch:\n {4}name: check-source-branch\n/);
 
-		for (const context of [...requiredContexts(developRuleset), ...requiredContexts(mainRuleset)]) {
+		for (const context of requiredContexts(mainRuleset)) {
 			expect(context).not.toMatch(/^CI \/ /);
-			expect(context).not.toMatch(/^Check PR Branch \/ /);
 		}
 	});
 });

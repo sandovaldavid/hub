@@ -36,7 +36,6 @@ describe('release delivery hardening contracts', () => {
 
 		expect(workflow).toContain('github.rest.repos.createDeployment({');
 		expect(workflow).toContain('github.rest.repos.createDeploymentStatus({');
-		expect(workflow).toContain('github.rest.repos.createCommitStatus({');
 		expect(workflow).toContain("throw new Error('GitHub did not return a valid deployment id')");
 		expect(workflow).not.toMatch(/\bcurl\b/);
 		expect(workflow).not.toContain('| jq');
@@ -59,7 +58,7 @@ describe('release delivery hardening contracts', () => {
 		expect(workflow).not.toContain('vercel@latest');
 	});
 
-	test('requires exact-SHA checks before a manual production deploy', async () => {
+	test('requires exact-SHA checks before production deploy', async () => {
 		const workflow = await read('.github/workflows/cd.yml');
 
 		expect(workflow).toContain('name: Require validated checks');
@@ -132,7 +131,7 @@ describe('release delivery hardening contracts', () => {
 		expect(packageJson.scripts['validate:quality']).not.toMatch(/\bbun audit\b/);
 		expect(ci).not.toContain('audit:deps');
 		expect(securityAudit).toContain('name: Security Audit');
-		expect(securityAudit).toContain('branches: [develop, main]');
+		expect(securityAudit).toContain('branches: [main]');
 		expect(securityAudit).toContain('run: bun run audit:deps');
 	});
 

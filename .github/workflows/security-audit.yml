@@ -2,9 +2,9 @@ name: Security Audit
 
 on:
   pull_request:
-    branches: [develop, main]
+    branches: [main]
   push:
-    branches: [develop, main]
+    branches: [main]
   schedule:
     - cron: '30 14 * * 1'
   workflow_dispatch:

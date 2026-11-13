@@ -19,19 +19,19 @@ Read:
 
 ## Development workflow
 
-`develop` is the integration branch. `main` is the stable production branch.
+`main` is the primary integration and development branch (`dev.hub.sandovaldavid.com`). Production deployments (`hub.sandovaldavid.com`) are triggered by publishing a release from `main`.
 
 ```text
-feature/*, fix/*, refactor/*, docs/* -> develop -> main
+feature/*, fix/*, refactor/*, docs/* -> main (development) -> release tag (production)
 ```
 
 For an external contribution:
 
 1. Fork the repository.
-2. Create your branch from the latest `develop`.
+2. Create your branch from the latest `main`.
 3. Keep the change focused on one problem or cohesive improvement.
 4. Run the relevant validation locally.
-5. Open a pull request against `develop`.
+5. Open a pull request against `main`.
 
 Example:
 
@@ -40,7 +40,7 @@ git clone https://github.com/<your-user>/hub.git
 cd hub
 git remote add upstream https://github.com/sandovaldavid/hub.git
 git fetch upstream
-git switch -c fix/example upstream/develop
+git switch -c fix/example upstream/main
 bun install --frozen-lockfile
 ```
 

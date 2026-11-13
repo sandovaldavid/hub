@@ -7,10 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const API_VERSION = '2026-03-10';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-const rulesetPaths = [
-	join(repositoryRoot, '.github/rulesets/develop.json'),
-	join(repositoryRoot, '.github/rulesets/main.json'),
-];
+const rulesetPaths = [join(repositoryRoot, '.github/rulesets/main.json')];
 const supportedCommands = new Set(['plan', 'stage', 'apply', 'verify']);
 
 function fail(message) {
