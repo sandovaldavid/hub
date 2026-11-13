@@ -41,10 +41,10 @@
 	},
 	"dependencies": {
 		"@astrojs/sitemap": "^3.7.4",
-		"@tailwindcss/vite": "^4.3.3",
+		"@tailwindcss/vite": "^4.3.4",
 		"@vercel/analytics": "^2.0.1",
-		"astro": "7.4.2",
-		"tailwindcss": "^4.3.3"
+		"astro": "7.4.7",
+		"tailwindcss": "^4.3.4"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.12",
@@ -53,22 +53,23 @@
 		"@commitlint/config-conventional": "^21.2.4",
 		"@eslint/js": "^10.0.1",
 		"@playwright/test": "1.61.0",
-		"chrome-launcher": "^1.2.2",
-		"eslint": "^10.13.0",
+		"chrome-launcher": "^1.2.3",
+		"eslint": "^10.14.0",
 		"eslint-plugin-astro": "^3.2.1",
 		"husky": "^9.1.7",
-		"lighthouse": "13.5.0",
+		"lighthouse": "13.6.0",
 		"picomatch": "2.3.2",
 		"prettier": "^3.9.10",
-		"prettier-plugin-astro": "^1.1.1",
+		"prettier-plugin-astro": "^1.1.2",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.72.0"
+		"typescript-eslint": "^8.72.1"
 	},
 	"overrides": {
 		"@astrojs/language-server": "2.16.14",
 		"brace-expansion": "5.0.12",
 		"devalue": "5.9.3",
 		"fast-uri": "3.1.9",
+		"glob": "14.0.6",
 		"ip-address": "10.5.0",
 		"js-yaml": "4.3.2",
 		"mdast-util-to-hast": "13.2.1",
