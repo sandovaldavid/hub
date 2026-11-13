@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/sandovaldavid/hub/compare/v2.0.0...v2.1.0) (2026-11-13)
+
+
+### Features
+
+* **delivery:** migrate to single-branch main delivery model ([2b87bba](https://github.com/sandovaldavid/hub/commit/2b87bba5b5f2c6059c3e74ef5c34b343c549ee2a))
+
+
+### CI/CD
+
+* **actions:** combine browser gates and guard CD ([#244](https://github.com/sandovaldavid/hub/issues/244)) ([2d99ec2](https://github.com/sandovaldavid/hub/commit/2d99ec26debad5edd5e5898a3a4fc94096fe1975))
+* **actions:** reduce duplicate workflow runs ([#243](https://github.com/sandovaldavid/hub/issues/243)) ([263db37](https://github.com/sandovaldavid/hub/commit/263db376e3b61f538da6a3a0819af4aba7774367))
+
 ## [2.0.0](https://github.com/sandovaldavid/hub/compare/v1.0.0...v2.0.0) (2026-11-01)
 
 
