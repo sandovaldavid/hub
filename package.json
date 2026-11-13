@@ -41,10 +41,10 @@
 	},
 	"dependencies": {
 		"@astrojs/sitemap": "^3.7.4",
-		"@tailwindcss/vite": "^4.3.4",
+		"@tailwindcss/vite": "^4.3.5",
 		"@vercel/analytics": "^2.0.1",
-		"astro": "7.4.7",
-		"tailwindcss": "^4.3.4"
+		"astro": "7.4.8",
+		"tailwindcss": "^4.3.5"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.12",
@@ -62,7 +62,7 @@
 		"prettier": "^3.9.10",
 		"prettier-plugin-astro": "^1.1.2",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.72.1"
+		"typescript-eslint": "^8.72.2"
 	},
 	"overrides": {
 		"@astrojs/language-server": "2.16.14",
