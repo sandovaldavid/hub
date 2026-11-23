@@ -40,10 +40,10 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"@astrojs/sitemap": "^3.7.4",
+		"@astrojs/sitemap": "^3.7.6",
 		"@tailwindcss/vite": "^4.3.5",
 		"@vercel/analytics": "^2.0.1",
-		"astro": "7.4.11",
+		"astro": "7.4.13",
 		"tailwindcss": "^4.3.5"
 	},
 	"devDependencies": {
@@ -54,7 +54,7 @@
 		"@eslint/js": "^10.0.1",
 		"@playwright/test": "1.61.0",
 		"chrome-launcher": "^1.2.3",
-		"eslint": "^10.14.0",
+		"eslint": "^10.15.0",
 		"eslint-plugin-astro": "^3.2.1",
 		"husky": "^9.1.7",
 		"lighthouse": "13.6.0",
@@ -62,7 +62,7 @@
 		"prettier": "^3.10.1",
 		"prettier-plugin-astro": "^1.1.2",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.72.2"
+		"typescript-eslint": "^8.73.0"
 	},
 	"overrides": {
 		"@astrojs/language-server": "2.16.14",
